@@ -7,6 +7,7 @@ import type {
   LastSignificantOperationalEvent,
   SemanticMilestoneRow,
 } from "@/lib/operations/deriveOperationalSnapshot";
+import type { SemanticOperationalEvent } from "@/lib/operations/semantic/types";
 
 export interface ContinuitySnapshotProject {
   id: string;
@@ -72,6 +73,8 @@ export interface ContinuitySnapshot {
   dormantSectors?: SectorId[];
   projectMomentum?: Record<string, number>;
   semanticMilestones?: SemanticMilestoneRow[];
+  /** Derived operational meanings (multi-signal correlation, no LLM) */
+  semanticEvents?: SemanticOperationalEvent[];
   dormantProjects?: string[];
   activeProjects?: string[];
   lastSignificantEvent?: LastSignificantOperationalEvent | null;

@@ -11,13 +11,15 @@ import {
 export function operatorSectorPreferenceScore(
   temporal: TemporalContinuityModel,
   sectorId: SectorId,
+  semanticSectorBoost = 0,
 ): number {
   const s = temporal.sectors[sectorId];
-  if (!s) return 0;
+  if (!s) return semanticSectorBoost * 0.5;
   return (
     s.sustainedPressure * OP_WEIGHT_SUSTAINED +
     s.momentum * OP_WEIGHT_MOMENTUM +
     s.historicalPressure * OP_WEIGHT_HISTORICAL +
-    s.transientPressure * OP_WEIGHT_TRANSIENT
+    s.transientPressure * OP_WEIGHT_TRANSIENT +
+    semanticSectorBoost
   );
 }

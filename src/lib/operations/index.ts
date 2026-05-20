@@ -18,6 +18,13 @@ export type {
   GitOperationalSignalType,
 } from "./types";
 export type { ClassifiedSignal } from "./classification";
+export {
+  deriveSemanticOperationalLayer,
+  applySemanticProjection,
+  type SemanticDerivationInput,
+  type SemanticOperationalEvent,
+  type OperationalSemanticMeaning,
+} from "./semantic";
 export { buildOperationalSnapshot } from "./operationalState";
 export { mergeOperationalIntoCCCData } from "./merge";
 export { PROJECT_PROFILES, getProjectProfile, getProfileByLocalSlug } from "./projectProfiles";

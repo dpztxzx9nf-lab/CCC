@@ -10,6 +10,7 @@ import {
   deriveTemporalContinuity,
   mergeSectorPressure,
 } from "@/lib/operations/deriveSignalProjection";
+import { deriveSemanticOperationalLayer } from "@/lib/operations/semantic";
 import type {
   ContinuitySnapshot,
   ContinuitySnapshotProject,
@@ -109,9 +110,17 @@ export function buildContinuitySnapshot(
 ): ContinuitySnapshot {
   const augmented = deriveOperationalSnapshotFields(projects, operationalEvents);
   const temporal = deriveTemporalContinuity(operationalSignals, projects);
+  const semantic = deriveSemanticOperationalLayer({
+    signals: operationalSignals,
+    temporal,
+    projects,
+    dormantProjectIds: augmented.dormantProjects,
+    activeProjectIds: augmented.activeProjects,
+  });
   const combinedPressure = mergeSectorPressure(
     augmented.sectorPressure,
     temporal.environmentalPressure,
+    semantic.environmentalPressureBoost,
   );
 
   const signals = buildSignals(projects);
@@ -120,12 +129,14 @@ export function buildContinuitySnapshot(
     signals,
     temporal,
     operationalSignals,
+    semantic.environmentalPressureBoost,
   );
   const operators = buildOperatorsFromSignals(
     projects,
     sectorHeat,
     operationalSignals,
     temporal,
+    semantic,
   );
 
   const snapshotProjects: ContinuitySnapshotProject[] = projects.map((p) => ({
@@ -162,6 +173,7 @@ export function buildContinuitySnapshot(
     dormantSectors: temporal.dormantSectors,
     projectMomentum: augmented.projectMomentum,
     semanticMilestones: augmented.semanticMilestones,
+    semanticEvents: semantic.events,
     dormantProjects: augmented.dormantProjects,
     activeProjects: augmented.activeProjects,
     lastSignificantEvent: augmented.lastSignificantEvent,

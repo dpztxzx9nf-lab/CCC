@@ -21,6 +21,7 @@ import type { TemporalContinuityModel } from "./temporal/types";
 import { deriveTemporalContinuity } from "./temporal/accumulate";
 import { operatorSectorPreferenceScore } from "./temporal/operatorPreference";
 import { weightedSignalContribution } from "./temporal/recency";
+import type { SemanticDerivationResult } from "./semantic/types";
 import type { OperationalSignal } from "./types";
 
 export { resolveProjectionSector, secondarySectorsForSignal, signalTypeToActivityKind } from "./signalSectorRouting";
@@ -101,9 +102,14 @@ export function buildSectorHeatFromSignals(
   scanSignals: ContinuitySnapshotSignal[],
   temporal: TemporalContinuityModel,
   operationalSignals: OperationalSignal[],
+  semanticEnvironmentalBoost?: Record<SectorId, number>,
 ): Record<SectorId, ContinuitySnapshotSectorHeat> {
   const referenceMs = Date.parse(temporal.referenceTime) || Date.now();
-  const operationalDelta = sectorPressureToHeatDelta(temporal.environmentalPressure);
+  const mergedEnv = mergeSectorPressure(
+    temporal.environmentalPressure,
+    semanticEnvironmentalBoost ?? emptyPressure(),
+  );
+  const operationalDelta = sectorPressureToHeatDelta(mergedEnv);
   const heat: Record<SectorId, ContinuitySnapshotSectorHeat> = {} as Record<
     SectorId,
     ContinuitySnapshotSectorHeat
@@ -178,18 +184,26 @@ export function buildOperatorsFromSignals(
   sectorHeat: Record<SectorId, ContinuitySnapshotSectorHeat>,
   operationalSignals: OperationalSignal[],
   temporal: TemporalContinuityModel,
+  semantic?: SemanticDerivationResult,
 ): ContinuitySnapshotOperator[] {
   const referenceMs = Date.parse(temporal.referenceTime) || Date.now();
+  const semanticSectorBoost = semantic?.environmentalPressureBoost;
+  const operatorMeaningBoost = semantic?.operatorMeaningBoost ?? {};
 
   return Object.entries(OPERATOR_SECTOR_OWNERSHIP).map(([operatorId, ownedSectors]) => {
     const ownedSet = new Set(ownedSectors);
+    const meaningBoost = operatorMeaningBoost[operatorId] ?? 0;
 
     const sectorSignals = operationalSignals
       .map((sig) => ({
         sig,
         sector: resolveProjectionSector(sig),
         instant: weightedSignalContribution(sig, referenceMs),
-        preference: operatorSectorPreferenceScore(temporal, resolveProjectionSector(sig)),
+        preference: operatorSectorPreferenceScore(
+          temporal,
+          resolveProjectionSector(sig),
+          semanticSectorBoost?.[resolveProjectionSector(sig)] ?? 0,
+        ),
       }))
       .filter((x) => ownedSet.has(x.sector))
       .sort((a, b) => {
@@ -205,9 +219,11 @@ export function buildOperatorsFromSignals(
           (n, s) =>
             n +
             (sectorHeat[s]?.activityScore ?? 0) +
-            Math.round((temporal.sectors[s]?.sustainedPressure ?? 0) * 4),
+            Math.round((temporal.sectors[s]?.sustainedPressure ?? 0) * 4) +
+            Math.round((semanticSectorBoost?.[s] ?? 0) * 8),
           0,
-        ) / Math.max(1, ownedSectors.length),
+        ) / Math.max(1, ownedSectors.length) +
+        Math.round(meaningBoost * 12),
       ),
     );
 
@@ -223,10 +239,25 @@ export function buildOperatorsFromSignals(
     const hotSector = [...ownedSectors]
       .sort(
         (a, b) =>
-          operatorSectorPreferenceScore(temporal, b) -
-          operatorSectorPreferenceScore(temporal, a),
+          operatorSectorPreferenceScore(
+            temporal,
+            b,
+            semanticSectorBoost?.[b] ?? 0,
+          ) -
+          operatorSectorPreferenceScore(
+            temporal,
+            a,
+            semanticSectorBoost?.[a] ?? 0,
+          ),
       )
-      .find((s) => operatorSectorPreferenceScore(temporal, s) >= 0.35);
+      .find(
+        (s) =>
+          operatorSectorPreferenceScore(
+            temporal,
+            s,
+            semanticSectorBoost?.[s] ?? 0,
+          ) >= 0.35,
+      );
 
     let currentActivity = "Standby — no local activity in owned sectors";
     if (topSig && topSignalEntry && topSignalEntry.instant > 0) {
