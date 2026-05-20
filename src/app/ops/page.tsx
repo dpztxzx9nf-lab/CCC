@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { OperationalEvent } from "@/lib/operations/events";
-import { readOperationalEventsFromDisk } from "@/lib/continuity/events/store";
+import {
+  readContinuitySignalsForOpsFromDisk,
+  type OpsContinuitySignalRow,
+} from "@/lib/continuity/events/store";
 import "./ops.css";
 
 export const dynamic = "force-dynamic";
@@ -24,19 +26,13 @@ function formatSignalTime(iso: string): string {
   }).format(d);
 }
 
-function semanticLabel(ev: OperationalEvent): string {
-  const v = ev.metadata.semanticMeaning;
-  if (typeof v !== "string" || !v.trim()) return "—";
-  return v.replace(/_/g, " ");
-}
-
 function truncateSummary(s: string, max = 120): string {
   const t = s.trim();
   if (t.length <= max) return t;
   return `${t.slice(0, max - 1)}…`;
 }
 
-function RecentContinuitySignals({ events }: { events: OperationalEvent[] }) {
+function RecentContinuitySignals({ rows }: { rows: OpsContinuitySignalRow[] }) {
   return (
     <div className="ccc-ops-signals" aria-labelledby="recent-continuity-signals">
       <h3 className="ccc-ops-signals__title" id="recent-continuity-signals">
@@ -44,11 +40,11 @@ function RecentContinuitySignals({ events }: { events: OperationalEvent[] }) {
       </h3>
       <p className="ccc-ops-signals__meta">
         Last 10 rows from <code className="font-mono text-ccc-text/80">public/continuity-events.json</code>{" "}
-        (<code className="font-mono text-ccc-text/80">operationalEvents</code>, newest first).
+        (<code className="font-mono text-ccc-text/80">operationalEvents ?? events</code>, newest first).
       </p>
-      {events.length === 0 ? (
+      {rows.length === 0 ? (
         <p className="ccc-ops-signals__empty">
-          No normalized events yet — archivist watcher idle or log not migrated.
+          No continuity events in the log yet — archivist idle or JSON missing.
         </p>
       ) : (
         <div className="ccc-ops-signals__scroll">
@@ -64,12 +60,12 @@ function RecentContinuitySignals({ events }: { events: OperationalEvent[] }) {
               </tr>
             </thead>
             <tbody>
-              {events.map((ev) => (
+              {rows.map((ev) => (
                 <tr key={ev.id}>
                   <td>{formatSignalTime(ev.timestamp)}</td>
                   <td>{ev.project}</td>
                   <td>{ev.sector}</td>
-                  <td>{semanticLabel(ev)}</td>
+                  <td>{ev.meaning}</td>
                   <td>{ev.severity}</td>
                   <td>{truncateSummary(ev.summary)}</td>
                 </tr>
@@ -111,8 +107,8 @@ const SECTIONS = [
 ] as const;
 
 export default async function OpsPage() {
-  const operational = await readOperationalEventsFromDisk();
-  const recentSignals = operational.slice(0, 10);
+  const allRows = await readContinuitySignalsForOpsFromDisk();
+  const recentSignals = allRows.slice(0, 10);
 
   return (
     <div className="ccc-ops-page">
@@ -288,7 +284,7 @@ export default async function OpsPage() {
             something looks wrong.
           </p>
 
-          <RecentContinuitySignals events={recentSignals} />
+          <RecentContinuitySignals rows={recentSignals} />
         </section>
 
         <section className="ccc-ops-section" aria-labelledby="pm2">

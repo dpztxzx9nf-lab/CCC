@@ -291,3 +291,73 @@ export async function readOperationalEventsFromDisk(
   }
   return [];
 }
+
+/** Flattened row for /ops “Recent Continuity Signals” (operational or rail events) */
+export interface OpsContinuitySignalRow {
+  id: string;
+  timestamp: string;
+  project: string;
+  sector: string;
+  meaning: string;
+  severity: string;
+  summary: string;
+}
+
+function opsRowFromOperational(e: OperationalEvent): OpsContinuitySignalRow {
+  const v = e.metadata.semanticMeaning;
+  const meaning =
+    typeof v === "string" && v.trim() ? v.replace(/_/g, " ") : "—";
+  return {
+    id: e.id,
+    timestamp: e.timestamp,
+    project: e.project,
+    sector: e.sector,
+    meaning,
+    severity: e.severity,
+    summary: e.summary,
+  };
+}
+
+function opsRowFromContinuity(e: ContinuityEvent): OpsContinuitySignalRow {
+  return {
+    id: e.id,
+    timestamp: e.occurredAt,
+    project: e.projects[0] ?? "—",
+    sector: e.sectors[0] ?? "—",
+    meaning: e.kind.replace(/_/g, " "),
+    severity: e.importance,
+    summary: e.summary,
+  };
+}
+
+/**
+ * Prefer normalized operational events when present; otherwise continuity rail `events`.
+ * Same nullish semantics as `operationalEvents ?? events` on the log object.
+ */
+export function continuitySignalRowsFromLog(log: ContinuityEventLog): OpsContinuitySignalRow[] {
+  const raw = log.operationalEvents ?? log.events;
+  if (!raw.length) return [];
+  const first = raw[0];
+  if (first && typeof first === "object" && "occurredAt" in first) {
+    return (raw as ContinuityEvent[]).map(opsRowFromContinuity);
+  }
+  return (raw as OperationalEvent[]).map(opsRowFromOperational);
+}
+
+export async function readContinuitySignalsForOpsFromDisk(
+  cwd = process.cwd(),
+): Promise<OpsContinuitySignalRow[]> {
+  if (typeof window !== "undefined") return [];
+
+  try {
+    const { readFile: rf } = await import("fs/promises");
+    const filePath = path.join(cwd, "public", "continuity-events.json");
+    const raw = await rf(filePath, "utf-8");
+    const data: unknown = JSON.parse(raw);
+    if (!isContinuityEventLog(data)) return [];
+    return continuitySignalRowsFromLog(data);
+  } catch {
+    /* missing */
+  }
+  return [];
+}
