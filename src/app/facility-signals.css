@@ -19,6 +19,9 @@
   border-radius: 3px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
   pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .ccc-nameplate--steady {
@@ -38,6 +41,44 @@
   content: " ↗";
   font-size: 0.5rem;
   opacity: 0.85;
+}
+
+/* —— Operator touch surface (facility operators only — not global selection policy) —— */
+.ccc-inhabitant--gesture {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ccc-inhabitant--gesture .ccc-nameplate,
+.ccc-inhabitant--gesture .ccc-inhabitant__transit-beam,
+.ccc-inhabitant--gesture .ccc-inhabitant__packet,
+.ccc-inhabitant--gesture .ccc-operator-hover,
+.ccc-inhabitant--gesture .ccc-agent-hit {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Silhouettes / internals sit above the gesture hit target – keep them non-callout too */
+.ccc-inhabitant--gesture .ccc-agent-hit *,
+.ccc-inhabitant--gesture .ccc-agent-hit [class*="op-"] {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Gesture hit zone: deterministic touch routing; parent megastructure retains pan-y */
+.ccc-inhabitant--gesture .ccc-agent-hit {
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+}
+
+/* Quick profile is non-interactive; block iOS analyzing its text during long press */
+.ccc-inhabitant--gesture .ccc-operator-hover {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* —— Hover card (sparse operational detail) —— */
@@ -146,6 +187,9 @@
   left: 50%;
   bottom: calc(100% + 1.1rem);
   transform: translateX(-50%);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* —— Signal routing overlay —— */

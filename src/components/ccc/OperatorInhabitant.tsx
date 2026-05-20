@@ -197,7 +197,7 @@ export function OperatorInhabitant({
 
   return (
     <div
-      className="ccc-inhabitant group absolute z-[5]"
+      className="ccc-inhabitant ccc-inhabitant--gesture group absolute z-[5]"
       data-intensity={behavior.intensity}
       data-posture={behavior.posture}
       data-transit={showTransitEmbodiment ? "true" : undefined}
@@ -241,6 +241,16 @@ export function OperatorInhabitant({
         onPointerMove={onPointerMoveChrome}
         onPointerUp={onPointerEndChrome}
         onPointerCancel={onPointerEndChrome}
+        draggable={false}
+        onDragStart={(e) => {
+          e.preventDefault();
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+        }}
+        onSelect={(e) => {
+          e.preventDefault();
+        }}
         onClick={(e) => {
           e.stopPropagation();
           if (suppressClickRef.current) {
