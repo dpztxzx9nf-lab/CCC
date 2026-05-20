@@ -9,6 +9,7 @@ import {
   buildSectorProfiles,
 } from "./correlate";
 import { evaluateProjectRules, evaluateSectorRules } from "./rules";
+import { sanitizeContinuityText } from "@/lib/encoding";
 import { applySemanticProjection } from "./projection";
 import type {
   SemanticDerivationResult,
@@ -60,7 +61,7 @@ function toEvent(
     sector: c.sector,
     sectors: c.sectors,
     projectId: c.projectId,
-    summary: c.summary,
+    summary: sanitizeContinuityText(c.summary),
     source: "semantic:continuity",
     evidence: c.evidence,
   };

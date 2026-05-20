@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "snapshot": "tsx --tsconfig tsconfig.json src/lib/snapshot/generateSnapshot.ts",
+    "test:encoding": "tsx --test src/lib/encoding/sanitize.test.ts",
     "archivist:watch": "tsx --tsconfig tsconfig.json scripts/archivist-watch.ts"
   },
   "dependencies": {

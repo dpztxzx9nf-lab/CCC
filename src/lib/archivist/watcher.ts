@@ -2,6 +2,7 @@ import { watch } from "fs";
 import path from "path";
 import { stat } from "fs/promises";
 import type { ArchivistConfig } from "@/lib/localData/archivist-config";
+import { formatContinuityLogLine } from "@/lib/encoding";
 import { runArchivistCycle } from "./cycle";
 
 export interface WatcherOptions {
@@ -106,7 +107,7 @@ export class ArchivistWatcher {
       });
 
       for (const line of result.logs) {
-        console.log(line);
+        console.log(formatContinuityLogLine(line));
       }
       console.log("");
     } catch (err) {

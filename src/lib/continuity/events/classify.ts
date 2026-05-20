@@ -1,4 +1,5 @@
 import type { SectorId } from "@/data/types";
+import { sanitizeContinuityText } from "@/lib/encoding";
 import type { SignificanceLevel } from "@/lib/localData/archivist-config";
 import type { ConsolidationResult } from "@/lib/archivist/consolidate";
 import type { DeployResult } from "@/lib/archivist/deploy";
@@ -84,7 +85,7 @@ export function classifyConsolidation(
   if (archiveChanges >= 8 && sector === "archive") {
     kind = "archive_consolidation";
     title = "Archive consolidation wave";
-    summary = `${archiveChanges} archive-tagged changes across ${uniqueProjects.length || 1} project(s) — knowledge base shift.`;
+    summary = `${archiveChanges} archive-tagged changes across ${uniqueProjects.length || 1} project(s) - knowledge base shift.`;
     if (consolidation.significance !== "observe") {
       importance = bumpImportance(importance, 1);
     }
@@ -100,7 +101,7 @@ export function classifyConsolidation(
   } else if (sector === "runtime" || sector === "relay") {
     kind = "infrastructure_change";
     title = "Infrastructure change";
-    summary = `Relay or runtime surface updated — ${changeCount} tracked change(s).`;
+    summary = `Relay or runtime surface updated - ${changeCount} tracked change(s).`;
   } else if (changeCount >= 12 && score >= 14) {
     kind = "edit_wave";
     title = "Major edit wave";
@@ -120,8 +121,8 @@ export function classifyConsolidation(
   return {
     kind,
     importance,
-    title,
-    summary,
+    title: sanitizeContinuityText(title),
+    summary: sanitizeContinuityText(summary),
     sectors: sectors.length > 0 ? sectors : [sector],
     projects: uniqueProjects,
     significance: consolidation.significance,
@@ -137,10 +138,12 @@ export function classifySnapshotRefresh(input: {
   return {
     kind: "snapshot_refresh",
     importance: "medium",
-    title: "Continuity snapshot refreshed",
-    summary: input.manual
-      ? `Manual snapshot: ${input.projectCount} projects, ${input.signalCount} signals indexed.`
-      : `ARCHIVIST wrote continuity snapshot — ${input.projectCount} projects, ${input.signalCount} signals.`,
+    title: sanitizeContinuityText("Continuity snapshot refreshed"),
+    summary: sanitizeContinuityText(
+      input.manual
+        ? `Manual snapshot: ${input.projectCount} projects, ${input.signalCount} signals indexed.`
+        : `ARCHIVIST wrote continuity snapshot - ${input.projectCount} projects, ${input.signalCount} signals.`,
+    ),
     sectors: ["core", "archive"],
     projects: ["ccc"],
     significance: "snapshot",
@@ -156,8 +159,10 @@ export function classifyDeploy(
     return {
       kind: "deploy_published",
       importance: "critical",
-      title: "Deployment published",
-      summary: `Continuity snapshot pushed to Git (${deployResult.commitHash}) — Vercel deploy may follow.`,
+      title: sanitizeContinuityText("Deployment published"),
+      summary: sanitizeContinuityText(
+        `Continuity snapshot pushed to Git (${deployResult.commitHash}) - Vercel deploy may follow.`,
+      ),
       sectors: ["relay", "runtime", "core"],
       projects: ["ccc"],
       significance: "deploy-worthy",
@@ -170,10 +175,11 @@ export function classifyDeploy(
   return {
     kind: "deploy_blocked",
     importance: "high",
-    title: "Deploy-worthy change (not published)",
-    summary:
+    title: sanitizeContinuityText("Deploy-worthy change (not published)"),
+    summary: sanitizeContinuityText(
       deployResult.skippedReason ??
-      "Changes met deploy threshold but were not pushed (autoDeploy off or gate failed).",
+        "Changes met deploy threshold but were not pushed (autoDeploy off or gate failed).",
+    ),
     sectors: ["relay", "core"],
     projects: ["ccc"],
     significance: "deploy-worthy",

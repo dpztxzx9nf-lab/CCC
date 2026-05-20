@@ -1,5 +1,11 @@
-import { mkdir, readFile, stat, writeFile } from "fs/promises";
+import { stat } from "fs/promises";
 import path from "path";
+import { sanitizeContinuityText } from "@/lib/encoding";
+import {
+  sanitizeContinuityEvent,
+  sanitizeOperationalEvent,
+} from "@/lib/encoding/pipeline";
+import { readUtf8ContinuityJsonFile, writeUtf8ContinuityJson } from "@/lib/encoding/json-io";
 import type { ArchivistConfig } from "@/lib/localData/archivist-config";
 import { ALL_SECTOR_IDS } from "@/lib/operations/taxonomy";
 import type { OperationalEvent, OperationalEventType } from "@/lib/operations/events";
@@ -110,8 +116,7 @@ export async function readContinuityEventLog(
 ): Promise<ContinuityEventLog> {
   const filePath = eventsOutputPath(config);
   try {
-    const raw = await readFile(filePath, "utf-8");
-    const data: unknown = JSON.parse(raw);
+    const data: unknown = await readUtf8ContinuityJsonFile(filePath);
     if (isContinuityEventLog(data))
       return normalizeLog(data as ContinuityEventLog);
   } catch {
@@ -130,8 +135,7 @@ async function persistLog(config: ArchivistConfig, log: ContinuityEventLog): Pro
     operationalEvents: log.operationalEvents ?? [],
   };
   const filePath = eventsOutputPath(config);
-  await mkdir(path.dirname(filePath), { recursive: true });
-  await writeFile(filePath, `${JSON.stringify(next, null, 2)}\n`, "utf-8");
+  await writeUtf8ContinuityJson(filePath, next);
 }
 
 function coalesceKey(e: ContinuityEvent): string {
@@ -221,7 +225,11 @@ export async function appendContinuityEvents(
   const maxCount = config.eventsMaxCount ?? 400;
   const maxAgeDays = config.eventsMaxAgeDays ?? 90;
 
-  const merged = coalesceEvents(log.events, incoming, windowMs);
+  const merged = coalesceEvents(
+    log.events,
+    incoming.map(sanitizeContinuityEvent),
+    windowMs,
+  );
   const trimmed = trimEvents(merged, maxCount, maxAgeDays);
 
   await persistLog(config, {
@@ -247,7 +255,7 @@ export async function appendOperationalEvents(
   const maxAgeDays = config.operationalEventsMaxAgeDays ?? config.eventsMaxAgeDays ?? 90;
 
   const prev = log.operationalEvents ?? [];
-  const merged = [...incoming, ...prev];
+  const merged = [...incoming.map(sanitizeOperationalEvent), ...prev];
   const trimmed = trimOperationalEvents(merged, maxCount, maxAgeDays);
 
   await persistLog(config, {
@@ -264,10 +272,8 @@ export async function readContinuityEventsFromDisk(
   if (typeof window !== "undefined") return [];
 
   try {
-    const { readFile: rf } = await import("fs/promises");
     const filePath = path.join(cwd, "public", "continuity-events.json");
-    const raw = await rf(filePath, "utf-8");
-    const data: unknown = JSON.parse(raw);
+    const data: unknown = await readUtf8ContinuityJsonFile(filePath);
     if (isContinuityEventLog(data)) return data.events;
   } catch {
     /* missing */
@@ -281,10 +287,8 @@ export async function readOperationalEventsFromDisk(
   if (typeof window !== "undefined") return [];
 
   try {
-    const { readFile: rf } = await import("fs/promises");
     const filePath = path.join(cwd, "public", "continuity-events.json");
-    const raw = await rf(filePath, "utf-8");
-    const data: unknown = JSON.parse(raw);
+    const data: unknown = await readUtf8ContinuityJsonFile(filePath);
     if (isContinuityEventLog(data)) return data.operationalEvents ?? [];
   } catch {
     /* missing */
@@ -306,15 +310,17 @@ export interface OpsContinuitySignalRow {
 function opsRowFromOperational(e: OperationalEvent): OpsContinuitySignalRow {
   const v = e.metadata.semanticMeaning;
   const meaning =
-    typeof v === "string" && v.trim() ? v.replace(/_/g, " ") : "—";
+    typeof v === "string" && v.trim()
+      ? sanitizeContinuityText(v.replace(/_/g, " "))
+      : "-";
   return {
     id: e.id,
     timestamp: e.timestamp,
-    project: e.project,
+    project: sanitizeContinuityText(e.project),
     sector: e.sector,
     meaning,
     severity: e.severity,
-    summary: e.summary,
+    summary: sanitizeContinuityText(e.summary),
   };
 }
 
@@ -322,11 +328,11 @@ function opsRowFromContinuity(e: ContinuityEvent): OpsContinuitySignalRow {
   return {
     id: e.id,
     timestamp: e.occurredAt,
-    project: e.projects[0] ?? "—",
-    sector: e.sectors[0] ?? "—",
-    meaning: e.kind.replace(/_/g, " "),
+    project: sanitizeContinuityText(e.projects[0] ?? "-"),
+    sector: e.sectors[0] ?? "-",
+    meaning: sanitizeContinuityText(e.kind.replace(/_/g, " ")),
     severity: e.importance,
-    summary: e.summary,
+    summary: sanitizeContinuityText(e.summary),
   };
 }
 
@@ -350,10 +356,8 @@ export async function readContinuitySignalsForOpsFromDisk(
   if (typeof window !== "undefined") return [];
 
   try {
-    const { readFile: rf } = await import("fs/promises");
     const filePath = path.join(cwd, "public", "continuity-events.json");
-    const raw = await rf(filePath, "utf-8");
-    const data: unknown = JSON.parse(raw);
+    const data: unknown = await readUtf8ContinuityJsonFile(filePath);
     if (!isContinuityEventLog(data)) return [];
     return continuitySignalRowsFromLog(data);
   } catch {
@@ -410,8 +414,7 @@ export async function readContinuityStorageStatsFromDisk(
   let railEventCount = 0;
   let operationalEventCount = 0;
   try {
-    const raw = await readFile(eventsPath, "utf-8");
-    const data: unknown = JSON.parse(raw);
+    const data: unknown = await readUtf8ContinuityJsonFile(eventsPath);
     if (data && typeof data === "object") {
       const o = data as Record<string, unknown>;
       logUpdatedAt = typeof o.updatedAt === "string" ? o.updatedAt : null;
@@ -426,8 +429,7 @@ export async function readContinuityStorageStatsFromDisk(
   let snapshotGeneratedAt: string | null = null;
   let snapshotUpdatedAt: string | null = null;
   try {
-    const raw = await readFile(snapshotPath, "utf-8");
-    const data: unknown = JSON.parse(raw);
+    const data: unknown = await readUtf8ContinuityJsonFile(snapshotPath);
     if (data && typeof data === "object") {
       const o = data as Record<string, unknown>;
       snapshotGeneratedAt =

@@ -1,3 +1,4 @@
+import { parseUtf8ContinuityJson } from "@/lib/encoding/json-parse";
 import type { ContinuitySnapshot } from "./types";
 import { ALL_SECTOR_IDS } from "@/lib/operations/taxonomy";
 
@@ -28,7 +29,8 @@ export async function loadContinuitySnapshot(
       : SNAPSHOT_URL;
     const res = await fetch(path, { cache: "no-store" });
     if (!res.ok) return null;
-    const data: unknown = await res.json();
+    const raw = await res.text();
+    const data: unknown = parseUtf8ContinuityJson(raw);
     return isContinuitySnapshot(data) ? data : null;
   } catch {
     return null;
@@ -43,8 +45,8 @@ export async function readContinuitySnapshotFromDisk(): Promise<ContinuitySnapsh
     const { readFile } = await import("fs/promises");
     const path = await import("path");
     const filePath = path.join(process.cwd(), "public", "continuity-snapshot.json");
-    const raw = await readFile(filePath, "utf-8");
-    const data: unknown = JSON.parse(raw);
+    const raw = await readFile(filePath, { encoding: "utf8" });
+    const data: unknown = parseUtf8ContinuityJson(raw);
     return isContinuitySnapshot(data) ? data : null;
   } catch {
     return null;

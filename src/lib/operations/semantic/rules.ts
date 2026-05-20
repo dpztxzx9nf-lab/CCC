@@ -149,7 +149,7 @@ export function evaluateProjectRules(
     "forge",
     ["forge", "observatory"],
     profile.projectId,
-    `${profile.name}: emerging initiative — rising momentum`,
+    `${profile.name}: emerging initiative - rising momentum`,
     evidence(profile),
     2,
   );

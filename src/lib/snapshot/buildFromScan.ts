@@ -10,6 +10,7 @@ import {
   deriveTemporalContinuity,
   mergeSectorPressure,
 } from "@/lib/operations/deriveSignalProjection";
+import { sanitizeContinuityPayload } from "@/lib/encoding";
 import { deriveSemanticOperationalLayer } from "@/lib/operations/semantic";
 import type {
   ContinuitySnapshot,
@@ -156,7 +157,7 @@ export function buildContinuitySnapshot(
     obsidianVault: p.obsidianVault,
   }));
 
-  return {
+  return sanitizeContinuityPayload({
     generatedAt: new Date().toISOString(),
     agent: "ARCHIVIST-0",
     projects: snapshotProjects,
@@ -177,5 +178,5 @@ export function buildContinuitySnapshot(
     dormantProjects: augmented.dormantProjects,
     activeProjects: augmented.activeProjects,
     lastSignificantEvent: augmented.lastSignificantEvent,
-  };
+  });
 }

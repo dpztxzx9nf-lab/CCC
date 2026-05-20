@@ -21,6 +21,7 @@ import type { TemporalContinuityModel } from "./temporal/types";
 import { deriveTemporalContinuity } from "./temporal/accumulate";
 import { operatorSectorPreferenceScore } from "./temporal/operatorPreference";
 import { weightedSignalContribution } from "./temporal/recency";
+import { sanitizeContinuityText } from "@/lib/encoding";
 import type { SemanticDerivationResult } from "./semantic/types";
 import type { OperationalSignal } from "./types";
 
@@ -259,20 +260,26 @@ export function buildOperatorsFromSignals(
           ) >= 0.35,
       );
 
-    let currentActivity = "Standby — no local activity in owned sectors";
+    let currentActivity = sanitizeContinuityText(
+      "Standby - no local activity in owned sectors",
+    );
     if (topSig && topSignalEntry && topSignalEntry.instant > 0) {
       const label = topSig.type.replace(/_/g, " ");
       const proj = projectIdFromSignal(topSig);
-      currentActivity = proj
-        ? `${label} · ${proj}`
-        : `${label} · ${topSig.sector}`;
+      currentActivity = sanitizeContinuityText(
+        proj ? `${label} - ${proj}` : `${label} - ${topSig.sector}`,
+      );
     } else if (topProject && topProject.activityScore > 0) {
-      currentActivity = `${topProject.name}: ${topProject.recentActivityCount > 0 ? "recent file activity" : "structure detected"}`;
+      currentActivity = sanitizeContinuityText(
+        `${topProject.name}: ${topProject.recentActivityCount > 0 ? "recent file activity" : "structure detected"}`,
+      );
     } else if (hotSector) {
       const dom = sectorHeat[hotSector]?.dominantActivity;
-      currentActivity = dom
-        ? `${hotSector}: ${dom}`
-        : `${hotSector} sector heat ${sectorHeat[hotSector]?.activityScore ?? 0}`;
+      currentActivity = sanitizeContinuityText(
+        dom
+          ? `${hotSector}: ${dom}`
+          : `${hotSector} sector heat ${sectorHeat[hotSector]?.activityScore ?? 0}`,
+      );
     }
 
     const lastSignal = topSig

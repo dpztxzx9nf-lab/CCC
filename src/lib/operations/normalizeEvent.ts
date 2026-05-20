@@ -1,5 +1,10 @@
 import { randomUUID } from "crypto";
 import path from "path";
+import {
+  sanitizeClassifiedChange,
+  sanitizeContinuityText,
+  sanitizeOperationalEvent,
+} from "@/lib/encoding";
 import type { ClassifiedChange } from "@/lib/archivist/classify-change";
 import type { SectorId } from "@/data/types";
 import type { OperationalEventType, OperationalEvent } from "./events";
@@ -89,9 +94,11 @@ export function normalizeOperationalSignal(signal: RawOperationalSignal): Operat
   const ts = signal.timestamp ?? new Date().toISOString();
 
   if (signal.kind === "deploy_outcome") {
-    const summary = signal.deployed
-      ? `Deploy published${signal.commitHash ? ` (${signal.commitHash.slice(0, 7)})` : ""}`
-      : `Deploy signal held: ${signal.skippedReason ?? "not published"}`;
+    const summary = sanitizeContinuityText(
+      signal.deployed
+        ? `Deploy published${signal.commitHash ? ` (${signal.commitHash.slice(0, 7)})` : ""}`
+        : `Deploy signal held: ${signal.skippedReason ?? "not published"}`,
+    );
     const assessment = assessSignificance({
       type: "deployment_signal",
       filePath: null,
@@ -100,7 +107,7 @@ export function normalizeOperationalSignal(signal: RawOperationalSignal): Operat
       failedBuild: false,
     });
 
-    return {
+    return sanitizeOperationalEvent({
       id: randomUUID(),
       type: "deployment_signal",
       sector: "relay",
@@ -119,15 +126,18 @@ export function normalizeOperationalSignal(signal: RawOperationalSignal): Operat
         skippedReason: signal.skippedReason,
         significanceTier: signal.significanceTier,
       },
-    };
+    });
   }
 
   const { change, lockfileOnlyHint, failedBuild } = signal;
-  const filePath = change.path;
+  const sanitizedChange = sanitizeClassifiedChange(change);
+  const filePath = sanitizedChange.path;
   const opType = inferOperationalEventType(filePath);
   const sector = inferOperationalSector(filePath);
-  const sectors = uniqueSectors([sector, change.sector]);
-  const summary = `${path.basename(filePath)} — ${opType.replace(/_/g, " ")}`;
+  const sectors = uniqueSectors([sector, sanitizedChange.sector]);
+  const summary = sanitizeContinuityText(
+    `${path.basename(filePath)} - ${opType.replace(/_/g, " ")}`,
+  );
 
   const assessment = assessSignificance({
     type: opType,
@@ -139,9 +149,10 @@ export function normalizeOperationalSignal(signal: RawOperationalSignal): Operat
   });
 
   const projectName =
-    change.projectKey.split(/[/\\]/).filter(Boolean).pop() ?? change.projectKey;
+    sanitizedChange.projectKey.split(/[/\\]/).filter(Boolean).pop() ??
+    sanitizedChange.projectKey;
 
-  return {
+  return sanitizeOperationalEvent({
     id: randomUUID(),
     type: opType,
     sector,
@@ -155,11 +166,11 @@ export function normalizeOperationalSignal(signal: RawOperationalSignal): Operat
     summary,
     metadata: {
       semanticMeaning: assessment.semanticMeaning,
-      classifierSector: change.sector,
-      classifierPoints: change.points,
-      classifierLabel: change.label,
+      classifierSector: sanitizedChange.sector,
+      classifierPoints: sanitizedChange.points,
+      classifierLabel: sanitizedChange.label,
     },
-  };
+  });
 }
 
 function uniqueSectors(list: SectorId[]): SectorId[] {

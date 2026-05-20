@@ -1,5 +1,5 @@
-import { mkdir, writeFile } from "fs/promises";
 import path from "path";
+import { writeUtf8ContinuityJson } from "@/lib/encoding/json-io";
 import { readContinuityEventLog } from "@/lib/continuity/events/store";
 import { scanAllSnapshotRoots } from "@/lib/localData/scanners";
 import { deriveGitOperationalSignals } from "@/lib/operations/signals/gitSignals";
@@ -21,8 +21,7 @@ export async function writeContinuitySnapshot(
   );
   const outputPath = path.join(config.cccProjectRoot, config.snapshotOutputRelative);
 
-  await mkdir(path.dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`, "utf-8");
+  await writeUtf8ContinuityJson(outputPath, snapshot);
 
   return {
     outputPath,

@@ -4,6 +4,7 @@ import {
   type ArchivistWatchRoot,
 } from "@/lib/localData/archivist-config";
 import path from "path";
+import { sanitizeContinuityText } from "@/lib/encoding";
 import { isLockfile, isSourceLike, projectKeyFromPath } from "./noise";
 
 export interface ClassifiedChange {
@@ -60,7 +61,7 @@ function scorePath(filePath: string): { sector: SectorId; points: number; label:
   }
 
   const points = Math.max(2, bestScore);
-  const label = `${base} → ${best}`;
+  const label = sanitizeContinuityText(`${base} -> ${best}`);
   return { sector: best, points, label };
 }
 

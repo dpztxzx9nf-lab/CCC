@@ -8,6 +8,7 @@ import {
   recordOperationalDeployOutcome,
   recordOperationalFileSignalsFromCycle,
 } from "@/lib/continuity/events/operationalPipeline";
+import { sanitizeClassifiedChange, sanitizeContinuityText } from "@/lib/encoding";
 import { writeContinuitySnapshot } from "./snapshot-write";
 
 export interface CycleOptions {
@@ -38,9 +39,10 @@ export async function runArchivistCycle(
 
   const classified = paths
     .filter((p) => !isIgnoredPath(p))
-    .map((p) => classifyFileChange(p, config.watchRoots));
+    .map((p) => classifyFileChange(p, config.watchRoots))
+    .map(sanitizeClassifiedChange);
 
-  logs.push(`ARCHIVIST-0 observed ${paths.length} changes`);
+  logs.push(sanitizeContinuityText(`ARCHIVIST-0 observed ${paths.length} changes`));
 
   if (classified.length === 0) {
     logs.push("consolidated: no meaningful changes after filter");
@@ -49,7 +51,7 @@ export async function runArchivistCycle(
       consolidation: consolidateChanges([], config),
       snapshotWritten: false,
       deployResult: { pushed: false, commitHash: null, skippedReason: "no changes" },
-      logs,
+      logs: logs.map((l) => sanitizeContinuityText(l)),
     };
   }
 
@@ -65,7 +67,7 @@ export async function runArchivistCycle(
   logs.push(`significance: ${consolidation.significance}`);
 
   if (consolidation.lockfileOnly) {
-    logs.push("note: lockfile-only batch — significance capped");
+    logs.push("note: lockfile-only batch - significance capped");
   }
 
   if (!dryRun && classified.length > 0) {
@@ -165,5 +167,8 @@ export async function runArchivistCycle(
     }
   }
 
-  return result;
+  return {
+    ...result,
+    logs: logs.map((l) => sanitizeContinuityText(l)),
+  };
 }

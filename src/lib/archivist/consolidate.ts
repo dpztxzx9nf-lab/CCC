@@ -1,4 +1,5 @@
 import type { SectorId } from "@/data/types";
+import { sanitizeContinuityText } from "@/lib/encoding";
 import type { SignificanceLevel } from "@/lib/localData/archivist-config";
 import type { ArchivistConfig } from "@/lib/localData/archivist-config";
 import type { ClassifiedChange } from "./classify-change";
@@ -58,7 +59,9 @@ export function consolidateChanges(
 
   for (const a of activities) {
     const proj = a.projects[0] ?? "unknown";
-    a.summary = `${capitalize(a.sector)} activity in ${proj}`;
+    a.summary = sanitizeContinuityText(
+      `${capitalize(a.sector)} activity in ${proj}`,
+    );
   }
 
   const totalScore = activities.reduce((n, a) => n + a.score, 0);

@@ -8,19 +8,24 @@ import { getArchivistConfig } from "@/lib/localData/archivist-config";
 import { scanAllSnapshotRoots } from "@/lib/localData/scanners";
 import { recordManualSnapshotEvent } from "@/lib/continuity/events/pipeline";
 import { writeContinuitySnapshot } from "@/lib/archivist/snapshot-write";
+import { formatContinuityLogLine } from "@/lib/encoding";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "../../..");
 
 async function main(): Promise<void> {
-  console.log("ARCHIVIST-0 — scanning local continuity roots…");
+  console.log(formatContinuityLogLine("ARCHIVIST-0 — scanning local continuity roots…"));
 
   const { scanRoots } = await scanAllSnapshotRoots();
 
   for (const root of scanRoots) {
     const status = root.accessible ? "ok" : "inaccessible";
-    console.log(`  [${status}] ${root.path} — ${root.projectCount} projects`);
+    console.log(
+      formatContinuityLogLine(
+        `  [${status}] ${root.path} — ${root.projectCount} projects`,
+      ),
+    );
   }
 
   const config = { ...getArchivistConfig(), cccProjectRoot: PROJECT_ROOT };
