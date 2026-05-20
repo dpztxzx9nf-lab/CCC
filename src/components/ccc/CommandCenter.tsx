@@ -6,7 +6,6 @@ import { FacilityResidueProvider } from "@/context/FacilityResidueContext";
 import { computeFacilityResidue } from "@/lib/continuity/residue";
 import { ContinuityEventRail } from "@/components/continuity/ContinuityEventRail";
 import { FacilityMegastructure } from "./FacilityMegastructure";
-import { FacilityPulse } from "./FacilityPulse";
 import { PanelRouter } from "./PanelRouter";
 import { ProjectsRail } from "./ProjectsRail";
 import { LocalSignalsPanel } from "./LocalSignalsPanel";
@@ -32,9 +31,6 @@ export function CommandCenter() {
 
           <main className="flex flex-1 flex-col gap-3 px-2 py-3 md:gap-4 md:px-4 md:py-5 lg:flex-row lg:gap-5">
             <section className="min-w-0 flex-1 overflow-visible">
-              <header className="ccc-facility-header mb-2 px-1 md:mb-3">
-                <FacilityPulse />
-              </header>
               <FacilityMegastructure />
             </section>
 

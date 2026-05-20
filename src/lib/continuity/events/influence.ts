@@ -4,7 +4,6 @@ import type { SectorId } from "@/data/types";
 import type { OperatorId } from "@/lib/operations/taxonomy";
 import {
   getChamberActivity,
-  getFacilityPulse,
   type ChamberActivity,
 } from "@/lib/chamber-atmosphere";
 import { discreteEventBurstEndMs } from "@/lib/operations/discrete-burst";
@@ -64,33 +63,6 @@ export function getEffectiveChamberActivity(
   if (score >= 52) return "high";
   if (score >= 20) return "medium";
   return "low";
-}
-
-export function getFacilityPulseWithEvents(
-  heatList: SectorHeatView[],
-  events: ContinuityEventView[],
-): ReturnType<typeof getFacilityPulse> & { eventSectors: SectorId[] } {
-  const base = getFacilityPulse(heatList);
-  const eventSectors: SectorId[] = [];
-
-  for (const h of heatList) {
-    const boost = sectorEventBoost(h.sectorId, events);
-    if (boost >= 12 && !eventSectors.includes(h.sectorId)) {
-      eventSectors.push(h.sectorId);
-    }
-  }
-
-  const hotSectors = [...new Set([...base.hotSectors, ...eventSectors])] as SectorId[];
-
-  let focusSector = base.focusSector as SectorId | null;
-  if (events.length > 0) {
-    const recent = events[0];
-    if (recent && eventAgeHours(recent.occurredAt) < 12) {
-      focusSector = recent.sectors[0] ?? focusSector;
-    }
-  }
-
-  return { ...base, hotSectors, focusSector, eventSectors };
 }
 
 export function eventsForSector(

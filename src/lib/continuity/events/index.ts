@@ -31,7 +31,6 @@ export {
   eventsForSector,
   formatEventTime,
   getEffectiveChamberActivity,
-  getFacilityPulseWithEvents,
   kindLabel,
   operatorEventHint,
   sectorEventBoost,

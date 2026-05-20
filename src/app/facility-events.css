@@ -198,9 +198,7 @@
   }
 }
 
-.ccc-pulse-node--event {
-  box-shadow: 0 0 8px rgba(61, 214, 198, 0.45);
-}
+
 
 .ccc-infra-anchor--event .ccc-infra-anchor__spine--horizontal {
   animation: ccc-infra-anchor-event 3s ease-in-out infinite;
