@@ -55,7 +55,7 @@ export function deriveOperatorPacket(
   }
 
   if (
-    ctx.discreteBurst.placementPulseActive &&
+    ctx.discreteBurst.transitMotionActive &&
     behavior.transitFromChamberId
   ) {
     const from = CHAMBER_BY_ID[behavior.transitFromChamberId]?.codename ?? "?";

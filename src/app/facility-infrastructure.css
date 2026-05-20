@@ -227,11 +227,11 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ccc-live-transit__path {
+  .ccc-live-transit--motion .ccc-live-transit__path {
     animation: ccc-live-transit-flow 1.1s linear infinite;
   }
 
-  .ccc-live-transit--high .ccc-live-transit__path {
+  .ccc-live-transit--motion.ccc-live-transit--high .ccc-live-transit__path {
     animation-duration: 0.75s;
   }
 }

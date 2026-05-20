@@ -51,12 +51,10 @@ export function discreteEventBurstEndMs(ev: ContinuityEventView): number {
   return t + importanceWindowMs(ev.importance) + (KIND_TAIL_MS[ev.kind] ?? 0);
 }
 
-/** ARCHIVIST / snapshot file write — comms burst tied to real sync. */
-const SNAPSHOT_TAIL_MS = 50_000;
-
 export interface DiscreteBurstInput {
   continuityEvents: ContinuityEventView[];
-  snapshotGeneratedAt: string | null | undefined;
+  /** Client clock when snapshot meta `generatedAt` last changed — not static file time. */
+  snapshotBumpAt: number | null;
   placementBumpAt: number | null;
   scanBumpAt: number | null;
   /**
@@ -72,11 +70,35 @@ export interface DiscreteBurstState {
   intensity: number;
   /** Newest event still inside its window, if any — drives event-attributed routes. */
   anchorEvent: ContinuityEventView | null;
+  /** Short window after a measured placement signature change (embodiment cues). */
   placementPulseActive: boolean;
+  /** Short window for yellow path beads + dash motion — stricter than discreteActive. */
+  transitMotionActive: boolean;
+  /** Ms remaining on transit motion window (for finite SVG repeats). */
+  transitMotionRemainingMs: number;
 }
 
 const PLACEMENT_TAIL_MS = 48_000;
 const SCAN_TAIL_MS = 42_000;
+const SNAPSHOT_TAIL_MS = 50_000;
+/** Moving beads / live dash flow — brief onset only, not whole event/comms window. */
+const TRANSIT_MOTION_TAIL_MS = 22_000;
+
+function bumpMotionEnd(bumpAt: number | null): number {
+  return bumpAt != null ? bumpAt + TRANSIT_MOTION_TAIL_MS : 0;
+}
+
+function eventTransitMotionEnd(ev: ContinuityEventView): number {
+  const t = Date.parse(ev.occurredAt);
+  if (Number.isNaN(t)) return 0;
+  const tail =
+    ev.importance === "critical"
+      ? 28_000
+      : ev.importance === "high"
+        ? 24_000
+        : 18_000;
+  return t + tail;
+}
 
 function pickLiveAnchorEvent(
   events: ContinuityEventView[],
@@ -104,11 +126,8 @@ export function computeDiscreteBurstState(
     burstUntil = Math.max(burstUntil, discreteEventBurstEndMs(ev));
   }
 
-  if (input.snapshotGeneratedAt) {
-    const t = Date.parse(input.snapshotGeneratedAt);
-    if (!Number.isNaN(t)) {
-      burstUntil = Math.max(burstUntil, t + SNAPSHOT_TAIL_MS);
-    }
+  if (!idleMock && input.snapshotBumpAt != null) {
+    burstUntil = Math.max(burstUntil, input.snapshotBumpAt + SNAPSHOT_TAIL_MS);
   }
 
   if (!idleMock && input.placementBumpAt != null) {
@@ -130,12 +149,30 @@ export function computeDiscreteBurstState(
     input.placementBumpAt != null &&
     now < input.placementBumpAt + PLACEMENT_TAIL_MS;
 
+  let transitMotionUntil = 0;
+  if (!idleMock) {
+    transitMotionUntil = Math.max(
+      transitMotionUntil,
+      bumpMotionEnd(input.placementBumpAt),
+      bumpMotionEnd(input.snapshotBumpAt),
+      bumpMotionEnd(input.scanBumpAt),
+    );
+    for (const ev of input.continuityEvents) {
+      transitMotionUntil = Math.max(transitMotionUntil, eventTransitMotionEnd(ev));
+    }
+  }
+
+  const transitMotionRemainingMs = Math.max(0, transitMotionUntil - now);
+  const transitMotionActive = transitMotionRemainingMs > 0;
+
   return {
     burstUntil,
     discreteActive,
     intensity,
     anchorEvent,
     placementPulseActive,
+    transitMotionActive,
+    transitMotionRemainingMs,
   };
 }
 

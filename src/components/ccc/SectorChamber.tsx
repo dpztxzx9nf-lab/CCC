@@ -53,7 +53,7 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
         heat={heat}
         activeStations={activeStations}
         hasTransit={
-          discreteBurst.placementPulseActive &&
+          discreteBurst.transitMotionActive &&
           occupants.some((o) => o.placement.isTransit)
         }
       />

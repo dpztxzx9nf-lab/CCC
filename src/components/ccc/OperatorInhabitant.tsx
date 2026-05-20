@@ -57,7 +57,7 @@ export function OperatorInhabitant({
   );
 
   const showTransitEmbodiment =
-    placement.isTransit && discreteBurst.placementPulseActive;
+    placement.isTransit && discreteBurst.transitMotionActive;
 
   return (
     <div

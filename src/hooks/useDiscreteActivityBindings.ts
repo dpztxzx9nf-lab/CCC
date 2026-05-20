@@ -19,6 +19,7 @@ function placementSignature(data: CCCData, operational: OperationalSnapshot | nu
 interface Inputs {
   data: CCCData;
   operational: OperationalSnapshot | null;
+  operationalLoading: boolean;
   continuityEvents: ContinuityEventView[];
   snapshotMeta: SnapshotMeta | null;
 }
@@ -32,6 +33,7 @@ export interface DiscreteActivityBindings {
 export function useDiscreteActivityBindings({
   data,
   operational,
+  operationalLoading,
   continuityEvents,
   snapshotMeta,
 }: Inputs): DiscreteActivityBindings {
@@ -40,14 +42,23 @@ export function useDiscreteActivityBindings({
     [data, operational],
   );
   const prevPlacement = useRef<string | null>(null);
+  const placementInitialized = useRef(false);
   const [placementBumpAt, setPlacementBumpAt] = useState<number | null>(null);
 
   useEffect(() => {
-    if (prevPlacement.current !== null && prevPlacement.current !== placementSig) {
+    if (operationalLoading) return;
+
+    if (!placementInitialized.current) {
+      placementInitialized.current = true;
+      prevPlacement.current = placementSig;
+      return;
+    }
+
+    if (prevPlacement.current !== placementSig) {
       setPlacementBumpAt(Date.now());
     }
     prevPlacement.current = placementSig;
-  }, [placementSig]);
+  }, [placementSig, operationalLoading]);
 
   const prevScan = useRef<string | undefined>(undefined);
   const [scanBumpAt, setScanBumpAt] = useState<number | null>(null);
@@ -65,6 +76,21 @@ export function useDiscreteActivityBindings({
     prevScan.current = scannedAt;
   }, [operational?.scannedAt, operational?.source]);
 
+  const prevSnapshotAt = useRef<string | undefined>(undefined);
+  const [snapshotBumpAt, setSnapshotBumpAt] = useState<number | null>(null);
+
+  useEffect(() => {
+    const generatedAt = snapshotMeta?.generatedAt;
+    if (!generatedAt) {
+      prevSnapshotAt.current = generatedAt;
+      return;
+    }
+    if (prevSnapshotAt.current !== undefined && prevSnapshotAt.current !== generatedAt) {
+      setSnapshotBumpAt(Date.now());
+    }
+    prevSnapshotAt.current = generatedAt;
+  }, [snapshotMeta?.generatedAt]);
+
   const [facilityNow, setFacilityNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -76,7 +102,7 @@ export function useDiscreteActivityBindings({
     () =>
       computeDiscreteBurstState(facilityNow, {
         continuityEvents,
-        snapshotGeneratedAt: snapshotMeta?.generatedAt,
+        snapshotBumpAt,
         placementBumpAt,
         scanBumpAt,
         suppressDiscreteMock: operational?.source === "mock",
@@ -84,7 +110,7 @@ export function useDiscreteActivityBindings({
     [
       facilityNow,
       continuityEvents,
-      snapshotMeta?.generatedAt,
+      snapshotBumpAt,
       placementBumpAt,
       scanBumpAt,
       operational?.source,

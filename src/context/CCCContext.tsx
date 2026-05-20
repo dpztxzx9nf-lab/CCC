@@ -88,6 +88,7 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const { facilityNow, discreteBurst } = useDiscreteActivityBindings({
     data,
     operational,
+    operationalLoading,
     continuityEvents,
     snapshotMeta,
   });
