@@ -264,6 +264,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  min-width: 0;
   padding: 0.35rem 0.65rem;
   border: 1px solid rgba(30, 45, 69, 0.5);
   border-radius: 999px;
@@ -275,6 +276,14 @@
 
 .ccc-project-chip:hover {
   border-color: rgba(61, 214, 198, 0.35);
+}
+
+.ccc-project-chip__name {
+  min-width: 0;
+  max-width: min(12rem, 70vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ccc-project-chip__dot {

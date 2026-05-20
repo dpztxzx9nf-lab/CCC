@@ -57,7 +57,7 @@ export function FacilityMegastructure() {
   );
 
   return (
-    <div className="ccc-megastructure-wrap overflow-visible">
+    <div className="ccc-megastructure-wrap max-lg:overflow-x-clip overflow-visible">
       <div
         className="ccc-megastructure"
         aria-label="Continuity Command Center facility"

@@ -37,17 +37,55 @@
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100svh;
   min-height: 100dvh;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);
   background: var(--ccc-bg);
   color: var(--ccc-text);
   font-family: var(--ccc-font);
   line-height: 1.5;
+}
+
+/* CCC command surface — keep content within visual viewport (esp. Safari) */
+.ccc-command-shell {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+
+.ccc-command-shell__stage {
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+@media (max-width: 1023px) {
+  html {
+    touch-action: manipulation;
+  }
+
+  html,
+  body {
+    position: relative;
+  }
 }
 
 /* Background complexity — stays behind content */
@@ -170,11 +208,14 @@ body {
   padding: 1rem;
 }
 
-/* Mobile / Safari — reduce accidental zoom & scroll bleed */
+/* Mobile / Safari — vertical pan inside megastructure; avoid horizontal page bleed */
 @media (max-width: 900px) {
   .ccc-megastructure-wrap {
-    -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
+    max-width: 100%;
   }
 }
 
@@ -184,6 +225,13 @@ body {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: var(--ccc-border) transparent;
+}
+
+/* Horizontal strips — isolate pan from page; internal scroll still works */
+.ccc-scroll--strip-h {
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
 }
 
 /* Inhabitant positioning — transition only when operational state changes */

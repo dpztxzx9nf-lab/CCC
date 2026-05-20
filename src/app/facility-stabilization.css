@@ -372,6 +372,8 @@
   border: 1px solid rgba(30, 45, 69, 0.35);
   background: rgba(10, 16, 26, 0.72);
   border-radius: 0.35rem;
+  overflow-x: hidden;
+  min-width: 0;
 }
 
 .ccc-sidebar-panel--warn {

@@ -35,7 +35,7 @@ export function TelemetryBar() {
 
   if (error) {
     return (
-      <header className="border-b border-ccc-danger/40 bg-ccc-danger/10 px-3 py-3 md:px-4">
+      <header className="relative z-10 w-full max-w-full min-w-0 overflow-x-hidden border-b border-ccc-danger/40 bg-ccc-danger/10 px-3 py-3 md:px-4">
         <p className="text-sm font-medium text-ccc-danger">Data load error</p>
         <p className="mt-1 text-sm text-ccc-muted">{error}</p>
       </header>
@@ -44,7 +44,7 @@ export function TelemetryBar() {
 
   if (busy && !operational) {
     return (
-      <header className="border-b border-ccc-border/50 bg-ccc-surface/80 px-3 py-3 md:px-4">
+      <header className="relative z-10 w-full max-w-full min-w-0 overflow-x-hidden border-b border-ccc-border/50 bg-ccc-surface/80 px-3 py-3 md:px-4">
         <p className="text-sm text-ccc-muted">Refreshing substrate instrumentation…</p>
       </header>
     );
@@ -58,7 +58,7 @@ export function TelemetryBar() {
         : "ccc-telemetry-status--critical";
 
   return (
-    <header className="relative z-10 border-b border-ccc-border/40 bg-ccc-surface/90 backdrop-blur-md">
+    <header className="relative z-10 w-full max-w-full min-w-0 overflow-x-hidden border-b border-ccc-border/40 bg-ccc-surface/90 backdrop-blur-md">
       <div className="flex flex-wrap items-start gap-x-3 gap-y-2 px-3 py-2 md:px-4 md:py-2">
         <div className="flex min-w-0 flex-1 items-center gap-2 md:gap-3">
           <span className="font-mono text-xs font-semibold tracking-widest text-ccc-accent">
@@ -70,7 +70,7 @@ export function TelemetryBar() {
             title={data.systemStatus}
           />
           <div
-            className="ccc-substrate-ledger ccc-telemetry-strip ccc-scroll flex min-w-0 flex-1 gap-x-4 gap-y-1 overflow-x-auto"
+            className="ccc-substrate-ledger ccc-telemetry-strip ccc-scroll ccc-scroll--strip-h flex min-w-0 flex-1 gap-x-4 gap-y-1 overflow-x-auto"
             aria-label="Substrate instrumentation ledger"
           >
             {ledgerSlots.map((slot) => (
