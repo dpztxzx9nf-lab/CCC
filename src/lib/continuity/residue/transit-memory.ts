@@ -1,25 +1,28 @@
 import type { ContinuityEventView } from "@/lib/continuity/events/types";
-import type { SectorId } from "@/data/types";
+import type { ChamberId, OperationalDomainId } from "@/data/ecology";
+import { DOMAIN_TO_HOME_CHAMBER } from "@/data/ecology";
 import type { SignalRouteSpec } from "@/lib/signal-routes";
 import { decayedIntensity, toResidueTier, clamp01 } from "./decay";
 import type { TransitRouteMemory } from "./types";
 
-const OPERATOR_HOME: Record<string, SectorId> = {
-  "nexus-7": "core",
-  "deep-1": "archive",
-  "fab-0": "forge",
-  "bcast-1": "relay",
-  "scout-6": "observatory",
-};
+import { ECOLOGY_BY_OPERATOR } from "@/data/ecology";
 
-function routeKey(from: SectorId, to: SectorId): string {
+const OPERATOR_HOME_CHAMBER: Record<string, ChamberId> = Object.fromEntries(
+  Object.values(ECOLOGY_BY_OPERATOR).map((e) => [e.operatorId, e.homeChamberId]),
+);
+
+function chamberForDomain(domain: OperationalDomainId): ChamberId {
+  return DOMAIN_TO_HOME_CHAMBER[domain];
+}
+
+function routeKey(from: ChamberId, to: ChamberId): string {
   return from <= to ? `${from}|${to}` : `${to}|${from}`;
 }
 
 function addWear(
-  map: Map<string, { from: SectorId; to: SectorId; wear: number }>,
-  from: SectorId,
-  to: SectorId,
+  map: Map<string, { from: ChamberId; to: ChamberId; wear: number }>,
+  from: ChamberId,
+  to: ChamberId,
   amount: number,
 ): void {
   if (from === to || amount <= 0) return;
@@ -29,8 +32,8 @@ function addWear(
   map.set(key, cur);
 }
 
-function sectorPairs(sectors: SectorId[]): [SectorId, SectorId][] {
-  const pairs: [SectorId, SectorId][] = [];
+function domainPairs(sectors: OperationalDomainId[]): [OperationalDomainId, OperationalDomainId][] {
+  const pairs: [OperationalDomainId, OperationalDomainId][] = [];
   for (let i = 0; i < sectors.length; i++) {
     for (let j = i + 1; j < sectors.length; j++) {
       pairs.push([sectors[i]!, sectors[j]!]);
@@ -43,27 +46,31 @@ export function buildTransitMemory(
   events: ContinuityEventView[],
   liveRoutes: SignalRouteSpec[],
 ): TransitRouteMemory[] {
-  const map = new Map<string, { from: SectorId; to: SectorId; wear: number }>();
+  const map = new Map<string, { from: ChamberId; to: ChamberId; wear: number }>();
 
   for (const ev of events) {
     const amount = decayedIntensity(ev.occurredAt, ev.importance, 0.85);
     if (amount < 0.04) continue;
 
-    for (const [a, b] of sectorPairs(ev.sectors)) {
-      addWear(map, a, b, amount * 0.45);
+    for (const [a, b] of domainPairs(ev.sectors as OperationalDomainId[])) {
+      addWear(map, chamberForDomain(a), chamberForDomain(b), amount * 0.45);
     }
 
     for (const op of ev.operators) {
-      const home = OPERATOR_HOME[op];
-      if (!home) continue;
+      const homeChamber = OPERATOR_HOME_CHAMBER[op];
+      if (!homeChamber) continue;
       for (const s of ev.sectors) {
-        if (s !== home) addWear(map, home, s, amount * 0.35);
+        const targetChamber = chamberForDomain(s);
+        if (targetChamber !== homeChamber) {
+          addWear(map, homeChamber, targetChamber, amount * 0.35);
+        }
       }
     }
 
     if (ev.sectors.includes("core")) {
+      const coreChamber = chamberForDomain("core");
       for (const s of ev.sectors) {
-        if (s !== "core") addWear(map, "core", s, amount * 0.25);
+        if (s !== "core") addWear(map, coreChamber, chamberForDomain(s), amount * 0.25);
       }
     }
   }

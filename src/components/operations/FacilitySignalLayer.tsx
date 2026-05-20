@@ -8,7 +8,7 @@ import { activeEventPulseKinds } from "@/lib/continuity/events/influence";
 import {
   collectActivePackets,
   deriveSignalRoutes,
-  SECTOR_ANCHOR,
+  CHAMBER_ANCHOR,
 } from "@/lib/signal-routes";
 import { OperationalPacket } from "./OperationalPacket";
 import { SignalRoute } from "./SignalRoute";
@@ -16,29 +16,29 @@ import { SignalRoute } from "./SignalRoute";
 export function FacilitySignalLayer() {
   const { data, operational, continuityEvents } = useCCC();
 
-  const occupantsBySector = useMemo(
+  const occupantsByChamber = useMemo(
     () => buildFacilityOccupants(data, operational),
     [data, operational],
   );
 
   const routes = useMemo(
-    () => deriveSignalRoutes(occupantsBySector, operational),
-    [occupantsBySector, operational],
+    () => deriveSignalRoutes(occupantsByChamber, operational),
+    [occupantsByChamber, operational],
   );
 
-  const sectorPackets = useMemo(() => {
-    const raw = collectActivePackets(occupantsBySector, operational, (op, beh, sid) =>
-      deriveOperatorPacket(op, beh, sid, operational),
+  const chamberPackets = useMemo(() => {
+    const raw = collectActivePackets(occupantsByChamber, operational, (op, beh, cid) =>
+      deriveOperatorPacket(op, beh, cid, operational),
     );
     return raw.map((p) => ({
       ...p,
-      anchor: SECTOR_ANCHOR[p.sectorId],
+      anchor: CHAMBER_ANCHOR[p.chamberId],
     }));
-  }, [occupantsBySector, operational]);
+  }, [occupantsByChamber, operational]);
 
   const eventPulses = activeEventPulseKinds(continuityEvents);
 
-  if (routes.length === 0 && sectorPackets.length === 0 && eventPulses.length === 0) {
+  if (routes.length === 0 && chamberPackets.length === 0 && eventPulses.length === 0) {
     return null;
   }
 
@@ -56,7 +56,7 @@ export function FacilitySignalLayer() {
           <SignalRoute key={route.id} route={route} />
         ))}
       </svg>
-      {sectorPackets.map((p) => (
+      {chamberPackets.map((p) => (
         <div
           key={`${p.operatorId}-${p.text}`}
           className="ccc-signal-layer__packet-anchor"

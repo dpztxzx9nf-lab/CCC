@@ -3,7 +3,9 @@ import type { OperationalSnapshot } from "@/data/operational-types";
 import { operatorEventHint } from "@/lib/continuity/events/influence";
 import type { ActivityKind } from "@/lib/operations/taxonomy";
 import { PROJECT_PROFILES } from "@/lib/operations/projectProfiles";
-import type { CCCData, Operator, SectorId, Station } from "@/data/types";
+import type { ChamberId, OperationalDomainId, OperatorPlacement } from "@/data/ecology";
+import { domainForChamber } from "@/lib/facility/ecology-resolve";
+import type { CCCData, Operator, Station } from "@/data/types";
 import { mockStations } from "@/data/mock/stations";
 
 export const STATION_LAYOUT: Record<string, { x: number; y: number }> = {
@@ -66,19 +68,19 @@ function topActivityKind(
   return sigs[0].kind;
 }
 
-function stationForSector(sectorId: SectorId, data: CCCData): Station[] {
-  return data.stations.filter((s) => s.sectorId === sectorId);
+function stationForChamber(chamberId: ChamberId, data: CCCData): Station[] {
+  return data.stations.filter((s) => s.chamberId === chamberId);
 }
 
 function pickStation(
-  sectorId: SectorId,
+  chamberId: ChamberId,
   data: CCCData,
   preferredIds: string[],
 ): Station | null {
-  const available = stationForSector(sectorId, data);
+  const available = stationForChamber(chamberId, data);
   for (const id of preferredIds) {
     const st = available.find((s) => s.id === id) ?? mockStations.find((s) => s.id === id);
-    if (st && st.sectorId === sectorId) return st;
+    if (st && st.chamberId === chamberId) return st;
   }
   return available[0] ?? null;
 }
@@ -100,30 +102,30 @@ function positionAtStation(
   };
 }
 
-function transitFromSector(
-  operator: Operator,
-  placementSectorId: SectorId,
-): SectorId | null {
-  return operator.sectorId !== placementSectorId ? operator.sectorId : null;
-}
-
 interface BehaviorInput {
   operator: Operator;
-  sectorId: SectorId;
+  chamberId: ChamberId;
+  primaryDomain: OperationalDomainId;
+  placement: OperatorPlacement;
   slotIndex: number;
   slotTotal: number;
   data: CCCData;
   operational: OperationalSnapshot | null;
 }
 
-function resolveFab0(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId" | "position" | "transitFrom"> {
-  const { sectorId, operational } = input;
+type BehaviorCore = Omit<
+  InhabitantBehavior,
+  "operatorId" | "position" | "transitFrom" | "transitFromChamberId"
+>;
+
+function resolveFab0(input: BehaviorInput): BehaviorCore {
+  const { chamberId, operational } = input;
   const derived = operational?.operators.find((o) => o.operatorId === "fab-0");
   const workload = derived?.workload ?? 0;
   const top = topActivityKind("fab-0", operational);
 
-  if (sectorId === "runtime") {
-    const station = pickStation("runtime", input.data, ["runtime-monitor", "api-gateway"]);
+  if (chamberId === "live-grid") {
+    const station = pickStation("live-grid", input.data, ["runtime-monitor", "api-gateway"]);
     return {
       posture: workload >= 40 ? "monitoring" : "focused",
       stateLabel: workload >= 40 ? "Runtime diagnostics" : "Runtime watch",
@@ -135,7 +137,7 @@ function resolveFab0(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId
   }
 
   if (top === "deployment" || top === "forge") {
-    const station = pickStation("forge", input.data, ["deploy-rail", "build-forge"]);
+    const station = pickStation("foundry", input.data, ["deploy-rail", "build-forge"]);
     return {
       posture: top === "deployment" ? "building" : "building",
       stateLabel: top === "deployment" ? "Deployment rail" : "Build forge",
@@ -146,7 +148,7 @@ function resolveFab0(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId
     };
   }
 
-  const station = pickStation("forge", input.data, ["build-forge", "deploy-rail"]);
+  const station = pickStation("foundry", input.data, ["build-forge", "deploy-rail"]);
   return {
     posture: workload > 10 ? "building" : "anchored",
     stateLabel: workload > 10 ? "Implementation focus" : "Forge standby",
@@ -157,14 +159,14 @@ function resolveFab0(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId
   };
 }
 
-function resolveDeep1(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId" | "position" | "transitFrom"> {
+function resolveDeep1(input: BehaviorInput): BehaviorCore {
   const derived = input.operational?.operators.find((o) => o.operatorId === "deep-1");
   const workload = derived?.workload ?? 0;
   const top = topActivityKind("deep-1", input.operational);
   const heat = input.operational?.sectorHeat.find((h) => h.sectorId === "archive");
 
   if (top === "continuity" || top === "archive" || (heat?.activityScore ?? 0) >= 40) {
-    const station = pickStation("archive", input.data, ["memory-lattice", "vault-indexer"]);
+    const station = pickStation("deep-stack", input.data, ["memory-lattice", "vault-indexer"]);
     return {
       posture: (heat?.activityScore ?? 0) >= 50 ? "reviewing" : "archiving",
       stateLabel: (heat?.activityScore ?? 0) >= 50 ? "Continuity review" : "Vault sync",
@@ -175,7 +177,7 @@ function resolveDeep1(input: BehaviorInput): Omit<InhabitantBehavior, "operatorI
     };
   }
 
-  const station = pickStation("archive", input.data, ["vault-indexer", "memory-lattice"]);
+  const station = pickStation("deep-stack", input.data, ["vault-indexer", "memory-lattice"]);
   return {
     posture: "anchored",
     stateLabel: "Archive anchor",
@@ -186,13 +188,13 @@ function resolveDeep1(input: BehaviorInput): Omit<InhabitantBehavior, "operatorI
   };
 }
 
-function resolveBcast1(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId" | "position" | "transitFrom"> {
+function resolveBcast1(input: BehaviorInput): BehaviorCore {
   const derived = input.operational?.operators.find((o) => o.operatorId === "bcast-1");
   const workload = derived?.workload ?? 0;
   const top = topActivityKind("bcast-1", input.operational);
 
-  if (input.sectorId === "core") {
-    const station = pickStation("core", input.data, ["continuity-desk", "governance-console"]);
+  if (input.chamberId === "nexus-prime") {
+    const station = pickStation("nexus-prime", input.data, ["continuity-desk", "governance-console"]);
     return {
       posture: "relaying",
       stateLabel: "Projection brief",
@@ -203,7 +205,7 @@ function resolveBcast1(input: BehaviorInput): Omit<InhabitantBehavior, "operator
     };
   }
 
-  const station = pickStation("relay", input.data, ["broadcast-hub", "projection-deck"]);
+  const station = pickStation("signal-bridge", input.data, ["broadcast-hub", "projection-deck"]);
   const commsActive = top === "communications" || top === "documentation";
   return {
     posture: commsActive ? "relaying" : workload > 8 ? "focused" : "anchored",
@@ -215,14 +217,14 @@ function resolveBcast1(input: BehaviorInput): Omit<InhabitantBehavior, "operator
   };
 }
 
-function resolveNexus7(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId" | "position" | "transitFrom"> {
+function resolveNexus7(input: BehaviorInput): BehaviorCore {
   const derived = input.operational?.operators.find((o) => o.operatorId === "nexus-7");
   const workload = derived?.workload ?? 0;
   const heat = input.operational?.sectorHeat ?? [];
   const multiPressure = heat.filter((h) => h.operationalLoad >= 2).length >= 2;
   const coreHeat = heat.find((h) => h.sectorId === "core")?.activityScore ?? 0;
 
-  const station = pickStation("core", input.data, [
+  const station = pickStation("nexus-prime", input.data, [
     "governance-console",
     "continuity-desk",
   ]);
@@ -259,12 +261,12 @@ function resolveNexus7(input: BehaviorInput): Omit<InhabitantBehavior, "operator
   };
 }
 
-function resolveScout6(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId" | "position" | "transitFrom"> {
+function resolveScout6(input: BehaviorInput): BehaviorCore {
   const derived = input.operational?.operators.find((o) => o.operatorId === "scout-6");
   const workload = derived?.workload ?? 0;
 
-  if (input.sectorId === "observatory") {
-    const station = pickStation("observatory", input.data, [
+  if (input.chamberId === "observation-deck") {
+    const station = pickStation("observation-deck", input.data, [
       "metrics-array",
       "cost-scanner",
     ]);
@@ -278,7 +280,7 @@ function resolveScout6(input: BehaviorInput): Omit<InhabitantBehavior, "operator
     };
   }
 
-  const station = pickStation("core", input.data, ["continuity-desk", "governance-console"]);
+  const station = pickStation("observation-deck", input.data, ["metrics-array", "cost-scanner"]);
   return {
     posture: workload > 15 ? "scouting" : "anchored",
     stateLabel: workload > 15 ? "Field liaison" : "Scout standby",
@@ -289,12 +291,12 @@ function resolveScout6(input: BehaviorInput): Omit<InhabitantBehavior, "operator
   };
 }
 
-function defaultBehavior(input: BehaviorInput): Omit<InhabitantBehavior, "operatorId" | "position" | "transitFrom"> {
+function defaultBehavior(input: BehaviorInput): BehaviorCore {
   const derived = input.operational?.operators.find(
     (o) => o.operatorId === input.operator.id,
   );
   const workload = derived?.workload ?? 0;
-  const stations = stationForSector(input.sectorId, input.data);
+  const stations = stationForChamber(input.chamberId, input.data);
   const station = stations[0] ?? null;
 
   return {
@@ -308,9 +310,10 @@ function defaultBehavior(input: BehaviorInput): Omit<InhabitantBehavior, "operat
 }
 
 export function computeInhabitantBehavior(input: BehaviorInput): InhabitantBehavior {
-  const { operator, sectorId, slotIndex, slotTotal, data, operational } = input;
+  const { operator, chamberId, primaryDomain, placement, slotIndex, slotTotal, data, operational } =
+    input;
 
-  let core: Omit<InhabitantBehavior, "operatorId" | "position" | "transitFrom">;
+  let core: BehaviorCore;
 
   switch (operator.id) {
     case "fab-0":
@@ -332,7 +335,7 @@ export function computeInhabitantBehavior(input: BehaviorInput): InhabitantBehav
       core = defaultBehavior(input);
   }
 
-  const sectorHeat = operational?.sectorHeat.find((h) => h.sectorId === sectorId);
+  const sectorHeat = operational?.sectorHeat.find((h) => h.sectorId === primaryDomain);
   if (sectorHeat?.activityLevel === "idle" && core.intensity !== "elevated") {
     core = {
       ...core,
@@ -357,6 +360,9 @@ export function computeInhabitantBehavior(input: BehaviorInput): InhabitantBehav
     operatorId: operator.id,
     ...core,
     position,
-    transitFrom: transitFromSector(operator, sectorId),
+    transitFromChamberId: placement.transitFromChamberId,
+    transitFrom: placement.transitFromChamberId
+      ? domainForChamber(placement.transitFromChamberId)
+      : null,
   };
 }

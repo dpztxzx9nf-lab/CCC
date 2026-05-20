@@ -1,6 +1,7 @@
 /** Client-safe inhabitant behavior — derived from operational topology */
 
-import type { SectorId } from "./types";
+import type { ChamberId, OperationalDomainId } from "@/data/ecology";
+import type { OperatorPlacement } from "@/data/ecology";
 
 export type InhabitantPosture =
   | "anchored"
@@ -16,7 +17,6 @@ export type InhabitantPosture =
 export type BehaviorIntensity = "calm" | "steady" | "elevated";
 
 export interface InhabitantPosition {
-  /** Percent within sector room (0–100) */
   x: number;
   y: number;
 }
@@ -24,13 +24,16 @@ export interface InhabitantPosition {
 export interface InhabitantBehavior {
   operatorId: string;
   posture: InhabitantPosture;
-  /** Screen-reader / dossier context only */
   stateLabel: string;
   purpose: string;
   stationId: string | null;
   stationName: string | null;
   position: InhabitantPosition;
   intensity: BehaviorIntensity;
-  /** Home sector when operator is on collaboration transit */
-  transitFrom: SectorId | null;
+  /** Home chamber when operator is in transit */
+  transitFromChamberId: ChamberId | null;
+  /** @deprecated use transitFromChamberId */
+  transitFrom: OperationalDomainId | null;
 }
+
+export type { OperatorPlacement, ChamberId, OperationalDomainId };

@@ -1,20 +1,14 @@
-import type { SectorId } from "@/data/types";
+import type { ChamberId } from "@/data/ecology";
+import { CHAMBER_GRID_AREA, CHAMBER_ORDER } from "@/data/ecology";
 
-/** Asymmetric megastructure grid placement — not a uniform card grid */
-export const SECTOR_GRID_AREA: Record<SectorId, string> = {
-  core: "core",
-  relay: "relay",
-  forge: "forge",
-  observatory: "observatory",
-  archive: "archive",
-  runtime: "runtime",
-};
+/** Asymmetric megastructure grid — keyed by physical chamber */
+export const CHAMBER_GRID_AREA_EXPORT = CHAMBER_GRID_AREA;
+export { CHAMBER_GRID_AREA, CHAMBER_ORDER };
 
-export const SECTOR_ORDER: SectorId[] = [
-  "core",
-  "relay",
-  "forge",
-  "observatory",
-  "archive",
-  "runtime",
-];
+/** @deprecated use CHAMBER_GRID_AREA */
+export const SECTOR_GRID_AREA = CHAMBER_GRID_AREA as Record<string, string>;
+
+/** @deprecated use CHAMBER_ORDER */
+export const SECTOR_ORDER = CHAMBER_ORDER as unknown as import("@/data/types").SectorId[];
+
+export type { ChamberId };

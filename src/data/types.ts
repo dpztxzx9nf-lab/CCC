@@ -1,29 +1,31 @@
 /** Data layer types — UI imports these; future JSON/Markdown loaders implement CCCDataSource */
 
-export type SectorId =
-  | "core"
-  | "archive"
-  | "forge"
-  | "observatory"
-  | "relay"
-  | "runtime";
+import type {
+  ChamberId,
+  OperationalDomain,
+  OperationalDomainId,
+  PhysicalChamber,
+} from "@/data/ecology";
+
+/** @deprecated Use OperationalDomainId — domains are abstract, not physical */
+export type SectorId = OperationalDomainId;
+
+export type { ChamberId, OperationalDomainId, OperationalDomain, PhysicalChamber };
+
+/** @deprecated Use PhysicalChamber */
+export type Sector = PhysicalChamber;
 
 export type SystemStatus = "nominal" | "elevated" | "degraded" | "offline";
-
-export interface Sector {
-  id: SectorId;
-  name: string;
-  codename: string;
-  description: string;
-  status: SystemStatus;
-  operatorIds: string[];
-  stationIds: string[];
-}
 
 export interface Station {
   id: string;
   name: string;
-  sectorId: SectorId;
+  /** Chamber where this station is installed */
+  chamberId: ChamberId;
+  /** Primary operational domain for the station's function */
+  domainId: OperationalDomainId;
+  /** @deprecated use domainId */
+  sectorId: OperationalDomainId;
   description: string;
 }
 
@@ -33,7 +35,12 @@ export interface Operator {
   designation: string;
   role: string;
   currentActivity: string;
-  sectorId: SectorId;
+  /** Primary operational domain (abstract responsibility) */
+  primaryDomain: OperationalDomainId;
+  /** Home chamber in the megastructure */
+  homeChamberId: ChamberId;
+  /** @deprecated use primaryDomain */
+  sectorId: OperationalDomainId;
   status: SystemStatus;
   dossier: OperatorDossier;
 }
@@ -50,10 +57,12 @@ export interface Project {
   name: string;
   tagline: string;
   status: string;
-  sectorIds: SectorId[];
+  /** Operational domains this project touches */
+  domainIds: OperationalDomainId[];
+  /** @deprecated use domainIds */
+  sectorIds: OperationalDomainId[];
   description: string;
   highlights: string[];
-  /** Optional ecosystem block (e.g. NLO live server) */
   ecosystem?: ProjectEcosystem;
 }
 
@@ -74,7 +83,10 @@ export interface TelemetryMetric {
 }
 
 export interface CCCData {
-  sectors: Sector[];
+  domains: OperationalDomain[];
+  chambers: PhysicalChamber[];
+  /** @deprecated use chambers */
+  sectors: PhysicalChamber[];
   operators: Operator[];
   stations: Station[];
   projects: Project[];

@@ -11,6 +11,13 @@ import {
 } from "react";
 import type { OperationalSnapshot, SnapshotMeta } from "@/data/operational-types";
 import type { ContinuityEventView } from "@/lib/continuity/events/types";
+import type {
+  ChamberId,
+  OperationalDomain,
+  OperationalDomainId,
+  PhysicalChamber,
+} from "@/data/ecology";
+import { CHAMBER_BY_ID, DOMAIN_BY_ID, DOMAIN_TO_HOME_CHAMBER } from "@/data/ecology";
 import type { CCCData, Operator, Project, Sector, SectorId } from "@/data/types";
 import { recentEvents } from "@/lib/continuity/events/recent";
 import { getCCCDataSync } from "@/lib/data-source";
@@ -20,7 +27,7 @@ import { buildOperationalSnapshot } from "@/lib/operations/operationalState";
 import { loadContinuitySnapshot } from "@/lib/snapshot/loadSnapshot";
 import { mergeContinuitySnapshot } from "@/lib/snapshot/mergeIntoOperational";
 
-export type PanelKind = "sector" | "operator" | "project";
+export type PanelKind = "chamber" | "operator" | "project";
 
 export interface ActivePanel {
   kind: PanelKind;
@@ -32,21 +39,31 @@ interface CCCContextValue {
   operational: OperationalSnapshot | null;
   snapshotMeta: SnapshotMeta | null;
   continuityEvents: ContinuityEventView[];
-  highlightedSectors: SectorId[];
+  /** Domains highlighted by continuity event hover */
+  highlightedDomains: OperationalDomainId[];
+  /** @deprecated use highlightedDomains */
+  highlightedSectors: OperationalDomainId[];
   setEventHighlight: (event: ContinuityEventView | null) => void;
   loading: boolean;
   operationalLoading: boolean;
   error: string | null;
   activePanel: ActivePanel | null;
-  openSector: (id: SectorId) => void;
+  openChamber: (id: ChamberId) => void;
+  /** Open home chamber for an operational domain */
+  openSector: (domainId: OperationalDomainId) => void;
   openOperator: (id: string) => void;
   openProject: (id: string) => void;
   closePanel: () => void;
-  getSector: (id: SectorId) => Sector | undefined;
+  getChamber: (id: ChamberId) => PhysicalChamber | undefined;
+  getDomain: (id: OperationalDomainId) => OperationalDomain | undefined;
+  /** @deprecated use getChamber — accepts chamber id or domain (resolves home chamber) */
+  getSector: (id: SectorId | ChamberId) => PhysicalChamber | undefined;
   getOperator: (id: string) => Operator | undefined;
   getProject: (id: string) => Project | undefined;
-  getSectorHeat: (id: SectorId) => OperationalSnapshot["sectorHeat"][0] | undefined;
-  getOperatorsForSector: (id: SectorId) => Operator[];
+  getDomainHeat: (id: OperationalDomainId) => OperationalSnapshot["sectorHeat"][0] | undefined;
+  /** @deprecated use getDomainHeat */
+  getSectorHeat: (id: OperationalDomainId) => OperationalSnapshot["sectorHeat"][0] | undefined;
+  getOperatorsForSector: (id: OperationalDomainId) => Operator[];
 }
 
 const CCCContext = createContext<CCCContextValue | null>(null);
@@ -60,10 +77,10 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [activePanel, setActivePanel] = useState<ActivePanel | null>(null);
   const [continuityEvents, setContinuityEvents] = useState<ContinuityEventView[]>([]);
-  const [highlightedSectors, setHighlightedSectors] = useState<SectorId[]>([]);
+  const [highlightedDomains, setHighlightedDomains] = useState<OperationalDomainId[]>([]);
 
   const setEventHighlight = useCallback((event: ContinuityEventView | null) => {
-    setHighlightedSectors(event?.sectors ?? []);
+    setHighlightedDomains((event?.sectors ?? []) as OperationalDomainId[]);
   }, []);
 
   useEffect(() => {
@@ -167,9 +184,13 @@ export function CCCProvider({ children }: { children: ReactNode }) {
     };
   }, [activePanel]);
 
-  const openSector = useCallback((id: SectorId) => {
-    setActivePanel({ kind: "sector", id });
+  const openChamber = useCallback((id: ChamberId) => {
+    setActivePanel({ kind: "chamber", id });
   }, []);
+
+  const openSector = useCallback((domainId: OperationalDomainId) => {
+    openChamber(DOMAIN_TO_HOME_CHAMBER[domainId]);
+  }, [openChamber]);
 
   const openOperator = useCallback((id: string) => {
     setActivePanel({ kind: "operator", id });
@@ -179,8 +200,22 @@ export function CCCProvider({ children }: { children: ReactNode }) {
     setActivePanel({ kind: "project", id });
   }, []);
 
+  const getChamber = useCallback(
+    (id: ChamberId) => data.chambers.find((c) => c.id === id) ?? CHAMBER_BY_ID[id],
+    [data],
+  );
+
+  const getDomain = useCallback(
+    (id: OperationalDomainId) => data.domains.find((d) => d.id === id) ?? DOMAIN_BY_ID[id],
+    [data],
+  );
+
   const getSector = useCallback(
-    (id: SectorId) => data.sectors.find((s) => s.id === id),
+    (id: SectorId | ChamberId) => {
+      const byChamber = data.chambers.find((c) => c.id === id);
+      if (byChamber) return byChamber;
+      return data.chambers.find((c) => c.primaryDomain === id);
+    },
     [data],
   );
 
@@ -194,10 +229,12 @@ export function CCCProvider({ children }: { children: ReactNode }) {
     [data],
   );
 
-  const getSectorHeat = useCallback(
-    (id: SectorId) => operational?.sectorHeat.find((h) => h.sectorId === id),
+  const getDomainHeat = useCallback(
+    (id: OperationalDomainId) => operational?.sectorHeat.find((h) => h.sectorId === id),
     [operational],
   );
+
+  const getSectorHeat = getDomainHeat;
 
   const getOperatorsForSectorCb = useCallback(
     (id: SectorId) => getOperatorsForSector(id, data, operational),
@@ -210,19 +247,24 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       operational,
       snapshotMeta,
       continuityEvents,
-      highlightedSectors,
+      highlightedDomains,
+      highlightedSectors: highlightedDomains,
       setEventHighlight,
       loading,
       operationalLoading,
       error,
       activePanel,
+      openChamber,
       openSector,
       openOperator,
       openProject,
       closePanel,
+      getChamber,
+      getDomain,
       getSector,
       getOperator,
       getProject,
+      getDomainHeat,
       getSectorHeat,
       getOperatorsForSector: getOperatorsForSectorCb,
     }),
@@ -231,19 +273,23 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       operational,
       snapshotMeta,
       continuityEvents,
-      highlightedSectors,
+      highlightedDomains,
       setEventHighlight,
       loading,
       operationalLoading,
       error,
       activePanel,
+      openChamber,
       openSector,
       openOperator,
       openProject,
       closePanel,
+      getChamber,
+      getDomain,
       getSector,
       getOperator,
       getProject,
+      getDomainHeat,
       getSectorHeat,
       getOperatorsForSectorCb,
     ],

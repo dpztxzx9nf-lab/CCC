@@ -1,37 +1,38 @@
 "use client";
 
 import { useCCC } from "@/context/CCCContext";
-import { getChamberActivity } from "@/lib/chamber-atmosphere";
 import { useFacilityResidue } from "@/context/FacilityResidueContext";
+import { getChamberActivity } from "@/lib/chamber-atmosphere";
 import { getFacilityPulseWithEvents } from "@/lib/continuity/events/influence";
-import { SECTOR_ORDER } from "@/lib/facility-layout";
-import type { SectorId } from "@/data/types";
+import { CHAMBER_ORDER } from "@/lib/facility-layout";
+import type { ChamberId } from "@/data/ecology";
 
-const SECTOR_ARIA: Record<SectorId, string> = {
-  core: "Core",
-  archive: "Archive",
-  forge: "Forge",
-  observatory: "Observatory",
-  relay: "Relay",
-  runtime: "Runtime",
+const CHAMBER_ARIA: Record<ChamberId, string> = {
+  "nexus-prime": "Nexus Prime",
+  "deep-stack": "Deep Stack",
+  foundry: "Foundry",
+  "observation-deck": "Observation Deck",
+  "signal-bridge": "Signal Bridge",
+  "live-grid": "Live Grid",
 };
 
 export function FacilityPulse() {
-  const { operational, openSector, continuityEvents, highlightedSectors } = useCCC();
-  const heat = operational?.sectorHeat ?? [];
+  const {
+    operational,
+    openChamber,
+    continuityEvents,
+    highlightedDomains,
+    data,
+  } = useCCC();
   const facilityResidue = useFacilityResidue();
+  const heat = operational?.sectorHeat ?? [];
   const pulse = getFacilityPulseWithEvents(heat, continuityEvents);
-
-  const residueHot = SECTOR_ORDER.filter(
-    (id) => (facilityResidue.sectors[id]?.pressure ?? 0) >= 2,
-  );
 
   if (heat.length === 0 && !operational?.snapshotMeta) return null;
 
   const ariaSummary = [
-    pulse.focusSector && `focus ${SECTOR_ARIA[pulse.focusSector as SectorId]}`,
-    pulse.hotSectors.length > 0 &&
-      `pressure ${pulse.hotSectors.map((id) => SECTOR_ARIA[id as SectorId] ?? id).join(", ")}`,
+    pulse.focusSector && `focus ${pulse.focusSector}`,
+    pulse.hotSectors.length > 0 && `pressure ${pulse.hotSectors.join(", ")}`,
     pulse.calmCount > 0 && `${pulse.calmCount} calm`,
   ]
     .filter(Boolean)
@@ -41,26 +42,30 @@ export function FacilityPulse() {
     <div
       className="ccc-facility-pulse"
       role="group"
-      aria-label={ariaSummary || "Facility sector activity"}
+      aria-label={ariaSummary || "Facility chamber activity"}
     >
-      {SECTOR_ORDER.map((sectorId) => {
-        const h = heat.find((x) => x.sectorId === sectorId);
+      {CHAMBER_ORDER.map((chamberId) => {
+        const chamber = data.chambers.find((c) => c.id === chamberId);
+        if (!chamber) return null;
+        const domainId = chamber.primaryDomain;
+        const h = heat.find((x) => x.sectorId === domainId);
         const activity = getChamberActivity(h);
-        const isFocus = pulse.focusSector === sectorId;
+        const isFocus = pulse.focusSector === domainId;
         const isHot =
-          pulse.hotSectors.includes(sectorId) || residueHot.includes(sectorId);
+          pulse.hotSectors.includes(domainId) ||
+          (facilityResidue.sectors[domainId]?.pressure ?? 0) >= 2;
         const isEvent =
-          pulse.eventSectors.includes(sectorId) ||
-          highlightedSectors.includes(sectorId) ||
-          (facilityResidue.sectors[sectorId]?.glow ?? 0) >= 2;
+          pulse.eventSectors.includes(domainId) ||
+          highlightedDomains.includes(domainId) ||
+          (facilityResidue.sectors[domainId]?.glow ?? 0) >= 2;
 
         return (
           <button
-            key={sectorId}
+            key={chamberId}
             type="button"
-            onClick={() => openSector(sectorId)}
+            onClick={() => openChamber(chamberId)}
             className={`ccc-pulse-node ccc-pulse-node--${activity}${isFocus ? " ccc-pulse-node--focus" : ""}${isHot ? " ccc-pulse-node--hot" : ""}${isEvent ? " ccc-pulse-node--event" : ""}`}
-            aria-label={`${SECTOR_ARIA[sectorId]}, ${activity}${isFocus ? ", focus" : ""}${isHot ? ", pressure" : ""}`}
+            aria-label={`${CHAMBER_ARIA[chamberId]}, ${domainId}${isFocus ? ", focus" : ""}${isHot ? ", pressure" : ""}`}
           />
         );
       })}

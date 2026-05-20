@@ -1,13 +1,30 @@
 import type { Operator } from "../types";
+import { ECOLOGY_BY_OPERATOR } from "@/data/ecology";
+
+function withEcology(
+  op: Omit<Operator, "primaryDomain" | "homeChamberId" | "sectorId"> & {
+    primaryDomain?: Operator["primaryDomain"];
+    homeChamberId?: Operator["homeChamberId"];
+  },
+): Operator {
+  const eco = ECOLOGY_BY_OPERATOR[op.id];
+  const primaryDomain = op.primaryDomain ?? eco?.primaryDomain ?? "core";
+  const homeChamberId = op.homeChamberId ?? eco?.homeChamberId ?? "nexus-prime";
+  return {
+    ...op,
+    primaryDomain,
+    homeChamberId,
+    sectorId: primaryDomain,
+  };
+}
 
 export const mockOperators: Operator[] = [
-  {
+  withEcology({
     id: "nexus-7",
     callsign: "NEXUS-7",
     designation: "Continuity Architect",
     role: "Architecture / continuity governance",
     currentActivity: "Reviewing cross-project dependency map",
-    sectorId: "core",
     status: "nominal",
     dossier: {
       summary:
@@ -20,14 +37,13 @@ export const mockOperators: Operator[] = [
       linkedProjectIds: ["thinkcore", "ccc", "liahona"],
       lastSync: "2026-05-19T08:42:00Z",
     },
-  },
-  {
+  }),
+  withEcology({
     id: "fab-0",
     callsign: "FAB-0",
     designation: "Forge Lead",
     role: "Implementation / deployments",
     currentActivity: "Staging CCC v0.1 build pipeline",
-    sectorId: "forge",
     status: "nominal",
     dossier: {
       summary:
@@ -40,14 +56,13 @@ export const mockOperators: Operator[] = [
       linkedProjectIds: ["ccc", "thinkcore", "nlo"],
       lastSync: "2026-05-19T09:15:00Z",
     },
-  },
-  {
+  }),
+  withEcology({
     id: "bcast-1",
     callsign: "BCAST-1",
     designation: "Relay Officer",
     role: "Communications / projection",
     currentActivity: "Drafting ThinkCore projection brief",
-    sectorId: "relay",
     status: "nominal",
     dossier: {
       summary:
@@ -60,18 +75,17 @@ export const mockOperators: Operator[] = [
       linkedProjectIds: ["thinkcore", "liahona", "nlo"],
       lastSync: "2026-05-19T07:30:00Z",
     },
-  },
-  {
+  }),
+  withEcology({
     id: "scout-6",
     callsign: "SCOUT-6",
     designation: "Field Liaison",
     role: "Field Systems / offline intelligence",
     currentActivity: "Indexing offline navigation reference set",
-    sectorId: "core",
     status: "nominal",
     dossier: {
       summary:
-        "Scout-oriented operator for portable offline AI, navigation, survival knowledge, and operational resilience — wilderness intelligence without prepper theatrics.",
+        "Scout-oriented operator for portable offline AI, navigation, survival knowledge, and operational resilience.",
       objectives: [
         "Expand offline knowledge packs",
         "Test portable inference on field hardware",
@@ -80,14 +94,13 @@ export const mockOperators: Operator[] = [
       linkedProjectIds: ["field-systems"],
       lastSync: "2026-05-18T22:10:00Z",
     },
-  },
-  {
+  }),
+  withEcology({
     id: "deep-1",
-    callsign: "DEEP-1",
+    callsign: "ARCHIVIST-0",
     designation: "Archivist",
     role: "Archive / memory / continuity",
     currentActivity: "Reconciling journal tags with project logs",
-    sectorId: "archive",
     status: "nominal",
     dossier: {
       summary:
@@ -100,5 +113,5 @@ export const mockOperators: Operator[] = [
       linkedProjectIds: ["ccc", "kindex", "thinkcore"],
       lastSync: "2026-05-19T06:00:00Z",
     },
-  },
+  }),
 ];

@@ -11,7 +11,7 @@ export function ProjectPanelContent({ project }: ProjectPanelContentProps) {
   const { data } = useCCC();
 
   const sectors =
-    data?.sectors.filter((s) => project.sectorIds.includes(s.id)) ?? [];
+    data?.chambers.filter((c) => project.domainIds.includes(c.primaryDomain)) ?? [];
 
   return (
     <div className="space-y-6">

@@ -1,12 +1,16 @@
 import type { CCCData } from "../types";
+import { OPERATIONAL_DOMAINS, PHYSICAL_CHAMBERS } from "@/data/ecology";
 import { mockOperators } from "./operators";
 import { mockProjects } from "./projects";
-import { mockSectors } from "./sectors";
 import { mockStations } from "./stations";
 import { mockTelemetry } from "./telemetry";
 
+const chambers = PHYSICAL_CHAMBERS;
+
 export const mockCCCData: CCCData = {
-  sectors: mockSectors,
+  domains: OPERATIONAL_DOMAINS,
+  chambers,
+  sectors: chambers,
   operators: mockOperators,
   stations: mockStations,
   projects: mockProjects,

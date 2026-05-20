@@ -1,3 +1,4 @@
+import type { ChamberId } from "@/data/ecology";
 import type { ContinuityEventKind } from "@/lib/continuity/events/types";
 import type { SectorId } from "@/data/types";
 
@@ -38,8 +39,8 @@ export interface SectorResidueMemory {
 
 export interface TransitRouteMemory {
   id: string;
-  from: SectorId;
-  to: SectorId;
+  from: ChamberId;
+  to: ChamberId;
   /** 0–1 worn-path persistence */
   wear: number;
   wearTier: ResidueTier;

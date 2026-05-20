@@ -1,7 +1,7 @@
 "use client";
 
 import { useFacilityResidue } from "@/context/FacilityResidueContext";
-import { SECTOR_ANCHOR } from "@/lib/signal-routes";
+import { CHAMBER_ANCHOR } from "@/lib/signal-routes";
 
 export function HistoricTransitLayer() {
   const { transitRoutes } = useFacilityResidue();
@@ -16,8 +16,8 @@ export function HistoricTransitLayer() {
       aria-hidden
     >
       {transitRoutes.map((route) => {
-        const from = SECTOR_ANCHOR[route.from];
-        const to = SECTOR_ANCHOR[route.to];
+        const from = CHAMBER_ANCHOR[route.from];
+        const to = CHAMBER_ANCHOR[route.to];
         if (!from || !to) return null;
 
         const midX = (from.x + to.x) / 2;

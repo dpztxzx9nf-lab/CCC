@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { useFacilityResidue } from "@/context/FacilityResidueContext";
-import { SECTOR_ORDER } from "@/lib/facility-layout";
+import { CHAMBER_ORDER } from "@/lib/facility-layout";
 import { activeEventPulseKinds } from "@/lib/continuity/events/influence";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
 import { HistoricTransitLayer } from "@/components/continuity/HistoricTransitLayer";
@@ -14,7 +14,7 @@ export function FacilityMegastructure() {
   const { data, loading, operational, continuityEvents } = useCCC();
   const residue = useFacilityResidue();
 
-  const occupantsBySector = useMemo(
+  const occupantsByChamber = useMemo(
     () => buildFacilityOccupants(data, operational),
     [data, operational],
   );
@@ -29,10 +29,6 @@ export function FacilityMegastructure() {
     );
   }
 
-  const sectors = SECTOR_ORDER.map((id) => data.sectors.find((s) => s.id === id)).filter(
-    Boolean,
-  );
-
   const eventPulses = activeEventPulseKinds(continuityEvents);
   const transitPulse = eventPulses.length > 0 ? " ccc-transit--event-pulse" : "";
   const transitWear =
@@ -41,7 +37,7 @@ export function FacilityMegastructure() {
       : 0;
   const pulseCadence = Math.max(
     0,
-    ...SECTOR_ORDER.map((id) => residue.sectors[id]?.pulseCadence ?? 0),
+    ...CHAMBER_ORDER.map((id) => residue.sectors[data.chambers.find((c) => c.id === id)?.primaryDomain ?? "core"]?.pulseCadence ?? 0),
   );
 
   return (
@@ -57,13 +53,17 @@ export function FacilityMegastructure() {
         <div className={`ccc-transit ccc-transit--spine-h${transitPulse}`} aria-hidden />
         <div className={`ccc-transit ccc-transit--spine-v${transitPulse}`} aria-hidden />
 
-        {sectors.map((sector) => (
-          <SectorChamber
-            key={sector!.id}
-            sector={sector!}
-            occupants={occupantsBySector[sector!.id] ?? []}
-          />
-        ))}
+        {CHAMBER_ORDER.map((chamberId) => {
+          const chamber = data.chambers.find((c) => c.id === chamberId);
+          if (!chamber) return null;
+          return (
+            <SectorChamber
+              key={chamber.id}
+              chamber={chamber}
+              occupants={occupantsByChamber[chamber.id] ?? []}
+            />
+          );
+        })}
         <FacilitySignalLayer />
       </div>
     </div>

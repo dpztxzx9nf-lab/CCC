@@ -2,7 +2,7 @@
 
 import { useFacilityResidue } from "@/context/FacilityResidueContext";
 import type { SignalRouteSpec } from "@/lib/signal-routes";
-import { SECTOR_ANCHOR } from "@/lib/signal-routes";
+import { CHAMBER_ANCHOR } from "@/lib/signal-routes";
 
 interface SignalRouteProps {
   route: SignalRouteSpec;
@@ -10,8 +10,8 @@ interface SignalRouteProps {
 
 export function SignalRoute({ route }: SignalRouteProps) {
   const { transitRoutes } = useFacilityResidue();
-  const from = SECTOR_ANCHOR[route.from];
-  const to = SECTOR_ANCHOR[route.to];
+  const from = CHAMBER_ANCHOR[route.from];
+  const to = CHAMBER_ANCHOR[route.to];
   if (!from || !to) return null;
 
   const historic = transitRoutes.find(

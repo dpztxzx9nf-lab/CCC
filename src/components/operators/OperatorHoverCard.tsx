@@ -17,8 +17,18 @@ export function OperatorHoverCard({ info, visible }: OperatorHoverCardProps) {
       <p className="ccc-operator-hover__name">{info.callsign}</p>
       <dl className="ccc-operator-hover__meta">
         <div>
-          <dt>Sector</dt>
-          <dd>{info.sectorLabel}</dd>
+          <dt>Chamber</dt>
+          <dd>{info.chamberLabel}</dd>
+        </div>
+        {info.isTransit && (
+          <div>
+            <dt>Home</dt>
+            <dd>{info.homeChamberLabel}</dd>
+          </div>
+        )}
+        <div>
+          <dt>Domain</dt>
+          <dd>{info.domainLabel}</dd>
         </div>
         <div>
           <dt>Task</dt>

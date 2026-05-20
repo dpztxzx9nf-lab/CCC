@@ -6,6 +6,7 @@ export const mockProjects: Project[] = [
     name: "Liahona.ai",
     tagline: "Guidance-layer intelligence initiative",
     status: "active",
+    domainIds: ["core", "relay", "observatory"],
     sectorIds: ["core", "relay", "observatory"],
     description:
       "Strategic AI guidance project aligned with ThinkCore continuity — architecture and projection in early operational phase.",
@@ -16,6 +17,7 @@ export const mockProjects: Project[] = [
     name: "ThinkCore",
     tagline: "Core platform and projection substrate",
     status: "active",
+    domainIds: ["core", "relay", "forge", "runtime"],
     sectorIds: ["core", "relay", "forge", "runtime"],
     description:
       "Central platform for systems, workflows, and outward projection — parent context for CCC deployment at ccc.thinkcore.io.",
@@ -26,6 +28,7 @@ export const mockProjects: Project[] = [
     name: "CCC",
     tagline: "Continuity Command Center",
     status: "active",
+    domainIds: ["core", "forge", "observatory"],
     sectorIds: ["core", "forge", "observatory"],
     description:
       "Living operational projection layer — this interface. Sci-fi continuity command center for projects, systems, workflows, and goals.",
@@ -36,6 +39,7 @@ export const mockProjects: Project[] = [
     name: "Field Systems",
     tagline: "Scout-oriented offline intelligence",
     status: "active",
+    domainIds: ["core", "archive"],
     sectorIds: ["core", "archive"],
     description:
       "Portable offline AI, navigation, survival knowledge, and operational resilience. Wilderness and self-reliance intelligence — practical, not doomsday-themed.",
@@ -46,6 +50,7 @@ export const mockProjects: Project[] = [
     name: "NLO",
     tagline: "Netherite Legends Odyssey",
     status: "live",
+    domainIds: ["relay", "runtime", "forge"],
     sectorIds: ["relay", "runtime", "forge"],
     description:
       "Live Minecraft server ecosystem — SMP, PvP, factions, and player economy on Java 1.21.11. Climb the bounty board or build your wealth.",
@@ -69,6 +74,7 @@ export const mockProjects: Project[] = [
     name: "KINDEX",
     tagline: "Knowledge index and retrieval layer",
     status: "planning",
+    domainIds: ["archive", "observatory"],
     sectorIds: ["archive", "observatory"],
     description:
       "Structured knowledge indexing across journals, architecture docs, and templated notes — future Markdown import target.",

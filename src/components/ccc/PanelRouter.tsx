@@ -1,28 +1,30 @@
 "use client";
 
 import { useCCC } from "@/context/CCCContext";
-import type { SectorId } from "@/data/types";
+import type { ChamberId } from "@/data/ecology";
 import { DetailPanel } from "./DetailPanel";
 import { OperatorDossierContent } from "./panels/OperatorDossierContent";
 import { ProjectPanelContent } from "./panels/ProjectPanelContent";
 import { SectorPanelContent } from "./panels/SectorPanelContent";
 
 export function PanelRouter() {
-  const { activePanel, closePanel, getSector, getOperator, getProject } = useCCC();
+  const { activePanel, closePanel, getChamber, getDomain, getOperator, getProject } =
+    useCCC();
 
   if (!activePanel) return null;
 
-  if (activePanel.kind === "sector") {
-    const sector = getSector(activePanel.id as SectorId);
-    if (!sector) return null;
+  if (activePanel.kind === "chamber") {
+    const chamber = getChamber(activePanel.id as ChamberId);
+    if (!chamber) return null;
+    const domain = getDomain(chamber.primaryDomain);
     return (
       <DetailPanel
         open
-        title={sector.name}
-        subtitle={sector.codename}
+        title={chamber.name}
+        subtitle={`${chamber.codename} · ${domain?.name ?? chamber.primaryDomain} domain`}
         onClose={closePanel}
       >
-        <SectorPanelContent sector={sector} />
+        <SectorPanelContent chamber={chamber} />
       </DetailPanel>
     );
   }

@@ -19,8 +19,8 @@ export async function fetchCCCData(
   if (cached) return cached;
   try {
     const loaded = await source.load();
-    if (!loaded?.sectors?.length) {
-      throw new Error("Data source returned empty sector list");
+    if (!loaded?.chambers?.length) {
+      throw new Error("Data source returned empty chamber list");
     }
     cached = loaded;
     return cached;

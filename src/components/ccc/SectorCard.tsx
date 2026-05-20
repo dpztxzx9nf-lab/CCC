@@ -1,14 +1,15 @@
 "use client";
 
 import { useMemo } from "react";
-import type { Operator, Sector } from "@/data/types";
+import type { Operator, PhysicalChamber } from "@/data/types";
 import { useCCC } from "@/context/CCCContext";
+import { resolveOperatorPlacement } from "@/lib/facility/ecology-resolve";
 import { computeInhabitantBehavior } from "@/lib/inhabitant-behavior";
 import { SectorRoom } from "./SectorRoom";
 import { StatusBadge } from "./StatusBadge";
 
 interface SectorCardProps {
-  sector: Sector;
+  chamber: PhysicalChamber;
   operators: Operator[];
 }
 
@@ -25,47 +26,53 @@ function heatBarClass(level: string): string {
   }
 }
 
-export function SectorCard({ sector, operators }: SectorCardProps) {
-  const { openSector, getSectorHeat, data, operational } = useCCC();
-  const heat = getSectorHeat(sector.id);
+export function SectorCard({ chamber, operators }: SectorCardProps) {
+  const { openChamber, getDomainHeat, data, operational } = useCCC();
+  const heat = getDomainHeat(chamber.primaryDomain);
 
   const occupants = useMemo(
     () =>
-      operators.map((operator, slotIndex) => ({
-        operator,
-        behavior: computeInhabitantBehavior({
+      operators.map((operator, slotIndex) => {
+        const placement = resolveOperatorPlacement(operator, operational);
+        return {
           operator,
-          sectorId: sector.id,
-          slotIndex,
-          slotTotal: operators.length,
-          data,
-          operational,
-        }),
-      })),
-    [operators, sector.id, data, operational],
+          placement,
+          behavior: computeInhabitantBehavior({
+            operator,
+            chamberId: chamber.id,
+            primaryDomain: chamber.primaryDomain,
+            placement,
+            slotIndex,
+            slotTotal: operators.length,
+            data,
+            operational,
+          }),
+        };
+      }),
+    [operators, chamber, data, operational],
   );
 
   return (
     <article className="relative z-[1] flex flex-col overflow-visible rounded-lg border border-ccc-border bg-ccc-surface/90 shadow-sm">
       <button
         type="button"
-        onClick={() => openSector(sector.id)}
+        onClick={() => openChamber(chamber.id)}
         className="ccc-tap-target flex flex-col p-4 text-left transition-colors hover:bg-ccc-surface-raised/80 active:bg-ccc-accent/5"
       >
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-wrap items-start justify-between gap-2">
           <div>
-            <h3 className="text-base font-semibold text-ccc-text">{sector.name}</h3>
+            <h3 className="text-base font-semibold text-ccc-text">{chamber.name}</h3>
             <p className="font-mono text-xs tracking-wide text-ccc-accent-dim">
-              {sector.codename}
+              {chamber.codename}
             </p>
           </div>
-          <StatusBadge status={sector.status} />
+          <StatusBadge status={chamber.status} />
         </div>
 
         {heat && (
           <div className="mt-2">
             <div className="flex items-center justify-between text-xs text-ccc-muted">
-              <span>Sector heat</span>
+              <span>Domain heat</span>
               <span className="tabular-nums">{heat.activityScore}</span>
             </div>
             <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-ccc-border">
@@ -78,7 +85,7 @@ export function SectorCard({ sector, operators }: SectorCardProps) {
         )}
 
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ccc-muted">
-          {sector.description}
+          {chamber.description}
         </p>
       </button>
 
@@ -86,10 +93,10 @@ export function SectorCard({ sector, operators }: SectorCardProps) {
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-ccc-muted">
           Operational floor
         </p>
-        <SectorRoom sector={sector} occupants={occupants} />
+        <SectorRoom chamber={chamber} occupants={occupants} />
         <p className="mt-2 text-xs text-ccc-muted">
           {operators.length} operator{operators.length !== 1 ? "s" : ""} ·{" "}
-          {sector.stationIds.length} station{sector.stationIds.length !== 1 ? "s" : ""}
+          {chamber.stationIds.length} station{chamber.stationIds.length !== 1 ? "s" : ""}
         </p>
       </div>
     </article>

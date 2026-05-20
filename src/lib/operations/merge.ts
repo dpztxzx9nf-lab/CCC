@@ -2,7 +2,7 @@ import type { OperationalSnapshot } from "@/data/operational-types";
 import type {
   CCCData,
   Operator,
-  Sector,
+  PhysicalChamber,
   SystemStatus,
   TelemetryMetric,
 } from "@/data/types";
@@ -17,27 +17,27 @@ export function mergeOperationalIntoCCCData(
     return { ...base, demoLabel: snapshot.label };
   }
 
-  const heatBySector = new Map(snapshot.sectorHeat.map((h) => [h.sectorId, h]));
+  const heatByDomain = new Map(snapshot.sectorHeat.map((h) => [h.sectorId, h]));
   const opById = new Map(snapshot.operators.map((o) => [o.operatorId, o]));
   const projectById = new Map(snapshot.projects.map((p) => [p.projectId, p]));
 
-  const sectors: Sector[] = base.sectors.map((sector) => {
-    const heat = heatBySector.get(sector.id);
-    if (!heat) return sector;
+  const chambers: PhysicalChamber[] = base.chambers.map((chamber) => {
+    const heat = heatByDomain.get(chamber.primaryDomain);
+    if (!heat) return chamber;
     const activeOps = snapshot.operators
       .filter((o) => o.workload > 0)
       .map((o) => o.operatorId);
     return {
-      ...sector,
+      ...chamber,
       status: heat.status,
       operatorIds: [
         ...new Set([
-          ...sector.operatorIds,
+          ...chamber.operatorIds,
           ...activeOps.filter((id) => {
             const op = opById.get(id);
             return op?.activeProjectId
               ? PROJECT_PROFILES.find((p) => p.id === op.activeProjectId)?.sectors.includes(
-                  sector.id,
+                  chamber.primaryDomain,
                 )
               : false;
           }),
@@ -52,12 +52,14 @@ export function mergeOperationalIntoCCCData(
     const activeProfile = derived.activeProjectId
       ? PROJECT_PROFILES.find((p) => p.id === derived.activeProjectId)
       : undefined;
+    const primaryDomain = activeProfile?.sectors[0] ?? op.primaryDomain;
     return {
       ...op,
       callsign: derived.callsign || op.callsign,
       currentActivity: derived.currentActivity,
       status: derived.status as SystemStatus,
-      sectorId: activeProfile?.sectors[0] ?? op.sectorId,
+      primaryDomain,
+      sectorId: primaryDomain,
       dossier: {
         ...op.dossier,
         lastSync: snapshot.scannedAt,
@@ -90,7 +92,8 @@ export function mergeOperationalIntoCCCData(
 
   return {
     ...base,
-    sectors,
+    chambers,
+    sectors: chambers,
     operators,
     projects,
     telemetry,
