@@ -47,38 +47,49 @@
   left: 50%;
   z-index: 12;
   width: max-content;
-  max-width: 11rem;
-  transform: translateX(-50%) translateY(4px);
-  padding: 0.4rem 0.55rem;
+  max-width: 12rem;
+  transform: translateX(-50%) translateY(6px);
+  padding: 0.5rem 0.62rem;
   pointer-events: none;
+  visibility: hidden;
   opacity: 0;
-  background: rgba(10, 16, 26, 0.95);
-  border: 1px solid rgba(30, 45, 69, 0.7);
-  border-radius: 4px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  /* Readable first: near-opaque CCC-like surface — no heavy glass blur */
+  background: rgba(10, 16, 28, 0.98);
+  border: 1px solid rgba(61, 214, 198, 0.22);
+  border-radius: 5px;
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+    0 0 20px rgba(61, 214, 198, 0.07);
   transition:
-    opacity 0.18s ease,
-    transform 0.18s ease;
+    opacity 0.16s ease,
+    transform 0.16s ease,
+    visibility 0s linear 0.16s;
 }
 
 .ccc-operator-hover--visible {
+  visibility: visible;
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease,
+    visibility 0s linear 0s;
 }
 
 .ccc-operator-hover__name {
   margin: 0;
   font-family: var(--ccc-mono);
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--ccc-accent);
+  color: #b8fff2;
 }
 
 .ccc-operator-hover__meta {
-  margin: 0.35rem 0 0;
+  margin: 0.38rem 0 0;
   display: grid;
-  gap: 0.25rem;
+  gap: 0.28rem;
 }
 
 .ccc-operator-hover__meta div {
@@ -90,17 +101,17 @@
 
 .ccc-operator-hover__meta dt {
   margin: 0;
-  font-size: 0.5rem;
+  font-size: 0.52rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ccc-muted);
+  letter-spacing: 0.07em;
+  color: rgba(208, 220, 240, 0.88);
 }
 
 .ccc-operator-hover__meta dd {
   margin: 0;
-  font-size: 0.58rem;
-  line-height: 1.3;
-  color: var(--ccc-text);
+  font-size: 0.625rem;
+  line-height: 1.38;
+  color: rgba(242, 247, 255, 0.97);
 }
 
 /* —— Operational packet (transient, not chat) —— */

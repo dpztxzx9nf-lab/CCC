@@ -3,13 +3,15 @@
 import type { OperatorDisplayInfo } from "@/lib/operator-display";
 
 interface OperatorHoverCardProps {
+  id: string;
   info: OperatorDisplayInfo;
   visible: boolean;
 }
 
-export function OperatorHoverCard({ info, visible }: OperatorHoverCardProps) {
+export function OperatorHoverCard({ id, info, visible }: OperatorHoverCardProps) {
   return (
     <div
+      id={id}
       className={`ccc-operator-hover${visible ? " ccc-operator-hover--visible" : ""}`}
       role="tooltip"
       aria-hidden={!visible}
