@@ -53,11 +53,18 @@ export interface DerivedTelemetryView {
   hint?: string;
 }
 
+export interface SnapshotMeta {
+  generatedAt: string;
+  agent: string;
+  scanRoots: { id: string; accessible: boolean; projectCount: number }[];
+  projectCount: number;
+}
+
 export interface OperationalSnapshot {
   enabled: boolean;
   label: string;
   scannedAt: string;
-  source: "local" | "mock";
+  source: "local" | "mock" | "archivist";
   projects: ProjectOperationalView[];
   sectorHeat: SectorHeatView[];
   operators: OperatorOperationalView[];
@@ -65,4 +72,5 @@ export interface OperationalSnapshot {
   signals: ClassifiedSignalView[];
   systemStatus: SystemStatus;
   message?: string;
+  snapshotMeta?: SnapshotMeta;
 }

@@ -7,7 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "snapshot": "tsx --tsconfig tsconfig.json src/lib/snapshot/generateSnapshot.ts",
+    "archivist:watch": "tsx --tsconfig tsconfig.json scripts/archivist-watch.ts"
   },
   "dependencies": {
     "framer-motion": "^12.39.0",
@@ -24,6 +26,7 @@
     "eslint-config-next": "^16.2.6",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.0",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   }
 }

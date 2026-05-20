@@ -1,0 +1,1024 @@
+{
+  "generatedAt": "2026-05-20T05:20:19.293Z",
+  "agent": "ARCHIVIST-0",
+  "projects": [
+    {
+      "id": "projects-archive",
+      "name": "ARCHIVE",
+      "path": "C:\\Projects\\ARCHIVE",
+      "scanRoot": "C:\\Projects",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 3,
+      "lastModified": "2026-05-20T01:03:05.929Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "active-code"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 90,
+      "recentActivityCount": 63,
+      "obsidianVault": false
+    },
+    {
+      "id": "projects-ccc",
+      "name": "CCC",
+      "path": "C:\\Projects\\CCC",
+      "scanRoot": "C:\\Projects",
+      "hasPackageJson": true,
+      "hasGit": true,
+      "markdownCount": 1,
+      "lastModified": "2026-05-20T05:19:19.208Z",
+      "runtimeCapable": true,
+      "likelyStack": [
+        "active-code",
+        "typescript",
+        "javascript",
+        "next",
+        "react"
+      ],
+      "sectorClassification": "forge",
+      "activityScore": 88,
+      "recentActivityCount": 122,
+      "obsidianVault": false
+    },
+    {
+      "id": "projects-liahona",
+      "name": "Liahona",
+      "path": "C:\\Projects\\Liahona",
+      "scanRoot": "C:\\Projects",
+      "hasPackageJson": true,
+      "hasGit": true,
+      "markdownCount": 30,
+      "lastModified": "2026-05-20T04:14:18.891Z",
+      "runtimeCapable": true,
+      "likelyStack": [
+        "active-code",
+        "javascript"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 100,
+      "recentActivityCount": 132,
+      "obsidianVault": true
+    },
+    {
+      "id": "projects-secondbrain",
+      "name": "SecondBrain",
+      "path": "C:\\Projects\\SecondBrain",
+      "scanRoot": "C:\\Projects",
+      "hasPackageJson": false,
+      "hasGit": true,
+      "markdownCount": 27,
+      "lastModified": "2026-05-19T21:26:27.862Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 65,
+      "recentActivityCount": 28,
+      "obsidianVault": true
+    },
+    {
+      "id": "projects-thinkcore-io",
+      "name": "ThinkCore",
+      "path": "C:\\Projects\\ThinkCore.io",
+      "scanRoot": "C:\\Projects",
+      "hasPackageJson": false,
+      "hasGit": true,
+      "markdownCount": 30,
+      "lastModified": "2026-05-19T11:25:14.897Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "active-code",
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 79,
+      "recentActivityCount": 38,
+      "obsidianVault": true
+    },
+    {
+      "id": "secondbrain-nested-ai-systems",
+      "name": "AI Systems",
+      "path": "C:\\Projects\\SecondBrain\\AI Systems",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T12:09:48.371Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 9,
+      "recentActivityCount": 1,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-architecture",
+      "name": "Architecture",
+      "path": "C:\\Projects\\SecondBrain\\Architecture",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 4,
+      "lastModified": "2026-05-19T21:26:27.862Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 36,
+      "recentActivityCount": 4,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-archive",
+      "name": "Archive",
+      "path": "C:\\Projects\\SecondBrain\\Archive",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T12:09:55.339Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 9,
+      "recentActivityCount": 1,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-books",
+      "name": "Books",
+      "path": "C:\\Projects\\SecondBrain\\Books",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T11:20:12.003Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 9,
+      "recentActivityCount": 1,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-continuity",
+      "name": "Continuity",
+      "path": "C:\\Projects\\SecondBrain\\Continuity",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 2,
+      "lastModified": "2026-05-19T12:09:37.886Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "core",
+      "activityScore": 18,
+      "recentActivityCount": 2,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-daily",
+      "name": "Daily",
+      "path": "C:\\Projects\\SecondBrain\\Daily",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T11:20:12.010Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 9,
+      "recentActivityCount": 1,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-ideas",
+      "name": "Ideas",
+      "path": "C:\\Projects\\SecondBrain\\Ideas",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T12:09:51.360Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 9,
+      "recentActivityCount": 1,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-meetings",
+      "name": "Meetings",
+      "path": "C:\\Projects\\SecondBrain\\Meetings",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T11:20:12.030Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 9,
+      "recentActivityCount": 1,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-projects",
+      "name": "Projects",
+      "path": "C:\\Projects\\SecondBrain\\Projects",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T11:36:37.328Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 9,
+      "recentActivityCount": 1,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-resources",
+      "name": "Resources",
+      "path": "C:\\Projects\\SecondBrain\\Resources",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T12:09:43.571Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 13,
+      "recentActivityCount": 2,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-sources",
+      "name": "Sources",
+      "path": "C:\\Projects\\SecondBrain\\Sources",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 2,
+      "lastModified": "2026-05-19T12:09:59.562Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 18,
+      "recentActivityCount": 2,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-templates",
+      "name": "Templates",
+      "path": "C:\\Projects\\SecondBrain\\Templates",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 7,
+      "lastModified": "2026-05-19T11:20:11.931Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 53,
+      "recentActivityCount": 7,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-workflows",
+      "name": "Workflows",
+      "path": "C:\\Projects\\SecondBrain\\Workflows",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 1,
+      "lastModified": "2026-05-19T12:09:45.588Z",
+      "runtimeCapable": false,
+      "likelyStack": [
+        "markdown-heavy"
+      ],
+      "sectorClassification": "archive",
+      "activityScore": 9,
+      "recentActivityCount": 1,
+      "obsidianVault": false
+    },
+    {
+      "id": "secondbrain-nested-daily-projects-books-meetings-resources-archive-templates-obsidian",
+      "name": "{Daily,Projects,Books,Meetings,Resources,Archive,Templates,.Obsidian",
+      "path": "C:\\Projects\\SecondBrain\\{Daily,Projects,Books,Meetings,Resources,Archive,Templates,.obsidian",
+      "scanRoot": "C:\\Projects\\SecondBrain",
+      "hasPackageJson": false,
+      "hasGit": false,
+      "markdownCount": 0,
+      "lastModified": null,
+      "runtimeCapable": false,
+      "likelyStack": [],
+      "sectorClassification": "archive",
+      "activityScore": 0,
+      "recentActivityCount": 0,
+      "obsidianVault": false
+    },
+    {
+      "id": "archive-nested-ccc",
+      "name": "Ccc",
+      "path": "C:\\Projects\\ARCHIVE\\ccc",
+      "scanRoot": "C:\\Projects\\ARCHIVE",
+      "hasPackageJson": true,
+      "hasGit": true,
+      "markdownCount": 3,
+      "lastModified": "2026-05-20T01:03:05.929Z",
+      "runtimeCapable": true,
+      "likelyStack": [
+        "active-code",
+        "typescript",
+        "javascript",
+        "next",
+        "react"
+      ],
+      "sectorClassification": "forge",
+      "activityScore": 98,
+      "recentActivityCount": 63,
+      "obsidianVault": false
+    }
+  ],
+  "sectorHeat": {
+    "core": {
+      "activityScore": 91,
+      "activityLevel": "high",
+      "operationalLoad": 1,
+      "dominantActivity": "documentation"
+    },
+    "archive": {
+      "activityScore": 100,
+      "activityLevel": "high",
+      "operationalLoad": 16,
+      "dominantActivity": "documentation"
+    },
+    "forge": {
+      "activityScore": 100,
+      "activityLevel": "high",
+      "operationalLoad": 2,
+      "dominantActivity": "forge"
+    },
+    "observatory": {
+      "activityScore": 0,
+      "activityLevel": "idle",
+      "operationalLoad": 0,
+      "dominantActivity": null
+    },
+    "relay": {
+      "activityScore": 0,
+      "activityLevel": "idle",
+      "operationalLoad": 0,
+      "dominantActivity": null
+    },
+    "runtime": {
+      "activityScore": 34,
+      "activityLevel": "medium",
+      "operationalLoad": 0,
+      "dominantActivity": "forge"
+    }
+  },
+  "operators": [
+    {
+      "operatorId": "nexus-7",
+      "callsign": "NEXUS-7",
+      "workload": 18,
+      "currentActivity": "Continuity: recent file activity",
+      "activeProjectId": "secondbrain-nested-continuity",
+      "lastSignal": "Documentation density: Markdown-heavy tree"
+    },
+    {
+      "operatorId": "deep-1",
+      "callsign": "ARCHIVIST-0",
+      "workload": 100,
+      "currentActivity": "Liahona: recent file activity",
+      "activeProjectId": "projects-liahona",
+      "lastSignal": "Recent activity (7d): 132 files"
+    },
+    {
+      "operatorId": "fab-0",
+      "callsign": "FAB-0",
+      "workload": 100,
+      "currentActivity": "Ccc: recent file activity",
+      "activeProjectId": "archive-nested-ccc",
+      "lastSignal": "Recent activity (7d): 63 files"
+    },
+    {
+      "operatorId": "bcast-1",
+      "callsign": "BCAST-1",
+      "workload": 0,
+      "currentActivity": "Standby — no local activity in owned sectors",
+      "activeProjectId": null,
+      "lastSignal": null
+    },
+    {
+      "operatorId": "scout-6",
+      "callsign": "SCOUT-6",
+      "workload": 18,
+      "currentActivity": "Continuity: recent file activity",
+      "activeProjectId": "secondbrain-nested-continuity",
+      "lastSignal": "Documentation density: Markdown-heavy tree"
+    }
+  ],
+  "signals": [
+    {
+      "id": "projects-archive-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "3",
+      "projectId": "projects-archive",
+      "weight": 1
+    },
+    {
+      "id": "projects-archive-recent",
+      "kind": "forge",
+      "label": "Recent activity (7d)",
+      "value": "63 files",
+      "projectId": "projects-archive",
+      "weight": 20
+    },
+    {
+      "id": "projects-ccc-pkg",
+      "kind": "forge",
+      "label": "package.json",
+      "value": "Present",
+      "projectId": "projects-ccc",
+      "weight": 8
+    },
+    {
+      "id": "projects-ccc-git",
+      "kind": "continuity",
+      "label": "Git repository",
+      "value": "Active (7d)",
+      "projectId": "projects-ccc",
+      "weight": 12
+    },
+    {
+      "id": "projects-ccc-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "projects-ccc",
+      "weight": 0
+    },
+    {
+      "id": "projects-ccc-runtime",
+      "kind": "runtime",
+      "label": "Runtime capable",
+      "value": "Node / Next",
+      "projectId": "projects-ccc",
+      "weight": 10
+    },
+    {
+      "id": "projects-ccc-recent",
+      "kind": "forge",
+      "label": "Recent activity (7d)",
+      "value": "122 files",
+      "projectId": "projects-ccc",
+      "weight": 20
+    },
+    {
+      "id": "projects-liahona-pkg",
+      "kind": "forge",
+      "label": "package.json",
+      "value": "Present",
+      "projectId": "projects-liahona",
+      "weight": 8
+    },
+    {
+      "id": "projects-liahona-git",
+      "kind": "continuity",
+      "label": "Git repository",
+      "value": "Active (7d)",
+      "projectId": "projects-liahona",
+      "weight": 12
+    },
+    {
+      "id": "projects-liahona-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "30",
+      "projectId": "projects-liahona",
+      "weight": 6
+    },
+    {
+      "id": "projects-liahona-obsidian",
+      "kind": "continuity",
+      "label": "Obsidian vault",
+      "value": "Detected",
+      "projectId": "projects-liahona",
+      "weight": 14
+    },
+    {
+      "id": "projects-liahona-runtime",
+      "kind": "runtime",
+      "label": "Runtime capable",
+      "value": "Process scripts",
+      "projectId": "projects-liahona",
+      "weight": 10
+    },
+    {
+      "id": "projects-liahona-recent",
+      "kind": "forge",
+      "label": "Recent activity (7d)",
+      "value": "132 files",
+      "projectId": "projects-liahona",
+      "weight": 20
+    },
+    {
+      "id": "projects-secondbrain-git",
+      "kind": "continuity",
+      "label": "Git repository",
+      "value": "Present",
+      "projectId": "projects-secondbrain",
+      "weight": 5
+    },
+    {
+      "id": "projects-secondbrain-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "27",
+      "projectId": "projects-secondbrain",
+      "weight": 5
+    },
+    {
+      "id": "projects-secondbrain-obsidian",
+      "kind": "continuity",
+      "label": "Obsidian vault",
+      "value": "Detected",
+      "projectId": "projects-secondbrain",
+      "weight": 14
+    },
+    {
+      "id": "projects-secondbrain-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "28 files",
+      "projectId": "projects-secondbrain",
+      "weight": 20
+    },
+    {
+      "id": "projects-secondbrain-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "projects-secondbrain",
+      "weight": 8
+    },
+    {
+      "id": "projects-thinkcore-io-git",
+      "kind": "continuity",
+      "label": "Git repository",
+      "value": "Active (7d)",
+      "projectId": "projects-thinkcore-io",
+      "weight": 12
+    },
+    {
+      "id": "projects-thinkcore-io-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "30",
+      "projectId": "projects-thinkcore-io",
+      "weight": 6
+    },
+    {
+      "id": "projects-thinkcore-io-obsidian",
+      "kind": "continuity",
+      "label": "Obsidian vault",
+      "value": "Detected",
+      "projectId": "projects-thinkcore-io",
+      "weight": 14
+    },
+    {
+      "id": "projects-thinkcore-io-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "38 files",
+      "projectId": "projects-thinkcore-io",
+      "weight": 20
+    },
+    {
+      "id": "projects-thinkcore-io-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "projects-thinkcore-io",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-ai-systems-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-ai-systems",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-ai-systems-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "1 files",
+      "projectId": "secondbrain-nested-ai-systems",
+      "weight": 3
+    },
+    {
+      "id": "secondbrain-nested-ai-systems-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-ai-systems",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-architecture-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "4",
+      "projectId": "secondbrain-nested-architecture",
+      "weight": 1
+    },
+    {
+      "id": "secondbrain-nested-architecture-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "4 files",
+      "projectId": "secondbrain-nested-architecture",
+      "weight": 12
+    },
+    {
+      "id": "secondbrain-nested-architecture-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-architecture",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-archive-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-archive",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-archive-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "1 files",
+      "projectId": "secondbrain-nested-archive",
+      "weight": 3
+    },
+    {
+      "id": "secondbrain-nested-archive-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-archive",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-books-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-books",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-books-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "1 files",
+      "projectId": "secondbrain-nested-books",
+      "weight": 3
+    },
+    {
+      "id": "secondbrain-nested-books-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-books",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-continuity-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "2",
+      "projectId": "secondbrain-nested-continuity",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-continuity-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "2 files",
+      "projectId": "secondbrain-nested-continuity",
+      "weight": 6
+    },
+    {
+      "id": "secondbrain-nested-continuity-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-continuity",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-daily-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-daily",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-daily-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "1 files",
+      "projectId": "secondbrain-nested-daily",
+      "weight": 3
+    },
+    {
+      "id": "secondbrain-nested-daily-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-daily",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-ideas-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-ideas",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-ideas-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "1 files",
+      "projectId": "secondbrain-nested-ideas",
+      "weight": 3
+    },
+    {
+      "id": "secondbrain-nested-ideas-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-ideas",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-meetings-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-meetings",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-meetings-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "1 files",
+      "projectId": "secondbrain-nested-meetings",
+      "weight": 3
+    },
+    {
+      "id": "secondbrain-nested-meetings-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-meetings",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-projects-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-projects",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-projects-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "1 files",
+      "projectId": "secondbrain-nested-projects",
+      "weight": 3
+    },
+    {
+      "id": "secondbrain-nested-projects-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-projects",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-resources-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-resources",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-resources-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "2 files",
+      "projectId": "secondbrain-nested-resources",
+      "weight": 6
+    },
+    {
+      "id": "secondbrain-nested-resources-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-resources",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-sources-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "2",
+      "projectId": "secondbrain-nested-sources",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-sources-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "2 files",
+      "projectId": "secondbrain-nested-sources",
+      "weight": 6
+    },
+    {
+      "id": "secondbrain-nested-sources-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-sources",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-templates-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "7",
+      "projectId": "secondbrain-nested-templates",
+      "weight": 1
+    },
+    {
+      "id": "secondbrain-nested-templates-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "7 files",
+      "projectId": "secondbrain-nested-templates",
+      "weight": 20
+    },
+    {
+      "id": "secondbrain-nested-templates-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-templates",
+      "weight": 8
+    },
+    {
+      "id": "secondbrain-nested-workflows-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "1",
+      "projectId": "secondbrain-nested-workflows",
+      "weight": 0
+    },
+    {
+      "id": "secondbrain-nested-workflows-recent",
+      "kind": "documentation",
+      "label": "Recent activity (7d)",
+      "value": "1 files",
+      "projectId": "secondbrain-nested-workflows",
+      "weight": 3
+    },
+    {
+      "id": "secondbrain-nested-workflows-md-heavy",
+      "kind": "documentation",
+      "label": "Documentation density",
+      "value": "Markdown-heavy tree",
+      "projectId": "secondbrain-nested-workflows",
+      "weight": 8
+    },
+    {
+      "id": "archive-nested-ccc-pkg",
+      "kind": "forge",
+      "label": "package.json",
+      "value": "Present",
+      "projectId": "archive-nested-ccc",
+      "weight": 8
+    },
+    {
+      "id": "archive-nested-ccc-git",
+      "kind": "continuity",
+      "label": "Git repository",
+      "value": "Active (7d)",
+      "projectId": "archive-nested-ccc",
+      "weight": 12
+    },
+    {
+      "id": "archive-nested-ccc-md",
+      "kind": "archive",
+      "label": "Markdown volume",
+      "value": "3",
+      "projectId": "archive-nested-ccc",
+      "weight": 1
+    },
+    {
+      "id": "archive-nested-ccc-runtime",
+      "kind": "runtime",
+      "label": "Runtime capable",
+      "value": "Node / Next",
+      "projectId": "archive-nested-ccc",
+      "weight": 10
+    },
+    {
+      "id": "archive-nested-ccc-recent",
+      "kind": "forge",
+      "label": "Recent activity (7d)",
+      "value": "63 files",
+      "projectId": "archive-nested-ccc",
+      "weight": 20
+    }
+  ],
+  "scanRoots": [
+    {
+      "id": "projects",
+      "path": "C:\\Projects",
+      "accessible": true,
+      "projectCount": 5
+    },
+    {
+      "id": "secondbrain-nested",
+      "path": "C:\\Projects\\SecondBrain",
+      "accessible": true,
+      "projectCount": 14
+    },
+    {
+      "id": "archive-nested",
+      "path": "C:\\Projects\\ARCHIVE",
+      "accessible": true,
+      "projectCount": 1
+    },
+    {
+      "id": "secondbrain-root",
+      "path": "C:\\SecondBrain",
+      "accessible": false,
+      "projectCount": 0
+    },
+    {
+      "id": "archive-root",
+      "path": "C:\\ARCHIVE",
+      "accessible": false,
+      "projectCount": 0
+    }
+  ]
+}

@@ -19,7 +19,7 @@ export function FacilityPulse() {
   const heat = operational?.sectorHeat ?? [];
   const pulse = getFacilityPulse(heat);
 
-  if (!operational?.enabled && heat.length === 0) return null;
+  if (heat.length === 0 && !operational?.snapshotMeta) return null;
 
   const ariaSummary = [
     pulse.focusSector && `focus ${SECTOR_ARIA[pulse.focusSector as SectorId]}`,

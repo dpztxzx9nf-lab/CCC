@@ -48,6 +48,7 @@ export function SectorRoom({ sector, occupants }: SectorRoomProps) {
           key={operator.id}
           operator={operator}
           behavior={behavior}
+          placementSector={sector.id}
         />
       ))}
     </div>

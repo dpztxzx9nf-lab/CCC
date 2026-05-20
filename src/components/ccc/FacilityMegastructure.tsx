@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { SECTOR_ORDER } from "@/lib/facility-layout";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
+import { FacilitySignalLayer } from "@/components/operations/FacilitySignalLayer";
 import { SectorChamber } from "./SectorChamber";
 
 export function FacilityMegastructure() {
@@ -42,6 +43,7 @@ export function FacilityMegastructure() {
             occupants={occupantsBySector[sector!.id] ?? []}
           />
         ))}
+        <FacilitySignalLayer />
       </div>
     </div>
   );

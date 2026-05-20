@@ -54,6 +54,7 @@ export function mergeOperationalIntoCCCData(
       : undefined;
     return {
       ...op,
+      callsign: derived.callsign || op.callsign,
       currentActivity: derived.currentActivity,
       status: derived.status as SystemStatus,
       sectorId: activeProfile?.sectors[0] ?? op.sectorId,

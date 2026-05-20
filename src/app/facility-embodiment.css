@@ -62,31 +62,6 @@
   background: linear-gradient(180deg, rgba(232, 184, 74, 0.6), transparent);
 }
 
-/* Operator identity — callsign on hover/focus only */
-.ccc-inhabitant__callsign {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-bottom: 2px;
-  transform: translateX(-50%);
-  padding: 0.1rem 0.35rem;
-  font-family: var(--ccc-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.08em;
-  color: var(--ccc-accent);
-  background: rgba(7, 11, 18, 0.85);
-  border-radius: 2px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  white-space: nowrap;
-}
-
-.ccc-inhabitant:focus-within .ccc-inhabitant__callsign,
-.ccc-inhabitant:hover .ccc-inhabitant__callsign {
-  opacity: 1;
-}
-
 /* —— Workstations (active only) —— */
 .ccc-workstation {
   position: absolute;

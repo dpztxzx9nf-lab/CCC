@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { LocalContinuityReport } from "@/lib/localData/types";
 
@@ -76,9 +77,18 @@ export function LocalSignalsPanel() {
     <section className="ccc-sidebar-panel ccc-sidebar-panel--warn p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-sm font-semibold text-ccc-text">Local Signals</h2>
-        <span className="text-[10px] font-medium uppercase tracking-wide text-ccc-warn">
-          LOCAL DEV DATA
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-medium uppercase tracking-wide text-ccc-warn">
+            LOCAL DEV DATA
+          </span>
+          <Link
+            href="/ops"
+            className="text-[10px] text-ccc-muted/50 underline-offset-2 hover:text-ccc-accent hover:underline"
+            title="CCC operations manual"
+          >
+            ops
+          </Link>
+        </div>
       </div>
 
       {loading && (

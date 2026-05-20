@@ -1,0 +1,138 @@
+.ccc-ops-page {
+  position: relative;
+  min-height: 100dvh;
+  background: var(--ccc-bg);
+  color: var(--ccc-text);
+}
+
+.ccc-ops-page .ccc-ambience,
+.ccc-ops-page .ccc-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ccc-ops-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+@media (min-width: 768px) {
+  .ccc-ops-wrap {
+    padding: 2rem 2rem 4rem;
+  }
+}
+
+.ccc-ops-header {
+  border-bottom: 1px solid var(--ccc-border);
+  padding-bottom: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.ccc-ops-kicker {
+  font-family: var(--ccc-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ccc-accent-dim);
+}
+
+.ccc-ops-title {
+  margin: 0.35rem 0 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.ccc-ops-lead {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ccc-muted);
+  line-height: 1.55;
+}
+
+.ccc-ops-back {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--ccc-muted);
+  text-decoration: none;
+}
+
+.ccc-ops-back:hover {
+  color: var(--ccc-accent);
+}
+
+.ccc-ops-section {
+  margin-bottom: 2.25rem;
+}
+
+.ccc-ops-section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ccc-accent);
+}
+
+.ccc-ops-section p,
+.ccc-ops-section li {
+  font-size: 0.875rem;
+  color: var(--ccc-muted);
+  line-height: 1.55;
+}
+
+.ccc-ops-section > p {
+  margin: 0 0 0.65rem;
+}
+
+.ccc-ops-section ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.ccc-ops-section li {
+  margin-bottom: 0.35rem;
+}
+
+.ccc-ops-section li strong {
+  color: var(--ccc-text);
+  font-weight: 500;
+}
+
+.ccc-ops-cmd {
+  margin: 0.85rem 0 0;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--ccc-border);
+  border-radius: 4px;
+  background: var(--ccc-surface);
+}
+
+.ccc-ops-cmd__code {
+  margin: 0;
+  padding: 0;
+  font-family: var(--ccc-mono);
+  font-size: 0.78rem;
+  color: var(--ccc-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ccc-ops-cmd__desc {
+  margin: 0.45rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ccc-muted);
+  line-height: 1.45;
+}
+
+.ccc-ops-rules li::marker {
+  color: var(--ccc-warn);
+}
+
+.ccc-ops-trouble li::marker {
+  color: var(--ccc-accent-dim);
+}

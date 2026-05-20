@@ -9,11 +9,14 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { OperationalSnapshot } from "@/data/operational-types";
+import type { OperationalSnapshot, SnapshotMeta } from "@/data/operational-types";
 import type { CCCData, Operator, Project, Sector, SectorId } from "@/data/types";
 import { getCCCDataSync } from "@/lib/data-source";
 import { getOperatorsForSector } from "@/lib/operators-for-sector";
 import { applyOperationalSnapshot } from "@/lib/operational-source";
+import { buildOperationalSnapshot } from "@/lib/operations/operationalState";
+import { loadContinuitySnapshot } from "@/lib/snapshot/loadSnapshot";
+import { mergeContinuitySnapshot } from "@/lib/snapshot/mergeIntoOperational";
 
 export type PanelKind = "sector" | "operator" | "project";
 
@@ -25,6 +28,7 @@ export interface ActivePanel {
 interface CCCContextValue {
   data: CCCData;
   operational: OperationalSnapshot | null;
+  snapshotMeta: SnapshotMeta | null;
   loading: boolean;
   operationalLoading: boolean;
   error: string | null;
@@ -45,6 +49,7 @@ const CCCContext = createContext<CCCContextValue | null>(null);
 export function CCCProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<CCCData>(getCCCDataSync);
   const [operational, setOperational] = useState<OperationalSnapshot | null>(null);
+  const [snapshotMeta, setSnapshotMeta] = useState<SnapshotMeta | null>(null);
   const [loading, setLoading] = useState(false);
   const [operationalLoading, setOperationalLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,17 +59,32 @@ export function CCCProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
     setOperationalLoading(true);
 
-    fetch("/api/operational-state", { cache: "no-store" })
-      .then(async (res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json() as Promise<OperationalSnapshot>;
-      })
-      .then((snapshot) => {
-        if (cancelled) return;
-        setOperational(snapshot);
-        setData(applyOperationalSnapshot(getCCCDataSync(), snapshot));
-        setError(null);
-      })
+    async function hydrate() {
+      const [apiResult, archivist] = await Promise.all([
+        fetch("/api/operational-state", { cache: "no-store" })
+          .then(async (res) => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.json() as Promise<OperationalSnapshot>;
+          })
+          .catch(() => null),
+        loadContinuitySnapshot(),
+      ]);
+
+      if (cancelled) return;
+
+      const base = apiResult ?? buildOperationalSnapshot(null);
+      const { operational: merged, snapshotMeta: meta } = mergeContinuitySnapshot(
+        base,
+        archivist,
+      );
+
+      setOperational(merged);
+      setSnapshotMeta(meta);
+      setData(applyOperationalSnapshot(getCCCDataSync(), merged));
+      setError(apiResult || archivist ? null : "Operational and snapshot data unavailable");
+    }
+
+    hydrate()
       .catch((err: unknown) => {
         if (cancelled) return;
         const message =
@@ -164,6 +184,7 @@ export function CCCProvider({ children }: { children: ReactNode }) {
     () => ({
       data,
       operational,
+      snapshotMeta,
       loading,
       operationalLoading,
       error,
@@ -181,6 +202,7 @@ export function CCCProvider({ children }: { children: ReactNode }) {
     [
       data,
       operational,
+      snapshotMeta,
       loading,
       operationalLoading,
       error,
