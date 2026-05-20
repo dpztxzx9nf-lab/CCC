@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --ccc-bg: #070b12;
+  --ccc-surface: #0d1420;
+  --ccc-surface-raised: #121c2c;
+  --ccc-border: #1e2d45;
+  --ccc-text: #e8eef7;
+  --ccc-muted: #8fa3bf;
+  --ccc-accent: #3dd6c6;
+  --ccc-accent-dim: #2a9d90;
+  --ccc-warn: #e8b84a;
+  --ccc-danger: #e86a6a;
+  --ccc-font: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --ccc-mono: "Cascadia Code", "Consolas", monospace;
+}
+
+@theme inline {
+  --color-ccc-bg: var(--ccc-bg);
+  --color-ccc-surface: var(--ccc-surface);
+  --color-ccc-surface-raised: var(--ccc-surface-raised);
+  --color-ccc-border: var(--ccc-border);
+  --color-ccc-text: var(--ccc-text);
+  --color-ccc-muted: var(--ccc-muted);
+  --color-ccc-accent: var(--ccc-accent);
+  --color-ccc-accent-dim: var(--ccc-accent-dim);
+  --color-ccc-warn: var(--ccc-warn);
+  --color-ccc-danger: var(--ccc-danger);
+  --font-sans: var(--ccc-font);
+  --font-mono: var(--ccc-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background: var(--ccc-bg);
+  color: var(--ccc-text);
+  font-family: var(--ccc-font);
+  line-height: 1.5;
+}
+
+/* Background complexity — stays behind content */
+.ccc-ambience {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(61, 214, 198, 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(46, 90, 140, 0.12), transparent),
+    linear-gradient(180deg, #070b12 0%, #0a1018 100%);
+}
+
+.ccc-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(30, 45, 69, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 45, 69, 0.35) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, black 0%, transparent 85%);
+  opacity: 0.4;
+}
+
+/* Touch-friendly minimum tap targets */
+.ccc-tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Scrollbar */
+.ccc-scroll {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ccc-border) transparent;
+}
