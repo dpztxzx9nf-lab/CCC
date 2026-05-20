@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { OperationalEvent } from "@/lib/operations/events";
+import { readOperationalEventsFromDisk } from "@/lib/continuity/events/store";
 import "./ops.css";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "CCC — Backend Dev Portal",
@@ -8,6 +12,75 @@ export const metadata: Metadata = {
     "Internal operations reference: Git, Vercel, ARCHIVIST-0, PM2, and local CCC development.",
   robots: { index: false, follow: false },
 };
+
+function formatSignalTime(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso.length > 16 ? `${iso.slice(0, 10)} ${iso.slice(11, 16)}` : iso;
+  return new Intl.DateTimeFormat(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(d);
+}
+
+function semanticLabel(ev: OperationalEvent): string {
+  const v = ev.metadata.semanticMeaning;
+  if (typeof v !== "string" || !v.trim()) return "—";
+  return v.replace(/_/g, " ");
+}
+
+function truncateSummary(s: string, max = 120): string {
+  const t = s.trim();
+  if (t.length <= max) return t;
+  return `${t.slice(0, max - 1)}…`;
+}
+
+function RecentContinuitySignals({ events }: { events: OperationalEvent[] }) {
+  return (
+    <div className="ccc-ops-signals" aria-labelledby="recent-continuity-signals">
+      <h3 className="ccc-ops-signals__title" id="recent-continuity-signals">
+        Recent Continuity Signals
+      </h3>
+      <p className="ccc-ops-signals__meta">
+        Last 10 rows from <code className="font-mono text-ccc-text/80">public/continuity-events.json</code>{" "}
+        (<code className="font-mono text-ccc-text/80">operationalEvents</code>, newest first).
+      </p>
+      {events.length === 0 ? (
+        <p className="ccc-ops-signals__empty">
+          No normalized events yet — archivist watcher idle or log not migrated.
+        </p>
+      ) : (
+        <div className="ccc-ops-signals__scroll">
+          <table className="ccc-ops-signals__table">
+            <thead>
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Project</th>
+                <th scope="col">Sector</th>
+                <th scope="col">Meaning</th>
+                <th scope="col">Sev</th>
+                <th scope="col">Summary</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((ev) => (
+                <tr key={ev.id}>
+                  <td>{formatSignalTime(ev.timestamp)}</td>
+                  <td>{ev.project}</td>
+                  <td>{ev.sector}</td>
+                  <td>{semanticLabel(ev)}</td>
+                  <td>{ev.severity}</td>
+                  <td>{truncateSummary(ev.summary)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function CommandBlock({
   command,
@@ -37,7 +110,10 @@ const SECTIONS = [
   { id: "future", label: "Future automation" },
 ] as const;
 
-export default function OpsPage() {
+export default async function OpsPage() {
+  const operational = await readOperationalEventsFromDisk();
+  const recentSignals = operational.slice(0, 10);
+
   return (
     <div className="ccc-ops-page">
       <div className="ccc-ambience" aria-hidden>
@@ -211,6 +287,8 @@ export default function OpsPage() {
             projects normally; open local CCC to view the projection. Intervene only when
             something looks wrong.
           </p>
+
+          <RecentContinuitySignals events={recentSignals} />
         </section>
 
         <section className="ccc-ops-section" aria-labelledby="pm2">

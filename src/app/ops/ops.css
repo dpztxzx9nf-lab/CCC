@@ -104,6 +104,82 @@
   font-weight: 500;
 }
 
+.ccc-ops-signals {
+  margin-top: 0.95rem;
+  padding: 0.65rem 0.65rem 0.6rem;
+  border: 1px solid var(--ccc-border);
+  border-radius: 4px;
+  background: var(--ccc-surface);
+}
+
+.ccc-ops-signals__title {
+  margin: 0 0 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ccc-accent);
+}
+
+.ccc-ops-signals__meta {
+  margin: 0 0 0.5rem;
+  font-size: 0.74rem;
+  color: var(--ccc-muted);
+  line-height: 1.45;
+}
+
+.ccc-ops-signals__scroll {
+  overflow-x: auto;
+  margin: 0 -0.1rem;
+  padding: 0 0.1rem;
+}
+
+.ccc-ops-signals__table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  font-family: var(--ccc-mono);
+  font-size: 0.7rem;
+  line-height: 1.35;
+  color: var(--ccc-muted);
+}
+
+.ccc-ops-signals__table th {
+  text-align: left;
+  padding: 0.2rem 0.45rem 0.35rem 0;
+  font-weight: 500;
+  color: var(--ccc-accent-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--ccc-border);
+}
+
+.ccc-ops-signals__table td {
+  padding: 0.28rem 0.45rem 0.28rem 0;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.ccc-ops-signals__table td:last-child {
+  white-space: normal;
+  max-width: 20rem;
+  color: var(--ccc-text);
+}
+
+.ccc-ops-signals__table tr + tr td {
+  border-top: 1px solid color-mix(in srgb, var(--ccc-border) 55%, transparent);
+}
+
+.ccc-ops-signals__empty {
+  margin: 0;
+  padding: 0.35rem 0 0;
+  font-family: var(--ccc-mono);
+  font-size: 0.7rem;
+  color: var(--ccc-muted);
+  line-height: 1.45;
+}
+
 .ccc-ops-cmd {
   margin: 0.85rem 0 0;
   padding: 0.65rem 0.75rem;
