@@ -89,7 +89,429 @@ body {
 
 /* Inhabitant positioning — transition only when operational state changes */
 .ccc-inhabitant {
-  transition:
-    left 0.7s ease-out,
-    top 0.7s ease-out;
+  transition: left 0.7s ease-out;
+}
+
+/* —— Sector operational floor —— */
+.ccc-sector-floor {
+  border-radius: 0.375rem;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 20, 32, 0.35) 0%,
+    rgba(7, 11, 18, 0.85) 55%,
+    rgba(10, 16, 26, 1) 100%
+  );
+}
+
+.ccc-sector-floor__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(30, 45, 69, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 45, 69, 0.2) 1px, transparent 1px);
+  background-size: 20px 20px;
+  mask-image: linear-gradient(180deg, transparent, black 40%);
+  pointer-events: none;
+}
+
+.ccc-sector-floor__line {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 20%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(61, 214, 198, 0.35),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* —— Sci-fi operator entity (CSS silhouette) —— */
+.ccc-agent-hit {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ccc-agent-hit:focus-visible .ccc-agent {
+  filter: drop-shadow(0 0 8px rgba(61, 214, 198, 0.45));
+}
+
+.ccc-agent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 2.75rem;
+  height: 4.25rem;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+  transition: filter 0.4s ease, transform 0.5s ease;
+}
+
+.ccc-agent-hit:hover .ccc-agent,
+.ccc-agent-hit:focus .ccc-agent {
+  transform: translateY(-2px);
+}
+
+.ccc-agent__shadow {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 2rem;
+  height: 0.35rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.ccc-agent__head {
+  position: relative;
+  z-index: 3;
+  width: 1.1rem;
+  height: 1rem;
+  border-radius: 0.35rem 0.35rem 0.2rem 0.2rem;
+  background: linear-gradient(180deg, #2a3a52 0%, #1a2435 100%);
+  border: 1px solid #3d5270;
+}
+
+.ccc-agent__visor {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 0.7rem;
+  height: 0.28rem;
+  transform: translate(-50%, -50%);
+  border-radius: 0.15rem;
+  background: var(--ccc-accent);
+  box-shadow: 0 0 6px var(--ccc-accent);
+  transition: box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.ccc-agent__torso {
+  position: relative;
+  z-index: 2;
+  margin-top: 1px;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 0.2rem;
+  background: linear-gradient(180deg, #243347 0%, #151f2e 100%);
+  border: 1px solid #334860;
+}
+
+.ccc-agent__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--ccc-accent-dim);
+  box-shadow: 0 0 4px var(--ccc-accent-dim);
+  transition: box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.ccc-agent__arm {
+  position: absolute;
+  z-index: 1;
+  top: 1.15rem;
+  width: 0.35rem;
+  height: 1rem;
+  border-radius: 0.15rem;
+  background: #1e2a3d;
+  border: 1px solid #334860;
+  transition: transform 0.5s ease;
+}
+
+.ccc-agent__arm--left {
+  left: 0.15rem;
+  transform: rotate(8deg);
+}
+
+.ccc-agent__arm--right {
+  right: 0.15rem;
+  transform: rotate(-8deg);
+}
+
+.ccc-agent__legs {
+  position: relative;
+  z-index: 1;
+  margin-top: 1px;
+  width: 1rem;
+  height: 0.55rem;
+  border-radius: 0 0 0.2rem 0.2rem;
+  background: #1a2435;
+  border: 1px solid #2e4058;
+  border-top: none;
+}
+
+.ccc-agent__base {
+  position: absolute;
+  bottom: 0.1rem;
+  width: 1.5rem;
+  height: 0.25rem;
+  border-radius: 0.1rem;
+  background: #141c28;
+  border: 1px solid #2a3d52;
+}
+
+.ccc-agent__accent {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Intensity → core / visor glow */
+.ccc-agent[data-intensity="calm"] .ccc-agent__core,
+.ccc-agent[data-intensity="calm"] .ccc-agent__visor {
+  opacity: 0.65;
+  box-shadow: 0 0 3px var(--ccc-accent-dim);
+}
+
+.ccc-agent[data-intensity="steady"] .ccc-agent__core {
+  box-shadow: 0 0 8px var(--ccc-accent);
+}
+
+.ccc-agent[data-intensity="steady"] .ccc-agent__visor {
+  box-shadow: 0 0 8px var(--ccc-accent);
+}
+
+.ccc-agent[data-intensity="elevated"] .ccc-agent__core {
+  background: var(--ccc-warn);
+  box-shadow: 0 0 12px var(--ccc-warn);
+}
+
+.ccc-agent[data-intensity="elevated"] .ccc-agent__visor {
+  background: var(--ccc-warn);
+  box-shadow: 0 0 10px var(--ccc-warn);
+}
+
+.ccc-agent[data-status="elevated"] .ccc-agent__visor,
+.ccc-agent[data-status="degraded"] .ccc-agent__visor {
+  background: var(--ccc-warn);
+}
+
+/* Posture → limb position (operational, not decorative wander) */
+.ccc-agent[data-posture="building"] .ccc-agent__arm--right {
+  transform: rotate(-38deg) translateY(-2px);
+}
+
+.ccc-agent[data-posture="monitoring"] .ccc-agent__head {
+  transform: rotate(-6deg);
+}
+
+.ccc-agent[data-posture="coordinating"] .ccc-agent__arm--left {
+  transform: rotate(22deg);
+}
+
+.ccc-agent[data-posture="coordinating"] .ccc-agent__arm--right {
+  transform: rotate(-22deg);
+}
+
+.ccc-agent[data-posture="archiving"] .ccc-agent__arm--left,
+.ccc-agent[data-posture="reviewing"] .ccc-agent__arm--left {
+  transform: rotate(18deg) translateX(-1px);
+}
+
+.ccc-agent[data-posture="relaying"] .ccc-agent__arm--right {
+  transform: rotate(-30deg) translateY(-3px);
+}
+
+.ccc-agent[data-posture="scouting"] {
+  transform: scale(0.92);
+}
+
+/* NEXUS-7 — command / architect */
+.ccc-agent--nexus .ccc-agent__head {
+  width: 1.2rem;
+  border-radius: 0.15rem 0.15rem 0.25rem 0.25rem;
+}
+
+.ccc-agent--nexus .ccc-agent__head::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -5px;
+  width: 0.5rem;
+  height: 0.35rem;
+  transform: translateX(-50%);
+  border-radius: 0.1rem;
+  background: #3d5270;
+  border: 1px solid #5a7494;
+}
+
+.ccc-agent--nexus .ccc-agent__torso {
+  width: 1.55rem;
+  height: 1.45rem;
+}
+
+.ccc-agent--nexus .ccc-agent__accent {
+  left: 50%;
+  top: -8px;
+  width: 1.4rem;
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--ccc-accent), transparent);
+  opacity: 0.5;
+}
+
+/* FAB-0 — heavy fabricator */
+.ccc-agent--fab {
+  width: 3.1rem;
+  height: 4.5rem;
+}
+
+.ccc-agent--fab .ccc-agent__head {
+  width: 1.25rem;
+  height: 1.05rem;
+}
+
+.ccc-agent--fab .ccc-agent__torso {
+  width: 1.85rem;
+  height: 1.55rem;
+  border-radius: 0.25rem;
+}
+
+.ccc-agent--fab .ccc-agent__arm {
+  width: 0.45rem;
+  height: 1.1rem;
+}
+
+.ccc-agent--fab .ccc-agent__base {
+  width: 1.85rem;
+  height: 0.35rem;
+}
+
+.ccc-agent--fab .ccc-agent__core {
+  width: 0.55rem;
+  height: 0.55rem;
+  background: #c9a227;
+  box-shadow: 0 0 6px rgba(201, 162, 39, 0.6);
+}
+
+/* BCAST-1 — slim relay / antenna */
+.ccc-agent--bcast {
+  width: 2.4rem;
+  height: 4.6rem;
+}
+
+.ccc-agent--bcast .ccc-agent__head {
+  width: 0.95rem;
+  height: 1.1rem;
+  border-radius: 0.45rem 0.45rem 0.2rem 0.2rem;
+}
+
+.ccc-agent--bcast .ccc-agent__torso {
+  width: 0.95rem;
+  height: 1.5rem;
+  border-radius: 0.35rem;
+}
+
+.ccc-agent--bcast .ccc-agent__accent {
+  left: 50%;
+  top: -10px;
+  width: 2px;
+  height: 10px;
+  transform: translateX(-50%);
+  background: var(--ccc-accent);
+  box-shadow: 0 0 6px var(--ccc-accent);
+}
+
+.ccc-agent--bcast .ccc-agent__accent::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  width: 6px;
+  height: 6px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1px solid var(--ccc-accent);
+  opacity: 0.7;
+}
+
+.ccc-agent--bcast .ccc-agent__arm {
+  width: 0.28rem;
+}
+
+/* SCOUT-6 — compact field unit */
+.ccc-agent--scout {
+  width: 2.35rem;
+  height: 3.85rem;
+}
+
+.ccc-agent--scout .ccc-agent__head {
+  width: 1rem;
+  height: 0.9rem;
+}
+
+.ccc-agent--scout .ccc-agent__torso {
+  width: 1.15rem;
+  height: 1.1rem;
+}
+
+.ccc-agent--scout .ccc-agent__torso::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: 2px;
+  width: 0.35rem;
+  height: 0.7rem;
+  border-radius: 0.1rem;
+  background: #1e2a3d;
+  border: 1px solid #334860;
+}
+
+.ccc-agent--scout .ccc-agent__legs {
+  width: 0.85rem;
+  height: 0.45rem;
+}
+
+/* DEEP-1 — archive keeper */
+.ccc-agent--deep {
+  width: 2.65rem;
+  height: 4.35rem;
+}
+
+.ccc-agent--deep .ccc-agent__head {
+  width: 1.15rem;
+  height: 1.05rem;
+  border-radius: 50% 50% 0.25rem 0.25rem;
+}
+
+.ccc-agent--deep .ccc-agent__torso {
+  width: 1.45rem;
+  height: 1.4rem;
+  border-radius: 0.35rem 0.35rem 0.2rem 0.2rem;
+}
+
+.ccc-agent--deep .ccc-agent__visor {
+  background: #7eb8ff;
+  box-shadow: 0 0 5px rgba(126, 184, 255, 0.5);
+}
+
+.ccc-agent--deep .ccc-agent__core {
+  background: #5a8fc9;
+  box-shadow: 0 0 6px rgba(90, 143, 201, 0.45);
+}
+
+.ccc-agent--deep .ccc-agent__arm {
+  height: 0.85rem;
+}
+
+.ccc-agent-callsign {
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .ccc-agent-callsign {
+    opacity: 0;
+  }
+
+  .ccc-agent-hit:hover .ccc-agent-callsign,
+  .ccc-agent-hit:focus .ccc-agent-callsign {
+    opacity: 0;
+  }
 }

@@ -12,20 +12,16 @@ interface StationMarkerProps {
 export function StationMarker({ station, position, occupied }: StationMarkerProps) {
   return (
     <div
-      className="pointer-events-none absolute z-[1] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-      style={{ left: `${position.x}%`, top: `${position.y}%` }}
+      className="pointer-events-none absolute z-[1] -translate-x-1/2"
+      style={{ left: `${position.x}%`, bottom: "22%" }}
       aria-hidden
+      title={station.name}
     >
       <span
-        className={`h-2 w-2 rounded-sm border ${
-          occupied
-            ? "border-ccc-accent/60 bg-ccc-accent/30"
-            : "border-ccc-border bg-ccc-surface/80"
+        className={`mx-auto block h-1.5 w-6 rounded-sm ${
+          occupied ? "bg-ccc-accent/25" : "bg-ccc-border/40"
         }`}
       />
-      <span className="mt-0.5 max-w-[5rem] truncate text-center text-[9px] leading-tight text-ccc-muted">
-        {station.name}
-      </span>
     </div>
   );
 }

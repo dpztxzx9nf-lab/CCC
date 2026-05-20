@@ -46,7 +46,10 @@ export function SectorRoom({ sector, operators }: SectorRoomProps) {
   }
 
   return (
-    <div className="relative min-h-[8.5rem] overflow-visible rounded-md border border-ccc-border/50 bg-ccc-bg/40">
+    <div className="ccc-sector-floor relative min-h-[10.5rem] overflow-visible">
+      <div className="ccc-sector-floor__grid" aria-hidden />
+      <div className="ccc-sector-floor__line" aria-hidden />
+
       {stations.map((st) => (
         <StationMarker
           key={st.id}
