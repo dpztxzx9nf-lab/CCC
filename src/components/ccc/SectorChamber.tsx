@@ -7,6 +7,7 @@ import {
   getEffectiveChamberActivity,
   sectorEventBoost,
 } from "@/lib/continuity/events/influence";
+import { useSectorResidue } from "@/context/FacilityResidueContext";
 import { SECTOR_GRID_AREA } from "@/lib/facility-layout";
 import { SectorRoom } from "./SectorRoom";
 import { SectorScenery } from "./SectorScenery";
@@ -22,6 +23,7 @@ export function SectorChamber({ sector, occupants }: SectorChamberProps) {
   const activity = getEffectiveChamberActivity(heat, sector.id, continuityEvents);
   const eventLit = highlightedSectors.includes(sector.id);
   const eventPulse = sectorEventBoost(sector.id, continuityEvents) >= 10;
+  const residue = useSectorResidue(sector.id);
   const activeStations = occupants
     .map((o) => o.behavior.stationId)
     .filter(Boolean) as string[];
@@ -33,6 +35,13 @@ export function SectorChamber({ sector, occupants }: SectorChamberProps) {
       data-activity={activity}
       data-dominant={heat?.dominantActivity ?? undefined}
       data-occupied={occupants.length > 0 ? "true" : undefined}
+      data-residue-glow={residue.glow > 0 ? residue.glow : undefined}
+      data-residue-pressure={residue.pressure > 0 ? residue.pressure : undefined}
+      data-residue-cool={residue.coolness > 1 ? residue.coolness : undefined}
+      data-residue-warm={sector.id === "forge" && residue.warmth > 0 ? residue.warmth : undefined}
+      data-residue-flicker={
+        sector.id === "runtime" && residue.flicker > 0 ? residue.flicker : undefined
+      }
     >
       <SectorScenery
         sectorId={sector.id}

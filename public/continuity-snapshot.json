@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T05:54:25.824Z",
+  "generatedAt": "2026-05-20T06:07:37.790Z",
   "agent": "ARCHIVIST-0",
   "projects": [
     {
@@ -28,7 +28,7 @@
       "hasPackageJson": true,
       "hasGit": true,
       "markdownCount": 1,
-      "lastModified": "2026-05-20T05:53:11.133Z",
+      "lastModified": "2026-05-20T06:06:23.888Z",
       "runtimeCapable": true,
       "likelyStack": [
         "active-code",
@@ -39,7 +39,7 @@
       ],
       "sectorClassification": "forge",
       "activityScore": 88,
-      "recentActivityCount": 137,
+      "recentActivityCount": 146,
       "obsidianVault": false
     },
     {
@@ -504,7 +504,7 @@
       "id": "projects-ccc-recent",
       "kind": "forge",
       "label": "Recent activity (7d)",
-      "value": "137 files",
+      "value": "146 files",
       "projectId": "projects-ccc",
       "weight": 20
     },

@@ -5,6 +5,7 @@ import "./facility-stabilization.css";
 import "./facility-embodiment.css";
 import "./facility-signals.css";
 import "./facility-events.css";
+import "./facility-residue.css";
 
 export const metadata: Metadata = {
   title: "CCC — Continuity Command Center",

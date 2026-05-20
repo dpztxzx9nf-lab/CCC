@@ -2,6 +2,7 @@
 
 import type { SectorHeatView } from "@/data/operational-types";
 import type { SectorId } from "@/data/types";
+import { useSectorResidue } from "@/context/FacilityResidueContext";
 import { getChamberActivity } from "@/lib/chamber-atmosphere";
 
 interface SectorSceneryProps {
@@ -24,6 +25,7 @@ function SceneryShell({
   hasTransit?: boolean;
   children: React.ReactNode;
 }) {
+  const residue = useSectorResidue(sectorId);
   const activity = getChamberActivity(heat);
   return (
     <div
@@ -32,8 +34,12 @@ function SceneryShell({
       data-dominant={heat?.dominantActivity ?? undefined}
       data-transit={hasTransit ? "true" : undefined}
       data-stations={activeStations?.join(" ") || undefined}
+      data-residue-glow={residue.glow}
+      data-residue-density={residue.density}
+      data-residue-sat={residue.saturation}
       aria-hidden
     >
+      <span className="ccc-scenery__residue-scar" />
       <span className="ccc-scenery__depth-back" />
       <span className="ccc-scenery__frame ccc-scenery__frame--tl" />
       <span className="ccc-scenery__frame ccc-scenery__frame--br" />

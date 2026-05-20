@@ -1,0 +1,265 @@
+/* Environmental continuity residue — faint infrastructural memory */
+
+.ccc-residue-transit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.ccc-residue-transit__path {
+  stroke: rgba(61, 214, 198, 0.35);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: opacity 2s ease;
+}
+
+.ccc-residue-transit__path[data-wear="4"] {
+  stroke-width: 2;
+  stroke: rgba(61, 214, 198, 0.5);
+}
+
+.ccc-residue-transit__path[data-wear="3"] {
+  stroke: rgba(61, 214, 198, 0.42);
+}
+
+/* —— Chamber: operational wear + cooling —— */
+.ccc-chamber[data-residue-pressure="1"] {
+  filter: saturate(1.02);
+}
+
+.ccc-chamber[data-residue-pressure="2"],
+.ccc-chamber[data-residue-pressure="3"] {
+  filter: saturate(1.06) brightness(1.02);
+}
+
+.ccc-chamber[data-residue-pressure="4"] {
+  filter: saturate(1.1) brightness(1.04);
+  animation: ccc-residue-pressure-pulse 5s ease-in-out infinite;
+}
+
+.ccc-chamber[data-residue-cool="2"] {
+  filter: saturate(0.75) brightness(0.88);
+}
+
+.ccc-chamber[data-residue-cool="3"],
+.ccc-chamber[data-residue-cool="4"] {
+  filter: saturate(0.62) brightness(0.82);
+}
+
+.ccc-chamber[data-residue-cool="4"] {
+  border-color: rgba(20, 30, 48, 0.7);
+}
+
+@keyframes ccc-residue-pressure-pulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 12px rgba(61, 214, 198, 0.02);
+  }
+  50% {
+    box-shadow: inset 0 0 22px rgba(61, 214, 198, 0.06);
+  }
+}
+
+/* Scar glow */
+.ccc-chamber[data-residue-glow="1"] {
+  box-shadow: inset 0 0 16px rgba(61, 214, 198, 0.03);
+}
+
+.ccc-chamber[data-residue-glow="2"] {
+  box-shadow: inset 0 0 24px rgba(61, 214, 198, 0.05);
+}
+
+.ccc-chamber[data-residue-glow="3"],
+.ccc-chamber[data-residue-glow="4"] {
+  box-shadow:
+    inset 0 0 32px rgba(61, 214, 198, 0.07),
+    inset 0 -1px 0 rgba(61, 214, 198, 0.08);
+}
+
+/* Forge warmth */
+.ccc-chamber--forge[data-residue-warm="2"] .ccc-scenery__forge-glow,
+.ccc-chamber--forge[data-residue-warm="3"] .ccc-scenery__forge-glow,
+.ccc-chamber--forge[data-residue-warm="4"] .ccc-scenery__forge-glow {
+  opacity: 0.55;
+  filter: blur(8px);
+}
+
+.ccc-chamber--forge[data-residue-warm="4"] .ccc-scenery__ember {
+  opacity: 0.9;
+  animation: ccc-residue-ember 3s ease-in-out infinite;
+}
+
+@keyframes ccc-residue-ember {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Archive density strata */
+.ccc-scenery--archive[data-residue-density="2"] .ccc-scenery__shelf--1,
+.ccc-scenery--archive[data-residue-density="3"] .ccc-scenery__shelf--1,
+.ccc-scenery--archive[data-residue-density="4"] .ccc-scenery__shelf--1 {
+  opacity: 0.85;
+}
+
+.ccc-scenery--archive[data-residue-density="3"] .ccc-scenery__shelf--2,
+.ccc-scenery--archive[data-residue-density="4"] .ccc-scenery__shelf--2 {
+  opacity: 0.75;
+}
+
+.ccc-scenery--archive[data-residue-density="4"] .ccc-scenery__depth-glow {
+  opacity: 0.5;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(143, 163, 191, 0.12) 40%,
+    rgba(61, 214, 198, 0.06) 100%
+  );
+}
+
+.ccc-scenery--archive[data-residue-density="4"]::before {
+  content: "";
+  position: absolute;
+  inset: 12% 8% 20%;
+  background: linear-gradient(
+    0deg,
+    rgba(143, 163, 191, 0.04) 0%,
+    transparent 35%,
+    rgba(143, 163, 191, 0.03) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Runtime flicker */
+.ccc-chamber--runtime[data-residue-flicker="2"] .ccc-scenery__reactor-core,
+.ccc-chamber--runtime[data-residue-flicker="3"] .ccc-scenery__reactor-core,
+.ccc-chamber--runtime[data-residue-flicker="4"] .ccc-scenery__reactor-core {
+  animation: ccc-residue-flicker 4s steps(2, end) infinite;
+}
+
+.ccc-chamber--runtime[data-residue-flicker="4"] .ccc-scenery__conduit {
+  opacity: 0.85;
+  animation: ccc-residue-flicker 2.5s steps(3, end) infinite;
+}
+
+@keyframes ccc-residue-flicker {
+  0%,
+  88%,
+  100% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.55;
+  }
+  94% {
+    opacity: 0.92;
+  }
+}
+
+/* Saturation shift */
+.ccc-scenery[data-residue-sat="2"] {
+  filter: saturate(1.08);
+}
+
+.ccc-scenery[data-residue-sat="3"],
+.ccc-scenery[data-residue-sat="4"] {
+  filter: saturate(1.14) contrast(1.02);
+}
+
+/* Pulse cadence on megastructure transit */
+.ccc-megastructure[data-pulse-cadence="2"] .ccc-transit--elevator,
+.ccc-megastructure[data-pulse-cadence="3"] .ccc-transit--elevator {
+  animation: ccc-residue-transit-flow 6s ease-in-out infinite;
+}
+
+.ccc-megastructure[data-pulse-cadence="4"] .ccc-transit--elevator,
+.ccc-megastructure[data-pulse-cadence="4"] .ccc-transit--spine-h {
+  animation: ccc-residue-transit-flow 4s ease-in-out infinite;
+}
+
+@keyframes ccc-residue-transit-flow {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Worn facility transit (physical lines) */
+.ccc-megastructure[data-transit-wear="2"] .ccc-transit--spine-h,
+.ccc-megastructure[data-transit-wear="3"] .ccc-transit--spine-h,
+.ccc-megastructure[data-transit-wear="4"] .ccc-transit--spine-h {
+  opacity: 0.95;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(61, 214, 198, 0.28),
+    rgba(61, 214, 198, 0.45),
+    rgba(61, 214, 198, 0.28),
+    transparent
+  );
+}
+
+.ccc-megastructure[data-transit-wear="4"] .ccc-transit--elevator {
+  width: 4px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(61, 214, 198, 0.45),
+    rgba(61, 214, 198, 0.22),
+    transparent
+  );
+}
+
+/* Residue scar overlay (scenery) */
+.ccc-scenery__residue-scar {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 70% 50% at 50% 60%,
+    rgba(61, 214, 198, 0.06),
+    transparent 70%
+  );
+  transition: opacity 1.5s ease;
+}
+
+.ccc-scenery[data-residue-glow="1"] .ccc-scenery__residue-scar {
+  opacity: 0.35;
+}
+
+.ccc-scenery[data-residue-glow="2"] .ccc-scenery__residue-scar {
+  opacity: 0.55;
+}
+
+.ccc-scenery[data-residue-glow="3"] .ccc-scenery__residue-scar,
+.ccc-scenery[data-residue-glow="4"] .ccc-scenery__residue-scar {
+  opacity: 0.75;
+}
+
+.ccc-signal-route--worn .ccc-signal-route__path {
+  stroke-dasharray: none;
+  filter: drop-shadow(0 0 2px rgba(61, 214, 198, 0.2));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ccc-chamber[data-residue-pressure="4"],
+  .ccc-chamber--runtime[data-residue-flicker] .ccc-scenery__reactor-core,
+  .ccc-chamber--forge[data-residue-warm="4"] .ccc-scenery__ember,
+  .ccc-megastructure[data-pulse-cadence] .ccc-transit--elevator {
+    animation: none;
+  }
+}

@@ -2,14 +2,17 @@
 
 import { useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
+import { useFacilityResidue } from "@/context/FacilityResidueContext";
 import { SECTOR_ORDER } from "@/lib/facility-layout";
 import { activeEventPulseKinds } from "@/lib/continuity/events/influence";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
+import { HistoricTransitLayer } from "@/components/continuity/HistoricTransitLayer";
 import { FacilitySignalLayer } from "@/components/operations/FacilitySignalLayer";
 import { SectorChamber } from "./SectorChamber";
 
 export function FacilityMegastructure() {
   const { data, loading, operational, continuityEvents } = useCCC();
+  const residue = useFacilityResidue();
 
   const occupantsBySector = useMemo(
     () => buildFacilityOccupants(data, operational),
@@ -32,10 +35,24 @@ export function FacilityMegastructure() {
 
   const eventPulses = activeEventPulseKinds(continuityEvents);
   const transitPulse = eventPulses.length > 0 ? " ccc-transit--event-pulse" : "";
+  const transitWear =
+    residue.transitRoutes.length > 0
+      ? Math.max(...residue.transitRoutes.map((r) => r.wearTier))
+      : 0;
+  const pulseCadence = Math.max(
+    0,
+    ...SECTOR_ORDER.map((id) => residue.sectors[id]?.pulseCadence ?? 0),
+  );
 
   return (
     <div className="ccc-megastructure-wrap overflow-visible">
-      <div className="ccc-megastructure" aria-label="Continuity Command Center facility">
+      <div
+        className="ccc-megastructure"
+        aria-label="Continuity Command Center facility"
+        data-transit-wear={transitWear > 0 ? transitWear : undefined}
+        data-pulse-cadence={pulseCadence > 1 ? pulseCadence : undefined}
+      >
+        <HistoricTransitLayer />
         <div className={`ccc-transit ccc-transit--elevator${transitPulse}`} aria-hidden />
         <div className={`ccc-transit ccc-transit--spine-h${transitPulse}`} aria-hidden />
         <div className={`ccc-transit ccc-transit--spine-v${transitPulse}`} aria-hidden />

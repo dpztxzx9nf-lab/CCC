@@ -2,6 +2,7 @@
 
 import { useCCC } from "@/context/CCCContext";
 import { getChamberActivity } from "@/lib/chamber-atmosphere";
+import { useFacilityResidue } from "@/context/FacilityResidueContext";
 import { getFacilityPulseWithEvents } from "@/lib/continuity/events/influence";
 import { SECTOR_ORDER } from "@/lib/facility-layout";
 import type { SectorId } from "@/data/types";
@@ -18,7 +19,12 @@ const SECTOR_ARIA: Record<SectorId, string> = {
 export function FacilityPulse() {
   const { operational, openSector, continuityEvents, highlightedSectors } = useCCC();
   const heat = operational?.sectorHeat ?? [];
+  const facilityResidue = useFacilityResidue();
   const pulse = getFacilityPulseWithEvents(heat, continuityEvents);
+
+  const residueHot = SECTOR_ORDER.filter(
+    (id) => (facilityResidue.sectors[id]?.pressure ?? 0) >= 2,
+  );
 
   if (heat.length === 0 && !operational?.snapshotMeta) return null;
 
@@ -41,10 +47,12 @@ export function FacilityPulse() {
         const h = heat.find((x) => x.sectorId === sectorId);
         const activity = getChamberActivity(h);
         const isFocus = pulse.focusSector === sectorId;
-        const isHot = pulse.hotSectors.includes(sectorId);
+        const isHot =
+          pulse.hotSectors.includes(sectorId) || residueHot.includes(sectorId);
         const isEvent =
           pulse.eventSectors.includes(sectorId) ||
-          highlightedSectors.includes(sectorId);
+          highlightedSectors.includes(sectorId) ||
+          (facilityResidue.sectors[sectorId]?.glow ?? 0) >= 2;
 
         return (
           <button
