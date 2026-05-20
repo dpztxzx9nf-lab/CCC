@@ -9,7 +9,8 @@ interface OperatorChipProps {
 }
 
 export function OperatorChip({ operator }: OperatorChipProps) {
-  const { openOperator } = useCCC();
+  const { openOperator, operational } = useCCC();
+  const derived = operational?.operators.find((o) => o.operatorId === operator.id);
 
   return (
     <div className="group relative">
@@ -26,6 +27,12 @@ export function OperatorChip({ operator }: OperatorChipProps) {
           <StatusBadge status={operator.status} />
         </div>
         <span className="mt-0.5 text-sm text-ccc-muted">{operator.designation}</span>
+        {derived?.activeProjectName && (
+          <span className="mt-1 text-xs text-ccc-accent">
+            Active: {derived.activeProjectName}
+            {derived.workload > 0 && ` · load ${derived.workload}`}
+          </span>
+        )}
         <span className="mt-2 line-clamp-2 text-sm leading-snug text-ccc-text">
           {operator.currentActivity}
         </span>

@@ -9,8 +9,11 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { OperationalSnapshot } from "@/data/operational-types";
 import type { CCCData, Operator, Project, Sector, SectorId } from "@/data/types";
-import { fetchCCCData, getCCCDataSync } from "@/lib/data-source";
+import { getCCCDataSync } from "@/lib/data-source";
+import { getOperatorsForSector } from "@/lib/operators-for-sector";
+import { applyOperationalSnapshot } from "@/lib/operational-source";
 
 export type PanelKind = "sector" | "operator" | "project";
 
@@ -21,7 +24,9 @@ export interface ActivePanel {
 
 interface CCCContextValue {
   data: CCCData;
+  operational: OperationalSnapshot | null;
   loading: boolean;
+  operationalLoading: boolean;
   error: string | null;
   activePanel: ActivePanel | null;
   openSector: (id: SectorId) => void;
@@ -31,33 +36,46 @@ interface CCCContextValue {
   getSector: (id: SectorId) => Sector | undefined;
   getOperator: (id: string) => Operator | undefined;
   getProject: (id: string) => Project | undefined;
+  getSectorHeat: (id: SectorId) => OperationalSnapshot["sectorHeat"][0] | undefined;
+  getOperatorsForSector: (id: SectorId) => Operator[];
 }
 
 const CCCContext = createContext<CCCContextValue | null>(null);
 
 export function CCCProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<CCCData>(getCCCDataSync);
+  const [operational, setOperational] = useState<OperationalSnapshot | null>(null);
   const [loading, setLoading] = useState(false);
+  const [operationalLoading, setOperationalLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activePanel, setActivePanel] = useState<ActivePanel | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    fetchCCCData()
-      .then((next) => {
-        if (!cancelled) {
-          setData(next);
-          setError(null);
-        }
+    setOperationalLoading(true);
+
+    fetch("/api/operational-state", { cache: "no-store" })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json() as Promise<OperationalSnapshot>;
+      })
+      .then((snapshot) => {
+        if (cancelled) return;
+        setOperational(snapshot);
+        setData(applyOperationalSnapshot(getCCCDataSync(), snapshot));
+        setError(null);
       })
       .catch((err: unknown) => {
-        if (!cancelled) {
-          const message =
-            err instanceof Error ? err.message : "Failed to load command data";
-          setError(message);
-          setData(getCCCDataSync());
-        }
+        if (cancelled) return;
+        const message =
+          err instanceof Error ? err.message : "Operational mapping unavailable";
+        setError(message);
+        setData(getCCCDataSync());
+      })
+      .finally(() => {
+        if (!cancelled) setOperationalLoading(false);
       });
+
     return () => {
       cancelled = true;
     };
@@ -111,10 +129,22 @@ export function CCCProvider({ children }: { children: ReactNode }) {
     [data],
   );
 
+  const getSectorHeat = useCallback(
+    (id: SectorId) => operational?.sectorHeat.find((h) => h.sectorId === id),
+    [operational],
+  );
+
+  const getOperatorsForSectorCb = useCallback(
+    (id: SectorId) => getOperatorsForSector(id, data),
+    [data],
+  );
+
   const value = useMemo(
     () => ({
       data,
+      operational,
       loading,
+      operationalLoading,
       error,
       activePanel,
       openSector,
@@ -124,10 +154,14 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       getSector,
       getOperator,
       getProject,
+      getSectorHeat,
+      getOperatorsForSector: getOperatorsForSectorCb,
     }),
     [
       data,
+      operational,
       loading,
+      operationalLoading,
       error,
       activePanel,
       openSector,
@@ -137,6 +171,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       getSector,
       getOperator,
       getProject,
+      getSectorHeat,
+      getOperatorsForSectorCb,
     ],
   );
 

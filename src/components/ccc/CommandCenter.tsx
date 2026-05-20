@@ -1,14 +1,18 @@
 "use client";
 
 import { useCCC } from "@/context/CCCContext";
-import { OperatorChip } from "./OperatorChip";
+import { getOperatorsForSector } from "@/lib/operators-for-sector";
 import { PanelRouter } from "./PanelRouter";
 import { ProjectsRail } from "./ProjectsRail";
 import { SectorCard } from "./SectorCard";
+import { LocalSignalsPanel } from "./LocalSignalsPanel";
+import { OperationalTopologyPanel } from "./OperationalTopologyPanel";
 import { TelemetryBar } from "./TelemetryBar";
 
 export function CommandCenter() {
   const { data, loading } = useCCC();
+
+  const totalOperators = data.operators.length;
 
   return (
     <div className="relative flex min-h-dvh flex-col">
@@ -20,50 +24,31 @@ export function CommandCenter() {
         <TelemetryBar />
 
         <main className="flex flex-1 flex-col gap-4 px-3 py-4 md:gap-6 md:px-4 md:py-6 lg:flex-row">
-          <div className="flex flex-1 flex-col gap-4 lg:max-w-[65%]">
-            <section>
+          <div className="flex flex-1 flex-col gap-4 overflow-visible lg:max-w-[65%]">
+            <section className="overflow-visible">
               <header className="mb-3">
                 <h1 className="text-lg font-semibold text-ccc-text md:text-xl">
                   Facility sectors
                 </h1>
                 <p className="text-sm text-ccc-muted">
-                  Unified operational megastructure — tap a sector for detail
+                  Tap a sector for detail · tap an operator for dossier
                 </p>
               </header>
 
               {loading ? (
                 <p className="text-sm text-ccc-muted">Refreshing sectors…</p>
-              ) : (
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                  {data.sectors.map((sector) => {
-                    const operatorCount = data.operators.filter(
-                      (o) => o.sectorId === sector.id,
-                    ).length;
-                    return (
-                      <SectorCard
-                        key={sector.id}
-                        sector={sector}
-                        operatorCount={operatorCount}
-                      />
-                    );
-                  })}
-                </div>
-              )}
-            </section>
-
-            <section className="rounded-xl border border-ccc-border bg-ccc-surface/60 p-4">
-              <header className="mb-3">
-                <h2 className="text-base font-semibold text-ccc-text">Operators</h2>
+              ) : totalOperators === 0 ? (
                 <p className="text-sm text-ccc-muted">
-                  Workflow roles — tap for operational dossier
+                  No operators available. Check command data source.
                 </p>
-              </header>
-              {loading ? (
-                <p className="text-sm text-ccc-muted">Refreshing operators…</p>
               ) : (
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  {data.operators.map((op) => (
-                    <OperatorChip key={op.id} operator={op} />
+                <div className="grid grid-cols-1 gap-3 overflow-visible sm:grid-cols-2 xl:grid-cols-3">
+                  {data.sectors.map((sector) => (
+                    <SectorCard
+                      key={sector.id}
+                      sector={sector}
+                      operators={getOperatorsForSector(sector.id, data)}
+                    />
                   ))}
                 </div>
               )}
@@ -75,13 +60,15 @@ export function CommandCenter() {
               <h2 className="text-base font-semibold text-ccc-text">Command brief</h2>
               <p className="mt-2 text-sm leading-relaxed text-ccc-muted">
                 CCC projects continuity across Obsidian, Git, Kanban, tasks, and
-                architecture docs. This shell uses mock data — future imports from
-                JSON and Markdown without API or filesystem exposure.
+                architecture docs. Operators appear as inhabitants inside each sector.
               </p>
               <p className="mt-3 font-mono text-xs text-ccc-accent">
                 ccc.thinkcore.io
               </p>
             </section>
+
+            <OperationalTopologyPanel />
+            <LocalSignalsPanel />
 
             <section className="rounded-xl border border-ccc-border bg-ccc-surface/60 p-4">
               <h2 className="text-sm font-semibold uppercase tracking-widest text-ccc-muted">

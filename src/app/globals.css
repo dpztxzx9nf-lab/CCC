@@ -86,3 +86,10 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--ccc-border) transparent;
 }
+
+/* Inhabitant positioning — transition only when operational state changes */
+.ccc-inhabitant {
+  transition:
+    left 0.7s ease-out,
+    top 0.7s ease-out;
+}
