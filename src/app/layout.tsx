@@ -4,6 +4,7 @@ import "./facility.css";
 import "./facility-stabilization.css";
 import "./facility-embodiment.css";
 import "./facility-signals.css";
+import "./facility-infrastructure.css";
 import "./facility-events.css";
 import "./facility-residue.css";
 

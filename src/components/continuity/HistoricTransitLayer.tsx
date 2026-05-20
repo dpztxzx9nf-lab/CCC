@@ -10,7 +10,7 @@ export function HistoricTransitLayer() {
 
   return (
     <svg
-      className="ccc-residue-transit"
+      className="ccc-historic-transit ccc-residue-transit"
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
       aria-hidden
@@ -26,12 +26,11 @@ export function HistoricTransitLayer() {
         return (
           <path
             key={route.id}
-            className="ccc-residue-transit__path"
+            className="ccc-historic-transit__path ccc-residue-transit__path"
             data-wear={route.wearTier}
             d={`M ${from.x} ${from.y} Q ${midX} ${midY} ${to.x} ${to.y}`}
             fill="none"
             vectorEffect="non-scaling-stroke"
-            style={{ opacity: 0.08 + route.wear * 0.28 }}
           />
         );
       })}

@@ -290,7 +290,7 @@
 }
 
 /* Transit reacts to facility load */
-.ccc-megastructure-wrap:has([data-activity="high"]) .ccc-transit--spine-h {
+.ccc-megastructure-wrap:has([data-activity="high"]) .ccc-infra-anchor__spine--horizontal {
   opacity: 1;
   background: linear-gradient(
     90deg,

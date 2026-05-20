@@ -68,6 +68,7 @@ export function FacilitySignalLayer() {
           <OperationalPacket
             packetKey={`${p.operatorId}-${p.text}`}
             text={p.text}
+            className="ccc-op-packet--signal"
           />
         </div>
       ))}

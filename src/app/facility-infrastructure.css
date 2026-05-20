@@ -1,0 +1,442 @@
+/* Facility infrastructure visual language — distinct layers, no labels required */
+
+/* —— Layer stack (megastructure) ——
+   z0  historic transit residue (wide, dim, slow)
+   z0  infrastructure anchors (static spines + nodes)
+   z1  chambers
+   z2  live transit (thin, bright, directional)
+   z3  signal routing (flicker, intermittent)
+   z5  operators
+*/
+
+/* —— Historic transit residue —— */
+.ccc-historic-transit,
+.ccc-residue-transit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.ccc-historic-transit__path,
+.ccc-residue-transit__path {
+  stroke: rgba(72, 88, 108, 0.22);
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-dasharray: none;
+  opacity: 0.3;
+  transition: opacity 3s ease;
+}
+
+.ccc-historic-transit__path[data-wear="1"],
+.ccc-residue-transit__path[data-wear="1"] {
+  opacity: 0.32;
+}
+
+.ccc-historic-transit__path[data-wear="2"],
+.ccc-residue-transit__path[data-wear="2"] {
+  opacity: 0.38;
+}
+
+.ccc-historic-transit__path[data-wear="3"],
+.ccc-residue-transit__path[data-wear="3"] {
+  stroke: rgba(90, 108, 128, 0.28);
+  stroke-width: 3.2;
+}
+
+.ccc-historic-transit__path[data-wear="4"],
+.ccc-residue-transit__path[data-wear="4"] {
+  stroke: rgba(100, 118, 138, 0.32);
+  stroke-width: 3.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ccc-historic-transit__path,
+  .ccc-residue-transit__path {
+    animation: ccc-historic-transit-breathe 10s ease-in-out infinite;
+  }
+}
+
+@keyframes ccc-historic-transit-breathe {
+  0%,
+  100% {
+    opacity: 0.28;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+
+/* —— Infrastructure anchors (fixed routing topology) —— */
+.ccc-infra-anchor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ccc-infra-anchor__spine {
+  position: absolute;
+  pointer-events: none;
+}
+
+.ccc-infra-anchor__spine--elevator {
+  left: 38%;
+  top: 8%;
+  bottom: 12%;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(61, 214, 198, 0.14),
+    rgba(61, 214, 198, 0.06),
+    transparent
+  );
+}
+
+.ccc-infra-anchor__spine--horizontal {
+  left: 5%;
+  right: 5%;
+  top: 42%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(61, 214, 198, 0.1),
+    rgba(61, 214, 198, 0.16),
+    rgba(61, 214, 198, 0.1),
+    transparent
+  );
+}
+
+.ccc-infra-anchor__spine--vertical {
+  left: 52%;
+  top: 18%;
+  bottom: 8%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(61, 214, 198, 0.12),
+    rgba(61, 214, 198, 0.04)
+  );
+}
+
+.ccc-infra-anchor__node {
+  position: absolute;
+  z-index: 1;
+  width: 5px;
+  height: 5px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(61, 214, 198, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(61, 214, 198, 0.08),
+    0 0 10px rgba(61, 214, 198, 0.06);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ccc-infra-anchor__node {
+    animation: ccc-infra-anchor-glow 14s ease-in-out infinite;
+  }
+
+  .ccc-infra-anchor--cadence-mid .ccc-infra-anchor__node {
+    animation-duration: 10s;
+  }
+
+  .ccc-infra-anchor--cadence-fast .ccc-infra-anchor__node {
+    animation-duration: 7s;
+  }
+}
+
+@keyframes ccc-infra-anchor-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    box-shadow:
+      0 0 0 1px rgba(61, 214, 198, 0.06),
+      0 0 8px rgba(61, 214, 198, 0.04);
+  }
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 0 1px rgba(61, 214, 198, 0.14),
+      0 0 14px rgba(61, 214, 198, 0.1);
+  }
+}
+
+.ccc-infra-anchor--wear-mid .ccc-infra-anchor__spine--horizontal {
+  opacity: 0.9;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(61, 214, 198, 0.14),
+    rgba(61, 214, 198, 0.22),
+    rgba(61, 214, 198, 0.14),
+    transparent
+  );
+}
+
+.ccc-infra-anchor--wear-high .ccc-infra-anchor__spine--elevator {
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(61, 214, 198, 0.2),
+    rgba(61, 214, 198, 0.1),
+    transparent
+  );
+}
+
+/* —— Live transit (active movement now) —— */
+.ccc-live-transit-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ccc-live-transit__path {
+  stroke: rgba(232, 184, 74, 0.75);
+  stroke-width: 0.22;
+  stroke-linecap: round;
+  stroke-dasharray: 1.2 0.8;
+  opacity: 0.85;
+}
+
+.ccc-live-transit__path-glow {
+  stroke: rgba(255, 210, 120, 0.35);
+  stroke-width: 0.55;
+  stroke-linecap: round;
+  opacity: 0.4;
+  filter: blur(0.15px);
+}
+
+.ccc-live-transit--high .ccc-live-transit__path {
+  stroke: rgba(255, 200, 90, 0.9);
+  stroke-width: 0.28;
+}
+
+.ccc-live-transit__packet {
+  fill: rgba(255, 220, 140, 0.95);
+  filter: drop-shadow(0 0 1px rgba(232, 184, 74, 0.8));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ccc-live-transit__path {
+    animation: ccc-live-transit-flow 1.1s linear infinite;
+  }
+
+  .ccc-live-transit--high .ccc-live-transit__path {
+    animation-duration: 0.75s;
+  }
+}
+
+@keyframes ccc-live-transit-flow {
+  to {
+    stroke-dashoffset: -4;
+  }
+}
+
+/* —— Operator movement (in-chamber embodiment) —— */
+.ccc-inhabitant[data-transit="true"] .ccc-inhabitant__transit-beam {
+  width: 1px;
+  height: 18px;
+  top: -22%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 210, 120, 0.85),
+    rgba(232, 184, 74, 0.35),
+    transparent
+  );
+  box-shadow: 0 0 6px rgba(232, 184, 74, 0.45);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ccc-inhabitant[data-transit="true"] .ccc-inhabitant__transit-beam {
+    animation: ccc-operator-transit-beam 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes ccc-operator-transit-beam {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.ccc-scenery[data-transit="true"]::after {
+  width: 1px;
+  background: linear-gradient(180deg, rgba(232, 184, 74, 0.35), transparent);
+  opacity: 0.45;
+}
+
+.ccc-op-packet--live {
+  border-color: rgba(232, 184, 74, 0.45);
+  color: rgba(255, 236, 200, 0.95);
+  box-shadow: 0 0 8px rgba(232, 184, 74, 0.15);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ccc-op-packet--live.ccc-op-packet--visible {
+    animation: ccc-packet-live-fade 2.2s ease-out forwards;
+  }
+}
+
+@keyframes ccc-packet-live-fade {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(2px);
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-3px);
+  }
+}
+
+/* —— Environmental pulse nodes (ambient pressure, not routes) —— */
+.ccc-facility-pulse {
+  gap: 0.5rem;
+}
+
+.ccc-env-pulse,
+.ccc-pulse-node {
+  width: 0.62rem;
+  height: 0.62rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(61, 214, 198, 0.35),
+    rgba(30, 45, 69, 0.55) 70%
+  );
+  box-shadow: 0 0 0 0 rgba(61, 214, 198, 0);
+  transition:
+    background 0.8s ease,
+    box-shadow 0.8s ease,
+    transform 0.35s ease;
+}
+
+.ccc-env-pulse--idle,
+.ccc-pulse-node--idle {
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(50, 65, 85, 0.25),
+    rgba(20, 30, 48, 0.6) 75%
+  );
+}
+
+.ccc-env-pulse--low,
+.ccc-pulse-node--low {
+  box-shadow: 0 0 10px rgba(61, 214, 198, 0.12);
+}
+
+.ccc-env-pulse--medium,
+.ccc-pulse-node--medium {
+  box-shadow: 0 0 14px rgba(61, 214, 198, 0.22);
+}
+
+.ccc-env-pulse--high,
+.ccc-pulse-node--high {
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(232, 184, 74, 0.5),
+    rgba(90, 70, 40, 0.35) 75%
+  );
+  box-shadow: 0 0 16px rgba(232, 184, 74, 0.28);
+}
+
+.ccc-env-pulse--focus,
+.ccc-pulse-node--focus {
+  outline: 1px solid rgba(61, 214, 198, 0.35);
+  outline-offset: 3px;
+}
+
+.ccc-env-pulse--hot,
+.ccc-pulse-node--hot {
+  transform: scale(1.12);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ccc-env-pulse--medium,
+  .ccc-env-pulse--high,
+  .ccc-pulse-node--medium,
+  .ccc-pulse-node--high {
+    animation: ccc-env-pulse-ambient 5s ease-in-out infinite;
+  }
+
+  .ccc-env-pulse--high,
+  .ccc-pulse-node--high {
+    animation-duration: 3.8s;
+  }
+}
+
+@keyframes ccc-env-pulse-ambient {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(0.92);
+  }
+  50% {
+    transform: scale(1.08);
+    filter: brightness(1.08);
+  }
+}
+
+.ccc-env-pulse--core.ccc-env-pulse--high,
+.ccc-pulse-node--core.ccc-pulse-node--high {
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(61, 214, 198, 0.55),
+    rgba(30, 80, 75, 0.3) 75%
+  );
+}
+
+.ccc-env-pulse--forge.ccc-env-pulse--high,
+.ccc-pulse-node--forge.ccc-pulse-node--high {
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(255, 140, 40, 0.55),
+    rgba(80, 45, 20, 0.35) 75%
+  );
+}
+
+.ccc-env-pulse--archive.ccc-env-pulse--medium,
+.ccc-env-pulse--archive.ccc-env-pulse--high,
+.ccc-pulse-node--archive.ccc-pulse-node--medium,
+.ccc-pulse-node--archive.ccc-pulse-node--high {
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(126, 184, 255, 0.45),
+    rgba(40, 60, 90, 0.35) 75%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ccc-historic-transit__path,
+  .ccc-residue-transit__path,
+  .ccc-infra-anchor__node,
+  .ccc-live-transit__path,
+  .ccc-inhabitant[data-transit="true"] .ccc-inhabitant__transit-beam,
+  .ccc-env-pulse--medium,
+  .ccc-env-pulse--high,
+  .ccc-pulse-node--medium,
+  .ccc-pulse-node--high {
+    animation: none !important;
+  }
+}

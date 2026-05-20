@@ -202,12 +202,11 @@
   box-shadow: 0 0 8px rgba(61, 214, 198, 0.45);
 }
 
-.ccc-transit--event-pulse {
-  opacity: 0.85;
-  animation: ccc-transit-event 3s ease-in-out infinite;
+.ccc-infra-anchor--event .ccc-infra-anchor__spine--horizontal {
+  animation: ccc-infra-anchor-event 3s ease-in-out infinite;
 }
 
-@keyframes ccc-transit-event {
+@keyframes ccc-infra-anchor-event {
   0%,
   100% {
     opacity: 0.5;

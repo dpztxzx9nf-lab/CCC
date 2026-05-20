@@ -5,7 +5,7 @@ import { useCCC } from "@/context/CCCContext";
 import { FacilityResidueProvider } from "@/context/FacilityResidueContext";
 import { computeFacilityResidue } from "@/lib/continuity/residue";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
-import { deriveSignalRoutes } from "@/lib/signal-routes";
+import { deriveLiveTransitRoutes } from "@/lib/signal-routes";
 import { ContinuityEventRail } from "@/components/continuity/ContinuityEventRail";
 import { FacilityMegastructure } from "./FacilityMegastructure";
 import { FacilityPulse } from "./FacilityPulse";
@@ -20,7 +20,7 @@ export function CommandCenter() {
 
   const facilityResidue = useMemo(() => {
     const occupants = buildFacilityOccupants(data, operational);
-    const liveRoutes = deriveSignalRoutes(occupants, operational);
+    const liveRoutes = deriveLiveTransitRoutes(occupants);
     return computeFacilityResidue(continuityEvents, operational, liveRoutes);
   }, [data, operational, continuityEvents]);
 

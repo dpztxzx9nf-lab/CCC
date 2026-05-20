@@ -39,8 +39,40 @@ function domainForRouteChamber(chamberId: ChamberId): OperationalDomainId {
   return CHAMBER_TO_DOMAIN[chamberId];
 }
 
-export function deriveSignalRoutes(
+/** Active operator movement between chambers (happening now). */
+export function deriveLiveTransitRoutes(
   occupantsByChamber: Partial<Record<ChamberId, ChamberOccupant[]>>,
+): SignalRouteSpec[] {
+  const routes: SignalRouteSpec[] = [];
+  const seen = new Set<string>();
+
+  for (const [chamberId, occupants] of Object.entries(occupantsByChamber) as [
+    ChamberId,
+    ChamberOccupant[],
+  ][]) {
+    for (const { behavior, placement } of occupants ?? []) {
+      if (!placement.transitFromChamberId) continue;
+      const from = placement.transitFromChamberId;
+      const to = chamberId;
+      if (from === to) continue;
+      const id = `${from}-${to}`;
+      if (seen.has(id)) continue;
+      seen.add(id);
+      routes.push({
+        id,
+        from,
+        to,
+        intensity: behavior.intensity === "elevated" ? "high" : "medium",
+      });
+    }
+  }
+
+  return routes;
+}
+
+/** Comms / sync traffic between facility nodes (not physical operator movement). */
+export function deriveSignalRoutes(
+  _occupantsByChamber: Partial<Record<ChamberId, ChamberOccupant[]>>,
   operational: OperationalSnapshot | null,
 ): SignalRouteSpec[] {
   const routes: SignalRouteSpec[] = [];
@@ -53,21 +85,6 @@ export function deriveSignalRoutes(
     seen.add(id);
     routes.push({ id, from, to, intensity });
   };
-
-  for (const [chamberId, occupants] of Object.entries(occupantsByChamber) as [
-    ChamberId,
-    ChamberOccupant[],
-  ][]) {
-    for (const { behavior, placement } of occupants ?? []) {
-      if (placement.transitFromChamberId) {
-        add(
-          placement.transitFromChamberId,
-          chamberId,
-          behavior.intensity === "elevated" ? "high" : "medium",
-        );
-      }
-    }
-  }
 
   const heat = operational?.sectorHeat ?? [];
   const pulse = getFacilityPulse(heat);

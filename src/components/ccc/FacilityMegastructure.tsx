@@ -7,6 +7,8 @@ import { CHAMBER_ORDER } from "@/lib/facility-layout";
 import { activeEventPulseKinds } from "@/lib/continuity/events/influence";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
 import { HistoricTransitLayer } from "@/components/continuity/HistoricTransitLayer";
+import { InfrastructureAnchorLayer } from "@/components/operations/InfrastructureAnchorLayer";
+import { LiveTransitLayer } from "@/components/operations/LiveTransitLayer";
 import { FacilitySignalLayer } from "@/components/operations/FacilitySignalLayer";
 import { SectorChamber } from "./SectorChamber";
 
@@ -30,14 +32,18 @@ export function FacilityMegastructure() {
   }
 
   const eventPulses = activeEventPulseKinds(continuityEvents);
-  const transitPulse = eventPulses.length > 0 ? " ccc-transit--event-pulse" : "";
+  const infraEventPulse = eventPulses.length > 0;
   const transitWear =
     residue.transitRoutes.length > 0
       ? Math.max(...residue.transitRoutes.map((r) => r.wearTier))
       : 0;
   const pulseCadence = Math.max(
     0,
-    ...CHAMBER_ORDER.map((id) => residue.sectors[data.chambers.find((c) => c.id === id)?.primaryDomain ?? "core"]?.pulseCadence ?? 0),
+    ...CHAMBER_ORDER.map(
+      (id) =>
+        residue.sectors[data.chambers.find((c) => c.id === id)?.primaryDomain ?? "core"]
+          ?.pulseCadence ?? 0,
+    ),
   );
 
   return (
@@ -49,9 +55,11 @@ export function FacilityMegastructure() {
         data-pulse-cadence={pulseCadence > 1 ? pulseCadence : undefined}
       >
         <HistoricTransitLayer />
-        <div className={`ccc-transit ccc-transit--elevator${transitPulse}`} aria-hidden />
-        <div className={`ccc-transit ccc-transit--spine-h${transitPulse}`} aria-hidden />
-        <div className={`ccc-transit ccc-transit--spine-v${transitPulse}`} aria-hidden />
+        <InfrastructureAnchorLayer
+          wearTier={transitWear}
+          pulseCadence={pulseCadence}
+          eventPulse={infraEventPulse}
+        />
 
         {CHAMBER_ORDER.map((chamberId) => {
           const chamber = data.chambers.find((c) => c.id === chamberId);
@@ -64,6 +72,7 @@ export function FacilityMegastructure() {
             />
           );
         })}
+        <LiveTransitLayer />
         <FacilitySignalLayer />
       </div>
     </div>

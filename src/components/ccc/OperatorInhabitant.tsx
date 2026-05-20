@@ -73,7 +73,7 @@ export function OperatorInhabitant({
         <OperationalPacket
           text={packet}
           packetKey={`${operator.id}-${packet}`}
-          className="ccc-inhabitant__packet"
+          className="ccc-inhabitant__packet ccc-op-packet--live"
         />
       )}
 

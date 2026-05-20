@@ -64,7 +64,7 @@ export function FacilityPulse() {
             key={chamberId}
             type="button"
             onClick={() => openChamber(chamberId)}
-            className={`ccc-pulse-node ccc-pulse-node--${activity}${isFocus ? " ccc-pulse-node--focus" : ""}${isHot ? " ccc-pulse-node--hot" : ""}${isEvent ? " ccc-pulse-node--event" : ""}`}
+            className={`ccc-env-pulse ccc-pulse-node ccc-env-pulse--${domainId} ccc-env-pulse--${activity} ccc-pulse-node--${activity}${isFocus ? " ccc-env-pulse--focus ccc-pulse-node--focus" : ""}${isHot ? " ccc-env-pulse--hot ccc-pulse-node--hot" : ""}${isEvent ? " ccc-pulse-node--event" : ""}`}
             aria-label={`${CHAMBER_ARIA[chamberId]}, ${domainId}${isFocus ? ", focus" : ""}${isHot ? ", pressure" : ""}`}
           />
         );

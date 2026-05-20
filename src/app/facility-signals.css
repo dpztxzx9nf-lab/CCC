@@ -155,35 +155,42 @@
 }
 
 .ccc-signal-route__path {
-  stroke-width: 0.35;
+  stroke-width: 0.2;
   stroke-linecap: round;
-  stroke-dasharray: 2 1.5;
-  opacity: 0.45;
+  stroke-dasharray: 0.6 2.4;
+  opacity: 0.38;
 }
 
 .ccc-signal-route--low .ccc-signal-route__path {
-  stroke: rgba(90, 120, 150, 0.5);
+  stroke: rgba(126, 160, 200, 0.35);
 }
 
 .ccc-signal-route--medium .ccc-signal-route__path {
-  stroke: rgba(61, 214, 198, 0.55);
-  opacity: 0.6;
+  stroke: rgba(150, 185, 230, 0.48);
+  opacity: 0.5;
 }
 
 .ccc-signal-route--high .ccc-signal-route__path {
-  stroke: rgba(232, 184, 74, 0.7);
-  stroke-width: 0.45;
-  opacity: 0.75;
+  stroke: rgba(170, 200, 255, 0.58);
+  stroke-width: 0.24;
+  opacity: 0.58;
 }
 
-.ccc-signal-route__pulse {
-  fill: var(--ccc-accent);
+.ccc-signal-route__endpoint {
+  fill: rgba(150, 185, 230, 0.55);
   opacity: 0;
 }
 
-.ccc-signal-route--medium .ccc-signal-route__pulse,
-.ccc-signal-route--high .ccc-signal-route__pulse {
-  opacity: 0.7;
+.ccc-signal-route--medium .ccc-signal-route__endpoint,
+.ccc-signal-route--high .ccc-signal-route__endpoint {
+  opacity: 0.65;
+}
+
+.ccc-op-packet--signal {
+  border-color: rgba(126, 160, 200, 0.28);
+  color: rgba(200, 220, 245, 0.88);
+  font-size: 0.48rem;
+  letter-spacing: 0.06em;
 }
 
 .ccc-signal-layer__packet-anchor {
@@ -194,37 +201,79 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ccc-signal-route--medium .ccc-signal-route__path,
+  .ccc-signal-route--low .ccc-signal-route__path {
+    animation: ccc-signal-flicker 4.5s steps(2, end) infinite;
+  }
+
+  .ccc-signal-route--medium .ccc-signal-route__path {
+    animation:
+      ccc-signal-flicker 3.2s steps(3, end) infinite,
+      ccc-signal-flow 3.8s linear infinite;
+  }
+
   .ccc-signal-route--high .ccc-signal-route__path {
-    animation: ccc-route-flow 2.5s linear infinite;
+    animation:
+      ccc-signal-flicker 2.4s steps(4, end) infinite,
+      ccc-signal-flow 2.8s linear infinite;
   }
 
-  .ccc-signal-route--high .ccc-signal-route__pulse {
-    animation: ccc-route-pulse 1.8s ease-out infinite;
+  .ccc-signal-route--medium .ccc-signal-route__endpoint,
+  .ccc-signal-route--high .ccc-signal-route__endpoint {
+    animation: ccc-signal-endpoint 2.6s steps(2, end) infinite;
+  }
+
+  .ccc-op-packet--signal.ccc-op-packet--visible {
+    animation: ccc-packet-signal-blink 3s steps(2, end) infinite;
   }
 }
 
-@keyframes ccc-route-flow {
+@keyframes ccc-signal-flow {
   to {
-    stroke-dashoffset: -6;
+    stroke-dashoffset: -5;
   }
 }
 
-@keyframes ccc-route-pulse {
+@keyframes ccc-signal-flicker {
+  0%,
+  72%,
+  100% {
+    opacity: 0.32;
+  }
+  74% {
+    opacity: 0.55;
+  }
+  78% {
+    opacity: 0.2;
+  }
+  82% {
+    opacity: 0.48;
+  }
+}
+
+@keyframes ccc-signal-endpoint {
   0%,
   100% {
-    opacity: 0.35;
-    r: 0.8;
+    opacity: 0.25;
   }
   50% {
-    opacity: 0.9;
-    r: 1.4;
+    opacity: 0.75;
+  }
+}
+
+@keyframes ccc-packet-signal-blink {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.45;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ccc-signal-route__path,
-  .ccc-signal-route__pulse {
+  .ccc-signal-route__endpoint,
+  .ccc-op-packet--signal {
     animation: none !important;
   }
 }
