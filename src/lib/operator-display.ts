@@ -4,6 +4,13 @@ import type { Operator } from "@/data/types";
 import type { ChamberId, OperationalDomainId } from "@/data/ecology";
 import { CHAMBER_BY_ID, DOMAIN_BY_ID } from "@/data/ecology";
 import type { OperatorPlacement } from "@/data/ecology";
+import type { ContinuityEventView } from "@/lib/continuity/events/types";
+import {
+  discreteEventBurstEndMs,
+  operatorDiscreteEligible,
+  type DiscreteBurstState,
+} from "@/lib/operations/discrete-burst";
+import type { OperatorId } from "@/lib/operations/taxonomy";
 
 export interface OperatorDisplayInfo {
   callsign: string;
@@ -20,65 +27,53 @@ export interface OperatorDisplayInfo {
   isTransit: boolean;
 }
 
+export interface OperatorPacketContext {
+  facilityNow: number;
+  discreteBurst: DiscreteBurstState;
+  continuityEvents: ContinuityEventView[];
+}
+
+/**
+ * Transient operator “packet” labels — only inside discrete activity windows
+ * (continuity events, snapshot sync, placement deltas, real lastSignal from scan).
+ */
 export function deriveOperatorPacket(
   operator: Operator,
   behavior: InhabitantBehavior,
   placementChamber: ChamberId,
   operational: OperationalSnapshot | null,
+  ctx: OperatorPacketContext,
 ): string | null {
+  if (!ctx.discreteBurst.discreteActive) return null;
+
   const derived = operational?.operators.find((o) => o.operatorId === operator.id);
   const chamber = CHAMBER_BY_ID[placementChamber];
   const chamberLabel = chamber?.codename ?? placementChamber;
 
-  if (derived?.lastSignal) {
+  if (derived?.lastSignal?.trim()) {
     return `${operator.callsign} → ${truncatePacket(derived.lastSignal)}`;
   }
 
-  if (behavior.transitFromChamberId && behavior.intensity !== "calm") {
+  if (
+    ctx.discreteBurst.placementPulseActive &&
+    behavior.transitFromChamberId
+  ) {
     const from = CHAMBER_BY_ID[behavior.transitFromChamberId]?.codename ?? "?";
     return `${operator.callsign} → Transit ${from} → ${chamberLabel}`;
   }
 
-  const packetByRole: Record<string, string | null> = {
-    "deep-1":
-      behavior.posture === "archiving" || behavior.posture === "reviewing"
-        ? `${operator.callsign} → Vault sync active`
-        : behavior.intensity !== "calm"
-          ? `${operator.callsign} → Forge signal detected`
-          : null,
-    "fab-0":
-      behavior.posture === "building"
-        ? `${operator.callsign} → Build queue active`
-        : behavior.posture === "monitoring"
-          ? `${operator.callsign} → Runtime diagnostic`
-          : behavior.intensity !== "calm"
-            ? `${operator.callsign} → Deploy rail engaged`
-            : null,
-    "bcast-1":
-      behavior.posture === "relaying"
-        ? `${operator.callsign} → Uplink pulse`
-        : behavior.intensity !== "calm"
-          ? `${operator.callsign} → Projection routing`
-          : null,
-    "scout-6":
-      behavior.posture === "scouting"
-        ? `${operator.callsign} → Index sweep complete`
-        : behavior.intensity !== "calm"
-          ? `${operator.callsign} → Field scan active`
-          : null,
-    "nexus-7":
-      behavior.posture === "coordinating"
-        ? `${operator.callsign} → Global posture updated`
-        : behavior.intensity !== "calm"
-          ? `${operator.callsign} → Continuity routing`
-          : null,
-  };
+  if (operatorDiscreteEligible(operator.id, ctx.facilityNow, ctx.continuityEvents)) {
+    const ev = ctx.continuityEvents.find(
+      (e) =>
+        e.operators.includes(operator.id as OperatorId) &&
+        ctx.facilityNow < discreteEventBurstEndMs(e),
+    );
+    if (ev) {
+      return `${operator.callsign} → ${truncatePacket(ev.title)}`;
+    }
+  }
 
-  const rolePacket = packetByRole[operator.id];
-  if (rolePacket) return rolePacket;
-
-  if (behavior.intensity === "calm") return null;
-  return `${operator.callsign} → ${behavior.stateLabel}`;
+  return null;
 }
 
 export function buildOperatorDisplayInfo(

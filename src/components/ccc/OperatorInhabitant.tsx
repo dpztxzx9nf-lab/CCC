@@ -25,8 +25,19 @@ export function OperatorInhabitant({
   behavior,
   placement,
 }: OperatorInhabitantProps) {
-  const { openOperator, operational } = useCCC();
+  const {
+    openOperator,
+    operational,
+    facilityNow,
+    discreteBurst,
+    continuityEvents,
+  } = useCCC();
   const [hovered, setHovered] = useState(false);
+
+  const packetCtx = useMemo(
+    () => ({ facilityNow, discreteBurst, continuityEvents }),
+    [facilityNow, discreteBurst, continuityEvents],
+  );
 
   const displayInfo = useMemo(
     () => buildOperatorDisplayInfo(operator, behavior, placement, operational),
@@ -40,16 +51,20 @@ export function OperatorInhabitant({
         behavior,
         placement.currentChamberId,
         operational,
+        packetCtx,
       ),
-    [operator, behavior, placement, operational],
+    [operator, behavior, placement, operational, packetCtx],
   );
+
+  const showTransitEmbodiment =
+    placement.isTransit && discreteBurst.placementPulseActive;
 
   return (
     <div
       className="ccc-inhabitant group absolute z-[5]"
       data-intensity={behavior.intensity}
       data-posture={behavior.posture}
-      data-transit={placement.isTransit ? "true" : undefined}
+      data-transit={showTransitEmbodiment ? "true" : undefined}
       style={{
         left: `${behavior.position.x}%`,
         bottom: "14%",
@@ -59,14 +74,14 @@ export function OperatorInhabitant({
       onFocus={() => setHovered(true)}
       onBlur={() => setHovered(false)}
     >
-      {placement.isTransit && (
+      {showTransitEmbodiment && (
         <span className="ccc-inhabitant__transit-beam" aria-hidden />
       )}
 
       <OperatorNameplate
         callsign={operator.callsign}
         intensity={behavior.intensity}
-        isTransit={placement.isTransit}
+        isTransit={showTransitEmbodiment}
       />
 
       {packet && (

@@ -13,7 +13,14 @@ import { FacilitySignalLayer } from "@/components/operations/FacilitySignalLayer
 import { SectorChamber } from "./SectorChamber";
 
 export function FacilityMegastructure() {
-  const { data, loading, operational, continuityEvents } = useCCC();
+  const {
+    data,
+    loading,
+    operational,
+    continuityEvents,
+    facilityNow,
+    discreteBurst,
+  } = useCCC();
   const residue = useFacilityResidue();
 
   const occupantsByChamber = useMemo(
@@ -31,7 +38,10 @@ export function FacilityMegastructure() {
     );
   }
 
-  const eventPulses = activeEventPulseKinds(continuityEvents);
+  const eventPulses =
+    discreteBurst.discreteActive
+      ? activeEventPulseKinds(continuityEvents, facilityNow)
+      : [];
   const infraEventPulse = eventPulses.length > 0;
   const transitWear =
     residue.transitRoutes.length > 0

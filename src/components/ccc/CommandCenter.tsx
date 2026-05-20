@@ -4,8 +4,6 @@ import { useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { FacilityResidueProvider } from "@/context/FacilityResidueContext";
 import { computeFacilityResidue } from "@/lib/continuity/residue";
-import { buildFacilityOccupants } from "@/lib/operator-placement";
-import { deriveLiveTransitRoutes } from "@/lib/signal-routes";
 import { ContinuityEventRail } from "@/components/continuity/ContinuityEventRail";
 import { FacilityMegastructure } from "./FacilityMegastructure";
 import { FacilityPulse } from "./FacilityPulse";
@@ -16,13 +14,11 @@ import { OperationalTopologyPanel } from "./OperationalTopologyPanel";
 import { TelemetryBar } from "./TelemetryBar";
 
 export function CommandCenter() {
-  const { data, operational, continuityEvents } = useCCC();
+  const { operational, continuityEvents } = useCCC();
 
   const facilityResidue = useMemo(() => {
-    const occupants = buildFacilityOccupants(data, operational);
-    const liveRoutes = deriveLiveTransitRoutes(occupants);
-    return computeFacilityResidue(continuityEvents, operational, liveRoutes);
-  }, [data, operational, continuityEvents]);
+    return computeFacilityResidue(continuityEvents, operational, []);
+  }, [continuityEvents, operational]);
 
   return (
     <FacilityResidueProvider value={facilityResidue}>

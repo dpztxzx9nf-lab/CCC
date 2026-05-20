@@ -7,6 +7,7 @@ import {
   getFacilityPulse,
   type ChamberActivity,
 } from "@/lib/chamber-atmosphere";
+import { discreteEventBurstEndMs } from "@/lib/operations/discrete-burst";
 
 const IMPORTANCE_WEIGHT: Record<EventImportance, number> = {
   low: 4,
@@ -125,21 +126,26 @@ export function kindLabel(kind: ContinuityEventView["kind"]): string {
   return kind.replace(/_/g, " ");
 }
 
-/** Recent high-signal kinds for transit pulses */
+const PULSE_EVENT_KINDS = new Set<ContinuityEventView["kind"]>([
+  "deploy_published",
+  "deploy_blocked",
+  "snapshot_refresh",
+  "edit_wave",
+  "runtime_signal",
+  "observatory_scan",
+  "archive_consolidation",
+  "infrastructure_change",
+]);
+
+/** Only during each event's discrete window — no long-running decorative pulses. */
 export function activeEventPulseKinds(
-  events: ContinuityEventView[],
+  events: readonly ContinuityEventView[],
+  now: number,
 ): ContinuityEventView["kind"][] {
   return events
-    .filter((e) => {
-      const age = eventAgeHours(e.occurredAt);
-      if (age > 8) return false;
-      return (
-        e.kind === "deploy_published" ||
-        e.kind === "snapshot_refresh" ||
-        e.kind === "edit_wave" ||
-        e.kind === "runtime_signal"
-      );
-    })
+    .filter(
+      (e) => PULSE_EVENT_KINDS.has(e.kind) && now < discreteEventBurstEndMs(e),
+    )
     .slice(0, 3)
     .map((e) => e.kind);
 }

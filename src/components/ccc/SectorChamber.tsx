@@ -18,7 +18,8 @@ interface SectorChamberProps {
 }
 
 export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
-  const { openChamber, getDomainHeat, continuityEvents, highlightedDomains } = useCCC();
+  const { openChamber, getDomainHeat, continuityEvents, highlightedDomains, discreteBurst } =
+    useCCC();
   const domainId = chamber.primaryDomain;
   const heat = getDomainHeat(domainId);
   const activity = getEffectiveChamberActivity(heat, domainId, continuityEvents);
@@ -51,7 +52,10 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
         sectorId={domainId}
         heat={heat}
         activeStations={activeStations}
-        hasTransit={occupants.some((o) => o.placement.isTransit)}
+        hasTransit={
+          discreteBurst.placementPulseActive &&
+          occupants.some((o) => o.placement.isTransit)
+        }
       />
 
       <button

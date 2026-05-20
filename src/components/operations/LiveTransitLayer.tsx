@@ -6,13 +6,15 @@ import { buildFacilityOccupants } from "@/lib/operator-placement";
 import { deriveLiveTransitRoutes } from "@/lib/signal-routes";
 import { LiveTransitRoute } from "./LiveTransitRoute";
 
+/** Moving packet beads only right after a real placement change (short window). */
 export function LiveTransitLayer() {
-  const { data, operational } = useCCC();
+  const { data, operational, discreteBurst } = useCCC();
 
   const routes = useMemo(() => {
+    if (!discreteBurst.placementPulseActive) return [];
     const occupants = buildFacilityOccupants(data, operational);
     return deriveLiveTransitRoutes(occupants);
-  }, [data, operational]);
+  }, [data, operational, discreteBurst.placementPulseActive]);
 
   if (routes.length === 0) return null;
 

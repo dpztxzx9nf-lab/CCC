@@ -26,6 +26,8 @@ import { applyOperationalSnapshot } from "@/lib/operational-source";
 import { buildOperationalSnapshot } from "@/lib/operations/operationalState";
 import { loadContinuitySnapshot } from "@/lib/snapshot/loadSnapshot";
 import { mergeContinuitySnapshot } from "@/lib/snapshot/mergeIntoOperational";
+import type { DiscreteBurstState } from "@/lib/operations/discrete-burst";
+import { useDiscreteActivityBindings } from "@/hooks/useDiscreteActivityBindings";
 
 export type PanelKind = "chamber" | "operator" | "project";
 
@@ -39,6 +41,10 @@ interface CCCContextValue {
   operational: OperationalSnapshot | null;
   snapshotMeta: SnapshotMeta | null;
   continuityEvents: ContinuityEventView[];
+  /** Client wall clock (1s tick while mounted) for discrete activity windows */
+  facilityNow: number;
+  /** Event-driven gate for packets / data routes / transient motion */
+  discreteBurst: DiscreteBurstState;
   /** Domains highlighted by continuity event hover */
   highlightedDomains: OperationalDomainId[];
   /** @deprecated use highlightedDomains */
@@ -78,6 +84,13 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const [activePanel, setActivePanel] = useState<ActivePanel | null>(null);
   const [continuityEvents, setContinuityEvents] = useState<ContinuityEventView[]>([]);
   const [highlightedDomains, setHighlightedDomains] = useState<OperationalDomainId[]>([]);
+
+  const { facilityNow, discreteBurst } = useDiscreteActivityBindings({
+    data,
+    operational,
+    continuityEvents,
+    snapshotMeta,
+  });
 
   const setEventHighlight = useCallback((event: ContinuityEventView | null) => {
     setHighlightedDomains((event?.sectors ?? []) as OperationalDomainId[]);
@@ -247,6 +260,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       operational,
       snapshotMeta,
       continuityEvents,
+      facilityNow,
+      discreteBurst,
       highlightedDomains,
       highlightedSectors: highlightedDomains,
       setEventHighlight,
@@ -273,6 +288,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       operational,
       snapshotMeta,
       continuityEvents,
+      facilityNow,
+      discreteBurst,
       highlightedDomains,
       setEventHighlight,
       loading,
