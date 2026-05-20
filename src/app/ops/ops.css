@@ -136,3 +136,54 @@
 .ccc-ops-trouble li::marker {
   color: var(--ccc-accent-dim);
 }
+
+.ccc-ops-toc {
+  margin-top: 1.25rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--ccc-border);
+  border-radius: 4px;
+  background: var(--ccc-surface);
+}
+
+.ccc-ops-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 1;
+}
+
+@media (min-width: 520px) {
+  .ccc-ops-toc ul {
+    columns: 2;
+    column-gap: 1.5rem;
+  }
+}
+
+.ccc-ops-toc li {
+  margin-bottom: 0.3rem;
+  break-inside: avoid;
+}
+
+.ccc-ops-toc a {
+  font-size: 0.78rem;
+  color: var(--ccc-muted);
+  text-decoration: none;
+}
+
+.ccc-ops-toc a:hover {
+  color: var(--ccc-accent);
+}
+
+.ccc-ops-note {
+  margin: 1rem 0 0;
+  padding: 0.6rem 0.75rem;
+  border-left: 2px solid var(--ccc-accent-dim);
+  font-size: 0.8rem;
+  color: var(--ccc-muted);
+  line-height: 1.5;
+}
+
+.ccc-ops-future p {
+  border-left: 2px solid var(--ccc-border);
+  padding-left: 0.75rem;
+}
