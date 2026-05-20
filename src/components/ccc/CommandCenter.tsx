@@ -20,10 +20,7 @@ export function CommandCenter() {
 
         <main className="flex flex-1 flex-col gap-3 px-2 py-3 md:gap-4 md:px-4 md:py-5 lg:flex-row lg:gap-5">
           <section className="min-w-0 flex-1 overflow-visible">
-            <header className="mb-2 px-1 md:mb-3">
-              <h1 className="text-lg font-semibold tracking-tight text-ccc-text md:text-xl">
-                Continuity Megastructure
-              </h1>
+            <header className="ccc-facility-header mb-2 px-1 md:mb-3">
               <FacilityPulse />
             </header>
             <FacilityMegastructure />

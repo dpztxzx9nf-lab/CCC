@@ -1,7 +1,9 @@
 "use client";
 
+import { useMemo } from "react";
 import type { Operator, Sector } from "@/data/types";
 import { useCCC } from "@/context/CCCContext";
+import { computeInhabitantBehavior } from "@/lib/inhabitant-behavior";
 import { SectorRoom } from "./SectorRoom";
 import { StatusBadge } from "./StatusBadge";
 
@@ -24,8 +26,24 @@ function heatBarClass(level: string): string {
 }
 
 export function SectorCard({ sector, operators }: SectorCardProps) {
-  const { openSector, getSectorHeat } = useCCC();
+  const { openSector, getSectorHeat, data, operational } = useCCC();
   const heat = getSectorHeat(sector.id);
+
+  const occupants = useMemo(
+    () =>
+      operators.map((operator, slotIndex) => ({
+        operator,
+        behavior: computeInhabitantBehavior({
+          operator,
+          sectorId: sector.id,
+          slotIndex,
+          slotTotal: operators.length,
+          data,
+          operational,
+        }),
+      })),
+    [operators, sector.id, data, operational],
+  );
 
   return (
     <article className="relative z-[1] flex flex-col overflow-visible rounded-lg border border-ccc-border bg-ccc-surface/90 shadow-sm">
@@ -68,7 +86,7 @@ export function SectorCard({ sector, operators }: SectorCardProps) {
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-ccc-muted">
           Operational floor
         </p>
-        <SectorRoom sector={sector} operators={operators} />
+        <SectorRoom sector={sector} occupants={occupants} />
         <p className="mt-2 text-xs text-ccc-muted">
           {operators.length} operator{operators.length !== 1 ? "s" : ""} ·{" "}
           {sector.stationIds.length} station{sector.stationIds.length !== 1 ? "s" : ""}

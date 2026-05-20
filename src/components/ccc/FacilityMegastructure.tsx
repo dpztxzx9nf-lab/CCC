@@ -1,12 +1,18 @@
 "use client";
 
+import { useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { SECTOR_ORDER } from "@/lib/facility-layout";
-import { getOperatorsForSector } from "@/lib/operators-for-sector";
+import { buildFacilityOccupants } from "@/lib/operator-placement";
 import { SectorChamber } from "./SectorChamber";
 
 export function FacilityMegastructure() {
-  const { data, loading } = useCCC();
+  const { data, loading, operational } = useCCC();
+
+  const occupantsBySector = useMemo(
+    () => buildFacilityOccupants(data, operational),
+    [data, operational],
+  );
 
   if (loading) {
     return <p className="text-sm text-ccc-muted">Aligning megastructure sectors…</p>;
@@ -33,7 +39,7 @@ export function FacilityMegastructure() {
           <SectorChamber
             key={sector!.id}
             sector={sector!}
-            operators={getOperatorsForSector(sector!.id, data)}
+            occupants={occupantsBySector[sector!.id] ?? []}
           />
         ))}
       </div>

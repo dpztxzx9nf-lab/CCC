@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./facility.css";
 import "./facility-stabilization.css";
+import "./facility-embodiment.css";
 
 export const metadata: Metadata = {
   title: "CCC — Continuity Command Center",

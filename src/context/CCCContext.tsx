@@ -156,8 +156,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   );
 
   const getOperatorsForSectorCb = useCallback(
-    (id: SectorId) => getOperatorsForSector(id, data),
-    [data],
+    (id: SectorId) => getOperatorsForSector(id, data, operational),
+    [data, operational],
   );
 
   const value = useMemo(

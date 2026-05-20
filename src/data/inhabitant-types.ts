@@ -1,5 +1,7 @@
 /** Client-safe inhabitant behavior — derived from operational topology */
 
+import type { SectorId } from "./types";
+
 export type InhabitantPosture =
   | "anchored"
   | "focused"
@@ -22,11 +24,13 @@ export interface InhabitantPosition {
 export interface InhabitantBehavior {
   operatorId: string;
   posture: InhabitantPosture;
+  /** Screen-reader / dossier context only */
   stateLabel: string;
   purpose: string;
   stationId: string | null;
   stationName: string | null;
   position: InhabitantPosition;
   intensity: BehaviorIntensity;
-  crossSectorHint: string | null;
+  /** Home sector when operator is on collaboration transit */
+  transitFrom: SectorId | null;
 }

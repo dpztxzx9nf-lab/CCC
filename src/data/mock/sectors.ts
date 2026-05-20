@@ -58,7 +58,7 @@ export const mockSectors: Sector[] = [
     description:
       "Active services, APIs, game servers, and operational workloads in production.",
     status: "nominal",
-    operatorIds: ["fab-0"],
+    operatorIds: [],
     stationIds: ["runtime-monitor", "api-gateway"],
   },
 ];

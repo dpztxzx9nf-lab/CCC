@@ -1,48 +1,30 @@
 "use client";
 
-import { useMemo } from "react";
-import type { Operator, Sector } from "@/data/types";
+import type { SectorOccupant } from "@/lib/operator-placement";
+import type { Sector } from "@/data/types";
 import { useCCC } from "@/context/CCCContext";
-import {
-  computeInhabitantBehavior,
-  getStationLayoutPosition,
-} from "@/lib/inhabitant-behavior";
+import { getStationLayoutPosition } from "@/lib/inhabitant-behavior";
 import { OperatorInhabitant } from "./OperatorInhabitant";
-import { StationMarker } from "./StationMarker";
+import { WorkstationVisual } from "./WorkstationVisual";
 
 interface SectorRoomProps {
   sector: Sector;
-  operators: Operator[];
+  occupants: SectorOccupant[];
 }
 
-export function SectorRoom({ sector, operators }: SectorRoomProps) {
-  const { data, operational } = useCCC();
-
-  const stations = data.stations.filter((s) => s.sectorId === sector.id);
-
-  const behaviors = useMemo(
-    () =>
-      operators.map((op, i) =>
-        computeInhabitantBehavior({
-          operator: op,
-          sectorId: sector.id,
-          slotIndex: i,
-          slotTotal: operators.length,
-          data,
-          operational,
-        }),
-      ),
-    [operators, sector.id, data, operational],
-  );
+export function SectorRoom({ sector, occupants }: SectorRoomProps) {
+  const { data } = useCCC();
 
   const occupiedStationIds = new Set(
-    behaviors.map((b) => b.stationId).filter(Boolean) as string[],
+    occupants.map((o) => o.behavior.stationId).filter(Boolean) as string[],
   );
 
-  if (operators.length === 0) {
-    return (
-      <p className="text-sm text-ccc-muted">No operators stationed in this sector.</p>
-    );
+  const stations = data.stations.filter(
+    (s) => s.sectorId === sector.id && occupiedStationIds.has(s.id),
+  );
+
+  if (occupants.length === 0) {
+    return <div className="ccc-sector-floor ccc-sector-floor--empty" aria-hidden />;
   }
 
   return (
@@ -53,25 +35,21 @@ export function SectorRoom({ sector, operators }: SectorRoomProps) {
       <div className="ccc-sector-floor__line" aria-hidden />
 
       {stations.map((st) => (
-        <StationMarker
+        <WorkstationVisual
           key={st.id}
           station={st}
           position={getStationLayoutPosition(st.id)}
-          occupied={occupiedStationIds.has(st.id)}
+          active
         />
       ))}
 
-      {behaviors.map((behavior) => {
-        const op = operators.find((o) => o.id === behavior.operatorId);
-        if (!op) return null;
-        return (
-          <OperatorInhabitant
-            key={`${op.id}-${sector.id}`}
-            operator={op}
-            behavior={behavior}
-          />
-        );
-      })}
+      {occupants.map(({ operator, behavior }) => (
+        <OperatorInhabitant
+          key={operator.id}
+          operator={operator}
+          behavior={behavior}
+        />
+      ))}
     </div>
   );
 }

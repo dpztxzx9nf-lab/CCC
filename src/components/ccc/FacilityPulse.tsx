@@ -1,9 +1,11 @@
 "use client";
 
 import { useCCC } from "@/context/CCCContext";
-import { getFacilityPulse } from "@/lib/chamber-atmosphere";
+import { getChamberActivity, getFacilityPulse } from "@/lib/chamber-atmosphere";
+import { SECTOR_ORDER } from "@/lib/facility-layout";
+import type { SectorId } from "@/data/types";
 
-const SECTOR_LABEL: Record<string, string> = {
+const SECTOR_ARIA: Record<SectorId, string> = {
   core: "Core",
   archive: "Archive",
   forge: "Forge",
@@ -13,40 +15,43 @@ const SECTOR_LABEL: Record<string, string> = {
 };
 
 export function FacilityPulse() {
-  const { operational, data } = useCCC();
+  const { operational, openSector } = useCCC();
   const heat = operational?.sectorHeat ?? [];
   const pulse = getFacilityPulse(heat);
-  const activeProjects =
-    operational?.projects.filter((p) => p.activityScore > 0).length ??
-    data.projects.filter((p) => p.status === "active").length;
 
   if (!operational?.enabled && heat.length === 0) return null;
 
+  const ariaSummary = [
+    pulse.focusSector && `focus ${SECTOR_ARIA[pulse.focusSector as SectorId]}`,
+    pulse.hotSectors.length > 0 &&
+      `pressure ${pulse.hotSectors.map((id) => SECTOR_ARIA[id as SectorId] ?? id).join(", ")}`,
+    pulse.calmCount > 0 && `${pulse.calmCount} calm`,
+  ]
+    .filter(Boolean)
+    .join("; ");
+
   return (
-    <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ccc-muted">
-      <span>
-        <span className="text-ccc-accent">{activeProjects}</span> active project
-        {activeProjects !== 1 ? "s" : ""}
-      </span>
-      {pulse.focusSector && (
-        <span>
-          Focus:{" "}
-          <span className="font-medium text-ccc-text">
-            {SECTOR_LABEL[pulse.focusSector] ?? pulse.focusSector}
-          </span>
-        </span>
-      )}
-      {pulse.hotSectors.length > 0 && (
-        <span>
-          Pressure:{" "}
-          <span className="text-ccc-warn">
-            {pulse.hotSectors.map((id) => SECTOR_LABEL[id] ?? id).join(", ")}
-          </span>
-        </span>
-      )}
-      {pulse.calmCount > 0 && (
-        <span className="opacity-80">{pulse.calmCount} sectors calm</span>
-      )}
-    </p>
+    <div
+      className="ccc-facility-pulse"
+      role="group"
+      aria-label={ariaSummary || "Facility sector activity"}
+    >
+      {SECTOR_ORDER.map((sectorId) => {
+        const h = heat.find((x) => x.sectorId === sectorId);
+        const activity = getChamberActivity(h);
+        const isFocus = pulse.focusSector === sectorId;
+        const isHot = pulse.hotSectors.includes(sectorId);
+
+        return (
+          <button
+            key={sectorId}
+            type="button"
+            onClick={() => openSector(sectorId)}
+            className={`ccc-pulse-node ccc-pulse-node--${activity}${isFocus ? " ccc-pulse-node--focus" : ""}${isHot ? " ccc-pulse-node--hot" : ""}`}
+            aria-label={`${SECTOR_ARIA[sectorId]}, ${activity}${isFocus ? ", focus" : ""}${isHot ? ", pressure" : ""}`}
+          />
+        );
+      })}
+    </div>
   );
 }
