@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "fs/promises";
+import { mkdir, readFile, stat, writeFile } from "fs/promises";
 import path from "path";
 import type { ArchivistConfig } from "@/lib/localData/archivist-config";
 import { ALL_SECTOR_IDS } from "@/lib/operations/taxonomy";
@@ -360,4 +360,93 @@ export async function readContinuitySignalsForOpsFromDisk(
     /* missing */
   }
   return [];
+}
+
+/** Local disk usage for public continuity JSON artifacts (ops visibility) */
+export interface ContinuityStorageStats {
+  eventsFileBytes: number;
+  snapshotFileBytes: number;
+  totalBytes: number;
+  logUpdatedAt: string | null;
+  railEventCount: number;
+  operationalEventCount: number;
+  snapshotGeneratedAt: string | null;
+  snapshotUpdatedAt: string | null;
+}
+
+export async function readContinuityStorageStatsFromDisk(
+  cwd = process.cwd(),
+): Promise<ContinuityStorageStats> {
+  const empty: ContinuityStorageStats = {
+    eventsFileBytes: 0,
+    snapshotFileBytes: 0,
+    totalBytes: 0,
+    logUpdatedAt: null,
+    railEventCount: 0,
+    operationalEventCount: 0,
+    snapshotGeneratedAt: null,
+    snapshotUpdatedAt: null,
+  };
+
+  if (typeof window !== "undefined") return empty;
+
+  const eventsPath = path.join(cwd, "public", "continuity-events.json");
+  const snapshotPath = path.join(cwd, "public", "continuity-snapshot.json");
+
+  let eventsFileBytes = 0;
+  let snapshotFileBytes = 0;
+  try {
+    eventsFileBytes = (await stat(eventsPath)).size;
+  } catch {
+    /* missing */
+  }
+  try {
+    snapshotFileBytes = (await stat(snapshotPath)).size;
+  } catch {
+    /* missing */
+  }
+
+  let logUpdatedAt: string | null = null;
+  let railEventCount = 0;
+  let operationalEventCount = 0;
+  try {
+    const raw = await readFile(eventsPath, "utf-8");
+    const data: unknown = JSON.parse(raw);
+    if (data && typeof data === "object") {
+      const o = data as Record<string, unknown>;
+      logUpdatedAt = typeof o.updatedAt === "string" ? o.updatedAt : null;
+      if (Array.isArray(o.events)) railEventCount = o.events.length;
+      if (Array.isArray(o.operationalEvents))
+        operationalEventCount = o.operationalEvents.length;
+    }
+  } catch {
+    /* malformed or missing */
+  }
+
+  let snapshotGeneratedAt: string | null = null;
+  let snapshotUpdatedAt: string | null = null;
+  try {
+    const raw = await readFile(snapshotPath, "utf-8");
+    const data: unknown = JSON.parse(raw);
+    if (data && typeof data === "object") {
+      const o = data as Record<string, unknown>;
+      snapshotGeneratedAt =
+        typeof o.generatedAt === "string" ? o.generatedAt : null;
+      snapshotUpdatedAt =
+        typeof o.updatedAt === "string" ? o.updatedAt : null;
+    }
+  } catch {
+    /* malformed or missing */
+  }
+
+  return {
+    eventsFileBytes,
+    snapshotFileBytes,
+    totalBytes: eventsFileBytes + snapshotFileBytes,
+    logUpdatedAt,
+    railEventCount,
+    operationalEventCount,
+    snapshotGeneratedAt,
+    snapshotUpdatedAt,
+  };
 }

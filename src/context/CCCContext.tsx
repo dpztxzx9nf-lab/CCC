@@ -206,14 +206,6 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const closePanel = useCallback(() => setActivePanel(null), []);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closePanel();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [closePanel]);
-
-  useEffect(() => {
     if (!activePanel) return;
 
     const scrollY = window.scrollY;

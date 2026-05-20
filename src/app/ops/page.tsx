@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   readContinuitySignalsForOpsFromDisk,
+  readContinuityStorageStatsFromDisk,
+  type ContinuityStorageStats,
   type OpsContinuitySignalRow,
 } from "@/lib/continuity/events/store";
+import { OpsSectionSheet } from "./OpsSectionSheet";
 import "./ops.css";
 
 export const dynamic = "force-dynamic";
@@ -30,6 +33,69 @@ function truncateSummary(s: string, max = 120): string {
   const t = s.trim();
   if (t.length <= max) return t;
   return `${t.slice(0, max - 1)}…`;
+}
+
+function formatContinuityBytes(bytes: number): string {
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  if (bytes >= 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${bytes} B`;
+}
+
+function formatStorageIso(iso: string | null): string {
+  if (!iso) return "—";
+  return formatSignalTime(iso);
+}
+
+function ContinuityStorage({ stats }: { stats: ContinuityStorageStats }) {
+  const totalRecords = stats.railEventCount + stats.operationalEventCount;
+  const eventLine =
+    stats.operationalEventCount > 0
+      ? `${totalRecords} (${stats.railEventCount} rail · ${stats.operationalEventCount} operational)`
+      : `${stats.railEventCount} (rail)`;
+
+  return (
+    <div className="ccc-ops-storage" aria-labelledby="continuity-storage">
+      <h3 className="ccc-ops-storage__title" id="continuity-storage">
+        Continuity Storage
+      </h3>
+      <ul className="ccc-ops-storage__list">
+        <li>
+          <span className="ccc-ops-storage__k">continuity-events.json</span>{" "}
+          <span className="ccc-ops-storage__v">{formatContinuityBytes(stats.eventsFileBytes)}</span>
+        </li>
+        <li>
+          <span className="ccc-ops-storage__k">continuity-snapshot.json</span>{" "}
+          <span className="ccc-ops-storage__v">{formatContinuityBytes(stats.snapshotFileBytes)}</span>
+        </li>
+        <li>
+          <span className="ccc-ops-storage__k">Total (both files)</span>{" "}
+          <span className="ccc-ops-storage__v">{formatContinuityBytes(stats.totalBytes)}</span>
+        </li>
+        <li>
+          <span className="ccc-ops-storage__k">Event records</span>{" "}
+          <span className="ccc-ops-storage__v">{eventLine}</span>
+        </li>
+        <li>
+          <span className="ccc-ops-storage__k">Log updated</span>{" "}
+          <span className="ccc-ops-storage__v">{formatStorageIso(stats.logUpdatedAt)}</span>
+        </li>
+        <li>
+          <span className="ccc-ops-storage__k">Snapshot generated</span>{" "}
+          <span className="ccc-ops-storage__v">
+            {formatStorageIso(stats.snapshotGeneratedAt)}
+          </span>
+        </li>
+        {stats.snapshotUpdatedAt ? (
+          <li>
+            <span className="ccc-ops-storage__k">Snapshot updated</span>{" "}
+            <span className="ccc-ops-storage__v">
+              {formatStorageIso(stats.snapshotUpdatedAt)}
+            </span>
+          </li>
+        ) : null}
+      </ul>
+    </div>
+  );
 }
 
 function RecentContinuitySignals({ rows }: { rows: OpsContinuitySignalRow[] }) {
@@ -107,7 +173,10 @@ const SECTIONS = [
 ] as const;
 
 export default async function OpsPage() {
-  const allRows = await readContinuitySignalsForOpsFromDisk();
+  const [allRows, storageStats] = await Promise.all([
+    readContinuitySignalsForOpsFromDisk(),
+    readContinuityStorageStatsFromDisk(),
+  ]);
   const recentSignals = allRows.slice(0, 10);
 
   return (
@@ -127,7 +196,7 @@ export default async function OpsPage() {
             <strong className="text-ccc-text">ccc.thinkcore.io</strong> updates only
             after you push to Git and Vercel deploys.
           </p>
-          <nav className="ccc-ops-toc" aria-label="Sections">
+          <nav className="ccc-ops-toc hidden md:block" aria-label="Sections">
             <ul>
               {SECTIONS.map((s, i) => (
                 <li key={s.id}>
@@ -141,6 +210,12 @@ export default async function OpsPage() {
           <Link href="/" className="ccc-ops-back">
             ← Back to facility
           </Link>
+          <OpsSectionSheet
+            sections={SECTIONS.map((s, i) => ({
+              id: s.id,
+              label: `${i + 1}. ${s.label}`,
+            }))}
+          />
         </header>
 
         <section className="ccc-ops-section" aria-labelledby="git-deploy">
@@ -283,6 +358,8 @@ export default async function OpsPage() {
             projects normally; open local CCC to view the projection. Intervene only when
             something looks wrong.
           </p>
+
+          <ContinuityStorage stats={storageStats} />
 
           <RecentContinuitySignals rows={recentSignals} />
         </section>

@@ -189,6 +189,30 @@ body {
   background: var(--ccc-border);
 }
 
+/* Drag chrome — handle / header / rail edge (touch-first, no scroll fight) */
+.ccc-detail-panel__chrome {
+  flex-shrink: 0;
+  width: 100%;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ccc-detail-panel__chrome--rail {
+  padding-left: 14px;
+}
+
+.ccc-detail-panel__rail-edge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  z-index: 3;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .ccc-detail-panel__header {
   flex-shrink: 0;
   display: flex;
