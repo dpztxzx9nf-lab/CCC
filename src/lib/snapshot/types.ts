@@ -2,6 +2,7 @@ import type { SectorId } from "@/data/types";
 import type { ActivityKind } from "@/lib/operations/taxonomy";
 import type { OperationalEvent } from "@/lib/operations/events";
 import type { OperationalSignal } from "@/lib/operations/types";
+import type { SectorActivityClass } from "@/lib/operations/temporal/types";
 import type {
   LastSignificantOperationalEvent,
   SemanticMilestoneRow,
@@ -62,6 +63,13 @@ export interface ContinuitySnapshot {
   /** Recent normalized operational activity (empty until watch/snapshot pipeline persists events) */
   eventsRecent?: OperationalEvent[];
   sectorPressure?: Record<SectorId, number>;
+  /** Decay-weighted historical pressure per sector */
+  historicalPressure?: Record<SectorId, number>;
+  /** Rolling momentum per sector (recent vs prior window) */
+  sectorMomentum?: Record<SectorId, number>;
+  /** Transient / sustained / dormant / structural classification */
+  sectorActivityClass?: Record<SectorId, SectorActivityClass>;
+  dormantSectors?: SectorId[];
   projectMomentum?: Record<string, number>;
   semanticMilestones?: SemanticMilestoneRow[];
   dormantProjects?: string[];

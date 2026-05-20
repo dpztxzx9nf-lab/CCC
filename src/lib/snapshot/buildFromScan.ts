@@ -1,39 +1,20 @@
-import type { SectorId } from "@/data/types";
-import {
-  ACTIVITY_SECTOR_MAP,
-  ALL_SECTOR_IDS,
-  scoreToActivityLevel,
-} from "@/lib/operations/taxonomy";
 import type { RawScannedProject } from "@/lib/localData/scanners";
 import type { OperationalEvent } from "@/lib/operations/events";
 import type { OperationalSignal } from "@/lib/operations/types";
 import {
   deriveOperationalSnapshotFields,
-  sectorPressureToHeatDelta,
 } from "@/lib/operations/deriveOperationalSnapshot";
+import {
+  buildOperatorsFromSignals,
+  buildSectorHeatFromSignals,
+  deriveTemporalContinuity,
+  mergeSectorPressure,
+} from "@/lib/operations/deriveSignalProjection";
 import type {
   ContinuitySnapshot,
-  ContinuitySnapshotOperator,
   ContinuitySnapshotProject,
   ContinuitySnapshotSignal,
-  ContinuitySnapshotSectorHeat,
 } from "./types";
-
-const OPERATOR_SECTOR_OWNERSHIP: Record<string, SectorId[]> = {
-  "nexus-7": ["core"],
-  "deep-1": ["archive"],
-  "fab-0": ["forge", "runtime"],
-  "bcast-1": ["relay"],
-  "scout-6": ["observatory", "core"],
-};
-
-const OPERATOR_CALLSIGNS: Record<string, string> = {
-  "nexus-7": "NEXUS-7",
-  "deep-1": "ARCHIVIST-0",
-  "fab-0": "FAB-0",
-  "bcast-1": "BCAST-1",
-  "scout-6": "SCOUT-6",
-};
 
 function buildSignals(projects: RawScannedProject[]): ContinuitySnapshotSignal[] {
   const signals: ContinuitySnapshotSignal[] = [];
@@ -120,93 +101,6 @@ function buildSignals(projects: RawScannedProject[]): ContinuitySnapshotSignal[]
   return signals;
 }
 
-function buildSectorHeat(
-  projects: RawScannedProject[],
-  signals: ContinuitySnapshotSignal[],
-  operationalDelta: Record<SectorId, number>,
-): Record<SectorId, ContinuitySnapshotSectorHeat> {
-  const heat: Record<SectorId, ContinuitySnapshotSectorHeat> = {} as Record<
-    SectorId,
-    ContinuitySnapshotSectorHeat
-  >;
-
-  for (const sectorId of ALL_SECTOR_IDS) {
-    const inSector = projects.filter((p) => p.sectorClassification === sectorId);
-    const scoreFromProjects = inSector.reduce((n, p) => n + p.activityScore, 0);
-    const signalBoost = signals
-      .filter((s) => (ACTIVITY_SECTOR_MAP[s.kind] ?? []).includes(sectorId))
-      .reduce((n, s) => n + s.weight, 0);
-
-    const activityScore = Math.min(
-      100,
-      Math.round(scoreFromProjects / 2 + signalBoost / 4) +
-        Math.round(operationalDelta[sectorId] ?? 0),
-    );
-
-    const kinds = new Map<string, number>();
-    for (const s of signals) {
-      if ((ACTIVITY_SECTOR_MAP[s.kind] ?? []).includes(sectorId)) {
-        kinds.set(s.kind, (kinds.get(s.kind) ?? 0) + s.weight);
-      }
-    }
-    let dominantActivity: string | null = null;
-    let max = 0;
-    for (const [k, v] of kinds) {
-      if (v > max) {
-        max = v;
-        dominantActivity = k;
-      }
-    }
-
-    heat[sectorId] = {
-      activityScore,
-      activityLevel: scoreToActivityLevel(activityScore),
-      operationalLoad: inSector.filter((p) => p.activityScore > 0).length,
-      dominantActivity,
-    };
-  }
-
-  return heat;
-}
-
-function buildOperators(
-  projects: RawScannedProject[],
-  sectorHeat: Record<SectorId, ContinuitySnapshotSectorHeat>,
-  signals: ContinuitySnapshotSignal[],
-): ContinuitySnapshotOperator[] {
-  return Object.entries(OPERATOR_SECTOR_OWNERSHIP).map(([operatorId, sectors]) => {
-    const relevant = projects.filter((p) => sectors.includes(p.sectorClassification));
-    const workload = Math.min(
-      100,
-      relevant.reduce((n, p) => n + p.activityScore, 0),
-    );
-
-    const top = [...relevant].sort((a, b) => b.activityScore - a.activityScore)[0];
-    const sectorSignals = signals.filter(
-      (s) => top && s.projectId === top.id,
-    );
-    const last = sectorSignals.sort((a, b) => b.weight - a.weight)[0];
-
-    const hotSector = sectors.find((s) => sectorHeat[s].activityScore >= 25);
-
-    let currentActivity = "Standby — no local activity in owned sectors";
-    if (top && top.activityScore > 0) {
-      currentActivity = `${top.name}: ${top.recentActivityCount > 0 ? "recent file activity" : "structure detected"}`;
-    } else if (hotSector) {
-      currentActivity = `${hotSector} sector heat ${sectorHeat[hotSector].activityScore}`;
-    }
-
-    return {
-      operatorId,
-      callsign: OPERATOR_CALLSIGNS[operatorId] ?? operatorId,
-      workload,
-      currentActivity,
-      activeProjectId: top && top.activityScore > 0 ? top.id : null,
-      lastSignal: last ? `${last.label}: ${last.value}` : null,
-    };
-  });
-}
-
 export function buildContinuitySnapshot(
   projects: RawScannedProject[],
   scanRoots: ContinuitySnapshot["scanRoots"],
@@ -214,11 +108,25 @@ export function buildContinuitySnapshot(
   operationalSignals: OperationalSignal[] = [],
 ): ContinuitySnapshot {
   const augmented = deriveOperationalSnapshotFields(projects, operationalEvents);
-  const operationalDelta = sectorPressureToHeatDelta(augmented.sectorPressure);
+  const temporal = deriveTemporalContinuity(operationalSignals, projects);
+  const combinedPressure = mergeSectorPressure(
+    augmented.sectorPressure,
+    temporal.environmentalPressure,
+  );
 
   const signals = buildSignals(projects);
-  const sectorHeat = buildSectorHeat(projects, signals, operationalDelta);
-  const operators = buildOperators(projects, sectorHeat, signals);
+  const sectorHeat = buildSectorHeatFromSignals(
+    projects,
+    signals,
+    temporal,
+    operationalSignals,
+  );
+  const operators = buildOperatorsFromSignals(
+    projects,
+    sectorHeat,
+    operationalSignals,
+    temporal,
+  );
 
   const snapshotProjects: ContinuitySnapshotProject[] = projects.map((p) => ({
     id: p.id,
@@ -247,7 +155,11 @@ export function buildContinuitySnapshot(
     operationalSignals,
     scanRoots,
     eventsRecent: augmented.eventsRecent,
-    sectorPressure: augmented.sectorPressure,
+    sectorPressure: combinedPressure,
+    historicalPressure: temporal.historicalPressure,
+    sectorMomentum: temporal.sectorMomentum,
+    sectorActivityClass: temporal.sectorActivityClass,
+    dormantSectors: temporal.dormantSectors,
     projectMomentum: augmented.projectMomentum,
     semanticMilestones: augmented.semanticMilestones,
     dormantProjects: augmented.dormantProjects,

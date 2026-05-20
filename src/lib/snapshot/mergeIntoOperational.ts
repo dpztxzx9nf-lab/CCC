@@ -9,6 +9,8 @@ import {
   scoreToActivityLevel,
   type OperatorState,
 } from "@/lib/operations/taxonomy";
+import type { OperationalSignal } from "@/lib/operations/types";
+import { signalTypeToActivityKind } from "@/lib/operations/signalSectorRouting";
 import type { ContinuitySnapshot } from "./types";
 import { resolveSnapshotProjectId, resolveSnapshotProjectName } from "./resolveProjectId";
 import { snapshotHasData } from "./loadSnapshot";
@@ -73,8 +75,33 @@ function mapOperators(snapshot: ContinuitySnapshot): OperationalSnapshot["operat
   });
 }
 
+function mapOperationalSignals(
+  snapshot: ContinuitySnapshot,
+): OperationalSnapshot["signals"] {
+  return (snapshot.operationalSignals ?? []).map((s) => {
+    const rawProjectId = s.metadata?.projectId;
+    const projectKey =
+      typeof rawProjectId === "string" ? rawProjectId : "facility";
+    const sp = snapshot.projects.find(
+      (p) => p.id === projectKey || p.name === projectKey,
+    );
+    const kind = signalTypeToActivityKind(s.type);
+    return {
+      id: s.id,
+      kind,
+      label: s.type.replace(/_/g, " "),
+      value:
+        typeof s.metadata?.branch === "string"
+          ? String(s.metadata.branch)
+          : s.severity,
+      projectId: resolveSnapshotProjectId(projectKey, sp?.name ?? ""),
+    };
+  });
+}
+
 function mapSignals(snapshot: ContinuitySnapshot): OperationalSnapshot["signals"] {
-  return snapshot.signals.map((s) => {
+  const fromOperational = mapOperationalSignals(snapshot);
+  const fromScan = snapshot.signals.map((s) => {
     const sp = snapshot.projects.find((p) => p.id === s.projectId);
     return {
       id: s.id,
@@ -84,6 +111,12 @@ function mapSignals(snapshot: ContinuitySnapshot): OperationalSnapshot["signals"
       projectId: resolveSnapshotProjectId(s.projectId, sp?.name ?? ""),
     };
   });
+  const seen = new Set(fromOperational.map((s) => s.id));
+  const merged = [...fromOperational];
+  for (const s of fromScan) {
+    if (!seen.has(s.id)) merged.push(s);
+  }
+  return merged;
 }
 
 function mergeProjects(

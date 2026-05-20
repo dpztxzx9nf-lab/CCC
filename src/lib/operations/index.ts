@@ -4,6 +4,12 @@ export {
   deriveGitOperationalSignals,
   deriveGitSignalsForRepo,
 } from "./signals/gitSignals";
+export {
+  deriveTemporalContinuity,
+  decayAtAge,
+  type TemporalContinuityModel,
+  type SectorActivityClass,
+} from "./temporal";
 export type {
   Sector,
   OperationalSignal,
