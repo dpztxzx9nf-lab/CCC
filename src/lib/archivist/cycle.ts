@@ -4,6 +4,10 @@ import { consolidateChanges } from "./consolidate";
 import { deploySnapshot, runBuild } from "./deploy";
 import { isIgnoredPath } from "./noise";
 import { recordEventsFromCycle } from "@/lib/continuity/events/pipeline";
+import {
+  recordOperationalDeployOutcome,
+  recordOperationalFileSignalsFromCycle,
+} from "@/lib/continuity/events/operationalPipeline";
 import { writeContinuitySnapshot } from "./snapshot-write";
 
 export interface CycleOptions {
@@ -62,6 +66,16 @@ export async function runArchivistCycle(
 
   if (consolidation.lockfileOnly) {
     logs.push("note: lockfile-only batch — significance capped");
+  }
+
+  if (!dryRun && classified.length > 0) {
+    try {
+      await recordOperationalFileSignalsFromCycle(config, classified, consolidation);
+      logs.push("operational file signals persisted");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      logs.push(`operational file signals skipped: ${msg}`);
+    }
   }
 
   let snapshotWritten = false;
@@ -139,6 +153,15 @@ export async function runArchivistCycle(
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       logs.push(`events skipped: ${msg}`);
+    }
+  }
+
+  if (!dryRun) {
+    try {
+      await recordOperationalDeployOutcome(config, consolidation, deployResult);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      logs.push(`operational deploy signal skipped: ${msg}`);
     }
   }
 

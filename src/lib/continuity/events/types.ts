@@ -1,6 +1,7 @@
 import type { SectorId } from "@/data/types";
 import type { SignificanceLevel } from "@/lib/localData/archivist-config";
 import type { OperatorId } from "@/lib/operations/taxonomy";
+import type { OperationalEvent } from "@/lib/operations/events";
 
 /** Reality-derived operational event kinds — not narrative quests */
 export type ContinuityEventKind =
@@ -43,13 +44,20 @@ export interface ContinuityEvent {
   evidence: ContinuityEventEvidence;
 }
 
-export const CONTINUITY_EVENTS_VERSION = 1;
+export const CONTINUITY_EVENTS_VERSION = 2 as const;
+
+export type ContinuityEventLogVersion =
+  | typeof CONTINUITY_EVENTS_VERSION
+  /** Legacy log shape — still readable */
+  | 1;
 
 export interface ContinuityEventLog {
-  version: typeof CONTINUITY_EVENTS_VERSION;
+  version: ContinuityEventLogVersion;
   updatedAt: string;
   agent: "ARCHIVIST-0";
   events: ContinuityEvent[];
+  /** Normalized ARCHIVIST / local activity (optional until first writer migrate) */
+  operationalEvents?: OperationalEvent[];
 }
 
 /** Client-safe view (no internal paths) */

@@ -1,5 +1,10 @@
 import type { SectorId } from "@/data/types";
 import type { ActivityKind } from "@/lib/operations/taxonomy";
+import type { OperationalEvent } from "@/lib/operations/events";
+import type {
+  LastSignificantOperationalEvent,
+  SemanticMilestoneRow,
+} from "@/lib/operations/deriveOperationalSnapshot";
 
 export interface ContinuitySnapshotProject {
   id: string;
@@ -51,4 +56,12 @@ export interface ContinuitySnapshot {
   operators: ContinuitySnapshotOperator[];
   signals: ContinuitySnapshotSignal[];
   scanRoots: { id: string; path: string; accessible: boolean; projectCount: number }[];
+  /** Recent normalized operational activity (empty until watch/snapshot pipeline persists events) */
+  eventsRecent?: OperationalEvent[];
+  sectorPressure?: Record<SectorId, number>;
+  projectMomentum?: Record<string, number>;
+  semanticMilestones?: SemanticMilestoneRow[];
+  dormantProjects?: string[];
+  activeProjects?: string[];
+  lastSignificantEvent?: LastSignificantOperationalEvent | null;
 }

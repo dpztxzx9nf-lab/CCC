@@ -7,7 +7,7 @@ function isContinuityEventLog(data: unknown): data is ContinuityEventLog {
   if (!data || typeof data !== "object") return false;
   const o = data as Record<string, unknown>;
   return (
-    o.version === CONTINUITY_EVENTS_VERSION &&
+    (o.version === 1 || o.version === CONTINUITY_EVENTS_VERSION) &&
     o.agent === "ARCHIVIST-0" &&
     typeof o.updatedAt === "string" &&
     Array.isArray(o.events)

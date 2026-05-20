@@ -1,11 +1,15 @@
 import type { SectorId } from "@/data/types";
-import type { ActivityKind } from "@/lib/operations/taxonomy";
 import {
   ACTIVITY_SECTOR_MAP,
   ALL_SECTOR_IDS,
   scoreToActivityLevel,
 } from "@/lib/operations/taxonomy";
 import type { RawScannedProject } from "@/lib/localData/scanners";
+import type { OperationalEvent } from "@/lib/operations/events";
+import {
+  deriveOperationalSnapshotFields,
+  sectorPressureToHeatDelta,
+} from "@/lib/operations/deriveOperationalSnapshot";
 import type {
   ContinuitySnapshot,
   ContinuitySnapshotOperator,
@@ -118,6 +122,7 @@ function buildSignals(projects: RawScannedProject[]): ContinuitySnapshotSignal[]
 function buildSectorHeat(
   projects: RawScannedProject[],
   signals: ContinuitySnapshotSignal[],
+  operationalDelta: Record<SectorId, number>,
 ): Record<SectorId, ContinuitySnapshotSectorHeat> {
   const heat: Record<SectorId, ContinuitySnapshotSectorHeat> = {} as Record<
     SectorId,
@@ -131,7 +136,11 @@ function buildSectorHeat(
       .filter((s) => (ACTIVITY_SECTOR_MAP[s.kind] ?? []).includes(sectorId))
       .reduce((n, s) => n + s.weight, 0);
 
-    const activityScore = Math.min(100, Math.round(scoreFromProjects / 2 + signalBoost / 4));
+    const activityScore = Math.min(
+      100,
+      Math.round(scoreFromProjects / 2 + signalBoost / 4) +
+        Math.round(operationalDelta[sectorId] ?? 0),
+    );
 
     const kinds = new Map<string, number>();
     for (const s of signals) {
@@ -200,9 +209,13 @@ function buildOperators(
 export function buildContinuitySnapshot(
   projects: RawScannedProject[],
   scanRoots: ContinuitySnapshot["scanRoots"],
+  operationalEvents: OperationalEvent[] = [],
 ): ContinuitySnapshot {
+  const augmented = deriveOperationalSnapshotFields(projects, operationalEvents);
+  const operationalDelta = sectorPressureToHeatDelta(augmented.sectorPressure);
+
   const signals = buildSignals(projects);
-  const sectorHeat = buildSectorHeat(projects, signals);
+  const sectorHeat = buildSectorHeat(projects, signals, operationalDelta);
   const operators = buildOperators(projects, sectorHeat, signals);
 
   const snapshotProjects: ContinuitySnapshotProject[] = projects.map((p) => ({
@@ -230,5 +243,12 @@ export function buildContinuitySnapshot(
     operators,
     signals,
     scanRoots,
+    eventsRecent: augmented.eventsRecent,
+    sectorPressure: augmented.sectorPressure,
+    projectMomentum: augmented.projectMomentum,
+    semanticMilestones: augmented.semanticMilestones,
+    dormantProjects: augmented.dormantProjects,
+    activeProjects: augmented.activeProjects,
+    lastSignificantEvent: augmented.lastSignificantEvent,
   };
 }

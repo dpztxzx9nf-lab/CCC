@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:07:54.443Z",
+  "generatedAt": "2026-05-20T08:51:19.488Z",
   "agent": "ARCHIVIST-0",
   "projects": [
     {
@@ -27,8 +27,8 @@
       "scanRoot": "C:\\Projects",
       "hasPackageJson": true,
       "hasGit": true,
-      "markdownCount": 1,
-      "lastModified": "2026-05-20T07:06:49.839Z",
+      "markdownCount": 2,
+      "lastModified": "2026-05-20T08:49:13.869Z",
       "runtimeCapable": true,
       "likelyStack": [
         "active-code",
@@ -38,8 +38,8 @@
         "react"
       ],
       "sectorClassification": "forge",
-      "activityScore": 88,
-      "recentActivityCount": 154,
+      "activityScore": 93,
+      "recentActivityCount": 166,
       "obsidianVault": false
     },
     {
@@ -50,7 +50,7 @@
       "hasPackageJson": true,
       "hasGit": true,
       "markdownCount": 30,
-      "lastModified": "2026-05-20T04:14:18.891Z",
+      "lastModified": "2026-05-20T08:09:44.128Z",
       "runtimeCapable": true,
       "likelyStack": [
         "active-code",
@@ -488,7 +488,7 @@
       "id": "projects-ccc-md",
       "kind": "archive",
       "label": "Markdown volume",
-      "value": "1",
+      "value": "2",
       "projectId": "projects-ccc",
       "weight": 0
     },
@@ -504,7 +504,7 @@
       "id": "projects-ccc-recent",
       "kind": "forge",
       "label": "Recent activity (7d)",
-      "value": "154 files",
+      "value": "166 files",
       "projectId": "projects-ccc",
       "weight": 20
     },

@@ -31,6 +31,9 @@ export interface ArchivistConfig {
   /** Persisted continuity event log (operational memory) */
   eventsOutputRelative: string;
   eventsMaxCount: number;
+  /** Max normalized operational events persisted (rolling window) */
+  operationalEventsMaxCount: number;
+  operationalEventsMaxAgeDays: number;
   eventsMaxAgeDays: number;
   eventsCoalesceWindowMs: number;
 }
@@ -87,6 +90,8 @@ export const DEFAULT_ARCHIVIST_CONFIG: ArchivistConfig = {
   snapshotOutputRelative: "public/continuity-snapshot.json",
   eventsOutputRelative: "public/continuity-events.json",
   eventsMaxCount: 400,
+  operationalEventsMaxCount: 250,
+  operationalEventsMaxAgeDays: 90,
   eventsMaxAgeDays: 90,
   eventsCoalesceWindowMs: 120_000,
 };

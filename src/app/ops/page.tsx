@@ -169,6 +169,23 @@ export default function OpsPage() {
             ARCHIVIST). It keeps CCC aligned with your filesystem without you remembering
             scan commands.
           </p>
+          <p>
+            <strong className="text-ccc-text">Ingestion → projection chain</strong> —
+            raw filesystem activity is normalized into typed{" "}
+            <code className="font-mono">OperationalEvent</code> records (severity, sector,
+            semantics) appended under{" "}
+            <code className="font-mono">operationalEvents</code> in{" "}
+            <code className="font-mono">public/continuity-events.json</code>, alongside the
+            continuity rail log. Heuristic significance and semantic passes live in{" "}
+            <code className="font-mono">src/lib/operations/</code> (no AI APIs). When{" "}
+            <code className="font-mono">continuity-snapshot.json</code> regenerates, it
+            carries <code className="font-mono">eventsRecent</code>,{" "}
+            <code className="font-mono">sectorPressure</code>,{" "}
+            <code className="font-mono">projectMomentum</code>, dormant/active project ids,
+            milestones, and last significant signal; sector heat blends that pressure with
+            scanned project signals so the facility stays quiet unless reality says
+            otherwise.
+          </p>
           <ul>
             <li>
               <strong>Automatic observation</strong> — watches configured roots (Projects,
