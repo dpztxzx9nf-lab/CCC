@@ -79,6 +79,105 @@ body {
   min-width: 44px;
 }
 
+/* Detail panel — portaled to body (mobile sheet + desktop side rail) */
+.ccc-panel-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.ccc-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 201;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.65);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.ccc-detail-panel {
+  position: fixed;
+  z-index: 202;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  background: var(--ccc-surface);
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.45);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.ccc-detail-panel--sheet {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-height: min(88svh, 88dvh, 640px);
+  border-radius: 1rem 1rem 0 0;
+  border-top: 1px solid rgba(61, 214, 198, 0.2);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.ccc-detail-panel--side {
+  top: 0;
+  right: 0;
+  height: 100%;
+  height: 100dvh;
+  width: 100%;
+  max-width: min(28rem, 100vw);
+  border-left: 1px solid rgba(30, 45, 69, 0.5);
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.35);
+}
+
+.ccc-detail-panel__handle-wrap {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0 0.25rem;
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+}
+
+.ccc-detail-panel__handle {
+  display: block;
+  width: 2.5rem;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: var(--ccc-border);
+}
+
+.ccc-detail-panel__header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(30, 45, 69, 0.4);
+  padding: 0.75rem 1rem 1rem;
+}
+
+.ccc-detail-panel__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 1rem;
+}
+
+/* Mobile / Safari — reduce accidental zoom & scroll bleed */
+@media (max-width: 900px) {
+  .ccc-megastructure-wrap {
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+}
+
 /* Scrollbar */
 .ccc-scroll {
   overflow: auto;

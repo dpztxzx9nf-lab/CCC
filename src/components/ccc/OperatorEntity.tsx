@@ -2,43 +2,30 @@
 
 import type { InhabitantBehavior } from "@/data/inhabitant-types";
 import type { Operator } from "@/data/types";
+import { Bcast1Entity } from "./operators/Bcast1Entity";
+import { Deep1Entity } from "./operators/Deep1Entity";
+import { Fab0Entity } from "./operators/Fab0Entity";
+import { Nexus7Entity } from "./operators/Nexus7Entity";
+import { Scout6Entity } from "./operators/Scout6Entity";
 
 interface OperatorEntityProps {
   operator: Operator;
   behavior: InhabitantBehavior;
 }
 
-const ROLE_CLASS: Record<string, string> = {
-  "nexus-7": "ccc-agent--nexus",
-  "fab-0": "ccc-agent--fab",
-  "bcast-1": "ccc-agent--bcast",
-  "scout-6": "ccc-agent--scout",
-  "deep-1": "ccc-agent--deep",
-};
-
 export function OperatorEntity({ operator, behavior }: OperatorEntityProps) {
-  const roleClass = ROLE_CLASS[operator.id] ?? "ccc-agent--default";
-
-  return (
-    <div
-      className={`ccc-agent ${roleClass}`}
-      data-intensity={behavior.intensity}
-      data-posture={behavior.posture}
-      data-status={operator.status}
-      aria-hidden
-    >
-      <span className="ccc-agent__shadow" />
-      <span className="ccc-agent__accent" />
-      <span className="ccc-agent__head">
-        <span className="ccc-agent__visor" />
-      </span>
-      <span className="ccc-agent__torso">
-        <span className="ccc-agent__core" />
-      </span>
-      <span className="ccc-agent__arm ccc-agent__arm--left" />
-      <span className="ccc-agent__arm ccc-agent__arm--right" />
-      <span className="ccc-agent__legs" />
-      <span className="ccc-agent__base" />
-    </div>
-  );
+  switch (operator.id) {
+    case "nexus-7":
+      return <Nexus7Entity operator={operator} behavior={behavior} />;
+    case "fab-0":
+      return <Fab0Entity operator={operator} behavior={behavior} />;
+    case "deep-1":
+      return <Deep1Entity operator={operator} behavior={behavior} />;
+    case "bcast-1":
+      return <Bcast1Entity operator={operator} behavior={behavior} />;
+    case "scout-6":
+      return <Scout6Entity operator={operator} behavior={behavior} />;
+    default:
+      return <Nexus7Entity operator={operator} behavior={behavior} />;
+  }
 }

@@ -18,6 +18,8 @@ export function OperatorInhabitant({ operator, behavior }: OperatorInhabitantPro
   return (
     <div
       className="ccc-inhabitant group absolute z-[5]"
+      data-intensity={behavior.intensity}
+      data-posture={behavior.posture}
       style={{
         left: `${behavior.position.x}%`,
         bottom: "14%",

@@ -1,0 +1,467 @@
+/* CCC stabilization — reactivity, depth, clarity, mobile */
+
+.ccc-megastructure-wrap {
+  background: radial-gradient(ellipse 90% 60% at 50% 30%, rgba(20, 36, 54, 0.35), transparent);
+}
+
+.ccc-chamber {
+  transition:
+    filter 0.9s ease,
+    border-color 0.9s ease,
+    box-shadow 0.9s ease;
+}
+
+.ccc-chamber__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* Calm / idle sectors dim naturally */
+.ccc-chamber[data-activity="idle"] {
+  filter: saturate(0.7) brightness(0.82);
+  border-color: rgba(30, 45, 69, 0.35);
+}
+
+.ccc-chamber[data-activity="low"] {
+  filter: saturate(0.88) brightness(0.92);
+}
+
+.ccc-chamber[data-activity="medium"] {
+  box-shadow:
+    inset 0 0 24px rgba(61, 214, 198, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.ccc-chamber[data-activity="high"] {
+  border-color: rgba(61, 214, 198, 0.45);
+  box-shadow:
+    inset 0 0 36px rgba(61, 214, 198, 0.08),
+    0 0 20px rgba(61, 214, 198, 0.06);
+}
+
+/* —— Shared depth layers —— */
+.ccc-scenery__depth-back {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 11, 18, 0.2) 0%,
+    rgba(7, 11, 18, 0.55) 55%,
+    rgba(3, 5, 8, 0.85) 100%
+  );
+}
+
+.ccc-scenery__frame {
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-color: rgba(61, 214, 198, 0.12);
+  border-style: solid;
+  opacity: 0.6;
+}
+
+.ccc-scenery__frame--tl {
+  top: 6%;
+  left: 4%;
+  border-width: 1px 0 0 1px;
+}
+
+.ccc-scenery__frame--br {
+  bottom: 18%;
+  right: 4%;
+  border-width: 0 1px 1px 0;
+}
+
+.ccc-scenery__catwalk {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 38%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(90, 120, 150, 0.25), transparent);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.ccc-scenery__shaft {
+  position: absolute;
+  right: 18%;
+  top: 12%;
+  bottom: 28%;
+  width: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 45, 69, 0.15),
+    rgba(20, 30, 45, 0.4)
+  );
+  border-radius: 2px;
+}
+
+/* Core */
+.ccc-scenery--core .ccc-scenery__transit-hub {
+  position: absolute;
+  left: 50%;
+  bottom: 22%;
+  width: 0.5rem;
+  height: 2rem;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(61, 214, 198, 0.4), transparent);
+}
+
+.ccc-scenery--core.ccc-scenery--act-high .ccc-scenery__nexus-ring {
+  border-color: rgba(61, 214, 198, 0.55);
+  box-shadow: 0 0 20px rgba(61, 214, 198, 0.2);
+}
+
+.ccc-scenery--core.ccc-scenery--act-high .ccc-scenery__bridge-rail {
+  opacity: 0.75;
+}
+
+.ccc-chamber--core[data-activity="high"] {
+  box-shadow:
+    inset 0 0 48px rgba(61, 214, 198, 0.1),
+    0 0 24px rgba(61, 214, 198, 0.08);
+}
+
+/* Archive */
+.ccc-scenery--archive.ccc-scenery--act-medium .ccc-scenery__shelf,
+.ccc-scenery--archive.ccc-scenery--act-high .ccc-scenery__shelf {
+  background: rgba(126, 184, 255, 0.35);
+  box-shadow: 0 0 6px rgba(90, 143, 201, 0.25);
+}
+
+.ccc-scenery--archive.ccc-scenery--act-high .ccc-scenery__depth-glow {
+  background: radial-gradient(ellipse at 50% 100%, rgba(90, 143, 201, 0.45), transparent 55%);
+}
+
+.ccc-chamber--archive[data-activity="idle"] {
+  filter: saturate(0.65) brightness(0.78);
+}
+
+/* Forge */
+.ccc-scenery--forge .ccc-scenery__ember {
+  position: absolute;
+  left: 35%;
+  bottom: 22%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffb84a;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.ccc-scenery--forge.ccc-scenery--act-medium .ccc-scenery__forge-glow {
+  background: radial-gradient(ellipse, rgba(201, 162, 39, 0.22), transparent 70%);
+}
+
+.ccc-scenery--forge.ccc-scenery--act-high .ccc-scenery__forge-glow {
+  background: radial-gradient(ellipse, rgba(255, 140, 40, 0.35), transparent 65%);
+}
+
+.ccc-scenery--forge.ccc-scenery--act-high .ccc-scenery__ember {
+  opacity: 0.9;
+  box-shadow: 0 0 8px #ffb84a;
+}
+
+.ccc-chamber--forge[data-activity="high"] {
+  border-color: rgba(255, 160, 60, 0.35);
+  box-shadow: inset 0 0 40px rgba(201, 162, 39, 0.12);
+}
+
+/* Runtime */
+.ccc-scenery--runtime .ccc-scenery__reactor-core {
+  position: absolute;
+  left: 50%;
+  bottom: 30%;
+  width: 1rem;
+  height: 1rem;
+  transform: translate(-50%, 50%);
+  border-radius: 50%;
+  background: rgba(61, 214, 198, 0.35);
+  transition: box-shadow 0.8s ease, background 0.8s ease;
+}
+
+.ccc-scenery--runtime.ccc-scenery--act-medium .ccc-scenery__reactor {
+  box-shadow: 0 0 22px rgba(61, 214, 198, 0.35);
+}
+
+.ccc-scenery--runtime.ccc-scenery--act-high .ccc-scenery__reactor {
+  box-shadow: 0 0 32px rgba(61, 214, 198, 0.55);
+}
+
+.ccc-scenery--runtime.ccc-scenery--act-high .ccc-scenery__reactor-core {
+  background: rgba(61, 214, 198, 0.7);
+  box-shadow: 0 0 16px var(--ccc-accent);
+}
+
+.ccc-scenery--runtime.ccc-scenery--act-high .ccc-scenery__conduit {
+  opacity: 0.65;
+}
+
+/* Relay */
+.ccc-scenery--relay .ccc-scenery__beam {
+  position: absolute;
+  right: 14%;
+  top: 12%;
+  width: 2px;
+  height: 40%;
+  background: linear-gradient(180deg, var(--ccc-accent), transparent);
+  opacity: 0.25;
+  transition: opacity 0.8s ease;
+}
+
+.ccc-scenery--relay .ccc-scenery__pulse-ring {
+  position: absolute;
+  right: 10%;
+  top: 10%;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--ccc-accent);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.ccc-scenery--relay.ccc-scenery--act-medium .ccc-scenery__beam {
+  opacity: 0.45;
+}
+
+.ccc-scenery--relay.ccc-scenery--act-high .ccc-scenery__beam {
+  opacity: 0.85;
+  box-shadow: 0 0 10px var(--ccc-accent);
+}
+
+.ccc-scenery--relay.ccc-scenery--act-high .ccc-scenery__pulse-ring {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ccc-scenery--relay.ccc-scenery--act-high .ccc-scenery__pulse-ring {
+    animation: ccc-pulse-ring 3s ease-out infinite;
+  }
+
+  .ccc-scenery--runtime.ccc-scenery--act-high .ccc-scenery__reactor-core {
+    animation: ccc-reactor-breathe 2.5s ease-in-out infinite;
+  }
+}
+
+@keyframes ccc-pulse-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.45;
+  }
+}
+
+@keyframes ccc-reactor-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Observatory */
+.ccc-scenery--observatory .ccc-scenery__scan-sweep {
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  width: 3rem;
+  height: 1px;
+  transform: translateX(-50%) rotate(-8deg);
+  background: linear-gradient(90deg, transparent, rgba(61, 214, 198, 0.4), transparent);
+  opacity: 0.3;
+}
+
+.ccc-scenery--observatory.ccc-scenery--act-high .ccc-scenery__lens {
+  border-color: rgba(61, 214, 198, 0.75);
+  box-shadow: 0 0 14px rgba(61, 214, 198, 0.35);
+}
+
+.ccc-scenery--observatory.ccc-scenery--act-high .ccc-scenery__scan-sweep {
+  opacity: 0.65;
+}
+
+/* Transit reacts to facility load */
+.ccc-megastructure-wrap:has([data-activity="high"]) .ccc-transit--spine-h {
+  opacity: 1;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(61, 214, 198, 0.3),
+    rgba(61, 214, 198, 0.5),
+    rgba(61, 214, 198, 0.3),
+    transparent
+  );
+}
+
+/* Telemetry — strip not cards */
+.ccc-telemetry-strip {
+  gap: 1rem 1.25rem;
+}
+
+.ccc-telemetry-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 4.5rem;
+}
+
+.ccc-telemetry-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ccc-muted);
+}
+
+.ccc-telemetry-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ccc-text);
+}
+
+.ccc-telemetry-hint {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--ccc-warn);
+  opacity: 0.85;
+}
+
+/* Sidebar — lighter panels */
+.ccc-sidebar-panel {
+  border: 1px solid rgba(30, 45, 69, 0.35);
+  background: rgba(10, 16, 26, 0.72);
+  border-radius: 0.35rem;
+}
+
+.ccc-sidebar-panel--warn {
+  border-color: rgba(201, 162, 39, 0.25);
+  background: rgba(12, 14, 10, 0.75);
+}
+
+.ccc-sidebar-panel h2 {
+  font-size: 0.85rem;
+}
+
+/* Sector floor depth */
+.ccc-sector-floor {
+  box-shadow: inset 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.ccc-sector-floor__grid {
+  opacity: 0.28;
+}
+
+/* Operators — restrained movement, calm when idle sector */
+.ccc-inhabitant {
+  transition:
+    left 0.85s ease-out,
+    opacity 0.6s ease;
+}
+
+.ccc-chamber[data-activity="idle"] .ccc-inhabitant {
+  opacity: 0.72;
+}
+
+.ccc-inhabitant[data-intensity="calm"] {
+  filter: saturate(0.85);
+}
+
+.ccc-agent-hit:focus-visible {
+  outline: 2px solid var(--ccc-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.op-nexus,
+.op-fab,
+.op-deep,
+.op-bcast,
+.op-scout {
+  filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.55));
+}
+
+/* Posture clarity — static poses, no wander */
+.ccc-inhabitant[data-posture="anchored"] .op-nexus,
+.ccc-inhabitant[data-posture="anchored"] .op-scout {
+  transform: translateY(1px);
+}
+
+.ccc-inhabitant[data-posture="building"] .op-fab__arm--r {
+  transform: rotate(-8deg);
+}
+
+.ccc-inhabitant[data-posture="archiving"] .op-deep,
+.ccc-inhabitant[data-posture="reviewing"] .op-deep {
+  transform: translateY(-1px);
+}
+
+.ccc-inhabitant[data-posture="relaying"] .op-bcast__signal {
+  opacity: 1;
+}
+
+.ccc-inhabitant[data-posture="coordinating"] .op-nexus__halo {
+  opacity: 0.95;
+  box-shadow: 0 0 12px rgba(61, 214, 198, 0.35);
+}
+
+[data-intensity="elevated"].op-fab .op-fab__spark,
+.ccc-scenery--forge.ccc-scenery--act-high ~ * .op-fab__spark {
+  opacity: 1;
+}
+
+/* Mobile */
+.ccc-panel-sheet {
+  border-radius: 1rem 1rem 0 0;
+  border-top: 1px solid rgba(61, 214, 198, 0.2);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (max-width: 900px) {
+  .ccc-chamber {
+    min-height: 11rem;
+  }
+
+  .ccc-sector-floor {
+    min-height: 7.5rem;
+  }
+
+  .ccc-inhabitant {
+    bottom: 12% !important;
+  }
+
+  .op-nexus,
+  .op-fab,
+  .op-deep,
+  .op-bcast,
+  .op-scout {
+    transform: scale(1.08);
+    transform-origin: bottom center;
+  }
+
+  .ccc-telemetry-item {
+    min-width: 5.5rem;
+  }
+
+  .ccc-sidebar {
+    order: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ccc-chamber,
+  .ccc-inhabitant,
+  .ccc-scenery--relay .ccc-scenery__pulse-ring,
+  .ccc-scenery--runtime .ccc-scenery__reactor-core {
+    transition: none;
+    animation: none;
+  }
+}

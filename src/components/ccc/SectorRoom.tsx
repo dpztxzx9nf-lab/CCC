@@ -46,7 +46,9 @@ export function SectorRoom({ sector, operators }: SectorRoomProps) {
   }
 
   return (
-    <div className="ccc-sector-floor relative min-h-[10.5rem] overflow-visible">
+    <div
+      className={`ccc-sector-floor ccc-sector-floor--${sector.id} relative overflow-visible`}
+    >
       <div className="ccc-sector-floor__grid" aria-hidden />
       <div className="ccc-sector-floor__line" aria-hidden />
 

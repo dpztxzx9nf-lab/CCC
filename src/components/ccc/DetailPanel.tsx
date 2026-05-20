@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, type ReactNode } from "react";
-import { useIsMobile } from "@/lib/use-media-query";
+import { createPortal } from "react-dom";
+import { usePanelLayout, type PanelLayout } from "@/lib/use-panel-layout";
 
 interface DetailPanelProps {
   open: boolean;
@@ -12,6 +13,22 @@ interface DetailPanelProps {
   children: ReactNode;
 }
 
+const SHEET_MOTION = {
+  initial: { y: "100%", x: 0 },
+  animate: { y: 0, x: 0 },
+  exit: { y: "100%", x: 0 },
+};
+
+const SIDE_MOTION = {
+  initial: { x: "100%", y: 0 },
+  animate: { x: 0, y: 0 },
+  exit: { x: "100%", y: 0 },
+};
+
+function motionForLayout(layout: PanelLayout) {
+  return layout === "sheet" ? SHEET_MOTION : SIDE_MOTION;
+}
+
 export function DetailPanel({
   open,
   title,
@@ -19,8 +36,8 @@ export function DetailPanel({
   onClose,
   children,
 }: DetailPanelProps) {
-  const isMobile = useIsMobile();
-
+  const layout = usePanelLayout(open);
+  const panelMotion = motionForLayout(layout);
   useEffect(() => {
     if (!open) return;
     const prev = document.activeElement;
@@ -29,54 +46,64 @@ export function DetailPanel({
     };
   }, [open]);
 
-  return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.button
-            type="button"
-            aria-label="Close panel"
-            className="fixed inset-0 z-40 bg-black/60"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-          />
-          <motion.aside
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="panel-title"
-            className={
-              isMobile
-                ? "fixed inset-x-0 bottom-0 z-50 flex max-h-[85dvh] flex-col rounded-t-xl border border-ccc-border bg-ccc-surface pb-[env(safe-area-inset-bottom)] shadow-2xl"
-                : "fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-ccc-border bg-ccc-surface shadow-2xl md:max-w-lg"
-            }
-            initial={isMobile ? { y: "100%" } : { x: "100%" }}
-            animate={isMobile ? { y: 0 } : { x: 0 }}
-            exit={isMobile ? { y: "100%" } : { x: "100%" }}
-            transition={{ type: "spring", damping: 28, stiffness: 320 }}
-          >
-            <div className="flex shrink-0 items-start justify-between gap-3 border-b border-ccc-border px-4 py-4">
-              <div className="min-w-0 flex-1">
-                <h2 id="panel-title" className="text-lg font-semibold text-ccc-text">
-                  {title}
-                </h2>
-                {subtitle && (
-                  <p className="mt-0.5 text-sm text-ccc-muted">{subtitle}</p>
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={onClose}
-                className="ccc-tap-target shrink-0 rounded-lg border border-ccc-border px-3 py-2 text-sm text-ccc-muted hover:text-ccc-text"
-              >
-                Close
-              </button>
+  if (!open || typeof document === "undefined") {
+    return null;
+  }
+
+  return createPortal(
+    <AnimatePresence mode="wait">
+      <div key="ccc-panel-layer" className="ccc-panel-layer">
+        <motion.button
+          type="button"
+          aria-label="Close panel"
+          className="ccc-panel-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+        />
+        <motion.aside
+          key={layout}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="panel-title"
+          className={
+            layout === "sheet"
+              ? "ccc-detail-panel ccc-detail-panel--sheet"
+              : "ccc-detail-panel ccc-detail-panel--side"
+          }
+          initial={panelMotion.initial}
+          animate={panelMotion.animate}
+          exit={panelMotion.exit}
+          transition={{ type: "spring", damping: 32, stiffness: 380 }}
+        >
+          {layout === "sheet" && (
+            <div className="ccc-detail-panel__handle-wrap">
+              <span className="ccc-detail-panel__handle" aria-hidden />
             </div>
-            <div className="ccc-scroll flex-1 px-4 py-4">{children}</div>
-          </motion.aside>
-        </>
-      )}
-    </AnimatePresence>
+          )}
+          <div className="ccc-detail-panel__header">
+            <div className="min-w-0 flex-1">
+              <h2 id="panel-title" className="text-lg font-semibold text-ccc-text">
+                {title}
+              </h2>
+              {subtitle && (
+                <p className="mt-0.5 text-sm text-ccc-muted">{subtitle}</p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="ccc-tap-target shrink-0 rounded-md px-3 py-2 text-sm text-ccc-muted hover:bg-ccc-surface-raised hover:text-ccc-text"
+            >
+              Close
+            </button>
+          </div>
+          <div className="ccc-detail-panel__body ccc-scroll">{children}</div>
+        </motion.aside>
+      </div>
+    </AnimatePresence>,
+    document.body,
   );
 }

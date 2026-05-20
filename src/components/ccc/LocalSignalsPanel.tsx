@@ -73,10 +73,10 @@ export function LocalSignalsPanel() {
     ) ?? [];
 
   return (
-    <section className="rounded-xl border border-ccc-warn/30 bg-ccc-warn/5 p-4">
+    <section className="ccc-sidebar-panel ccc-sidebar-panel--warn p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-base font-semibold text-ccc-text">Local Signals</h2>
-        <span className="rounded border border-ccc-warn/50 bg-ccc-warn/10 px-2 py-0.5 text-xs font-medium text-ccc-warn">
+        <h2 className="text-sm font-semibold text-ccc-text">Local Signals</h2>
+        <span className="text-[10px] font-medium uppercase tracking-wide text-ccc-warn">
           LOCAL DEV DATA
         </span>
       </div>
@@ -114,7 +114,7 @@ export function LocalSignalsPanel() {
               .map((source) => (
                 <li
                   key={source.slug}
-                  className="rounded-lg border border-ccc-border bg-ccc-surface/80 px-3 py-2"
+                  className="border-b border-ccc-border/40 py-2 last:border-0"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-sm font-medium text-ccc-text">

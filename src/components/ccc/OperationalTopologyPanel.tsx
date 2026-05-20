@@ -7,7 +7,7 @@ export function OperationalTopologyPanel() {
 
   if (operationalLoading) {
     return (
-      <section className="rounded-xl border border-ccc-border bg-ccc-surface/60 p-4">
+      <section className="ccc-sidebar-panel p-3">
         <p className="text-sm text-ccc-muted">Mapping operational topology…</p>
       </section>
     );
@@ -16,52 +16,51 @@ export function OperationalTopologyPanel() {
   if (!operational) return null;
 
   return (
-    <section className="rounded-xl border border-ccc-accent/25 bg-ccc-surface/80 p-4">
+    <section className="ccc-sidebar-panel p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-base font-semibold text-ccc-text">Operational topology</h2>
-        <span
-          className={
-            operational.enabled
-              ? "rounded border border-ccc-accent/40 bg-ccc-accent/10 px-2 py-0.5 text-xs font-medium text-ccc-accent"
-              : "rounded border border-ccc-warn/50 bg-ccc-warn/10 px-2 py-0.5 text-xs font-medium text-ccc-warn"
-          }
-        >
+        <h2 className="text-sm font-semibold text-ccc-text">Topology</h2>
+        <span className="text-[10px] uppercase tracking-wide text-ccc-muted">
           {operational.label}
         </span>
       </div>
 
       {!operational.enabled && operational.message && (
-        <p className="mt-2 text-sm text-ccc-muted">{operational.message}</p>
+        <p className="mt-2 text-xs text-ccc-muted">{operational.message}</p>
       )}
 
-      <ul className="mt-3 space-y-2">
+      <ul className="mt-2 space-y-1">
         {operational.projects.map((p) => (
           <li
             key={p.projectId}
-            className="flex flex-wrap items-center justify-between gap-2 rounded border border-ccc-border/80 px-2 py-1.5 text-sm"
+            className="flex items-center justify-between gap-2 py-1 text-xs"
           >
-            <span className="font-medium text-ccc-text">{p.canonicalName}</span>
-            <span className="text-xs text-ccc-muted">
-              {p.detected ? p.activityLevel : "offline"} · {p.activityScore}
+            <span className="text-ccc-text">{p.canonicalName}</span>
+            <span
+              className={
+                p.activityLevel === "high"
+                  ? "text-ccc-warn"
+                  : p.activityLevel === "idle"
+                    ? "text-ccc-muted"
+                    : "text-ccc-accent"
+              }
+            >
+              {p.detected ? p.activityLevel : "—"}
             </span>
           </li>
         ))}
       </ul>
 
       {operational.enabled && operational.signals.length > 0 && (
-        <div className="mt-4">
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-ccc-muted">
-            Continuity signals
-          </h3>
-          <ul className="mt-2 space-y-1.5">
-            {operational.signals.slice(0, 8).map((s) => (
-              <li key={s.id} className="text-xs text-ccc-text">
-                <span className="text-ccc-accent">{s.label}</span>
-                <span className="text-ccc-muted"> — {s.value}</span>
+        <details className="mt-3 text-xs">
+          <summary className="cursor-pointer text-ccc-muted">Signals</summary>
+          <ul className="mt-2 space-y-1 text-ccc-muted">
+            {operational.signals.slice(0, 6).map((s) => (
+              <li key={s.id}>
+                <span className="text-ccc-accent">{s.label}</span> — {s.value}
               </li>
             ))}
           </ul>
-        </div>
+        </details>
       )}
     </section>
   );

@@ -1,0 +1,888 @@
+/* CCC asymmetric megastructure + unique operators */
+
+.ccc-megastructure-wrap {
+  position: relative;
+  padding: 0.25rem;
+}
+
+.ccc-megastructure {
+  position: relative;
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: 0.85fr 1.35fr 1.1fr 0.75fr;
+  grid-template-rows: minmax(11rem, auto) minmax(9rem, auto) minmax(10rem, auto) minmax(9.5rem, auto);
+  grid-template-areas:
+    "relay   core    core    observatory"
+    "relay   forge   forge   observatory"
+    "archive archive runtime runtime";
+  min-height: 28rem;
+}
+
+.ccc-transit {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ccc-transit--elevator {
+  left: 38%;
+  top: 8%;
+  bottom: 12%;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(61, 214, 198, 0.35),
+    rgba(61, 214, 198, 0.15),
+    transparent
+  );
+}
+
+.ccc-transit--spine-h {
+  left: 5%;
+  right: 5%;
+  top: 42%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(61, 214, 198, 0.2),
+    rgba(61, 214, 198, 0.35),
+    rgba(61, 214, 198, 0.2),
+    transparent
+  );
+}
+
+.ccc-transit--spine-v {
+  left: 52%;
+  top: 18%;
+  bottom: 8%;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(61, 214, 198, 0.25),
+    rgba(61, 214, 198, 0.08)
+  );
+}
+
+/* —— Chambers (not cards) —— */
+.ccc-chamber {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  min-height: 8.5rem;
+  border: 1px solid rgba(30, 45, 69, 0.65);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.ccc-chamber__header {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(180deg, rgba(7, 11, 18, 0.75), transparent);
+  padding: 0.5rem 0.65rem 0.35rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ccc-chamber__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ccc-text);
+}
+
+.ccc-chamber__codename {
+  font-family: var(--ccc-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--ccc-accent-dim);
+}
+
+.ccc-chamber__heat {
+  margin-top: 0.35rem;
+  height: 2px;
+  background: rgba(30, 45, 69, 0.6);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.ccc-chamber__heat-fill {
+  display: block;
+  height: 100%;
+  background: var(--ccc-accent);
+  opacity: 0.7;
+}
+
+.ccc-chamber--core {
+  grid-area: core;
+  min-height: 13rem;
+  border-color: rgba(61, 214, 198, 0.35);
+  background: linear-gradient(165deg, #142436 0%, #0a121c 45%, #070b12 100%);
+  clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+}
+
+.ccc-chamber--relay {
+  grid-area: relay;
+  min-height: 7.5rem;
+  max-width: 100%;
+  background: linear-gradient(90deg, #0c1420, #101a28);
+  border-right: 1px solid rgba(61, 214, 198, 0.15);
+}
+
+.ccc-chamber--forge {
+  grid-area: forge;
+  min-height: 10rem;
+  background: linear-gradient(180deg, #1a1408 0%, #12100a 40%, #0a0c10 100%);
+  border-color: rgba(201, 162, 39, 0.25);
+}
+
+.ccc-chamber--observatory {
+  grid-area: observatory;
+  min-height: 12rem;
+  background: linear-gradient(180deg, #101c2e 0%, #0a1018 70%);
+  clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+}
+
+.ccc-chamber--archive {
+  grid-area: archive;
+  min-height: 11rem;
+  background: linear-gradient(180deg, #080a10 0%, #050608 60%, #030508 100%);
+  border-color: rgba(90, 143, 201, 0.2);
+  margin-top: 0.25rem;
+}
+
+.ccc-chamber--runtime {
+  grid-area: runtime;
+  min-height: 10rem;
+  background: linear-gradient(135deg, #0a1620 0%, #061018 50%, #0a0e14 100%);
+  border-color: rgba(61, 214, 198, 0.3);
+}
+
+/* Sector floors */
+.ccc-sector-floor {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 7rem;
+  margin: 0 0.35rem 0.35rem;
+}
+
+.ccc-sector-floor--core {
+  min-height: 8.5rem;
+}
+
+.ccc-sector-floor--archive {
+  min-height: 8rem;
+}
+
+.ccc-sector-floor--forge {
+  min-height: 7.5rem;
+}
+
+.ccc-sector-floor--observatory {
+  min-height: 8rem;
+}
+
+.ccc-sector-floor--relay {
+  min-height: 5.5rem;
+}
+
+.ccc-sector-floor--runtime {
+  min-height: 7rem;
+}
+
+.ccc-sector-floor--core .ccc-sector-floor__line {
+  bottom: 22%;
+}
+
+/* Scenery */
+.ccc-scenery {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ccc-scenery--core .ccc-scenery__bridge-rail {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 28%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ccc-accent), transparent);
+  opacity: 0.4;
+}
+
+.ccc-scenery--core .ccc-scenery__nexus-ring {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: 4rem;
+  height: 4rem;
+  transform: translateX(-50%);
+  border: 1px solid rgba(61, 214, 198, 0.25);
+  border-radius: 50%;
+}
+
+.ccc-scenery--archive .ccc-scenery__shelf {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: rgba(90, 143, 201, 0.2);
+}
+
+.ccc-scenery--archive .ccc-scenery__shelf--1 {
+  bottom: 35%;
+}
+.ccc-scenery--archive .ccc-scenery__shelf--2 {
+  bottom: 48%;
+}
+.ccc-scenery--archive .ccc-scenery__shelf--3 {
+  bottom: 61%;
+}
+
+.ccc-scenery--archive .ccc-scenery__depth-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(30, 50, 80, 0.35), transparent 55%);
+}
+
+.ccc-scenery--forge .ccc-scenery__crane-arm {
+  position: absolute;
+  right: 12%;
+  top: 8%;
+  width: 2px;
+  height: 45%;
+  background: #4a4030;
+  transform: rotate(-12deg);
+}
+
+.ccc-scenery--forge .ccc-scenery__rail {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: 28%;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #3d3528,
+    #3d3528 8px,
+    #2a2418 8px,
+    #2a2418 16px
+  );
+}
+
+.ccc-scenery--forge .ccc-scenery__forge-glow {
+  position: absolute;
+  left: 30%;
+  bottom: 20%;
+  width: 40%;
+  height: 30%;
+  background: radial-gradient(ellipse, rgba(201, 162, 39, 0.15), transparent 70%);
+}
+
+.ccc-scenery--runtime .ccc-scenery__reactor {
+  position: absolute;
+  left: 50%;
+  bottom: 30%;
+  width: 2.5rem;
+  height: 2.5rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 2px solid rgba(61, 214, 198, 0.4);
+  box-shadow: 0 0 20px rgba(61, 214, 198, 0.2);
+}
+
+.ccc-scenery--runtime.ccc-scenery--live .ccc-scenery__reactor {
+  box-shadow: 0 0 28px rgba(61, 214, 198, 0.45);
+}
+
+.ccc-scenery--runtime .ccc-scenery__conduit {
+  position: absolute;
+  bottom: 35%;
+  width: 35%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ccc-accent), transparent);
+  opacity: 0.35;
+}
+
+.ccc-scenery--runtime .ccc-scenery__conduit--l {
+  left: 5%;
+}
+.ccc-scenery--runtime .ccc-scenery__conduit--r {
+  right: 5%;
+}
+
+.ccc-scenery--relay .ccc-scenery__tower {
+  position: absolute;
+  right: 15%;
+  bottom: 25%;
+  width: 3px;
+  height: 55%;
+  background: #2a3548;
+}
+
+.ccc-scenery--relay .ccc-scenery__antenna {
+  position: absolute;
+  right: 12%;
+  top: 15%;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--ccc-accent);
+  box-shadow: 0 0 8px var(--ccc-accent);
+}
+
+.ccc-scenery--observatory .ccc-scenery__tower-mast {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  width: 4px;
+  height: 60%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #2a4058, #1a2838);
+}
+
+.ccc-scenery--observatory .ccc-scenery__lens {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  width: 1.2rem;
+  height: 1.2rem;
+  transform: translateX(-50%);
+  border: 2px solid rgba(61, 214, 198, 0.5);
+  border-radius: 50%;
+}
+
+.ccc-sidebar > section {
+  border: 1px solid rgba(30, 45, 69, 0.5);
+  background: rgba(13, 20, 32, 0.85);
+}
+
+@media (max-width: 900px) {
+  .ccc-megastructure {
+    display: flex;
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .ccc-chamber {
+    grid-area: unset !important;
+    clip-path: none !important;
+    min-height: 10rem;
+  }
+
+  .ccc-transit {
+    display: none;
+  }
+}
+
+/* —— NEXUS-7 command entity —— */
+.op-nexus {
+  position: relative;
+  width: 2.5rem;
+  height: 5.5rem;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+}
+
+.op-nexus__halo {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2.8rem;
+  height: 2.8rem;
+  transform: translateX(-50%);
+  border: 1px solid rgba(61, 214, 198, 0.35);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.op-nexus__bridge {
+  position: absolute;
+  left: -0.5rem;
+  right: -0.5rem;
+  top: 1.2rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ccc-accent), transparent);
+}
+
+.op-nexus__crown {
+  position: absolute;
+  left: 50%;
+  top: 0.55rem;
+  width: 0.6rem;
+  height: 0.5rem;
+  transform: translateX(-50%);
+  background: #3d5270;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.op-nexus__head {
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  width: 1rem;
+  height: 0.85rem;
+  transform: translateX(-50%);
+  background: #243347;
+  border-radius: 0.2rem;
+}
+
+.op-nexus__visor {
+  position: absolute;
+  inset: 30% 15%;
+  background: var(--ccc-accent);
+  border-radius: 0.1rem;
+  box-shadow: 0 0 8px var(--ccc-accent);
+}
+
+.op-nexus__mantle {
+  position: absolute;
+  left: 50%;
+  top: 1.75rem;
+  width: 2.2rem;
+  height: 0.5rem;
+  transform: translateX(-50%);
+  background: #1a2838;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.op-nexus__torso {
+  position: absolute;
+  left: 50%;
+  top: 2.1rem;
+  width: 1.2rem;
+  height: 1.5rem;
+  transform: translateX(-50%);
+  background: #1e2d42;
+}
+
+.op-nexus__core {
+  position: absolute;
+  inset: 35%;
+  border-radius: 50%;
+  background: var(--ccc-accent);
+  box-shadow: 0 0 10px var(--ccc-accent);
+}
+
+.op-nexus__arm {
+  position: absolute;
+  top: 2.2rem;
+  width: 0.3rem;
+  height: 1.2rem;
+  background: #1a2435;
+}
+
+.op-nexus__arm--l {
+  left: 0.35rem;
+  transform: rotate(15deg);
+}
+.op-nexus__arm--r {
+  right: 0.35rem;
+  transform: rotate(-15deg);
+}
+
+.op-nexus__pillar {
+  position: absolute;
+  left: 50%;
+  bottom: 0.2rem;
+  width: 0.5rem;
+  height: 1.2rem;
+  transform: translateX(-50%);
+  background: #141c28;
+}
+
+.op-nexus__shadow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2rem;
+  height: 0.3rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* —— FAB-0 fabricator —— */
+.op-fab {
+  position: relative;
+  width: 3.5rem;
+  height: 4.25rem;
+}
+
+.op-fab__crane {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1.2rem;
+  height: 0.35rem;
+  background: #5a4a30;
+}
+
+.op-fab__head {
+  position: absolute;
+  left: 50%;
+  top: 0.4rem;
+  width: 1.3rem;
+  height: 1rem;
+  transform: translateX(-50%);
+  background: #3d3428;
+  border-radius: 0.15rem;
+}
+
+.op-fab__chest {
+  position: absolute;
+  left: 50%;
+  top: 1.35rem;
+  width: 2rem;
+  height: 1.4rem;
+  transform: translateX(-50%);
+  background: #2a2418;
+  border: 1px solid #5a4a30;
+}
+
+.op-fab__core {
+  position: absolute;
+  inset: 30%;
+  background: #c9a227;
+  box-shadow: 0 0 10px rgba(201, 162, 39, 0.6);
+}
+
+.op-fab__arm {
+  position: absolute;
+  top: 1.4rem;
+  width: 0.55rem;
+  height: 1.35rem;
+  background: #3d3428;
+}
+
+.op-fab__arm--l {
+  left: 0;
+}
+.op-fab__arm--r {
+  right: 0;
+}
+
+.op-fab__tool {
+  position: absolute;
+  bottom: -0.35rem;
+  left: 50%;
+  width: 0.35rem;
+  height: 0.5rem;
+  transform: translateX(-50%);
+  background: #6a5a40;
+}
+
+.op-fab__treads {
+  position: absolute;
+  left: 50%;
+  bottom: 0.15rem;
+  width: 2.4rem;
+  height: 0.45rem;
+  transform: translateX(-50%);
+  background: #1a1810;
+  border-radius: 0.1rem;
+}
+
+.op-fab__spark {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #ffb84a;
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.op-fab__spark--a {
+  right: 0.2rem;
+  top: 1.8rem;
+}
+.op-fab__spark--b {
+  left: 0.3rem;
+  top: 2rem;
+}
+
+.op-fab[data-intensity="elevated"] .op-fab__spark {
+  box-shadow: 0 0 6px #ffb84a;
+}
+
+/* —— DEEP-1 archivist —— */
+.op-deep {
+  position: relative;
+  width: 2.75rem;
+  height: 4.75rem;
+}
+
+.op-deep__vault-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(90, 143, 201, 0.2), transparent 60%);
+}
+
+.op-deep__hood {
+  position: absolute;
+  left: 50%;
+  top: 0.5rem;
+  width: 1.4rem;
+  height: 1.1rem;
+  transform: translateX(-50%);
+  background: #1a2438;
+  border-radius: 50% 50% 0.2rem 0.2rem;
+}
+
+.op-deep__face {
+  position: absolute;
+  left: 50%;
+  top: 0.85rem;
+  width: 0.9rem;
+  height: 0.5rem;
+  transform: translateX(-50%);
+}
+
+.op-deep__lens {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #7eb8ff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(126, 184, 255, 0.5);
+}
+
+.op-deep__robe {
+  position: absolute;
+  left: 50%;
+  top: 1.5rem;
+  width: 2rem;
+  height: 2.2rem;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #1e2a3d, #121a28);
+  border-radius: 0.3rem 0.3rem 0.5rem 0.5rem;
+}
+
+.op-deep__tablet {
+  position: absolute;
+  top: 0.4rem;
+  width: 0.25rem;
+  height: 0.9rem;
+  background: rgba(126, 184, 255, 0.4);
+  border-radius: 0.05rem;
+}
+
+.op-deep__tablet--l {
+  left: 0.2rem;
+  transform: rotate(-8deg);
+}
+.op-deep__tablet--r {
+  right: 0.2rem;
+  transform: rotate(8deg);
+}
+
+.op-deep__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  transform: translate(-50%, -50%);
+  background: #5a8fc9;
+  border-radius: 50%;
+}
+
+/* —— BCAST-1 relay —— */
+.op-bcast {
+  position: relative;
+  width: 2.25rem;
+  height: 5rem;
+}
+
+.op-bcast__dish {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1.4rem;
+  height: 0.7rem;
+  transform: translateX(-50%);
+  border: 2px solid var(--ccc-accent);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0;
+  opacity: 0.7;
+}
+
+.op-bcast__signal {
+  position: absolute;
+  left: 50%;
+  top: 0.2rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  transform: translateX(-50%);
+  border: 1px solid var(--ccc-accent);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.op-bcast__signal--b {
+  width: 0.85rem;
+  height: 0.85rem;
+  top: 0;
+  opacity: 0.25;
+}
+
+.op-bcast__mast {
+  position: absolute;
+  left: 50%;
+  top: 0.65rem;
+  width: 2px;
+  height: 2.5rem;
+  transform: translateX(-50%);
+  background: #2a3548;
+}
+
+.op-bcast__head {
+  position: absolute;
+  left: 50%;
+  top: 2.8rem;
+  width: 0.75rem;
+  height: 0.6rem;
+  transform: translateX(-50%);
+  background: #243040;
+}
+
+.op-bcast__emitter {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: 40%;
+  background: var(--ccc-accent);
+  box-shadow: 0 0 6px var(--ccc-accent);
+}
+
+.op-bcast__spine {
+  position: absolute;
+  left: 50%;
+  top: 3.2rem;
+  width: 0.5rem;
+  height: 0.8rem;
+  transform: translateX(-50%);
+  background: #1e2838;
+}
+
+.op-bcast__leg {
+  position: absolute;
+  bottom: 0.2rem;
+  width: 2px;
+  height: 1rem;
+  background: #2a3548;
+}
+
+.op-bcast__leg--l {
+  left: 35%;
+  transform: rotate(12deg);
+}
+.op-bcast__leg--r {
+  right: 35%;
+  transform: rotate(-12deg);
+}
+
+/* —— SCOUT-6 explorer —— */
+.op-scout {
+  position: relative;
+  width: 2rem;
+  height: 4rem;
+}
+
+.op-scout__scanner {
+  position: absolute;
+  left: 50%;
+  top: 0.2rem;
+  width: 1.1rem;
+  height: 0.35rem;
+  transform: translateX(-50%);
+  background: #2a4050;
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+}
+
+.op-scout__visor {
+  position: absolute;
+  left: 50%;
+  top: 0.55rem;
+  width: 0.85rem;
+  height: 0.35rem;
+  transform: translateX(-50%);
+  background: var(--ccc-accent);
+  opacity: 0.9;
+}
+
+.op-scout__pack {
+  position: absolute;
+  right: -0.15rem;
+  top: 1rem;
+  width: 0.5rem;
+  height: 1rem;
+  background: #243040;
+  border-radius: 0.1rem;
+}
+
+.op-scout__chest {
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  width: 0.9rem;
+  height: 1rem;
+  transform: translateX(-50%);
+  background: #1e2d3a;
+}
+
+.op-scout__arm {
+  position: absolute;
+  top: 1.1rem;
+  width: 0.25rem;
+  height: 0.85rem;
+  background: #243040;
+}
+
+.op-scout__arm--l {
+  left: 0.15rem;
+  transform: rotate(20deg);
+}
+.op-scout__arm--r {
+  right: 0.15rem;
+  transform: rotate(-25deg);
+}
+
+.op-scout__leg {
+  position: absolute;
+  bottom: 0.15rem;
+  width: 0.22rem;
+  height: 1.1rem;
+  background: #243040;
+}
+
+.op-scout__leg--l {
+  left: 38%;
+  transform: rotate(5deg);
+}
+.op-scout__leg--r {
+  right: 38%;
+  transform: rotate(-8deg);
+}
+
+/* Intensity shared */
+[data-intensity="calm"] .op-nexus__visor,
+[data-intensity="calm"] .op-fab__core,
+[data-intensity="calm"] .op-bcast__emitter {
+  opacity: 0.55;
+}
+
+[data-intensity="elevated"] .op-nexus__visor,
+[data-intensity="elevated"] .op-fab__core,
+[data-intensity="elevated"] .op-bcast__emitter {
+  filter: brightness(1.2);
+}
+
+.ccc-inhabitant {
+  transition: left 0.7s ease-out;
+}
