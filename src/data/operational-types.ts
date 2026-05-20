@@ -59,6 +59,10 @@ export interface SnapshotMeta {
   agent: string;
   scanRoots: { id: string; accessible: boolean; projectCount: number }[];
   projectCount: number;
+  /** Indexed markdown corpus scale across archived projects */
+  totalMarkdownFiles: number;
+  /** Frozen snapshot artifact size when instrumentation provides it */
+  snapshotSizeBytes?: number;
 }
 
 export interface OperationalSnapshot {

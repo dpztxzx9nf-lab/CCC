@@ -28,6 +28,8 @@ import { loadContinuitySnapshot } from "@/lib/snapshot/loadSnapshot";
 import { mergeContinuitySnapshot } from "@/lib/snapshot/mergeIntoOperational";
 import type { DiscreteBurstState } from "@/lib/operations/discrete-burst";
 import { useDiscreteActivityBindings } from "@/hooks/useDiscreteActivityBindings";
+import type { HumanOrientationId } from "@/lib/human-orientation/types";
+import { HUMAN_ORIENTATION_STORAGE_KEY } from "@/lib/human-orientation";
 
 export type PanelKind = "chamber" | "operator" | "project";
 
@@ -70,14 +72,36 @@ interface CCCContextValue {
   /** @deprecated use getDomainHeat */
   getSectorHeat: (id: OperationalDomainId) => OperationalSnapshot["sectorHeat"][0] | undefined;
   getOperatorsForSector: (id: OperationalDomainId) => Operator[];
+  /** Human operator's intentional facility orientation — shallow domain bias only */
+  humanOrientation: HumanOrientationId;
+  setHumanOrientation: (id: HumanOrientationId) => void;
 }
 
 const CCCContext = createContext<CCCContextValue | null>(null);
+
+const VALID_HUMAN_ORIENTATION = new Set<HumanOrientationId>([
+  "idle",
+  "building",
+  "researching",
+  "deploying",
+  "writing",
+  "planning",
+  "maintenance",
+  "observing",
+]);
+
+function parseStoredHumanOrientation(raw: string | null): HumanOrientationId {
+  if (!raw || !VALID_HUMAN_ORIENTATION.has(raw as HumanOrientationId))
+    return "idle";
+  return raw as HumanOrientationId;
+}
 
 export function CCCProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<CCCData>(getCCCDataSync);
   const [operational, setOperational] = useState<OperationalSnapshot | null>(null);
   const [snapshotMeta, setSnapshotMeta] = useState<SnapshotMeta | null>(null);
+  const [humanOrientation, setHumanOrientationState] =
+    useState<HumanOrientationId>("idle");
   const [loading, setLoading] = useState(false);
   const [operationalLoading, setOperationalLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -96,6 +120,29 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const setEventHighlight = useCallback((event: ContinuityEventView | null) => {
     setHighlightedDomains((event?.sectors ?? []) as OperationalDomainId[]);
   }, []);
+
+  useEffect(() => {
+    try {
+      setHumanOrientationState(
+        parseStoredHumanOrientation(localStorage.getItem(HUMAN_ORIENTATION_STORAGE_KEY)),
+      );
+    } catch {
+      setHumanOrientationState("idle");
+    }
+  }, []);
+
+  const setHumanOrientation = useCallback((id: HumanOrientationId) => {
+    setHumanOrientationState(id);
+    try {
+      localStorage.setItem(HUMAN_ORIENTATION_STORAGE_KEY, id);
+    } catch {
+      /* noop */
+    }
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.cccHumanOrientation = humanOrientation;
+  }, [humanOrientation]);
 
   useEffect(() => {
     let cancelled = false;
@@ -283,6 +330,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       getDomainHeat,
       getSectorHeat,
       getOperatorsForSector: getOperatorsForSectorCb,
+      humanOrientation,
+      setHumanOrientation,
     }),
     [
       data,
@@ -310,6 +359,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       getDomainHeat,
       getSectorHeat,
       getOperatorsForSectorCb,
+      humanOrientation,
+      setHumanOrientation,
     ],
   );
 

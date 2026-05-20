@@ -313,12 +313,7 @@ function buildMockFallbackSnapshot(scannedAt: string): OperationalSnapshot {
     projects: views,
     sectorHeat,
     operators,
-    telemetry: mockCCCData.telemetry.map((t) => ({
-      id: t.id,
-      label: t.label,
-      value: t.value,
-      hint: t.hint,
-    })),
+    telemetry: [],
     signals: [],
     systemStatus: mockCCCData.systemStatus,
     message: report.message,

@@ -48,17 +48,28 @@ export function effectiveActivityScore(
   heat: SectorHeatView | undefined,
   sectorId: SectorId,
   events: ContinuityEventView[],
+  /** Subtle intentional human-domain bias — small delta, capped with derived score */
+  orientationDomainBias = 0,
 ): number {
   const base = heat?.activityScore ?? 0;
-  return Math.min(100, base + sectorEventBoost(sectorId, events));
+  return Math.min(
+    100,
+    base + sectorEventBoost(sectorId, events) + orientationDomainBias,
+  );
 }
 
 export function getEffectiveChamberActivity(
   heat: SectorHeatView | undefined,
   sectorId: SectorId,
   events: ContinuityEventView[],
+  orientationDomainBias = 0,
 ): ChamberActivity {
-  const score = effectiveActivityScore(heat, sectorId, events);
+  const score = effectiveActivityScore(
+    heat,
+    sectorId,
+    events,
+    orientationDomainBias,
+  );
   if (score <= 4) return "idle";
   if (score >= 52) return "high";
   if (score >= 20) return "medium";

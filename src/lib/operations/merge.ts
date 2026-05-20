@@ -14,7 +14,19 @@ export function mergeOperationalIntoCCCData(
   snapshot: OperationalSnapshot,
 ): CCCData {
   if (!snapshot.enabled) {
-    return { ...base, demoLabel: snapshot.label };
+    return {
+      ...base,
+      demoLabel: snapshot.label,
+      telemetry:
+        snapshot.telemetry.length === 0
+          ? []
+          : snapshot.telemetry.map((t) => ({
+              id: t.id,
+              label: t.label,
+              value: t.value,
+              hint: t.hint,
+            })),
+    };
   }
 
   const heatByDomain = new Map(snapshot.sectorHeat.map((h) => [h.sectorId, h]));

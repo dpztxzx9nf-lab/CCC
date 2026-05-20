@@ -5,10 +5,12 @@ import type { PhysicalChamber } from "@/data/types";
 import { useCCC } from "@/context/CCCContext";
 import { useSectorResidue } from "@/context/FacilityResidueContext";
 import {
+  effectiveActivityScore,
   getEffectiveChamberActivity,
   sectorEventBoost,
 } from "@/lib/continuity/events/influence";
 import { CHAMBER_GRID_AREA } from "@/lib/facility-layout";
+import { orientationDomainScoreDelta } from "@/lib/human-orientation";
 import { SectorRoom } from "./SectorRoom";
 import { SectorScenery } from "./SectorScenery";
 
@@ -18,11 +20,23 @@ interface SectorChamberProps {
 }
 
 export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
-  const { openChamber, getDomainHeat, continuityEvents, highlightedDomains, discreteBurst } =
-    useCCC();
+  const {
+    openChamber,
+    getDomainHeat,
+    continuityEvents,
+    highlightedDomains,
+    discreteBurst,
+    humanOrientation,
+  } = useCCC();
   const domainId = chamber.primaryDomain;
   const heat = getDomainHeat(domainId);
-  const activity = getEffectiveChamberActivity(heat, domainId, continuityEvents);
+  const orientBias = orientationDomainScoreDelta(domainId, humanOrientation);
+  const activity = getEffectiveChamberActivity(
+    heat,
+    domainId,
+    continuityEvents,
+    orientBias,
+  );
   const eventLit = highlightedDomains.includes(domainId);
   const eventPulse = sectorEventBoost(domainId, continuityEvents) >= 10;
   const residue = useSectorResidue(domainId);
@@ -33,7 +47,7 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
 
   return (
     <article
-      className={`ccc-chamber ccc-chamber--${domainId}${eventLit ? " ccc-chamber--event-lit" : ""}${eventPulse ? " ccc-chamber--event-pulse" : ""}`}
+      className={`ccc-chamber ccc-chamber--${domainId}${orientBias !== 0 ? " ccc-chamber--orient-nudge" : ""}${eventLit ? " ccc-chamber--event-lit" : ""}${eventPulse ? " ccc-chamber--event-pulse" : ""}`}
       style={{ gridArea: CHAMBER_GRID_AREA[chamber.id] }}
       data-activity={activity}
       data-domain={domainId}
@@ -71,7 +85,12 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
               className="ccc-chamber__heat-fill"
               style={{
                 width: `${Math.max(
-                  heat.activityScore + sectorEventBoost(domainId, continuityEvents),
+                  effectiveActivityScore(
+                    heat,
+                    domainId,
+                    continuityEvents,
+                    orientBias,
+                  ),
                   6,
                 )}%`,
               }}

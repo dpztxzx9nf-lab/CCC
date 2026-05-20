@@ -282,11 +282,3 @@
 .ccc-inhabitant__callsign {
   display: none;
 }
-
-/* ARCHIVIST snapshot instrumentation (telemetry strip) */
-.ccc-snapshot-instrument {
-  margin: 0;
-  padding-left: 0.1rem;
-  font-family: var(--ccc-mono);
-  line-height: 1.3;
-}

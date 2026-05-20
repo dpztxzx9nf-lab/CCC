@@ -184,6 +184,11 @@ export function mergeContinuitySnapshot(
         })
       : buildSnapshotTelemetry(archivist, operators);
 
+  const totalMarkdownFiles = archivist.projects.reduce(
+    (n, p) => n + p.markdownCount,
+    0,
+  );
+
   const snapshotMeta: SnapshotMeta = {
     generatedAt: archivist.generatedAt,
     agent: archivist.agent,
@@ -193,6 +198,7 @@ export function mergeContinuitySnapshot(
       projectCount: r.projectCount,
     })),
     projectCount: archivist.projects.length,
+    totalMarkdownFiles,
   };
 
   return {

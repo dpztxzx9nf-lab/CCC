@@ -335,6 +335,38 @@
   opacity: 0.85;
 }
 
+/* Raw substrate instrumentation ledger (upper strip) */
+.ccc-substrate-ledger .ccc-substrate-slot {
+  min-width: 4.75rem;
+}
+
+.ccc-substrate-slot__value--pending {
+  color: var(--ccc-muted);
+  font-weight: 500;
+}
+
+.ccc-human-orient {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ccc-text);
+  background: rgba(10, 16, 26, 0.75);
+  border: 1px solid rgba(30, 45, 69, 0.5);
+  border-radius: 0.25rem;
+  padding: 0.2rem 0.55rem;
+  max-width: 10.5rem;
+}
+
+.ccc-human-orient:focus-visible {
+  outline: 2px solid var(--ccc-accent);
+  outline-offset: 2px;
+}
+
+/* Chambers receiving orientation bias — very light edge cue */
+.ccc-chamber--orient-nudge:not(.ccc-chamber--event-lit):not(.ccc-chamber--event-pulse) {
+  box-shadow: inset 0 0 0 1px rgba(61, 214, 198, 0.12);
+}
+
 /* Sidebar — lighter panels */
 .ccc-sidebar-panel {
   border: 1px solid rgba(30, 45, 69, 0.35);
