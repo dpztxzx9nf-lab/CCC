@@ -3,7 +3,10 @@
 import type { SectorOccupant } from "@/lib/operator-placement";
 import type { Sector } from "@/data/types";
 import { useCCC } from "@/context/CCCContext";
-import { getChamberActivity } from "@/lib/chamber-atmosphere";
+import {
+  getEffectiveChamberActivity,
+  sectorEventBoost,
+} from "@/lib/continuity/events/influence";
 import { SECTOR_GRID_AREA } from "@/lib/facility-layout";
 import { SectorRoom } from "./SectorRoom";
 import { SectorScenery } from "./SectorScenery";
@@ -14,16 +17,18 @@ interface SectorChamberProps {
 }
 
 export function SectorChamber({ sector, occupants }: SectorChamberProps) {
-  const { openSector, getSectorHeat } = useCCC();
+  const { openSector, getSectorHeat, continuityEvents, highlightedSectors } = useCCC();
   const heat = getSectorHeat(sector.id);
-  const activity = getChamberActivity(heat);
+  const activity = getEffectiveChamberActivity(heat, sector.id, continuityEvents);
+  const eventLit = highlightedSectors.includes(sector.id);
+  const eventPulse = sectorEventBoost(sector.id, continuityEvents) >= 10;
   const activeStations = occupants
     .map((o) => o.behavior.stationId)
     .filter(Boolean) as string[];
 
   return (
     <article
-      className={`ccc-chamber ccc-chamber--${sector.id}`}
+      className={`ccc-chamber ccc-chamber--${sector.id}${eventLit ? " ccc-chamber--event-lit" : ""}${eventPulse ? " ccc-chamber--event-pulse" : ""}`}
       style={{ gridArea: SECTOR_GRID_AREA[sector.id] }}
       data-activity={activity}
       data-dominant={heat?.dominantActivity ?? undefined}
@@ -47,7 +52,12 @@ export function SectorChamber({ sector, occupants }: SectorChamberProps) {
           <div className="ccc-chamber__heat" aria-hidden>
             <span
               className="ccc-chamber__heat-fill"
-              style={{ width: `${Math.max(heat.activityScore, 6)}%` }}
+              style={{
+                width: `${Math.max(
+                  heat.activityScore + sectorEventBoost(sector.id, continuityEvents),
+                  6,
+                )}%`,
+              }}
             />
           </div>
         )}

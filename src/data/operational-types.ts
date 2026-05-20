@@ -1,4 +1,5 @@
 import type { SectorId, SystemStatus } from "./types";
+import type { ContinuityEventView } from "@/lib/continuity/events/types";
 import type { ActivityKind, ActivityLevel, OperatorState } from "@/lib/operations/taxonomy";
 
 /** Client-safe operational snapshot — no filesystem paths */
@@ -73,4 +74,6 @@ export interface OperationalSnapshot {
   systemStatus: SystemStatus;
   message?: string;
   snapshotMeta?: SnapshotMeta;
+  /** Recent reality-derived continuity events (newest first) */
+  continuityEvents?: ContinuityEventView[];
 }

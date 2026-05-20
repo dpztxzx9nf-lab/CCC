@@ -28,6 +28,11 @@ export interface ArchivistConfig {
   /** CCC repo root for snapshot output and optional deploy */
   cccProjectRoot: string;
   snapshotOutputRelative: string;
+  /** Persisted continuity event log (operational memory) */
+  eventsOutputRelative: string;
+  eventsMaxCount: number;
+  eventsMaxAgeDays: number;
+  eventsCoalesceWindowMs: number;
 }
 
 export const ARCHIVIST_IGNORE_DIRS = new Set([
@@ -80,6 +85,10 @@ export const DEFAULT_ARCHIVIST_CONFIG: ArchivistConfig = {
   },
   cccProjectRoot: "C:\\Projects\\CCC",
   snapshotOutputRelative: "public/continuity-snapshot.json",
+  eventsOutputRelative: "public/continuity-events.json",
+  eventsMaxCount: 400,
+  eventsMaxAgeDays: 90,
+  eventsCoalesceWindowMs: 120_000,
 };
 
 /** Sector weights for path-based change classification */

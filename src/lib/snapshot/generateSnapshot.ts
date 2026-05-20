@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import { getArchivistConfig } from "@/lib/localData/archivist-config";
 import { scanAllSnapshotRoots } from "@/lib/localData/scanners";
+import { recordManualSnapshotEvent } from "@/lib/continuity/events/pipeline";
 import { writeContinuitySnapshot } from "@/lib/archivist/snapshot-write";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +25,12 @@ async function main(): Promise<void> {
 
   const config = { ...getArchivistConfig(), cccProjectRoot: PROJECT_ROOT };
   const { outputPath, projectCount, signalCount } = await writeContinuitySnapshot(config);
+
+  const { total } = await recordManualSnapshotEvent(config, {
+    projectCount,
+    signalCount,
+  });
+  console.log(`  events log: ${total} entries`);
 
   console.log(`\nWrote ${outputPath}`);
   console.log(`  projects: ${projectCount}`);

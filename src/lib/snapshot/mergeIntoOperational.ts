@@ -210,6 +210,7 @@ export function mergeContinuitySnapshot(
       systemStatus: overallStatus(sectorHeat),
       snapshotMeta,
       message: undefined,
+      continuityEvents: base.continuityEvents,
     },
     snapshotMeta,
   };

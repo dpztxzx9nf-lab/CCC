@@ -1,7 +1,8 @@
 "use client";
 
 import { useCCC } from "@/context/CCCContext";
-import { getChamberActivity, getFacilityPulse } from "@/lib/chamber-atmosphere";
+import { getChamberActivity } from "@/lib/chamber-atmosphere";
+import { getFacilityPulseWithEvents } from "@/lib/continuity/events/influence";
 import { SECTOR_ORDER } from "@/lib/facility-layout";
 import type { SectorId } from "@/data/types";
 
@@ -15,9 +16,9 @@ const SECTOR_ARIA: Record<SectorId, string> = {
 };
 
 export function FacilityPulse() {
-  const { operational, openSector } = useCCC();
+  const { operational, openSector, continuityEvents, highlightedSectors } = useCCC();
   const heat = operational?.sectorHeat ?? [];
-  const pulse = getFacilityPulse(heat);
+  const pulse = getFacilityPulseWithEvents(heat, continuityEvents);
 
   if (heat.length === 0 && !operational?.snapshotMeta) return null;
 
@@ -41,13 +42,16 @@ export function FacilityPulse() {
         const activity = getChamberActivity(h);
         const isFocus = pulse.focusSector === sectorId;
         const isHot = pulse.hotSectors.includes(sectorId);
+        const isEvent =
+          pulse.eventSectors.includes(sectorId) ||
+          highlightedSectors.includes(sectorId);
 
         return (
           <button
             key={sectorId}
             type="button"
             onClick={() => openSector(sectorId)}
-            className={`ccc-pulse-node ccc-pulse-node--${activity}${isFocus ? " ccc-pulse-node--focus" : ""}${isHot ? " ccc-pulse-node--hot" : ""}`}
+            className={`ccc-pulse-node ccc-pulse-node--${activity}${isFocus ? " ccc-pulse-node--focus" : ""}${isHot ? " ccc-pulse-node--hot" : ""}${isEvent ? " ccc-pulse-node--event" : ""}`}
             aria-label={`${SECTOR_ARIA[sectorId]}, ${activity}${isFocus ? ", focus" : ""}${isHot ? ", pressure" : ""}`}
           />
         );

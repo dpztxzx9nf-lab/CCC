@@ -1,0 +1,239 @@
+/* Continuity event telemetry — infrastructure, not social feed */
+
+.ccc-event-rail {
+  padding: 0.65rem 0.75rem;
+}
+
+.ccc-event-rail__summary {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.ccc-event-rail__summary::-webkit-details-marker {
+  display: none;
+}
+
+.ccc-event-rail__empty {
+  margin: 0.65rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--ccc-muted);
+}
+
+.ccc-event-rail__list {
+  margin: 0.5rem 0 0;
+  max-height: 11rem;
+  overflow-y: auto;
+  padding: 0;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.ccc-event-row {
+  display: flex;
+  gap: 0.45rem;
+  align-items: flex-start;
+  padding: 0.35rem 0.25rem;
+  border-bottom: 1px solid rgba(30, 45, 69, 0.35);
+  cursor: default;
+}
+
+.ccc-event-row:last-child {
+  border-bottom: none;
+}
+
+.ccc-event-row:focus-visible {
+  outline: 1px solid var(--ccc-accent-dim);
+  outline-offset: 1px;
+}
+
+.ccc-event-row__time {
+  flex-shrink: 0;
+  width: 2rem;
+  font-family: var(--ccc-mono);
+  font-size: 0.65rem;
+  color: var(--ccc-muted);
+  padding-top: 0.1rem;
+}
+
+.ccc-event-row__importance {
+  flex-shrink: 0;
+  width: 3px;
+  align-self: stretch;
+  min-height: 1.25rem;
+  border-radius: 1px;
+  margin-top: 0.1rem;
+  background: var(--ccc-border);
+}
+
+.ccc-event-row__importance--low {
+  background: var(--ccc-muted);
+  opacity: 0.5;
+}
+
+.ccc-event-row__importance--medium {
+  background: var(--ccc-accent-dim);
+}
+
+.ccc-event-row__importance--high {
+  background: var(--ccc-warn);
+}
+
+.ccc-event-row__importance--critical {
+  background: var(--ccc-danger);
+}
+
+.ccc-event-row__body {
+  min-width: 0;
+  flex: 1;
+}
+
+.ccc-event-row__title {
+  display: block;
+  font-size: 0.72rem;
+  line-height: 1.3;
+  color: var(--ccc-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ccc-event-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+}
+
+.ccc-event-row__kind {
+  font-family: var(--ccc-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ccc-muted);
+}
+
+.ccc-event-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ccc-muted);
+}
+
+.ccc-event-dot--core {
+  background: #3dd6c6;
+}
+.ccc-event-dot--archive {
+  background: #8fa3bf;
+}
+.ccc-event-dot--forge {
+  background: #e8b84a;
+}
+.ccc-event-dot--observatory {
+  background: #6b9fd4;
+}
+.ccc-event-dot--relay {
+  background: #c49bff;
+}
+.ccc-event-dot--runtime {
+  background: #e86a6a;
+}
+
+.ccc-event-row__op {
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--ccc-mono);
+  font-size: 0.58rem;
+  color: var(--ccc-accent-dim);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ccc-event-row__op:hover {
+  color: var(--ccc-accent);
+}
+
+.ccc-event-dossier-row {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid rgba(30, 45, 69, 0.25);
+}
+
+.ccc-event-dossier-row:last-child {
+  border-bottom: none;
+}
+
+/* Sector highlight when event hovered */
+.ccc-chamber--event-lit {
+  border-color: rgba(61, 214, 198, 0.55) !important;
+  box-shadow:
+    inset 0 0 28px rgba(61, 214, 198, 0.1),
+    0 0 16px rgba(61, 214, 198, 0.08) !important;
+  filter: saturate(1.05) brightness(1.02) !important;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.ccc-chamber--event-pulse[data-activity="medium"],
+.ccc-chamber--event-pulse[data-activity="high"] {
+  animation: ccc-chamber-event-pulse 4s ease-in-out infinite;
+}
+
+@keyframes ccc-chamber-event-pulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 20px rgba(61, 214, 198, 0.04);
+  }
+  50% {
+    box-shadow: inset 0 0 32px rgba(61, 214, 198, 0.09);
+  }
+}
+
+.ccc-pulse-node--event {
+  box-shadow: 0 0 8px rgba(61, 214, 198, 0.45);
+}
+
+.ccc-transit--event-pulse {
+  opacity: 0.85;
+  animation: ccc-transit-event 3s ease-in-out infinite;
+}
+
+@keyframes ccc-transit-event {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.ccc-signal-layer__event-pulse {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(61, 214, 198, 0.04),
+    transparent 55%
+  );
+  animation: ccc-signal-event-fade 6s ease-out forwards;
+}
+
+@keyframes ccc-signal-event-fade {
+  from {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 0;
+  }
+}

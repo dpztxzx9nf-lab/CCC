@@ -1,5 +1,6 @@
 import type { InhabitantBehavior, InhabitantPosture, BehaviorIntensity } from "@/data/inhabitant-types";
 import type { OperationalSnapshot } from "@/data/operational-types";
+import { operatorEventHint } from "@/lib/continuity/events/influence";
 import type { ActivityKind } from "@/lib/operations/taxonomy";
 import { PROJECT_PROFILES } from "@/lib/operations/projectProfiles";
 import type { CCCData, Operator, SectorId, Station } from "@/data/types";
@@ -337,6 +338,16 @@ export function computeInhabitantBehavior(input: BehaviorInput): InhabitantBehav
       ...core,
       posture: core.posture === "focused" ? "anchored" : core.posture,
       intensity: "calm",
+    };
+  }
+
+  const events = operational?.continuityEvents ?? [];
+  const hint = operatorEventHint(operator.id, events);
+  if (hint) {
+    core = {
+      ...core,
+      stateLabel: hint.stateLabel,
+      intensity: hint.intensityBoost ? "elevated" : core.intensity,
     };
   }
 

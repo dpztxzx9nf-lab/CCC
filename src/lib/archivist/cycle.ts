@@ -3,6 +3,7 @@ import { classifyFileChange } from "./classify-change";
 import { consolidateChanges } from "./consolidate";
 import { deploySnapshot, runBuild } from "./deploy";
 import { isIgnoredPath } from "./noise";
+import { recordEventsFromCycle } from "@/lib/continuity/events/pipeline";
 import { writeContinuitySnapshot } from "./snapshot-write";
 
 export interface CycleOptions {
@@ -64,6 +65,7 @@ export async function runArchivistCycle(
   }
 
   let snapshotWritten = false;
+  let snapshotMeta: { projectCount: number; signalCount: number } | undefined;
   let deployResult = {
     pushed: false,
     commitHash: null as string | null,
@@ -78,8 +80,12 @@ export async function runArchivistCycle(
     if (dryRun) {
       logs.push("snapshot skipped: dry run");
     } else {
-      await writeContinuitySnapshot(config);
+      const written = await writeContinuitySnapshot(config);
       snapshotWritten = true;
+      snapshotMeta = {
+        projectCount: written.projectCount,
+        signalCount: written.signalCount,
+      };
       logs.push("snapshot updated");
     }
   } else if (shouldSnapshot && !config.autoSnapshot) {
@@ -118,5 +124,23 @@ export async function runArchivistCycle(
     }
   }
 
-  return { consolidation, snapshotWritten, deployResult, logs };
+  const result = { consolidation, snapshotWritten, deployResult, logs };
+
+  if (!dryRun) {
+    try {
+      const { appended, total } = await recordEventsFromCycle(
+        config,
+        result,
+        snapshotMeta,
+      );
+      if (appended > 0) {
+        logs.push(`events recorded: ${appended} (${total} in log)`);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      logs.push(`events skipped: ${msg}`);
+    }
+  }
+
+  return result;
 }

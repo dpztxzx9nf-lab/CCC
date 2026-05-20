@@ -2,6 +2,7 @@
 
 import type { Operator } from "@/data/types";
 import { useCCC } from "@/context/CCCContext";
+import { OperatorContinuityEvents } from "@/components/continuity/OperatorContinuityEvents";
 import { StatusBadge } from "../StatusBadge";
 
 interface OperatorDossierContentProps {
@@ -32,6 +33,8 @@ export function OperatorDossierContent({ operator }: OperatorDossierContentProps
         </h3>
         <p className="mt-2 text-sm text-ccc-text">{operator.currentActivity}</p>
       </section>
+
+      <OperatorContinuityEvents operator={operator} />
 
       <section>
         <h3 className="text-xs font-semibold uppercase tracking-widest text-ccc-muted">

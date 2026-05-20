@@ -4,6 +4,7 @@ import { FacilityMegastructure } from "./FacilityMegastructure";
 import { FacilityPulse } from "./FacilityPulse";
 import { PanelRouter } from "./PanelRouter";
 import { ProjectsRail } from "./ProjectsRail";
+import { ContinuityEventRail } from "@/components/continuity/ContinuityEventRail";
 import { LocalSignalsPanel } from "./LocalSignalsPanel";
 import { OperationalTopologyPanel } from "./OperationalTopologyPanel";
 import { TelemetryBar } from "./TelemetryBar";
@@ -28,6 +29,7 @@ export function CommandCenter() {
 
           <aside className="ccc-sidebar flex flex-col gap-2 md:gap-3 lg:w-[min(100%,18rem)] lg:shrink-0">
             <OperationalTopologyPanel />
+            <ContinuityEventRail />
             <LocalSignalsPanel />
           </aside>
         </main>

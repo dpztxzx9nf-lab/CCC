@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { deriveOperatorPacket } from "@/lib/operator-display";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
+import { activeEventPulseKinds } from "@/lib/continuity/events/influence";
 import {
   collectActivePackets,
   deriveSignalRoutes,
@@ -13,7 +14,7 @@ import { OperationalPacket } from "./OperationalPacket";
 import { SignalRoute } from "./SignalRoute";
 
 export function FacilitySignalLayer() {
-  const { data, operational } = useCCC();
+  const { data, operational, continuityEvents } = useCCC();
 
   const occupantsBySector = useMemo(
     () => buildFacilityOccupants(data, operational),
@@ -35,10 +36,17 @@ export function FacilitySignalLayer() {
     }));
   }, [occupantsBySector, operational]);
 
-  if (routes.length === 0 && sectorPackets.length === 0) return null;
+  const eventPulses = activeEventPulseKinds(continuityEvents);
+
+  if (routes.length === 0 && sectorPackets.length === 0 && eventPulses.length === 0) {
+    return null;
+  }
 
   return (
     <div className="ccc-signal-layer" aria-hidden>
+      {eventPulses.length > 0 && (
+        <div className="ccc-signal-layer__event-pulse" key={eventPulses.join("-")} />
+      )}
       <svg
         className="ccc-signal-layer__svg"
         viewBox="0 0 100 100"

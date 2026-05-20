@@ -10,7 +10,9 @@ import {
   type ReactNode,
 } from "react";
 import type { OperationalSnapshot, SnapshotMeta } from "@/data/operational-types";
+import type { ContinuityEventView } from "@/lib/continuity/events/types";
 import type { CCCData, Operator, Project, Sector, SectorId } from "@/data/types";
+import { recentEvents } from "@/lib/continuity/events/recent";
 import { getCCCDataSync } from "@/lib/data-source";
 import { getOperatorsForSector } from "@/lib/operators-for-sector";
 import { applyOperationalSnapshot } from "@/lib/operational-source";
@@ -29,6 +31,9 @@ interface CCCContextValue {
   data: CCCData;
   operational: OperationalSnapshot | null;
   snapshotMeta: SnapshotMeta | null;
+  continuityEvents: ContinuityEventView[];
+  highlightedSectors: SectorId[];
+  setEventHighlight: (event: ContinuityEventView | null) => void;
   loading: boolean;
   operationalLoading: boolean;
   error: string | null;
@@ -54,13 +59,19 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const [operationalLoading, setOperationalLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activePanel, setActivePanel] = useState<ActivePanel | null>(null);
+  const [continuityEvents, setContinuityEvents] = useState<ContinuityEventView[]>([]);
+  const [highlightedSectors, setHighlightedSectors] = useState<SectorId[]>([]);
+
+  const setEventHighlight = useCallback((event: ContinuityEventView | null) => {
+    setHighlightedSectors(event?.sectors ?? []);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     setOperationalLoading(true);
 
     async function hydrate() {
-      const [apiResult, archivist] = await Promise.all([
+      const [apiResult, archivist, eventsPayload] = await Promise.all([
         fetch("/api/operational-state", { cache: "no-store" })
           .then(async (res) => {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -68,6 +79,12 @@ export function CCCProvider({ children }: { children: ReactNode }) {
           })
           .catch(() => null),
         loadContinuitySnapshot(),
+        fetch("/api/continuity-events?limit=48", { cache: "no-store" })
+          .then(async (res) => {
+            if (!res.ok) return null;
+            return res.json() as Promise<{ events?: ContinuityEventView[] }>;
+          })
+          .catch(() => null),
       ]);
 
       if (cancelled) return;
@@ -78,7 +95,14 @@ export function CCCProvider({ children }: { children: ReactNode }) {
         archivist,
       );
 
-      setOperational(merged);
+      const fromApi = eventsPayload?.events?.length
+        ? eventsPayload.events
+        : apiResult?.continuityEvents ?? merged.continuityEvents ?? [];
+
+      const events = recentEvents(fromApi, 48);
+
+      setOperational({ ...merged, continuityEvents: events });
+      setContinuityEvents(events);
       setSnapshotMeta(meta);
       setData(applyOperationalSnapshot(getCCCDataSync(), merged));
       setError(apiResult || archivist ? null : "Operational and snapshot data unavailable");
@@ -185,6 +209,9 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       data,
       operational,
       snapshotMeta,
+      continuityEvents,
+      highlightedSectors,
+      setEventHighlight,
       loading,
       operationalLoading,
       error,
@@ -203,6 +230,9 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       data,
       operational,
       snapshotMeta,
+      continuityEvents,
+      highlightedSectors,
+      setEventHighlight,
       loading,
       operationalLoading,
       error,
