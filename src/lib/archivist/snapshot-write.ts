@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { readContinuityEventLog } from "@/lib/continuity/events/store";
 import { scanAllSnapshotRoots } from "@/lib/localData/scanners";
+import { deriveGitOperationalSignals } from "@/lib/operations/signals/gitSignals";
 import { buildContinuitySnapshot } from "@/lib/snapshot/buildFromScan";
 import type { ArchivistConfig } from "@/lib/localData/archivist-config";
 
@@ -11,7 +12,13 @@ export async function writeContinuitySnapshot(
   const { projects, scanRoots } = await scanAllSnapshotRoots();
   const log = await readContinuityEventLog(config);
   const operational = log.operationalEvents ?? [];
-  const snapshot = buildContinuitySnapshot(projects, scanRoots, operational);
+  const gitSignals = await deriveGitOperationalSignals(projects);
+  const snapshot = buildContinuitySnapshot(
+    projects,
+    scanRoots,
+    operational,
+    gitSignals,
+  );
   const outputPath = path.join(config.cccProjectRoot, config.snapshotOutputRelative);
 
   await mkdir(path.dirname(outputPath), { recursive: true });

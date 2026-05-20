@@ -6,6 +6,7 @@ import {
 } from "@/lib/operations/taxonomy";
 import type { RawScannedProject } from "@/lib/localData/scanners";
 import type { OperationalEvent } from "@/lib/operations/events";
+import type { OperationalSignal } from "@/lib/operations/types";
 import {
   deriveOperationalSnapshotFields,
   sectorPressureToHeatDelta,
@@ -210,6 +211,7 @@ export function buildContinuitySnapshot(
   projects: RawScannedProject[],
   scanRoots: ContinuitySnapshot["scanRoots"],
   operationalEvents: OperationalEvent[] = [],
+  operationalSignals: OperationalSignal[] = [],
 ): ContinuitySnapshot {
   const augmented = deriveOperationalSnapshotFields(projects, operationalEvents);
   const operationalDelta = sectorPressureToHeatDelta(augmented.sectorPressure);
@@ -242,6 +244,7 @@ export function buildContinuitySnapshot(
     sectorHeat,
     operators,
     signals,
+    operationalSignals,
     scanRoots,
     eventsRecent: augmented.eventsRecent,
     sectorPressure: augmented.sectorPressure,

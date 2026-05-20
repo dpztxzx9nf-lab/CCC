@@ -1,4 +1,16 @@
 export { classifyProjectActivity, projectActivityScore } from "./classification";
+export { createSignal } from "./signals/createSignal";
+export {
+  deriveGitOperationalSignals,
+  deriveGitSignalsForRepo,
+} from "./signals/gitSignals";
+export type {
+  Sector,
+  OperationalSignal,
+  OperationalSignalSeverity,
+  OperationalSignalType,
+  GitOperationalSignalType,
+} from "./types";
 export type { ClassifiedSignal } from "./classification";
 export { buildOperationalSnapshot } from "./operationalState";
 export { mergeOperationalIntoCCCData } from "./merge";

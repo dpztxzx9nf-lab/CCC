@@ -12,6 +12,9 @@ export function isContinuitySnapshot(data: unknown): data is ContinuitySnapshot 
   if (!o.sectorHeat || typeof o.sectorHeat !== "object") return false;
   if (!Array.isArray(o.operators)) return false;
   if (!Array.isArray(o.signals)) return false;
+  if (o.operationalSignals !== undefined && !Array.isArray(o.operationalSignals)) {
+    return false;
+  }
   return true;
 }
 
