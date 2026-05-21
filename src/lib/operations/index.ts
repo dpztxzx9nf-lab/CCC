@@ -27,5 +27,10 @@ export {
 } from "./semantic";
 export { buildOperationalSnapshot } from "./operationalState";
 export { mergeOperationalIntoCCCData } from "./merge";
-export { PROJECT_PROFILES, getProjectProfile, getProfileByLocalSlug } from "./projectProfiles";
+export {
+  getProjectProfiles,
+  getProjectProfile,
+  getProfileByLocalSlug,
+  invalidateProjectProfilesCache,
+} from "./projectProfiles";
 export type { ProjectProfile } from "./projectProfiles";

@@ -1,8 +1,8 @@
 import type { InhabitantBehavior, InhabitantPosture, BehaviorIntensity } from "@/data/inhabitant-types";
 import type { OperationalSnapshot } from "@/data/operational-types";
 import { operatorEventHint } from "@/lib/continuity/events/influence";
+import { getProjectProfiles } from "@/lib/operations/projectProfiles";
 import type { ActivityKind } from "@/lib/operations/taxonomy";
-import { PROJECT_PROFILES } from "@/lib/operations/projectProfiles";
 import type { ChamberId, OperationalDomainId, OperatorPlacement } from "@/data/ecology";
 import { domainForChamber } from "@/lib/facility/ecology-resolve";
 import type { CCCData, Operator, Station } from "@/data/types";
@@ -32,9 +32,9 @@ function intensityFromWorkload(workload: number): BehaviorIntensity {
 }
 
 function ownedProjectIds(operatorId: string): string[] {
-  return PROJECT_PROFILES.filter((p) => p.operatorIds.includes(operatorId as never)).map(
-    (p) => p.id,
-  );
+  return getProjectProfiles()
+    .filter((p) => p.operatorIds.includes(operatorId as never))
+    .map((p) => p.id);
 }
 
 function operatorSignals(

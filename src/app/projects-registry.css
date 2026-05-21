@@ -1,0 +1,97 @@
+/* Project registry surface — forms and status badges */
+
+.ccc-registry-btn {
+  border: 1px solid rgba(30, 45, 69, 0.55);
+  border-radius: 0.35rem;
+  background: rgba(10, 16, 26, 0.85);
+  padding: 0.35rem 0.65rem;
+  font-family: var(--ccc-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(180, 195, 215, 0.85);
+  cursor: pointer;
+}
+
+.ccc-registry-btn:hover:not(:disabled) {
+  border-color: rgba(61, 214, 198, 0.35);
+  color: rgba(220, 235, 250, 0.95);
+}
+
+.ccc-registry-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ccc-registry-btn--primary {
+  border-color: rgba(61, 214, 198, 0.4);
+  background: rgba(61, 214, 198, 0.12);
+  color: rgba(200, 240, 235, 0.95);
+}
+
+.ccc-registry-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  color: rgba(150, 165, 188, 0.9);
+}
+
+.ccc-registry-field input,
+.ccc-registry-field textarea,
+.ccc-registry-field select {
+  border: 1px solid rgba(30, 45, 69, 0.6);
+  border-radius: 0.35rem;
+  background: rgba(7, 11, 18, 0.9);
+  padding: 0.4rem 0.55rem;
+  font-size: 0.8rem;
+  color: var(--ccc-text);
+}
+
+.ccc-registry-field legend {
+  font-size: 0.72rem;
+}
+
+.ccc-registry-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--ccc-muted);
+}
+
+.ccc-registry-badge {
+  display: inline-block;
+  border: 1px solid rgba(30, 45, 69, 0.5);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  font-family: var(--ccc-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(160, 175, 198, 0.85);
+}
+
+.ccc-registry-badge--detected {
+  border-color: rgba(61, 214, 198, 0.35);
+  color: rgba(160, 220, 210, 0.9);
+}
+
+.ccc-registry-card {
+  padding: 0.85rem 1rem;
+}
+
+.ccc-registry-status--live .ccc-project-chip__dot,
+.ccc-registry-status--active .ccc-project-chip__dot {
+  background: var(--ccc-accent);
+}
+
+.ccc-registry-status--detected .ccc-project-chip__dot {
+  background: rgba(61, 214, 198, 0.75);
+}
+
+.ccc-registry-status--dormant .ccc-project-chip__dot,
+.ccc-registry-status--concept .ccc-project-chip__dot {
+  background: var(--ccc-muted);
+}

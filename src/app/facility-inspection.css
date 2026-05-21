@@ -1,6 +1,7 @@
 /* Operator continuity inspection — environment dims, inspected operator stays legible */
 
-.ccc-command-shell[data-operator-inspection] .ccc-megastructure-wrap {
+.ccc-command-shell[data-operator-inspection] .ccc-megastructure-wrap,
+.ccc-facility-surface[data-operator-inspection] .ccc-megastructure-wrap {
   opacity: 0.52;
   filter: saturate(0.82) brightness(0.92);
   transition:
@@ -8,16 +9,21 @@
     filter 0.2s ease;
 }
 
-.ccc-command-shell[data-operator-inspection] .ccc-sidebar {
+.ccc-command-shell[data-operator-inspection] .ccc-sidebar,
+.ccc-facility-surface[data-operator-inspection] .ccc-sidebar {
   opacity: 0.78;
 }
 
-.ccc-command-shell[data-operator-inspection] .ccc-megastructure .ccc-inhabitant {
+.ccc-command-shell[data-operator-inspection] .ccc-megastructure .ccc-inhabitant,
+.ccc-facility-surface[data-operator-inspection] .ccc-megastructure .ccc-inhabitant {
   opacity: 0.42;
   transition: opacity 0.2s ease;
 }
 
 .ccc-command-shell[data-operator-inspection]
+  .ccc-megastructure
+  .ccc-inhabitant[data-inspected="true"],
+.ccc-facility-surface[data-operator-inspection]
   .ccc-megastructure
   .ccc-inhabitant[data-inspected="true"] {
   opacity: 1;

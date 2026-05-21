@@ -1,6 +1,6 @@
 import type { OperationalSnapshot } from "@/data/operational-types";
 import type { ActivityKind } from "@/lib/operations/taxonomy";
-import { PROJECT_PROFILES } from "@/lib/operations/projectProfiles";
+import { getProjectProfiles } from "@/lib/operations/projectProfiles";
 import type { Operator } from "@/data/types";
 import type { ChamberId, OperationalDomainId, OperatorPlacement } from "@/data/ecology";
 import {
@@ -10,9 +10,9 @@ import {
 } from "@/data/ecology";
 
 function ownedProjectIds(operatorId: string): string[] {
-  return PROJECT_PROFILES.filter((p) => p.operatorIds.includes(operatorId as never)).map(
-    (p) => p.id,
-  );
+  return getProjectProfiles()
+    .filter((p) => p.operatorIds.includes(operatorId as never))
+    .map((p) => p.id);
 }
 
 function topActivityKind(

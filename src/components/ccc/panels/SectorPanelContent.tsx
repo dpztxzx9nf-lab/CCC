@@ -11,13 +11,11 @@ interface SectorPanelContentProps {
 }
 
 export function SectorPanelContent({ chamber }: SectorPanelContentProps) {
-  const { data, openProject, continuityEvents, setEventHighlight, operational } = useCCC();
+  const { data, continuityEvents, setEventHighlight, operational } = useCCC();
 
   const domainId = chamber.primaryDomain;
   const operators = getOperatorsInChamber(chamber.id, data, operational);
   const stations = data?.stations.filter((s) => s.chamberId === chamber.id) ?? [];
-  const linkedProjects =
-    data?.projects.filter((p) => p.domainIds.includes(domainId)) ?? [];
   const domainEvents = eventsForSector(domainId, continuityEvents, 4);
 
   return (
@@ -74,24 +72,6 @@ export function SectorPanelContent({ chamber }: SectorPanelContentProps) {
         </section>
       )}
 
-      {linkedProjects.length > 0 && (
-        <section>
-          <h3 className="sr-only">Linked projects</h3>
-          <ul className="flex flex-wrap gap-2 border-t border-ccc-border/40 pt-4">
-            {linkedProjects.map((p) => (
-              <li key={p.id}>
-                <button
-                  type="button"
-                  onClick={() => openProject(p.id)}
-                  className="ccc-tap-target text-sm font-medium text-ccc-accent hover:underline"
-                >
-                  {p.name}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
     </div>
   );
 }

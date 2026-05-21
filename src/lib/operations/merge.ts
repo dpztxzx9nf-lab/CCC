@@ -6,7 +6,7 @@ import type {
   SystemStatus,
   TelemetryMetric,
 } from "@/data/types";
-import { PROJECT_PROFILES } from "./projectProfiles";
+import { getProjectProfile } from "./projectProfiles";
 
 /** Client-safe merge — no filesystem imports */
 export function mergeOperationalIntoCCCData(
@@ -48,7 +48,7 @@ export function mergeOperationalIntoCCCData(
           ...activeOps.filter((id) => {
             const op = opById.get(id);
             return op?.activeProjectId
-              ? PROJECT_PROFILES.find((p) => p.id === op.activeProjectId)?.sectors.includes(
+              ? getProjectProfile(op.activeProjectId)?.sectors.includes(
                   chamber.primaryDomain,
                 )
               : false;
@@ -62,7 +62,7 @@ export function mergeOperationalIntoCCCData(
     const derived = opById.get(op.id);
     if (!derived) return op;
     const activeProfile = derived.activeProjectId
-      ? PROJECT_PROFILES.find((p) => p.id === derived.activeProjectId)
+      ? getProjectProfile(derived.activeProjectId)
       : undefined;
     const primaryDomain = activeProfile?.sectors[0] ?? op.primaryDomain;
     return {
@@ -82,16 +82,19 @@ export function mergeOperationalIntoCCCData(
   const projects = base.projects.map((project) => {
     const derived = projectById.get(project.id);
     if (!derived) return project;
-    const highlights = [
+
+    const signalHighlights = [
       derived.topSignal,
-      `Activity: ${derived.activityLevel} (${derived.activityScore})`,
-      derived.detected ? "Local source detected" : "Profile only",
+      derived.detected ? `Local scan: ${derived.activityLevel} activity` : null,
     ].filter(Boolean) as string[];
+
+    const mergedHighlights = derived.detected
+      ? [...new Set([...project.highlights, ...signalHighlights])]
+      : project.highlights;
 
     return {
       ...project,
-      status: derived.activityLevel === "idle" ? project.status : "active",
-      highlights: derived.detected ? highlights : project.highlights,
+      highlights: mergedHighlights,
     };
   });
 

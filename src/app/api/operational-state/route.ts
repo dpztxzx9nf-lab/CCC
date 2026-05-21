@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isLocalIngestionEnabled, scanLocalContinuity } from "@/lib/localData";
-import { buildOperationalSnapshot } from "@/lib/operations/operationalState";
+import { buildOperationalSnapshot } from "@/lib/operations/operationalState.server";
 import { toContinuityEventView } from "@/lib/continuity/events";
 import { recentEvents } from "@/lib/continuity/events/recent";
 import { readContinuityEventsFromDisk } from "@/lib/continuity/events/store";

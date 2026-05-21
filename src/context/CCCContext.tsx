@@ -21,6 +21,8 @@ import type {
 } from "@/data/ecology";
 import { CHAMBER_BY_ID, DOMAIN_BY_ID, DOMAIN_TO_HOME_CHAMBER } from "@/data/ecology";
 import type { CCCData, Operator, Project, Sector, SectorId } from "@/data/types";
+import type { EnrichedRegistryProject } from "@/lib/projects/registry/toProfile";
+import { enrichedToProject } from "@/lib/projects/loadRegistryForData";
 import { recentEvents } from "@/lib/continuity/events/recent";
 import { getCCCDataSync } from "@/lib/data-source";
 import { getOperatorsForSector } from "@/lib/operators-for-sector";
@@ -75,6 +77,9 @@ interface CCCContextValue {
   /** @deprecated use getDomainHeat */
   getSectorHeat: (id: OperationalDomainId) => OperationalSnapshot["sectorHeat"][0] | undefined;
   getOperatorsForSector: (id: OperationalDomainId) => Operator[];
+  /** Registry projects with operational enrichment metadata */
+  enrichedProjects: EnrichedRegistryProject[];
+  refreshProjects: () => Promise<void>;
   /** Human operator's intentional facility orientation — shallow domain bias only */
   humanOrientation: HumanOrientationId;
   setHumanOrientation: (id: HumanOrientationId) => void;
@@ -113,6 +118,7 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const [activePanel, setActivePanel] = useState<ActivePanel | null>(null);
   const [continuityEvents, setContinuityEvents] = useState<ContinuityEventView[]>([]);
   const [highlightedDomains, setHighlightedDomains] = useState<OperationalDomainId[]>([]);
+  const [enrichedProjects, setEnrichedProjects] = useState<EnrichedRegistryProject[]>([]);
 
   const { facilityNow, discreteBurst } = useDiscreteActivityBindings({
     data,
@@ -209,7 +215,29 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       setContinuityEvents(events);
       setSnapshotMeta(meta);
       setFacilityTelemetry(telemetryPayload);
-      setData(applyOperationalSnapshot(getCCCDataSync(), merged));
+
+      let registryProjects = getCCCDataSync().projects;
+      try {
+        const projectsRes = await fetch("/api/projects?includeArchived=true", {
+          cache: "no-store",
+        });
+        if (projectsRes.ok) {
+          const payload = (await projectsRes.json()) as {
+            projects: EnrichedRegistryProject[];
+          };
+          setEnrichedProjects(payload.projects);
+          registryProjects = payload.projects.map(enrichedToProject);
+        }
+      } catch {
+        /* registry optional on first paint */
+      }
+
+      setData(
+        applyOperationalSnapshot(
+          { ...getCCCDataSync(), projects: registryProjects },
+          merged,
+        ),
+      );
       setError(apiResult || archivist ? null : "Operational and snapshot data unavailable");
     }
 
@@ -279,6 +307,23 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const openProject = useCallback((id: string) => {
     setActivePanel({ kind: "project", id });
   }, []);
+
+  const refreshProjects = useCallback(async () => {
+    const res = await fetch("/api/projects?includeArchived=true", {
+      cache: "no-store",
+    });
+    if (!res.ok) return;
+    const payload = (await res.json()) as {
+      projects: EnrichedRegistryProject[];
+      archived?: EnrichedRegistryProject[];
+    };
+    setEnrichedProjects(payload.projects);
+    setData((prev) => {
+      const base = { ...prev, projects: payload.projects.map(enrichedToProject) };
+      if (!operational) return base;
+      return applyOperationalSnapshot(base, operational);
+    });
+  }, [operational]);
 
   const getChamber = useCallback(
     (id: ChamberId) => data.chambers.find((c) => c.id === id) ?? CHAMBER_BY_ID[id],
@@ -350,6 +395,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       getDomainHeat,
       getSectorHeat,
       getOperatorsForSector: getOperatorsForSectorCb,
+      enrichedProjects,
+      refreshProjects,
       humanOrientation,
       setHumanOrientation,
     }),
@@ -380,6 +427,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       getDomainHeat,
       getSectorHeat,
       getOperatorsForSectorCb,
+      enrichedProjects,
+      refreshProjects,
       humanOrientation,
       setHumanOrientation,
     ],

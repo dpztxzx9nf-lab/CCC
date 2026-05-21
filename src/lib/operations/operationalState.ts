@@ -13,10 +13,7 @@ import {
   projectActivityScore,
   type ClassifiedSignal,
 } from "./classification";
-import {
-  PROJECT_PROFILES,
-  type ProjectProfile,
-} from "./projectProfiles";
+import { getProjectProfiles, type ProjectProfile } from "./projectProfiles";
 import {
   ACTIVITY_SECTOR_MAP,
   activityToStatus,
@@ -37,6 +34,7 @@ function resolveLocalSummary(
 
 function buildProjectViews(
   report: LocalContinuityReport | null,
+  profiles: ProjectProfile[],
 ): {
   views: OperationalSnapshot["projects"];
   signals: ClassifiedSignal[];
@@ -45,7 +43,7 @@ function buildProjectViews(
   const signals: ClassifiedSignal[] = [];
   const byProject = new Map<string, ClassifiedSignal[]>();
 
-  const views = PROJECT_PROFILES.map((profile) => {
+  const views = profiles.map((profile) => {
     const summary = resolveLocalSummary(profile, report);
     const classified = classifyProjectActivity(profile, summary);
     signals.push(...classified);
@@ -73,11 +71,13 @@ function buildProjectViews(
 function buildSectorHeat(
   projects: OperationalSnapshot["projects"],
   allSignals: ClassifiedSignal[],
+  profiles: ProjectProfile[],
 ): OperationalSnapshot["sectorHeat"] {
   const heat = new Map<
     string,
     { score: number; load: number; kinds: Map<string, number> }
   >();
+  const profileById = new Map(profiles.map((p) => [p.id, p]));
 
   for (const sectorId of ALL_SECTOR_IDS) {
     heat.set(sectorId, { score: 0, load: 0, kinds: new Map() });
@@ -85,7 +85,7 @@ function buildSectorHeat(
 
   for (const signal of allSignals) {
     const sectors = ACTIVITY_SECTOR_MAP[signal.kind] ?? [];
-    const profile = PROJECT_PROFILES.find((p) => p.id === signal.projectId);
+    const profile = profileById.get(signal.projectId);
     const mult = profile ? priorityMultiplier(profile.continuityPriority) : 1;
 
     for (const sectorId of sectors) {
@@ -135,12 +135,13 @@ function buildSectorHeat(
 function buildOperatorViews(
   projects: OperationalSnapshot["projects"],
   byProject: Map<string, ClassifiedSignal[]>,
+  profiles: ProjectProfile[],
 ): OperationalSnapshot["operators"] {
   const mockOps = mockCCCData.operators;
 
   return OPERATOR_IDS.map((operatorId) => {
     const mock = mockOps.find((o) => o.id === operatorId)!;
-    const owned = PROJECT_PROFILES.filter((p) =>
+    const owned = profiles.filter((p) =>
       p.operatorIds.includes(operatorId as OperatorId),
     );
 
@@ -251,17 +252,19 @@ function overallStatus(heat: OperationalSnapshot["sectorHeat"]): SystemStatus {
 /** Build operational topology from local continuity report */
 export function buildOperationalSnapshot(
   report: LocalContinuityReport | null,
+  profiles?: ProjectProfile[],
 ): OperationalSnapshot {
+  const list = profiles ?? getProjectProfiles();
   const scannedAt = report?.scannedAt ?? new Date().toISOString();
   const enabled = Boolean(report?.enabled && isLocalIngestionEnabled());
 
   if (!enabled) {
-    return buildMockFallbackSnapshot(scannedAt);
+    return buildMockFallbackSnapshot(scannedAt, list);
   }
 
-  const { views, signals, byProject } = buildProjectViews(report);
-  const sectorHeat = buildSectorHeat(views, signals);
-  const operators = buildOperatorViews(views, byProject);
+  const { views, signals, byProject } = buildProjectViews(report, list);
+  const sectorHeat = buildSectorHeat(views, signals, list);
+  const operators = buildOperatorViews(views, byProject, list);
   const telemetry = buildTelemetry(views, operators, report);
 
   return {
@@ -284,7 +287,10 @@ export function buildOperationalSnapshot(
   };
 }
 
-function buildMockFallbackSnapshot(scannedAt: string): OperationalSnapshot {
+function buildMockFallbackSnapshot(
+  scannedAt: string,
+  profiles: ProjectProfile[],
+): OperationalSnapshot {
   const report: LocalContinuityReport = {
     enabled: false,
     label: "MOCK / DEMO DATA",
@@ -292,7 +298,7 @@ function buildMockFallbackSnapshot(scannedAt: string): OperationalSnapshot {
     sources: [],
     signals: [],
     totals: {
-      projects: PROJECT_PROFILES.length,
+      projects: profiles.length,
       detectedProjects: 0,
       markdownFiles: 0,
       recentActivityCount: 0,
@@ -301,9 +307,9 @@ function buildMockFallbackSnapshot(scannedAt: string): OperationalSnapshot {
     message: "Local ingestion disabled — operational mapping from seed profiles only.",
   };
 
-  const { views, signals, byProject } = buildProjectViews(report);
-  const sectorHeat = buildSectorHeat(views, signals);
-  const operators = buildOperatorViews(views, byProject);
+  const { views, signals, byProject } = buildProjectViews(report, profiles);
+  const sectorHeat = buildSectorHeat(views, signals, profiles);
+  const operators = buildOperatorViews(views, byProject, profiles);
 
   return {
     enabled: false,
@@ -320,4 +326,4 @@ function buildMockFallbackSnapshot(scannedAt: string): OperationalSnapshot {
   };
 }
 
-export { PROJECT_PROFILES, getProfileByLocalSlug } from "./projectProfiles";
+export { getProjectProfiles, getProjectProfile, getProfileByLocalSlug } from "./projectProfiles";

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSurfaceNavigation } from "@/context/SurfaceNavigationContext";
 import type { LocalContinuityReport } from "@/lib/localData/types";
 
 const PRIMARY_SOURCE_SLUGS = [
@@ -28,6 +28,7 @@ function Indicator({ ok, label }: { ok: boolean; label: string }) {
 }
 
 export function LocalSignalsPanel() {
+  const { goToOps } = useSurfaceNavigation();
   const [report, setReport] = useState<LocalContinuityReport | null>(null);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -81,13 +82,14 @@ export function LocalSignalsPanel() {
           <span className="text-[10px] font-medium uppercase tracking-wide text-ccc-warn">
             LOCAL DEV DATA
           </span>
-          <Link
-            href="/ops"
-            className="text-[10px] text-ccc-muted/50 underline-offset-2 hover:text-ccc-accent hover:underline"
-            title="CCC operations manual"
+          <button
+            type="button"
+            className="ccc-surface-ops-link"
+            title="Dev portal — swipe left from facility or open here"
+            onClick={goToOps}
           >
-            ops
-          </Link>
+            Ops
+          </button>
         </div>
       </div>
 
