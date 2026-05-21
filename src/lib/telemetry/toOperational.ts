@@ -1,5 +1,6 @@
 import type { DerivedTelemetryView } from "@/data/operational-types";
 import {
+  aiToolsObservedHint,
   compactTelemetryLines,
   formatBytes,
   formatInteger,
@@ -25,15 +26,29 @@ export function telemetryToDerivedViews(
   const rows: DerivedTelemetryView[] = [
     {
       id: "api-cost",
-      label: "API Spend",
+      label: "AI Spend",
       value: api.value,
-      hint: api.hint,
+      hint: api.resolved
+        ? api.hint
+        : t.aiSpend
+          ? aiToolsObservedHint(
+              t.aiSpend.observedToolCount,
+              t.aiSpend.toolStatus.length,
+            )
+          : api.hint,
     },
     {
       id: "tokens",
       label: "Token Usage",
       value: tokens.value,
-      hint: tokens.hint,
+      hint: tokens.resolved
+        ? tokens.hint
+        : t.aiTokenUsage
+          ? aiToolsObservedHint(
+              t.aiTokenUsage.observedToolCount,
+              t.aiTokenUsage.toolStatus.length,
+            )
+          : tokens.hint,
     },
     {
       id: "embedding-count",

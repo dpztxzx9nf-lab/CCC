@@ -10,40 +10,24 @@ import { telemetryStoreSourceLabel } from "./paths";
 import { trimRecentActivity, trimRuntimeRecent } from "./retention";
 import {
   TELEMETRY_PERSISTENCE_SCHEMA_VERSION,
-  type ApiSpendStore,
   type EmbeddingsStore,
   type QueueStore,
   type RuntimeStore,
   type TelemetryRecentEntry,
-  type TokenUsageStore,
 } from "./schema";
 
-function isTokenUsageStore(value: unknown): value is TokenUsageStore {
-  if (!value || typeof value !== "object") return false;
-  const o = value as TokenUsageStore;
-  return (
-    o.schemaVersion === TELEMETRY_PERSISTENCE_SCHEMA_VERSION &&
-    typeof o.createdAt === "string" &&
-    typeof o.updatedAt === "string" &&
-    !!o.rolling &&
-    (o.rolling.totalTokens === null ||
-      typeof o.rolling.totalTokens === "number") &&
-    Array.isArray(o.recent)
-  );
-}
-
-function isApiSpendStore(value: unknown): value is ApiSpendStore {
-  if (!value || typeof value !== "object") return false;
-  const o = value as ApiSpendStore;
-  return (
-    o.schemaVersion === TELEMETRY_PERSISTENCE_SCHEMA_VERSION &&
-    typeof o.createdAt === "string" &&
-    typeof o.updatedAt === "string" &&
-    !!o.rolling &&
-    (o.rolling.totalUsd === null || typeof o.rolling.totalUsd === "number") &&
-    Array.isArray(o.recent)
-  );
-}
+export {
+  readPersistedTokenStore,
+  readPersistedSpendStore,
+  recordTokenUsageEntry,
+  recordSpendEntry,
+  importManualSpend,
+  importManualTokenUsage,
+  importEstimatedTokenUsage,
+  incrementTokenUsage,
+  incrementApiSpend,
+} from "./aiUsageStores";
+export type { RecordTokenUsageInput, RecordSpendInput } from "./aiUsageStores";
 
 function isEmbeddingsStore(value: unknown): value is EmbeddingsStore {
   if (!value || typeof value !== "object") return false;
@@ -92,24 +76,6 @@ function isRuntimeStore(value: unknown): value is RuntimeStore {
   );
 }
 
-function defaultTokenUsageStore(): TokenUsageStore {
-  return {
-    schemaVersion: TELEMETRY_PERSISTENCE_SCHEMA_VERSION,
-    ...createStoreTimestamps(),
-    rolling: { totalTokens: null },
-    recent: [],
-  };
-}
-
-function defaultApiSpendStore(): ApiSpendStore {
-  return {
-    schemaVersion: TELEMETRY_PERSISTENCE_SCHEMA_VERSION,
-    ...createStoreTimestamps(),
-    rolling: { totalUsd: null },
-    recent: [],
-  };
-}
-
 function defaultEmbeddingsStore(): EmbeddingsStore {
   return {
     schemaVersion: TELEMETRY_PERSISTENCE_SCHEMA_VERSION,
@@ -148,26 +114,18 @@ function pushRecent(
 export async function readPersistedTokenTotal(
   cwd = process.cwd(),
 ): Promise<number | null> {
-  if (!(await telemetryStoreExists(cwd, "token-usage"))) return null;
-  const store = await loadTelemetryStore(
-    cwd,
-    "token-usage",
-    defaultTokenUsageStore,
-    isTokenUsageStore,
-  );
+  const { readPersistedTokenStore } = await import("./aiUsageStores");
+  const store = await readPersistedTokenStore(cwd);
+  if (!store) return null;
   return finiteNonNegative(store.rolling.totalTokens);
 }
 
 export async function readPersistedApiSpendUsd(
   cwd = process.cwd(),
 ): Promise<number | null> {
-  if (!(await telemetryStoreExists(cwd, "api-spend"))) return null;
-  const store = await loadTelemetryStore(
-    cwd,
-    "api-spend",
-    defaultApiSpendStore,
-    isApiSpendStore,
-  );
+  const { readPersistedSpendStore } = await import("./aiUsageStores");
+  const store = await readPersistedSpendStore(cwd);
+  if (!store) return null;
   const usd = store.rolling.totalUsd;
   return typeof usd === "number" && Number.isFinite(usd) && usd >= 0
     ? Math.round(usd * 100) / 100
@@ -223,58 +181,6 @@ export async function readPersistedRuntimeFallback(
 }
 
 export { telemetryStoreSourceLabel };
-
-export async function incrementTokenUsage(
-  delta: number,
-  cwd = process.cwd(),
-): Promise<TokenUsageStore> {
-  if (!Number.isFinite(delta) || delta < 0) {
-    throw new RangeError("incrementTokenUsage: delta must be a non-negative number");
-  }
-
-  const store = await loadTelemetryStore(
-    cwd,
-    "token-usage",
-    defaultTokenUsageStore,
-    isTokenUsageStore,
-    { createIfMissing: true },
-  );
-  const prev = finiteNonNegative(store.rolling.totalTokens) ?? 0;
-  const total = Math.round(prev + delta);
-  const at = new Date().toISOString();
-  store.rolling.totalTokens = total;
-  store.recent = pushRecent(store.recent, { at, value: total, delta });
-  await saveTelemetryStore(cwd, "token-usage", store);
-  return store;
-}
-
-export async function incrementApiSpend(
-  deltaUsd: number,
-  cwd = process.cwd(),
-): Promise<ApiSpendStore> {
-  if (!Number.isFinite(deltaUsd) || deltaUsd < 0) {
-    throw new RangeError("incrementApiSpend: deltaUsd must be a non-negative number");
-  }
-
-  const store = await loadTelemetryStore(
-    cwd,
-    "api-spend",
-    defaultApiSpendStore,
-    isApiSpendStore,
-    { createIfMissing: true },
-  );
-  const prev = store.rolling.totalUsd ?? 0;
-  const total = Math.round((prev + deltaUsd) * 100) / 100;
-  const at = new Date().toISOString();
-  store.rolling.totalUsd = total;
-  store.recent = pushRecent(store.recent, {
-    at,
-    value: total,
-    delta: Math.round(deltaUsd * 100) / 100,
-  });
-  await saveTelemetryStore(cwd, "api-spend", store);
-  return store;
-}
 
 export async function updateEmbeddingCount(
   count: number,

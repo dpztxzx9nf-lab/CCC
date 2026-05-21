@@ -1,9 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "createdAt": "2026-05-21T00:00:00.000Z",
   "updatedAt": "2026-05-21T00:00:00.000Z",
+  "entries": [],
   "rolling": {
-    "totalUsd": null
-  },
-  "recent": []
+    "totalUsd": null,
+    "byCurrency": {}
+  }
 }

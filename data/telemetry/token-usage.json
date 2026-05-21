@@ -1,9 +1,11 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "createdAt": "2026-05-21T00:00:00.000Z",
   "updatedAt": "2026-05-21T00:00:00.000Z",
+  "entries": [],
   "rolling": {
-    "totalTokens": null
-  },
-  "recent": []
+    "totalTokens": null,
+    "totalInputTokens": null,
+    "totalOutputTokens": null
+  }
 }

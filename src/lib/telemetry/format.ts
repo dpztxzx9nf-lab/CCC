@@ -30,10 +30,14 @@ export function metricDisplayValue(
     return { value: TELEMETRY_UNKNOWN, resolved: false, hint: "unavailable" };
   }
   if (!metric.available || metric.value == null) {
+    const hint =
+      metric.source.startsWith("no-") || metric.source.includes("unavailable")
+        ? `${metric.source} — add manual_entry, exported_file, or env override`
+        : metric.source;
     return {
       value: TELEMETRY_UNKNOWN,
       resolved: false,
-      hint: metric.source,
+      hint,
     };
   }
   return {
@@ -41,6 +45,13 @@ export function metricDisplayValue(
     resolved: true,
     hint: metric.source,
   };
+}
+
+export function aiToolsObservedHint(
+  observed: number,
+  total: number,
+): string {
+  return `${observed}/${total} tools with recorded usage`;
 }
 
 export function compactTelemetryLines(
@@ -58,9 +69,21 @@ export function compactTelemetryLines(
       : "pm2:ccc-archivist not registered"
     : "pm2 unavailable";
 
+  const toolsHint =
+    t.aiTokenUsage != null
+      ? aiToolsObservedHint(
+          t.aiTokenUsage.observedToolCount,
+          t.aiTokenUsage.toolStatus.length,
+        )
+      : undefined;
+
   return [
     { label: "API Spend", value: api.value, hint: api.hint },
-    { label: "Token Usage", value: tokens.value, hint: tokens.hint },
+    {
+      label: "Token Usage",
+      value: tokens.value,
+      hint: tokens.resolved ? tokens.hint : (toolsHint ?? tokens.hint),
+    },
     { label: "Embedding Count", value: emb.value, hint: emb.hint },
     { label: "Queue", value: queue.value, hint: queue.hint },
     {
