@@ -1,5 +1,9 @@
 import { readFile, stat } from "fs/promises";
 import path from "path";
+import {
+  readPersistedApiSpendUsd,
+  telemetryStoreSourceLabel,
+} from "../persistence";
 import type { TelemetryMetricValue } from "../types";
 
 async function readSpendFile(filePath: string): Promise<number | null> {
@@ -9,6 +13,7 @@ async function readSpendFile(filePath: string): Promise<number | null> {
     if (typeof data === "number" && Number.isFinite(data)) return data;
     if (!data || typeof data !== "object") return null;
     const o = data as Record<string, unknown>;
+    const rolling = o.rolling;
     const candidates = [
       o.spend_usd,
       o.spendUsd,
@@ -17,6 +22,9 @@ async function readSpendFile(filePath: string): Promise<number | null> {
       o.cost_usd,
       o.cost,
       o.amount,
+      rolling &&
+      typeof rolling === "object" &&
+      (rolling as Record<string, unknown>).totalUsd,
     ];
     for (const c of candidates) {
       if (typeof c === "number" && Number.isFinite(c)) return c;
@@ -43,9 +51,19 @@ export async function collectApiSpendTelemetry(
     }
   }
 
+  const persisted = await readPersistedApiSpendUsd(cwd);
+  if (persisted != null) {
+    return {
+      value: persisted,
+      source: telemetryStoreSourceLabel("api-spend"),
+      available: true,
+    };
+  }
+
   const envPath = process.env.CCC_API_SPEND_PATH?.trim();
   const candidates = [
     ...(envPath ? [path.resolve(envPath)] : []),
+    path.join(cwd, "data", "telemetry", "api-spend.json"),
     path.join(cwd, "public", "api-spend.json"),
     path.join(cwd, ".telemetry", "api-spend.json"),
   ];

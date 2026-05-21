@@ -1,8 +1,150 @@
 {
   "version": 2,
-  "updatedAt": "2026-05-21T04:42:45.453Z",
+  "updatedAt": "2026-05-21T04:47:45.193Z",
   "agent": "ARCHIVIST-0",
   "events": [
+    {
+      "id": "1b40bb33-0598-4c0c-b050-bdd249462d37",
+      "occurredAt": "2026-05-21T04:47:45.171Z",
+      "kind": "deploy_blocked",
+      "importance": "high",
+      "title": "Deploy-worthy change (not published)",
+      "summary": "Changes met deploy threshold but were not pushed (autoDeploy off or gate failed).",
+      "sectors": [
+        "relay",
+        "core"
+      ],
+      "operators": [
+        "bcast-1",
+        "nexus-7",
+        "scout-6"
+      ],
+      "projects": [
+        "ccc"
+      ],
+      "source": "archivist",
+      "significance": "deploy-worthy",
+      "evidence": {
+        "changeCount": 25,
+        "totalScore": 305,
+        "lockfileOnly": false,
+        "snapshotWritten": true,
+        "deployCommit": null,
+        "deploySkippedReason": null
+      }
+    },
+    {
+      "id": "603774fc-d250-4d87-b1c5-e3e9b15c68ba",
+      "occurredAt": "2026-05-21T04:47:45.171Z",
+      "kind": "snapshot_refresh",
+      "importance": "medium",
+      "title": "Continuity snapshot refreshed",
+      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "sectors": [
+        "core",
+        "archive"
+      ],
+      "operators": [
+        "nexus-7",
+        "scout-6",
+        "deep-1"
+      ],
+      "projects": [
+        "ccc"
+      ],
+      "source": "archivist",
+      "significance": "snapshot",
+      "evidence": {
+        "changeCount": 25,
+        "totalScore": 305,
+        "lockfileOnly": false,
+        "snapshotWritten": true
+      }
+    },
+    {
+      "id": "2d42e139-9acf-4dff-b8eb-a64ec2624a77",
+      "occurredAt": "2026-05-21T04:47:45.171Z",
+      "kind": "edit_wave",
+      "importance": "critical",
+      "title": "Major edit wave",
+      "summary": "25 meaningful changes (score 305) concentrated in core.",
+      "sectors": [
+        "core",
+        "forge"
+      ],
+      "operators": [
+        "nexus-7",
+        "scout-6",
+        "fab-0"
+      ],
+      "projects": [
+        "CCC"
+      ],
+      "source": "archivist",
+      "significance": "deploy-worthy",
+      "evidence": {
+        "changeCount": 25,
+        "totalScore": 305,
+        "lockfileOnly": false,
+        "snapshotWritten": true
+      }
+    },
+    {
+      "id": "f6ce624d-1068-4d94-a50e-540a064eab97",
+      "occurredAt": "2026-05-21T04:46:37.779Z",
+      "kind": "snapshot_refresh",
+      "importance": "medium",
+      "title": "Continuity snapshot refreshed",
+      "summary": "Manual snapshot: 20 projects, 67 signals indexed.",
+      "sectors": [
+        "core",
+        "archive"
+      ],
+      "operators": [
+        "nexus-7",
+        "scout-6",
+        "deep-1"
+      ],
+      "projects": [
+        "ccc"
+      ],
+      "source": "manual",
+      "significance": "snapshot",
+      "evidence": {
+        "changeCount": 0,
+        "totalScore": 0,
+        "lockfileOnly": false,
+        "snapshotWritten": true
+      }
+    },
+    {
+      "id": "2309a775-466b-478e-84aa-671391de9b6d",
+      "occurredAt": "2026-05-21T04:44:33.875Z",
+      "kind": "snapshot_refresh",
+      "importance": "medium",
+      "title": "Continuity snapshot refreshed",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
+      "sectors": [
+        "core",
+        "archive"
+      ],
+      "operators": [
+        "nexus-7",
+        "scout-6",
+        "deep-1"
+      ],
+      "projects": [
+        "ccc"
+      ],
+      "source": "archivist",
+      "significance": "snapshot",
+      "evidence": {
+        "changeCount": 2,
+        "totalScore": 39,
+        "lockfileOnly": false,
+        "snapshotWritten": true
+      }
+    },
     {
       "id": "62cc9a9e-1069-4df0-8108-c9f0e3c7344e",
       "occurredAt": "2026-05-21T04:42:45.430Z",
@@ -39,7 +181,7 @@
       "kind": "snapshot_refresh",
       "importance": "medium",
       "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
       "sectors": [
         "core",
         "archive"
@@ -134,7 +276,7 @@
       "kind": "snapshot_refresh",
       "importance": "medium",
       "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
       "sectors": [
         "core",
         "archive"
@@ -197,7 +339,7 @@
       "kind": "snapshot_refresh",
       "importance": "medium",
       "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
       "sectors": [
         "core",
         "archive"
@@ -255,7 +397,7 @@
       "kind": "snapshot_refresh",
       "importance": "medium",
       "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
       "sectors": [
         "core",
         "archive"
@@ -312,7 +454,7 @@
       "kind": "snapshot_refresh",
       "importance": "medium",
       "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
       "sectors": [
         "core",
         "archive"
@@ -340,7 +482,7 @@
       "kind": "snapshot_refresh",
       "importance": "medium",
       "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
       "sectors": [
         "core",
         "archive"
@@ -368,7 +510,7 @@
       "kind": "snapshot_refresh",
       "importance": "medium",
       "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
       "sectors": [
         "core",
         "archive"
@@ -426,7 +568,7 @@
       "kind": "snapshot_refresh",
       "importance": "medium",
       "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot — 20 projects, 67 signals.",
+      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
       "sectors": [
         "core",
         "archive"
@@ -11324,160 +11466,599 @@
         "deployCommit": null,
         "deploySkippedReason": null
       }
-    },
+    }
+  ],
+  "operationalEvents": [
     {
-      "id": "aabb83e4-73ff-49af-9a8f-fa6b5e316271",
-      "occurredAt": "2026-05-20T22:37:13.185Z",
-      "kind": "snapshot_refresh",
-      "importance": "medium",
-      "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
-      "sectors": [
-        "core",
-        "archive"
-      ],
-      "operators": [
-        "nexus-7",
-        "scout-6",
-        "deep-1"
-      ],
-      "projects": [
-        "ccc"
-      ],
-      "source": "archivist",
-      "significance": "snapshot",
-      "evidence": {
-        "changeCount": 80,
-        "totalScore": 717,
-        "lockfileOnly": false,
-        "snapshotWritten": true
-      }
-    },
-    {
-      "id": "843546d9-a900-44c1-9754-34d32ec45ad0",
-      "occurredAt": "2026-05-20T22:37:13.185Z",
-      "kind": "edit_wave",
-      "importance": "critical",
-      "title": "Major edit wave",
-      "summary": "80 meaningful changes (score 717) concentrated in core.",
-      "sectors": [
-        "core",
-        "archive",
-        "relay",
-        "forge"
-      ],
-      "operators": [
-        "nexus-7",
-        "scout-6",
-        "deep-1",
-        "bcast-1",
-        "fab-0"
-      ],
-      "projects": [
-        "CCC",
-        "ccc",
-        "SecondBrain",
-        "AI Systems",
-        "Architecture",
-        "Archive"
-      ],
-      "source": "archivist",
-      "significance": "deploy-worthy",
-      "evidence": {
-        "changeCount": 80,
-        "totalScore": 717,
-        "lockfileOnly": false,
-        "snapshotWritten": true
-      }
-    },
-    {
-      "id": "1fa5d057-30e9-4df5-9fcf-d2f41c9e962e",
-      "occurredAt": "2026-05-20T22:36:10.525Z",
-      "kind": "deploy_blocked",
-      "importance": "high",
-      "title": "Deploy-worthy change (not published)",
-      "summary": "Changes met deploy threshold but were not pushed (autoDeploy off or gate failed).",
+      "id": "2aeb1c7c-14b5-4877-a212-33493d1bbfd1",
+      "type": "deployment_signal",
+      "sector": "relay",
       "sectors": [
         "relay",
         "core"
       ],
-      "operators": [
-        "bcast-1",
-        "nexus-7",
-        "scout-6"
-      ],
-      "projects": [
-        "ccc"
-      ],
-      "source": "archivist",
-      "significance": "deploy-worthy",
-      "evidence": {
-        "changeCount": 4,
-        "totalScore": 53,
-        "lockfileOnly": false,
-        "snapshotWritten": true,
-        "deployCommit": null,
-        "deploySkippedReason": null
+      "severity": "high",
+      "confidence": 0.85,
+      "timestamp": "2026-05-21T04:47:45.185Z",
+      "source": "archivist:deploy",
+      "project": "ccc",
+      "filePath": null,
+      "summary": "Deploy signal held: not published",
+      "metadata": {
+        "semanticMeaning": "deployment_progress",
+        "deployed": false,
+        "commitHash": null,
+        "skippedReason": null,
+        "significanceTier": "deploy-worthy"
       }
     },
     {
-      "id": "66a8e149-0faa-4d8a-b8d0-e3889792bcd0",
-      "occurredAt": "2026-05-20T22:36:10.525Z",
-      "kind": "snapshot_refresh",
-      "importance": "medium",
-      "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
+      "id": "858eaa9d-0887-4545-9c3f-392f4d7bd0e5",
+      "type": "file_changed",
+      "sector": "core",
       "sectors": [
-        "core",
-        "archive"
+        "core"
       ],
-      "operators": [
-        "nexus-7",
-        "scout-6",
-        "deep-1"
-      ],
-      "projects": [
-        "ccc"
-      ],
-      "source": "archivist",
-      "significance": "snapshot",
-      "evidence": {
-        "changeCount": 4,
-        "totalScore": 53,
-        "lockfileOnly": false,
-        "snapshotWritten": true
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\queue.json",
+      "summary": "queue.json — file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "queue.json → core"
       }
     },
     {
-      "id": "9e2eee05-c0dc-4f67-9d5f-c139282fde02",
-      "occurredAt": "2026-05-20T22:35:07.760Z",
-      "kind": "snapshot_refresh",
-      "importance": "medium",
-      "title": "Continuity snapshot refreshed",
-      "summary": "ARCHIVIST wrote continuity snapshot - 20 projects, 67 signals.",
+      "id": "a9cf3257-f32f-4f80-a350-90fb7e8b0e4e",
+      "type": "file_changed",
+      "sector": "core",
       "sectors": [
-        "core",
-        "archive"
+        "core"
       ],
-      "operators": [
-        "nexus-7",
-        "scout-6",
-        "deep-1"
-      ],
-      "projects": [
-        "ccc"
-      ],
-      "source": "archivist",
-      "significance": "snapshot",
-      "evidence": {
-        "changeCount": 2,
-        "totalScore": 39,
-        "lockfileOnly": false,
-        "snapshotWritten": true
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\runtime.json",
+      "summary": "runtime.json — file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "runtime.json → core"
       }
-    }
-  ],
-  "operationalEvents": [
+    },
+    {
+      "id": "e6f4cfe1-107f-4097-ad55-bc57a7728387",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\tokens.ts",
+      "summary": "tokens.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "tokens.ts → core"
+      }
+    },
+    {
+      "id": "e4fdfcc6-521c-4d39-b31b-eb296cbc46a7",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\apiSpend.ts",
+      "summary": "apiSpend.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "apiSpend.ts → core"
+      }
+    },
+    {
+      "id": "faea4fc0-2e69-4116-baf0-d9d49fd9c3fa",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\queue.ts",
+      "summary": "queue.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "queue.ts → core"
+      }
+    },
+    {
+      "id": "606120fe-8b0a-45dd-9cc6-bd07c7ea94a9",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\embeddings.ts",
+      "summary": "embeddings.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "embeddings.ts → core"
+      }
+    },
+    {
+      "id": "965cb26d-5726-4869-b38d-965c4d8f5f74",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.78,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\pm2.ts",
+      "summary": "pm2.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "runtime_instability",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "pm2.ts → core"
+      }
+    },
+    {
+      "id": "a9e4c445-7bd7-409a-adfa-2ecf3a3f6d1f",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\index.ts",
+      "summary": "index.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "index.ts → core"
+      }
+    },
+    {
+      "id": "8a457ec1-3943-420b-95f9-0e8b0265f9f3",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.984Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal",
+      "summary": "temporal — file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "temporal → core"
+      }
+    },
+    {
+      "id": "4238c007-431c-4aea-98cf-f344ecb1d776",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "high",
+      "confidence": 0.64,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
+      "summary": "continuity-events.json — file changed",
+      "metadata": {
+        "semanticMeaning": "architecture_refinement",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "continuity-events.json → core"
+      }
+    },
+    {
+      "id": "43f4f890-dccd-404a-bef8-6426bd6f3f7b",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "high",
+      "confidence": 0.64,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
+      "summary": "continuity-snapshot.json — file changed",
+      "metadata": {
+        "semanticMeaning": "architecture_refinement",
+        "classifierSector": "core",
+        "classifierPoints": 27,
+        "classifierLabel": "continuity-snapshot.json → core"
+      }
+    },
+    {
+      "id": "af515333-a6da-4d2c-a378-c756b76a9e97",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\persistence",
+      "summary": "persistence — file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "persistence → core"
+      }
+    },
+    {
+      "id": "e089f8f3-482c-4c33-922e-ca80dab50675",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\persistence\\schema.ts",
+      "summary": "schema.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "ontology_change",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "schema.ts → core"
+      }
+    },
+    {
+      "id": "5268f086-09b6-4473-bef3-e0628dbc0231",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry",
+      "summary": "telemetry — file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "telemetry → core"
+      }
+    },
+    {
+      "id": "baa8faa3-b9f5-4473-b5c8-bd9b6e3ec2ed",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\persistence\\paths.ts",
+      "summary": "paths.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "paths.ts → core"
+      }
+    },
+    {
+      "id": "b5b26404-8b2b-4589-b703-0f5fd2bf85ec",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\persistence\\retention.ts",
+      "summary": "retention.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "retention.ts → core"
+      }
+    },
+    {
+      "id": "abbe81c2-c7c9-4fb4-81fd-09b97e5fb9af",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\persistence\\io.ts",
+      "summary": "io.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "io.ts → core"
+      }
+    },
+    {
+      "id": "7a1070a7-f82e-4e77-8794-36237e4c2afc",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\persistence\\stores.ts",
+      "summary": "stores.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "stores.ts → core"
+      }
+    },
+    {
+      "id": "c0a5ef11-1600-48a2-9b82-28861d04b838",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\persistence\\index.ts",
+      "summary": "index.ts — code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "index.ts → core"
+      }
+    },
+    {
+      "id": "4c30f934-8b16-4729-ac14-d7cfe888a3f0",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data",
+      "summary": "data — file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "data → core"
+      }
+    },
+    {
+      "id": "62ae8910-a312-409f-816f-e6c09049318b",
+      "type": "file_changed",
+      "sector": "forge",
+      "sectors": [
+        "forge"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC",
+      "summary": "CCC — file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "forge",
+        "classifierPoints": 2,
+        "classifierLabel": "CCC → forge"
+      }
+    },
+    {
+      "id": "4f95332b-5fd2-4b9a-a9db-d64d13835ad5",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry",
+      "summary": "telemetry — file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "telemetry → core"
+      }
+    },
+    {
+      "id": "303e0bc9-ca62-43d0-b76a-e1dc710a37f7",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\token-usage.json",
+      "summary": "token-usage.json — file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "token-usage.json → core"
+      }
+    },
+    {
+      "id": "dd3853b1-da53-48de-84fb-b1d2c4d3dd82",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\api-spend.json",
+      "summary": "api-spend.json — file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "api-spend.json → core"
+      }
+    },
+    {
+      "id": "f99359d1-bc58-4296-8607-d5d65a9306e1",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-21T04:47:44.983Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\embeddings.json",
+      "summary": "embeddings.json — file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "embeddings.json → core"
+      }
+    },
+    {
+      "id": "6230af5f-2370-448c-8d1f-21a61e87df7c",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "high",
+      "confidence": 0.64,
+      "timestamp": "2026-05-21T04:44:33.594Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
+      "summary": "continuity-events.json - file changed",
+      "metadata": {
+        "semanticMeaning": "architecture_refinement",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "continuity-events.json -> core"
+      }
+    },
+    {
+      "id": "8ca25057-1ff5-4dbf-acea-7be76f187f91",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "high",
+      "confidence": 0.64,
+      "timestamp": "2026-05-21T04:44:33.594Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
+      "summary": "continuity-snapshot.json - file changed",
+      "metadata": {
+        "semanticMeaning": "architecture_refinement",
+        "classifierSector": "core",
+        "classifierPoints": 27,
+        "classifierLabel": "continuity-snapshot.json -> core"
+      }
+    },
     {
       "id": "7cde349d-c7a9-4996-8908-c4c2558796c5",
       "type": "deployment_signal",
@@ -11514,12 +12095,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io",
-      "summary": "ThinkCore.io — file changed",
+      "summary": "ThinkCore.io - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "ThinkCore.io → relay"
+        "classifierLabel": "ThinkCore.io -> relay"
       }
     },
     {
@@ -11535,12 +12116,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\adapters",
-      "summary": "adapters — file changed",
+      "summary": "adapters - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "adapters → relay"
+        "classifierLabel": "adapters -> relay"
       }
     },
     {
@@ -11556,12 +12137,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\architecture",
-      "summary": "architecture — file changed",
+      "summary": "architecture - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "architecture → relay"
+        "classifierLabel": "architecture -> relay"
       }
     },
     {
@@ -11577,12 +12158,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\context",
-      "summary": "context — file changed",
+      "summary": "context - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "context → relay"
+        "classifierLabel": "context -> relay"
       }
     },
     {
@@ -11598,12 +12179,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\continuity",
-      "summary": "continuity — file changed",
+      "summary": "continuity - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "continuity → relay"
+        "classifierLabel": "continuity -> relay"
       }
     },
     {
@@ -11619,12 +12200,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\core",
-      "summary": "core — file changed",
+      "summary": "core - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "core → relay"
+        "classifierLabel": "core -> relay"
       }
     },
     {
@@ -11640,12 +12221,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\environments",
-      "summary": "environments — file changed",
+      "summary": "environments - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "environments → relay"
+        "classifierLabel": "environments -> relay"
       }
     },
     {
@@ -11661,12 +12242,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\lineage",
-      "summary": "lineage — file changed",
+      "summary": "lineage - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "lineage → relay"
+        "classifierLabel": "lineage -> relay"
       }
     },
     {
@@ -11682,12 +12263,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\model",
-      "summary": "model — file changed",
+      "summary": "model - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "model → relay"
+        "classifierLabel": "model -> relay"
       }
     },
     {
@@ -11703,12 +12284,12 @@
       "source": "archivist:watcher",
       "project": "ThinkCore.io",
       "filePath": "C:\\Projects\\ThinkCore.io\\relationships",
-      "summary": "relationships — file changed",
+      "summary": "relationships - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "relay",
         "classifierPoints": 5,
-        "classifierLabel": "relationships → relay"
+        "classifierLabel": "relationships -> relay"
       }
     },
     {
@@ -11724,12 +12305,12 @@
       "source": "archivist:watcher",
       "project": "ccc",
       "filePath": "C:\\Projects\\ARCHIVE\\ccc\\package.json",
-      "summary": "package.json — package detected",
+      "summary": "package.json - package detected",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "package.json → core"
+        "classifierLabel": "package.json -> core"
       }
     },
     {
@@ -11745,12 +12326,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json — file changed",
+      "summary": "continuity-snapshot.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json → core"
+        "classifierLabel": "continuity-snapshot.json -> core"
       }
     },
     {
@@ -11766,12 +12347,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\types.ts",
-      "summary": "types.ts — code changed",
+      "summary": "types.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "types.ts → core"
+        "classifierLabel": "types.ts -> core"
       }
     },
     {
@@ -11787,12 +12368,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\pm2.ts",
-      "summary": "pm2.ts — code changed",
+      "summary": "pm2.ts - code changed",
       "metadata": {
         "semanticMeaning": "runtime_instability",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "pm2.ts → core"
+        "classifierLabel": "pm2.ts -> core"
       }
     },
     {
@@ -11809,12 +12390,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\docs\\Eternal Sources",
-      "summary": "Eternal Sources — file changed",
+      "summary": "Eternal Sources - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "Eternal Sources → forge"
+        "classifierLabel": "Eternal Sources -> forge"
       }
     },
     {
@@ -11830,12 +12411,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\legacy-archive",
-      "summary": "legacy-archive — file changed",
+      "summary": "legacy-archive - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "legacy-archive → forge"
+        "classifierLabel": "legacy-archive -> forge"
       }
     },
     {
@@ -11851,12 +12432,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\legacy-archive\\foundation",
-      "summary": "foundation — file changed",
+      "summary": "foundation - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "foundation → forge"
+        "classifierLabel": "foundation -> forge"
       }
     },
     {
@@ -11872,12 +12453,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\scripts",
-      "summary": "scripts — file changed",
+      "summary": "scripts - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "scripts → forge"
+        "classifierLabel": "scripts -> forge"
       }
     },
     {
@@ -11893,12 +12474,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src",
-      "summary": "src — file changed",
+      "summary": "src - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "src → forge"
+        "classifierLabel": "src -> forge"
       }
     },
     {
@@ -11914,12 +12495,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\execution",
-      "summary": "execution — file changed",
+      "summary": "execution - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "execution → forge"
+        "classifierLabel": "execution -> forge"
       }
     },
     {
@@ -11935,12 +12516,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\interpretive",
-      "summary": "interpretive — file changed",
+      "summary": "interpretive - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "interpretive → forge"
+        "classifierLabel": "interpretive -> forge"
       }
     },
     {
@@ -11956,12 +12537,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\ports",
-      "summary": "ports — file changed",
+      "summary": "ports - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "ports → forge"
+        "classifierLabel": "ports -> forge"
       }
     },
     {
@@ -11977,12 +12558,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\runtime",
-      "summary": "runtime — file changed",
+      "summary": "runtime - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "runtime → forge"
+        "classifierLabel": "runtime -> forge"
       }
     },
     {
@@ -11998,12 +12579,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\sources",
-      "summary": "sources — file changed",
+      "summary": "sources - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "sources → forge"
+        "classifierLabel": "sources -> forge"
       }
     },
     {
@@ -12019,12 +12600,12 @@
       "source": "archivist:watcher",
       "project": "AI Systems",
       "filePath": "C:\\Projects\\SecondBrain\\AI Systems",
-      "summary": "AI Systems — file changed",
+      "summary": "AI Systems - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "AI Systems → archive"
+        "classifierLabel": "AI Systems -> archive"
       }
     },
     {
@@ -12040,12 +12621,12 @@
       "source": "archivist:watcher",
       "project": "Architecture",
       "filePath": "C:\\Projects\\SecondBrain\\Architecture",
-      "summary": "Architecture — file changed",
+      "summary": "Architecture - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "Architecture → archive"
+        "classifierLabel": "Architecture -> archive"
       }
     },
     {
@@ -12061,12 +12642,12 @@
       "source": "archivist:watcher",
       "project": "Archive",
       "filePath": "C:\\Projects\\SecondBrain\\Archive",
-      "summary": "Archive — file changed",
+      "summary": "Archive - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "Archive → archive"
+        "classifierLabel": "Archive -> archive"
       }
     },
     {
@@ -12082,12 +12663,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json — file changed",
+      "summary": "continuity-events.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json → core"
+        "classifierLabel": "continuity-events.json -> core"
       }
     },
     {
@@ -12103,12 +12684,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona",
-      "summary": "Liahona — file changed",
+      "summary": "Liahona - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "Liahona → forge"
+        "classifierLabel": "Liahona -> forge"
       }
     },
     {
@@ -12124,12 +12705,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\continuity",
-      "summary": "continuity — file changed",
+      "summary": "continuity - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "continuity → forge"
+        "classifierLabel": "continuity -> forge"
       }
     },
     {
@@ -12145,12 +12726,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\core",
-      "summary": "core — file changed",
+      "summary": "core - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "core → forge"
+        "classifierLabel": "core -> forge"
       }
     },
     {
@@ -12166,12 +12747,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\dev-portal",
-      "summary": "dev-portal — file changed",
+      "summary": "dev-portal - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "dev-portal → forge"
+        "classifierLabel": "dev-portal -> forge"
       }
     },
     {
@@ -12187,12 +12768,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\docs",
-      "summary": "docs — file changed",
+      "summary": "docs - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "docs → forge"
+        "classifierLabel": "docs -> forge"
       }
     },
     {
@@ -12231,12 +12812,12 @@
       "source": "archivist:watcher",
       "project": "ccc",
       "filePath": "C:\\Projects\\ARCHIVE\\ccc\\src\\data",
-      "summary": "data — file changed",
+      "summary": "data - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "data → core"
+        "classifierLabel": "data -> core"
       }
     },
     {
@@ -12252,12 +12833,12 @@
       "source": "archivist:watcher",
       "project": "ccc",
       "filePath": "C:\\Projects\\ARCHIVE\\ccc\\src\\lib",
-      "summary": "lib — file changed",
+      "summary": "lib - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "lib → core"
+        "classifierLabel": "lib -> core"
       }
     },
     {
@@ -12273,12 +12854,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\package.json",
-      "summary": "package.json — package detected",
+      "summary": "package.json - package detected",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "forge",
         "classifierPoints": 9,
-        "classifierLabel": "package.json → forge"
+        "classifierLabel": "package.json -> forge"
       }
     },
     {
@@ -12294,12 +12875,12 @@
       "source": "archivist:watcher",
       "project": "SecondBrain",
       "filePath": "C:\\Projects\\SecondBrain",
-      "summary": "SecondBrain — file changed",
+      "summary": "SecondBrain - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "SecondBrain → archive"
+        "classifierLabel": "SecondBrain -> archive"
       }
     },
     {
@@ -12315,12 +12896,12 @@
       "source": "archivist:watcher",
       "project": "Continuity",
       "filePath": "C:\\Projects\\SecondBrain\\Continuity",
-      "summary": "Continuity — file changed",
+      "summary": "Continuity - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "Continuity → archive"
+        "classifierLabel": "Continuity -> archive"
       }
     },
     {
@@ -12336,12 +12917,12 @@
       "source": "archivist:watcher",
       "project": "Ideas",
       "filePath": "C:\\Projects\\SecondBrain\\Ideas",
-      "summary": "Ideas — file changed",
+      "summary": "Ideas - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "Ideas → archive"
+        "classifierLabel": "Ideas -> archive"
       }
     },
     {
@@ -12357,12 +12938,12 @@
       "source": "archivist:watcher",
       "project": "Resources",
       "filePath": "C:\\Projects\\SecondBrain\\Resources",
-      "summary": "Resources — file changed",
+      "summary": "Resources - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "Resources → archive"
+        "classifierLabel": "Resources -> archive"
       }
     },
     {
@@ -12378,12 +12959,12 @@
       "source": "archivist:watcher",
       "project": "Sources",
       "filePath": "C:\\Projects\\SecondBrain\\Sources",
-      "summary": "Sources — file changed",
+      "summary": "Sources - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "Sources → archive"
+        "classifierLabel": "Sources -> archive"
       }
     },
     {
@@ -12399,12 +12980,12 @@
       "source": "archivist:watcher",
       "project": "Templates",
       "filePath": "C:\\Projects\\SecondBrain\\Templates",
-      "summary": "Templates — file changed",
+      "summary": "Templates - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "Templates → archive"
+        "classifierLabel": "Templates -> archive"
       }
     },
     {
@@ -12420,12 +13001,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json — file changed",
+      "summary": "continuity-snapshot.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json → core"
+        "classifierLabel": "continuity-snapshot.json -> core"
       }
     },
     {
@@ -12441,12 +13022,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json — file changed",
+      "summary": "continuity-events.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json → core"
+        "classifierLabel": "continuity-events.json -> core"
       }
     },
     {
@@ -12462,12 +13043,12 @@
       "source": "archivist:watcher",
       "project": "ARCHIVE",
       "filePath": "C:\\Projects\\ARCHIVE",
-      "summary": "ARCHIVE — file changed",
+      "summary": "ARCHIVE - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "ARCHIVE → forge"
+        "classifierLabel": "ARCHIVE -> forge"
       }
     },
     {
@@ -12483,12 +13064,12 @@
       "source": "archivist:watcher",
       "project": "ccc",
       "filePath": "C:\\Projects\\ARCHIVE\\ccc",
-      "summary": "ccc — file changed",
+      "summary": "ccc - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "archive",
         "classifierPoints": 5,
-        "classifierLabel": "ccc → archive"
+        "classifierLabel": "ccc -> archive"
       }
     },
     {
@@ -12504,12 +13085,12 @@
       "source": "archivist:watcher",
       "project": "ccc",
       "filePath": "C:\\Projects\\ARCHIVE\\ccc\\src",
-      "summary": "src — file changed",
+      "summary": "src - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "src → core"
+        "classifierLabel": "src -> core"
       }
     },
     {
@@ -12525,12 +13106,12 @@
       "source": "archivist:watcher",
       "project": "ccc",
       "filePath": "C:\\Projects\\ARCHIVE\\ccc\\src\\components",
-      "summary": "components — file changed",
+      "summary": "components - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "components → core"
+        "classifierLabel": "components -> core"
       }
     },
     {
@@ -12546,12 +13127,12 @@
       "source": "archivist:watcher",
       "project": "ccc",
       "filePath": "C:\\Projects\\ARCHIVE\\ccc\\src\\components\\facility",
-      "summary": "facility — file changed",
+      "summary": "facility - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "facility → core"
+        "classifierLabel": "facility -> core"
       }
     },
     {
@@ -12567,12 +13148,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json — file changed",
+      "summary": "continuity-events.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json → core"
+        "classifierLabel": "continuity-events.json -> core"
       }
     },
     {
@@ -12588,12 +13169,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json — file changed",
+      "summary": "continuity-snapshot.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json → core"
+        "classifierLabel": "continuity-snapshot.json -> core"
       }
     },
     {
@@ -12632,12 +13213,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\continuity\\residue",
-      "summary": "residue — file changed",
+      "summary": "residue - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "residue → core"
+        "classifierLabel": "residue -> core"
       }
     },
     {
@@ -12653,12 +13234,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\components\\continuity",
-      "summary": "continuity — file changed",
+      "summary": "continuity - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity → core"
+        "classifierLabel": "continuity -> core"
       }
     },
     {
@@ -12674,12 +13255,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\continuity\\events",
-      "summary": "events — file changed",
+      "summary": "events - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "events → core"
+        "classifierLabel": "events -> core"
       }
     },
     {
@@ -12695,12 +13276,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\data\\ecology",
-      "summary": "ecology — file changed",
+      "summary": "ecology - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "ecology → core"
+        "classifierLabel": "ecology -> core"
       }
     },
     {
@@ -12716,12 +13297,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\components\\ccc",
-      "summary": "ccc — file changed",
+      "summary": "ccc - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "ccc → core"
+        "classifierLabel": "ccc -> core"
       }
     },
     {
@@ -12737,12 +13318,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\operators",
-      "summary": "operators — file changed",
+      "summary": "operators - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "operators → core"
+        "classifierLabel": "operators -> core"
       }
     },
     {
@@ -12758,12 +13339,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\data\\mock",
-      "summary": "mock — file changed",
+      "summary": "mock - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "mock → core"
+        "classifierLabel": "mock -> core"
       }
     },
     {
@@ -12779,12 +13360,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\panels",
-      "summary": "panels — file changed",
+      "summary": "panels - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "panels → core"
+        "classifierLabel": "panels -> core"
       }
     },
     {
@@ -12800,12 +13381,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC",
-      "summary": "CCC — file changed",
+      "summary": "CCC - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "CCC → forge"
+        "classifierLabel": "CCC -> forge"
       }
     },
     {
@@ -12821,12 +13402,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src",
-      "summary": "src — file changed",
+      "summary": "src - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "src → core"
+        "classifierLabel": "src -> core"
       }
     },
     {
@@ -12842,12 +13423,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app",
-      "summary": "app — file changed",
+      "summary": "app - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "app → core"
+        "classifierLabel": "app -> core"
       }
     },
     {
@@ -12863,12 +13444,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\substrate",
-      "summary": "substrate — file changed",
+      "summary": "substrate - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "substrate → core"
+        "classifierLabel": "substrate -> core"
       }
     },
     {
@@ -12884,12 +13465,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\snapshot",
-      "summary": "snapshot — file changed",
+      "summary": "snapshot - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "snapshot → core"
+        "classifierLabel": "snapshot -> core"
       }
     },
     {
@@ -12905,12 +13486,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\scripts",
-      "summary": "scripts — file changed",
+      "summary": "scripts - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "scripts → core"
+        "classifierLabel": "scripts -> core"
       }
     },
     {
@@ -12926,12 +13507,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\context",
-      "summary": "context — file changed",
+      "summary": "context - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "context → core"
+        "classifierLabel": "context -> core"
       }
     },
     {
@@ -12947,12 +13528,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\archivist",
-      "summary": "archivist — file changed",
+      "summary": "archivist - file changed",
       "metadata": {
         "semanticMeaning": "continuity_consolidation",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "archivist → core"
+        "classifierLabel": "archivist -> core"
       }
     },
     {
@@ -12968,12 +13549,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\facility",
-      "summary": "facility — file changed",
+      "summary": "facility - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "facility → core"
+        "classifierLabel": "facility -> core"
       }
     },
     {
@@ -12989,12 +13570,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\components",
-      "summary": "components — file changed",
+      "summary": "components - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "components → core"
+        "classifierLabel": "components -> core"
       }
     },
     {
@@ -13010,12 +13591,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\motion",
-      "summary": "motion — file changed",
+      "summary": "motion - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "motion → core"
+        "classifierLabel": "motion -> core"
       }
     },
     {
@@ -13031,12 +13612,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\hooks",
-      "summary": "hooks — file changed",
+      "summary": "hooks - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "hooks → core"
+        "classifierLabel": "hooks -> core"
       }
     },
     {
@@ -13052,12 +13633,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public",
-      "summary": "public — file changed",
+      "summary": "public - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "public → core"
+        "classifierLabel": "public -> core"
       }
     },
     {
@@ -13073,12 +13654,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\continuity",
-      "summary": "continuity — file changed",
+      "summary": "continuity - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity → core"
+        "classifierLabel": "continuity -> core"
       }
     },
     {
@@ -13094,12 +13675,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\api\\continuity-events",
-      "summary": "continuity-events — file changed",
+      "summary": "continuity-events - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events → core"
+        "classifierLabel": "continuity-events -> core"
       }
     },
     {
@@ -13115,12 +13696,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\human-orientation",
-      "summary": "human-orientation — file changed",
+      "summary": "human-orientation - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "human-orientation → core"
+        "classifierLabel": "human-orientation -> core"
       }
     },
     {
@@ -13136,12 +13717,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\components\\operators",
-      "summary": "operators — file changed",
+      "summary": "operators - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "operators → core"
+        "classifierLabel": "operators -> core"
       }
     },
     {
@@ -13157,12 +13738,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\ops",
-      "summary": "ops — file changed",
+      "summary": "ops - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "ops → core"
+        "classifierLabel": "ops -> core"
       }
     },
     {
@@ -13178,12 +13759,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\localData\\adapters",
-      "summary": "adapters — file changed",
+      "summary": "adapters - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "adapters → core"
+        "classifierLabel": "adapters -> core"
       }
     },
     {
@@ -13199,12 +13780,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\localData\\scanners",
-      "summary": "scanners — file changed",
+      "summary": "scanners - file changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "scanners → core"
+        "classifierLabel": "scanners -> core"
       }
     },
     {
@@ -13220,12 +13801,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\docs\\continuity",
-      "summary": "continuity — file changed",
+      "summary": "continuity - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity → core"
+        "classifierLabel": "continuity -> core"
       }
     },
     {
@@ -13241,12 +13822,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\signals",
-      "summary": "signals — file changed",
+      "summary": "signals - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "signals → core"
+        "classifierLabel": "signals -> core"
       }
     },
     {
@@ -13262,12 +13843,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\api\\local-continuity",
-      "summary": "local-continuity — file changed",
+      "summary": "local-continuity - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "local-continuity → core"
+        "classifierLabel": "local-continuity -> core"
       }
     },
     {
@@ -13283,12 +13864,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\api\\operational-state",
-      "summary": "operational-state — file changed",
+      "summary": "operational-state - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "operational-state → core"
+        "classifierLabel": "operational-state -> core"
       }
     },
     {
@@ -13304,12 +13885,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\components\\operations",
-      "summary": "operations — file changed",
+      "summary": "operations - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "operations → core"
+        "classifierLabel": "operations -> core"
       }
     },
     {
@@ -13325,12 +13906,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\data",
-      "summary": "data — file changed",
+      "summary": "data - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "data → core"
+        "classifierLabel": "data -> core"
       }
     },
     {
@@ -13346,12 +13927,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json — file changed",
+      "summary": "continuity-events.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json → core"
+        "classifierLabel": "continuity-events.json -> core"
       }
     },
     {
@@ -13367,12 +13948,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\prototypes\\liahona-compass",
-      "summary": "liahona-compass — file changed",
+      "summary": "liahona-compass - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "liahona-compass → forge"
+        "classifierLabel": "liahona-compass -> forge"
       }
     },
     {
@@ -13388,12 +13969,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json — file changed",
+      "summary": "continuity-snapshot.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json → core"
+        "classifierLabel": "continuity-snapshot.json -> core"
       }
     },
     {
@@ -13409,12 +13990,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\.gitignore",
-      "summary": ".gitignore — git detected",
+      "summary": ".gitignore - git detected",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": ".gitignore → core"
+        "classifierLabel": ".gitignore -> core"
       }
     },
     {
@@ -13430,12 +14011,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json — file changed",
+      "summary": "continuity-events.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json → core"
+        "classifierLabel": "continuity-events.json -> core"
       }
     },
     {
@@ -13451,12 +14032,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json — file changed",
+      "summary": "continuity-snapshot.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json → core"
+        "classifierLabel": "continuity-snapshot.json -> core"
       }
     },
     {
@@ -13472,12 +14053,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json — file changed",
+      "summary": "continuity-events.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json → core"
+        "classifierLabel": "continuity-events.json -> core"
       }
     },
     {
@@ -13493,12 +14074,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json — file changed",
+      "summary": "continuity-snapshot.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json → core"
+        "classifierLabel": "continuity-snapshot.json -> core"
       }
     },
     {
@@ -13514,12 +14095,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json — file changed",
+      "summary": "continuity-events.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json → core"
+        "classifierLabel": "continuity-events.json -> core"
       }
     },
     {
@@ -13535,12 +14116,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json — file changed",
+      "summary": "continuity-snapshot.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json → core"
+        "classifierLabel": "continuity-snapshot.json -> core"
       }
     },
     {
@@ -13579,12 +14160,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\canonical",
-      "summary": "canonical — file changed",
+      "summary": "canonical - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "canonical → forge"
+        "classifierLabel": "canonical -> forge"
       }
     },
     {
@@ -13600,12 +14181,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\canonical\\corpora",
-      "summary": "corpora — file changed",
+      "summary": "corpora - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "corpora → forge"
+        "classifierLabel": "corpora -> forge"
       }
     },
     {
@@ -13621,12 +14202,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\continuity",
-      "summary": "continuity — file changed",
+      "summary": "continuity - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "continuity → forge"
+        "classifierLabel": "continuity -> forge"
       }
     },
     {
@@ -13642,12 +14223,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\continuity\\scopes",
-      "summary": "scopes — file changed",
+      "summary": "scopes - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "scopes → forge"
+        "classifierLabel": "scopes -> forge"
       }
     },
     {
@@ -13663,12 +14244,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\projection",
-      "summary": "projection — file changed",
+      "summary": "projection - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "projection → forge"
+        "classifierLabel": "projection -> forge"
       }
     },
     {
@@ -13684,12 +14265,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\runtime\\pipeline",
-      "summary": "pipeline — file changed",
+      "summary": "pipeline - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "pipeline → forge"
+        "classifierLabel": "pipeline -> forge"
       }
     },
     {
@@ -13705,12 +14286,12 @@
       "source": "archivist:watcher",
       "project": "Liahona",
       "filePath": "C:\\Projects\\Liahona\\src\\runtime\\policy",
-      "summary": "policy — file changed",
+      "summary": "policy - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "forge",
         "classifierPoints": 2,
-        "classifierLabel": "policy → forge"
+        "classifierLabel": "policy -> forge"
       }
     },
     {
@@ -13726,12 +14307,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\ops\\ops.css",
-      "summary": "ops.css — file changed",
+      "summary": "ops.css - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "ops.css → core"
+        "classifierLabel": "ops.css -> core"
       }
     },
     {
@@ -13747,12 +14328,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\types.ts",
-      "summary": "types.ts — code changed",
+      "summary": "types.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "types.ts → core"
+        "classifierLabel": "types.ts -> core"
       }
     },
     {
@@ -13768,12 +14349,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib",
-      "summary": "lib — file changed",
+      "summary": "lib - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "lib → core"
+        "classifierLabel": "lib -> core"
       }
     },
     {
@@ -13789,12 +14370,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors",
-      "summary": "collectors — file changed",
+      "summary": "collectors - file changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "collectors → core"
+        "classifierLabel": "collectors -> core"
       }
     },
     {
@@ -13810,12 +14391,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\storage.ts",
-      "summary": "storage.ts — code changed",
+      "summary": "storage.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "storage.ts → core"
+        "classifierLabel": "storage.ts -> core"
       }
     },
     {
@@ -13831,12 +14412,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\pm2.ts",
-      "summary": "pm2.ts — code changed",
+      "summary": "pm2.ts - code changed",
       "metadata": {
         "semanticMeaning": "runtime_instability",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "pm2.ts → core"
+        "classifierLabel": "pm2.ts -> core"
       }
     },
     {
@@ -13852,12 +14433,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\embeddings.ts",
-      "summary": "embeddings.ts — code changed",
+      "summary": "embeddings.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "embeddings.ts → core"
+        "classifierLabel": "embeddings.ts -> core"
       }
     },
     {
@@ -13873,12 +14454,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\tokens.ts",
-      "summary": "tokens.ts — code changed",
+      "summary": "tokens.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "tokens.ts → core"
+        "classifierLabel": "tokens.ts -> core"
       }
     },
     {
@@ -13894,12 +14475,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\apiSpend.ts",
-      "summary": "apiSpend.ts — code changed",
+      "summary": "apiSpend.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "apiSpend.ts → core"
+        "classifierLabel": "apiSpend.ts -> core"
       }
     },
     {
@@ -13915,12 +14496,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\collectors\\queue.ts",
-      "summary": "queue.ts — code changed",
+      "summary": "queue.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "queue.ts → core"
+        "classifierLabel": "queue.ts -> core"
       }
     },
     {
@@ -13936,12 +14517,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\gather.ts",
-      "summary": "gather.ts — code changed",
+      "summary": "gather.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "gather.ts → core"
+        "classifierLabel": "gather.ts -> core"
       }
     },
     {
@@ -13957,12 +14538,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\format.ts",
-      "summary": "format.ts — code changed",
+      "summary": "format.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "format.ts → core"
+        "classifierLabel": "format.ts -> core"
       }
     },
     {
@@ -13978,12 +14559,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\index.ts",
-      "summary": "index.ts — code changed",
+      "summary": "index.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "index.ts → core"
+        "classifierLabel": "index.ts -> core"
       }
     },
     {
@@ -13999,12 +14580,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry\\toOperational.ts",
-      "summary": "toOperational.ts — code changed",
+      "summary": "toOperational.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "toOperational.ts → core"
+        "classifierLabel": "toOperational.ts -> core"
       }
     },
     {
@@ -14020,12 +14601,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\api\\telemetry",
-      "summary": "telemetry — file changed",
+      "summary": "telemetry - file changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "telemetry → core"
+        "classifierLabel": "telemetry -> core"
       }
     },
     {
@@ -14041,12 +14622,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\api\\telemetry\\route.ts",
-      "summary": "route.ts — code changed",
+      "summary": "route.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "route.ts → core"
+        "classifierLabel": "route.ts -> core"
       }
     },
     {
@@ -14062,12 +14643,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\api",
-      "summary": "api — file changed",
+      "summary": "api - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "api → core"
+        "classifierLabel": "api -> core"
       }
     },
     {
@@ -14083,12 +14664,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\substrate\\substrateLedger.ts",
-      "summary": "substrateLedger.ts — code changed",
+      "summary": "substrateLedger.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "substrateLedger.ts → core"
+        "classifierLabel": "substrateLedger.ts -> core"
       }
     },
     {
@@ -14104,12 +14685,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\data\\operational-types.ts",
-      "summary": "operational-types.ts — code changed",
+      "summary": "operational-types.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "operational-types.ts → core"
+        "classifierLabel": "operational-types.ts -> core"
       }
     },
     {
@@ -14125,12 +14706,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\snapshot\\mergeIntoOperational.ts",
-      "summary": "mergeIntoOperational.ts — code changed",
+      "summary": "mergeIntoOperational.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "mergeIntoOperational.ts → core"
+        "classifierLabel": "mergeIntoOperational.ts -> core"
       }
     },
     {
@@ -14146,12 +14727,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\context\\CCCContext.tsx",
-      "summary": "CCCContext.tsx — code changed",
+      "summary": "CCCContext.tsx - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "CCCContext.tsx → core"
+        "classifierLabel": "CCCContext.tsx -> core"
       }
     },
     {
@@ -14167,12 +14748,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\TelemetryBar.tsx",
-      "summary": "TelemetryBar.tsx — code changed",
+      "summary": "TelemetryBar.tsx - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "TelemetryBar.tsx → core"
+        "classifierLabel": "TelemetryBar.tsx -> core"
       }
     },
     {
@@ -14188,12 +14769,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\app\\ops\\page.tsx",
-      "summary": "page.tsx — code changed",
+      "summary": "page.tsx - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "page.tsx → core"
+        "classifierLabel": "page.tsx -> core"
       }
     },
     {
@@ -14209,12 +14790,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json — file changed",
+      "summary": "continuity-snapshot.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json → core"
+        "classifierLabel": "continuity-snapshot.json -> core"
       }
     },
     {
@@ -14230,12 +14811,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\src\\lib\\telemetry",
-      "summary": "telemetry — file changed",
+      "summary": "telemetry - file changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "telemetry → core"
+        "classifierLabel": "telemetry -> core"
       }
     },
     {
@@ -14251,12 +14832,12 @@
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json — file changed",
+      "summary": "continuity-events.json - file changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json → core"
+        "classifierLabel": "continuity-events.json -> core"
       }
     },
     {
@@ -16149,594 +16730,6 @@
         "classifierSector": "core",
         "classifierPoints": 12,
         "classifierLabel": "pipeline.ts -> core"
-      }
-    },
-    {
-      "id": "379d6879-54c0-4052-aca7-3479bcebd8bc",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\encoding\\sanitize.test.ts",
-      "summary": "sanitize.test.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "operational_noise",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "sanitize.test.ts -> core"
-      }
-    },
-    {
-      "id": "0559f026-27bb-4fae-8ea9-fc8d0fe0e6fb",
-      "type": "markdown_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.62,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\docs\\ccc-signal-test.md",
-      "summary": "ccc-signal-test.md - markdown changed",
-      "metadata": {
-        "semanticMeaning": "documentation_update",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "ccc-signal-test.md -> core"
-      }
-    },
-    {
-      "id": "4df419e8-174a-43d0-8baf-e46a60a3fc19",
-      "type": "markdown_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.62,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\docs\\verification.md",
-      "summary": "verification.md - markdown changed",
-      "metadata": {
-        "semanticMeaning": "documentation_update",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "verification.md -> core"
-      }
-    },
-    {
-      "id": "81ef8428-13f3-470d-a2b8-76c36c3a8cda",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\localData\\ecosystemMarkers.ts",
-      "summary": "ecosystemMarkers.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "ecosystemMarkers.ts -> core"
-      }
-    },
-    {
-      "id": "8846d028-bf22-42a9-a1ca-d96f064dc7e1",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\localData",
-      "summary": "localData - file changed",
-      "metadata": {
-        "semanticMeaning": "operational_noise",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "localData -> core"
-      }
-    },
-    {
-      "id": "5e7587b0-8535-4b36-be01-710388e67a88",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\localData\\kindex",
-      "summary": "kindex - file changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "kindex -> core"
-      }
-    },
-    {
-      "id": "fc4d6b91-8d9b-4af4-9fdb-202242fcd9c8",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\localData\\kindex\\types.ts",
-      "summary": "types.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "types.ts -> core"
-      }
-    },
-    {
-      "id": "283ac4ef-0d1a-4373-b92e-5bfa59c107c1",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\localData\\kindex\\resolve.ts",
-      "summary": "resolve.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "resolve.ts -> core"
-      }
-    },
-    {
-      "id": "f9e885ce-c935-42a0-9ce5-24371c428a1f",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.147Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\localData\\kindex\\observe.ts",
-      "summary": "observe.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "observe.ts -> core"
-      }
-    },
-    {
-      "id": "f85cbbf4-c010-48df-a6a0-c26439bff74d",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\motion\\controlSurfaceSprings.ts",
-      "summary": "controlSurfaceSprings.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "controlSurfaceSprings.ts -> core"
-      }
-    },
-    {
-      "id": "a1668169-7fdc-4128-943c-b345d7869d6d",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\app\\ops\\OpsSectionSheet.tsx",
-      "summary": "OpsSectionSheet.tsx - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "OpsSectionSheet.tsx -> core"
-      }
-    },
-    {
-      "id": "868c1ee4-dc2b-44d6-8062-ad3f704c0f35",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\types.ts",
-      "summary": "types.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "types.ts -> core"
-      }
-    },
-    {
-      "id": "2fbbe59d-cbec-4867-ae42-121fcae7c811",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\signals\\createSignal.ts",
-      "summary": "createSignal.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "createSignal.ts -> core"
-      }
-    },
-    {
-      "id": "96309199-bfe5-43e6-9bb5-2473ecccdd95",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\signals\\gitSignals.ts",
-      "summary": "gitSignals.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "gitSignals.ts -> core"
-      }
-    },
-    {
-      "id": "92195617-68f7-435b-8a31-71b2dad8d5d2",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\deriveSignalProjection.ts",
-      "summary": "deriveSignalProjection.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "deriveSignalProjection.ts -> core"
-      }
-    },
-    {
-      "id": "a539d454-b64a-4fb1-8e5c-7fbfe559878a",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\types.ts",
-      "summary": "types.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "types.ts -> core"
-      }
-    },
-    {
-      "id": "2e60e5db-552c-4ee9-aac4-eb9f1b97c8bd",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\constants.ts",
-      "summary": "constants.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "constants.ts -> core"
-      }
-    },
-    {
-      "id": "547156f9-3c71-45e7-9d7c-251e5f9ef152",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\decay.ts",
-      "summary": "decay.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "decay.ts -> core"
-      }
-    },
-    {
-      "id": "31321e85-1cca-407a-9206-0f050e83d783",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\recency.ts",
-      "summary": "recency.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "recency.ts -> core"
-      }
-    },
-    {
-      "id": "d66e60a0-8d3f-4bea-bd64-3dc1330b8416",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\momentum.ts",
-      "summary": "momentum.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "momentum.ts -> core"
-      }
-    },
-    {
-      "id": "23c0aa13-c552-4180-8985-7333faaa14da",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\classify.ts",
-      "summary": "classify.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "classify.ts -> core"
-      }
-    },
-    {
-      "id": "5038e7de-2e17-4dc6-b1a5-68737c1958f3",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\accumulate.ts",
-      "summary": "accumulate.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "accumulate.ts -> core"
-      }
-    },
-    {
-      "id": "e41b905d-044c-448b-9a81-af3fa19fcca2",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\index.ts",
-      "summary": "index.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "index.ts -> core"
-      }
-    },
-    {
-      "id": "596e0d16-40cd-48db-9f54-d160b8e517c3",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\temporal\\operatorPreference.ts",
-      "summary": "operatorPreference.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "operatorPreference.ts -> core"
-      }
-    },
-    {
-      "id": "57a9b641-9a4d-4c94-bdbd-84192a4d1d7c",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\signalSectorRouting.ts",
-      "summary": "signalSectorRouting.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "signalSectorRouting.ts -> core"
-      }
-    },
-    {
-      "id": "762da417-51cd-42c0-a29f-0cbd8c231af6",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\semantic\\types.ts",
-      "summary": "types.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "types.ts -> core"
-      }
-    },
-    {
-      "id": "655b2f4a-3871-4999-a7e9-11c43fe10992",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "medium",
-      "confidence": 0.65,
-      "timestamp": "2026-05-21T04:13:53.146Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\operations\\semantic\\constants.ts",
-      "summary": "constants.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "constants.ts -> core"
-      }
-    },
-    {
-      "id": "796882c2-61a0-4e7c-8fd4-6298839f5d1f",
-      "type": "code_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.77,
-      "timestamp": "2026-05-21T04:13:53.145Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\continuity\\residue\\types.ts",
-      "summary": "types.ts - code changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "types.ts -> core"
       }
     }
   ]

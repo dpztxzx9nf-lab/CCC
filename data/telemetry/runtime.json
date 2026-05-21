@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-05-21T00:00:00.000Z",
+  "updatedAt": "2026-05-21T00:00:00.000Z",
+  "rolling": {
+    "pm2Available": null,
+    "processCount": null
+  },
+  "recent": [],
+  "lastSnapshot": null
+}

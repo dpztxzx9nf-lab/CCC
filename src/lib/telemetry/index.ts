@@ -13,3 +13,12 @@ export {
   compactTelemetryLines,
 } from "./format";
 export { telemetryToDerivedViews } from "./toOperational";
+export {
+  TELEMETRY_PERSISTENCE_SCHEMA_VERSION,
+  TELEMETRY_DATA_DIR,
+  incrementTokenUsage,
+  incrementApiSpend,
+  updateEmbeddingCount,
+  updateQueueDepth,
+  recordRuntimeMetric,
+} from "./persistence";

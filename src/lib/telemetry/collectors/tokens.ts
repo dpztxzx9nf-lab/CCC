@@ -1,6 +1,10 @@
 import { readFile, stat } from "fs/promises";
 import path from "path";
 import { LOCAL_SOURCE_ROOTS } from "@/lib/localData/config";
+import {
+  readPersistedTokenTotal,
+  telemetryStoreSourceLabel,
+} from "../persistence";
 import type { TelemetryMetricValue } from "../types";
 
 const USAGE_FILE_NAMES = new Set([
@@ -17,12 +21,16 @@ async function readUsageFromFile(filePath: string): Promise<number | null> {
     if (typeof data === "number" && Number.isFinite(data)) return data;
     if (!data || typeof data !== "object") return null;
     const o = data as Record<string, unknown>;
+    const rolling = o.rolling;
     const candidates = [
       o.total_tokens,
       o.totalTokens,
       o.tokens,
       o.token_count,
       o.usage_total,
+      rolling &&
+      typeof rolling === "object" &&
+      (rolling as Record<string, unknown>).totalTokens,
     ];
     for (const c of candidates) {
       if (typeof c === "number" && Number.isFinite(c)) return c;
@@ -54,9 +62,19 @@ export async function collectTokenTelemetry(
     }
   }
 
+  const persisted = await readPersistedTokenTotal(cwd);
+  if (persisted != null) {
+    return {
+      value: Math.round(persisted),
+      source: telemetryStoreSourceLabel("token-usage"),
+      available: true,
+    };
+  }
+
   const envPath = process.env.CCC_TOKEN_USAGE_PATH?.trim();
   const candidates = [
     ...(envPath ? [path.resolve(envPath)] : []),
+    path.join(cwd, "data", "telemetry", "token-usage.json"),
     path.join(cwd, "public", "usage.json"),
     path.join(cwd, ".telemetry", "token-usage.json"),
     ...LOCAL_SOURCE_ROOTS.flatMap((r) => [

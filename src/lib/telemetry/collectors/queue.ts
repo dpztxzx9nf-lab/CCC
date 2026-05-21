@@ -1,5 +1,9 @@
 import { readFile, stat } from "fs/promises";
 import path from "path";
+import {
+  readPersistedQueueDepth,
+  telemetryStoreSourceLabel,
+} from "../persistence";
 import type { TelemetryMetricValue } from "../types";
 
 async function readQueueFile(filePath: string): Promise<number | null> {
@@ -14,6 +18,11 @@ async function readQueueFile(filePath: string): Promise<number | null> {
       if (Array.isArray(o.queue)) return o.queue.length;
       if (typeof o.depth === "number") return o.depth;
       if (typeof o.count === "number") return o.count;
+      const rolling = o.rolling;
+      if (rolling && typeof rolling === "object") {
+        const depth = (rolling as Record<string, unknown>).depth;
+        if (typeof depth === "number") return depth;
+      }
     }
   } catch {
     /* unreadable */
@@ -28,9 +37,19 @@ async function readQueueFile(filePath: string): Promise<number | null> {
 export async function collectQueueTelemetry(
   cwd = process.cwd(),
 ): Promise<TelemetryMetricValue<number>> {
+  const persisted = await readPersistedQueueDepth(cwd);
+  if (persisted != null) {
+    return {
+      value: persisted,
+      source: telemetryStoreSourceLabel("queue"),
+      available: true,
+    };
+  }
+
   const envPath = process.env.CCC_QUEUE_DEPTH_PATH?.trim();
   const candidates = [
     ...(envPath ? [path.resolve(envPath)] : []),
+    path.join(cwd, "data", "telemetry", "queue.json"),
     path.join(cwd, ".telemetry", "queue.json"),
     path.join(cwd, "public", "archivist-queue.json"),
   ];

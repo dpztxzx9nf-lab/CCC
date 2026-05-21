@@ -1,6 +1,10 @@
 import { readdir, readFile, stat } from "fs/promises";
 import path from "path";
 import { LOCAL_SOURCE_ROOTS, SCAN_IGNORE_DIRS } from "@/lib/localData/config";
+import {
+  readPersistedEmbeddingCount,
+  telemetryStoreSourceLabel,
+} from "../persistence";
 import type { TelemetryMetricValue } from "../types";
 
 const EMBEDDING_FILE_RE =
@@ -28,6 +32,11 @@ async function countFromJsonFile(filePath: string): Promise<number | null> {
       if (Array.isArray(o.embeddings)) return o.embeddings.length;
       if (Array.isArray(o.vectors)) return o.vectors.length;
       if (typeof o.count === "number") return o.count;
+      const rolling = o.rolling;
+      if (rolling && typeof rolling === "object") {
+        const count = (rolling as Record<string, unknown>).count;
+        if (typeof count === "number") return count;
+      }
     }
   } catch {
     /* not parseable */
@@ -86,6 +95,15 @@ async function walkEmbeddings(
 export async function collectEmbeddingTelemetry(
   cwd = process.cwd(),
 ): Promise<TelemetryMetricValue<number>> {
+  const persisted = await readPersistedEmbeddingCount(cwd);
+  if (persisted != null) {
+    return {
+      value: Math.round(persisted),
+      source: telemetryStoreSourceLabel("embeddings"),
+      available: true,
+    };
+  }
+
   const roots = [
     cwd,
     ...LOCAL_SOURCE_ROOTS.map((r) => r.root).filter((r) => r.length > 0),

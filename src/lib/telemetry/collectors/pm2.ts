@@ -1,5 +1,6 @@
 import { execFile } from "child_process";
 import { promisify } from "util";
+import { readPersistedRuntimeFallback } from "../persistence";
 import type { OperationalTelemetry, Pm2ProcessTelemetry } from "../types";
 
 const execFileAsync = promisify(execFile);
@@ -113,6 +114,8 @@ export async function collectPm2Telemetry(): Promise<
           },
     };
   } catch {
+    const fallback = await readPersistedRuntimeFallback();
+    if (fallback) return fallback;
     return { pm2Available: false, processes: [] };
   }
 }
