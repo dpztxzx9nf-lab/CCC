@@ -6,7 +6,15 @@ import type {
   AISpendRecord,
   AITokenUsageRecord,
 } from "../aiUsage";
-import { legacySourceToMethod, newRecordId, resolveTokenTotals } from "../aiUsage";
+import { legacySourceToMethod, resolveTokenTotals } from "../aiUsage";
+import type { IngestionAdapterId } from "./types";
+import {
+  assignStableSpendRecord,
+  assignStableTokenRecord,
+  normalizeObservationDay,
+  stableSpendObservationId,
+  stableTokenObservationId,
+} from "./dedupe";
 
 export function makeTokenRecord(input: {
   tool: AIUsageTool;
@@ -22,13 +30,20 @@ export function makeTokenRecord(input: {
   estimated?: boolean;
   note?: string;
   id?: string;
+  contentRef?: string;
+  adapterId?: IngestionAdapterId;
 }): AITokenUsageRecord | null {
   const totals = resolveTokenTotals(input);
   if (totals.totalTokens == null) return null;
   const source = input.source ?? sourceMethodToLegacy(input.sourceMethod);
-  return {
-    id: input.id ?? newRecordId(`ingest-${input.tool}`),
-    at: input.at ?? new Date().toISOString(),
+  const day = normalizeObservationDay(input.at);
+  const at =
+    input.sourceMethod === "api"
+      ? `${day}T12:00:00.000Z`
+      : (input.at ?? new Date().toISOString());
+  const draft: AITokenUsageRecord = {
+    id: input.id ?? "pending",
+    at,
     tool: input.tool,
     provider: input.provider,
     source,
@@ -39,6 +54,7 @@ export function makeTokenRecord(input: {
     estimated: input.estimated === true,
     ...(input.note ? { note: input.note } : {}),
   };
+  return assignStableTokenRecord(draft, input.adapterId, input.contentRef ?? input.note);
 }
 
 export function makeSpendRecord(input: {
@@ -53,14 +69,16 @@ export function makeSpendRecord(input: {
   estimated?: boolean;
   note?: string;
   id?: string;
+  contentRef?: string;
 }): AISpendRecord | null {
   if (!Number.isFinite(input.amount) || input.amount < 0) return null;
-  return {
-    id: input.id ?? newRecordId(`ingest-${input.tool}`),
+  const source = input.source ?? sourceMethodToLegacy(input.sourceMethod);
+  const draft: AISpendRecord = {
+    id: input.id ?? "pending",
     at: input.at ?? new Date().toISOString(),
     tool: input.tool,
     provider: input.provider,
-    source: input.source ?? sourceMethodToLegacy(input.sourceMethod),
+    source,
     sourceMethod: input.sourceMethod,
     amount: Math.round(input.amount * 100) / 100,
     currency: (input.currency ?? "USD").toUpperCase(),
@@ -68,6 +86,7 @@ export function makeSpendRecord(input: {
     estimated: input.estimated === true,
     ...(input.note ? { note: input.note } : {}),
   };
+  return assignStableSpendRecord(draft, input.contentRef ?? input.note);
 }
 
 export function sourceMethodToLegacy(method: AIUsageSourceMethod): AIUsageSource {
@@ -90,22 +109,25 @@ export function sourceMethodToLegacy(method: AIUsageSourceMethod): AIUsageSource
 }
 
 export function normalizeTokenRecord(entry: AITokenUsageRecord): AITokenUsageRecord {
-  return {
+  return assignStableTokenRecord({
     ...entry,
     sourceMethod: entry.sourceMethod ?? legacySourceToMethod(entry.source),
-  };
+  });
 }
 
 export function normalizeSpendRecord(entry: AISpendRecord): AISpendRecord {
-  return {
+  return assignStableSpendRecord({
     ...entry,
     sourceMethod: entry.sourceMethod ?? legacySourceToMethod(entry.source),
-  };
+  });
 }
 
+/** @deprecated Use observation id from dedupe.ts */
 export function entryFingerprint(
   kind: "token" | "spend",
-  entry: { id: string; tool: string; at: string },
+  entry: { id: string },
 ): string {
-  return `${kind}:${entry.id}:${entry.tool}:${entry.at}`;
+  return `${kind}:${entry.id}`;
 }
+
+export { stableTokenObservationId, stableSpendObservationId };

@@ -30,10 +30,11 @@ async function readLiahonaUsageFile(
     const input = o.input_tokens ?? o.inputTokens;
     const output = o.output_tokens ?? o.outputTokens;
     return makeTokenRecord({
-      id: `liahona-${path.basename(filePath)}`,
       tool: "liahona",
       provider: "internal",
       sourceMethod: "runtime_writer",
+      contentRef: path.basename(filePath),
+      adapterId: "liahona_writer",
       inputTokens: typeof input === "number" ? input : null,
       outputTokens: typeof output === "number" ? output : null,
       totalTokens: typeof total === "number" ? total : null,

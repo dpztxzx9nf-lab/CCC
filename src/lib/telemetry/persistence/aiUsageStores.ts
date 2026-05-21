@@ -7,13 +7,20 @@ import type {
   AITokenUsageRecord,
 } from "../aiUsage";
 import {
+  assignStableSpendRecord,
+  assignStableTokenRecord,
+  indexHasObservation,
+  loadDedupeIndex,
+  registerObservation,
+  saveDedupeIndex,
+} from "../ingestion/dedupe";
+import {
   defaultProviderForTool,
   isAIUsageProvider,
   isAIUsageSource,
   isAIUsageSourceMethod,
   isAIUsageTool,
   legacySourceToMethod,
-  newRecordId,
   resolveTokenTotals,
 } from "../aiUsage";
 import type { AIUsageSourceMethod } from "../aiUsage";
@@ -211,21 +218,46 @@ export async function recordTokenUsageEntry(
   }
 
   const store = await loadTokenStoreResolved(cwd, true);
-  const entry: AITokenUsageRecord = {
-    id: newRecordId("token"),
-    at: input.at ?? new Date().toISOString(),
-    tool: input.tool,
-    provider,
-    source,
-    sourceMethod,
-    ...totals,
-    model: input.model ?? null,
-    project: input.project ?? null,
-    estimated: input.estimated === true,
-    ...(input.note ? { note: input.note } : {}),
-  };
+  const entry = assignStableTokenRecord(
+    {
+      id: "pending",
+      at: input.at ?? new Date().toISOString(),
+      tool: input.tool,
+      provider,
+      source,
+      sourceMethod,
+      ...totals,
+      model: input.model ?? null,
+      project: input.project ?? null,
+      estimated: input.estimated === true,
+      ...(input.note ? { note: input.note } : {}),
+    },
+    undefined,
+    input.note,
+  );
+  const index = await loadDedupeIndex(cwd);
+  if (
+    indexHasObservation(index, entry.id) ||
+    store.entries.some((e) => e.id === entry.id)
+  ) {
+    registerObservation(index, {
+      id: entry.id,
+      kind: "token",
+      firstSeenAt: entry.at,
+      lastSeenAt: new Date().toISOString(),
+    });
+    await saveDedupeIndex(cwd, index);
+    return store;
+  }
+  registerObservation(index, {
+    id: entry.id,
+    kind: "token",
+    firstSeenAt: entry.at,
+    lastSeenAt: new Date().toISOString(),
+  });
   store.entries = trimUsageEntries([...store.entries, entry]);
   store.rolling = recomputeTokenRolling(store.entries);
+  await saveDedupeIndex(cwd, index);
   await saveTelemetryStore(cwd, "token-usage", store);
   return store;
 }
@@ -260,24 +292,48 @@ export async function recordSpendEntry(
   }
 
   const store = await loadSpendStoreResolved(cwd, true);
-  const entry: AISpendRecord = {
-    id: newRecordId("spend"),
-    at: input.at ?? new Date().toISOString(),
-    tool: input.tool,
-    provider:
-      input.provider && isAIUsageProvider(input.provider)
-        ? input.provider
-        : defaultProviderForTool(input.tool),
-    source,
-    sourceMethod,
-    amount: Math.round(input.amount * 100) / 100,
-    currency: (input.currency ?? "USD").toUpperCase(),
-    billingPeriod: input.billingPeriod ?? null,
-    estimated: input.estimated === true,
-    ...(input.note ? { note: input.note } : {}),
-  };
+  const entry = assignStableSpendRecord(
+    {
+      id: "pending",
+      at: input.at ?? new Date().toISOString(),
+      tool: input.tool,
+      provider:
+        input.provider && isAIUsageProvider(input.provider)
+          ? input.provider
+          : defaultProviderForTool(input.tool),
+      source,
+      sourceMethod,
+      amount: Math.round(input.amount * 100) / 100,
+      currency: (input.currency ?? "USD").toUpperCase(),
+      billingPeriod: input.billingPeriod ?? null,
+      estimated: input.estimated === true,
+      ...(input.note ? { note: input.note } : {}),
+    },
+    input.note,
+  );
+  const index = await loadDedupeIndex(cwd);
+  if (
+    indexHasObservation(index, entry.id) ||
+    store.entries.some((e) => e.id === entry.id)
+  ) {
+    registerObservation(index, {
+      id: entry.id,
+      kind: "spend",
+      firstSeenAt: entry.at,
+      lastSeenAt: new Date().toISOString(),
+    });
+    await saveDedupeIndex(cwd, index);
+    return store;
+  }
+  registerObservation(index, {
+    id: entry.id,
+    kind: "spend",
+    firstSeenAt: entry.at,
+    lastSeenAt: new Date().toISOString(),
+  });
   store.entries = trimUsageEntries([...store.entries, entry]);
   store.rolling = recomputeSpendRolling(store.entries);
+  await saveDedupeIndex(cwd, index);
   await saveTelemetryStore(cwd, "api-spend", store);
   return store;
 }

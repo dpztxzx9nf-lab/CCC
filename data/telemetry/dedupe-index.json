@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-05-21T00:00:00.000Z",
+  "updatedAt": "2026-05-21T05:09:39.418Z",
+  "observations": {
+    "token:5102a10d9e5d1f09cf2ff632": {
+      "id": "token:5102a10d9e5d1f09cf2ff632",
+      "kind": "token",
+      "adapterId": "openai_api",
+      "firstSeenAt": "2026-05-20T12:00:00.000Z",
+      "lastSeenAt": "2026-05-21T05:09:39.418Z"
+    },
+    "runtime:03135cd981e248f71b001713": {
+      "id": "runtime:03135cd981e248f71b001713",
+      "kind": "runtime",
+      "adapterId": "pm2_runtime",
+      "firstSeenAt": "2026-05-21T05:09:38.661Z",
+      "lastSeenAt": "2026-05-21T05:09:39.418Z"
+    }
+  },
+  "ingestion": {
+    "lastRunAt": "2026-05-21T05:09:39.418Z",
+    "lastSkippedDuplicates": 0,
+    "lastIngestedTokenEntries": 0,
+    "lastIngestedSpendEntries": 0,
+    "totalRuns": 6,
+    "totalSkippedDuplicates": 1,
+    "totalIngestedTokenEntries": 1,
+    "totalIngestedSpendEntries": 0
+  }
+}

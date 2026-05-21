@@ -17,6 +17,7 @@ import {
   legacySourceToMethod,
   resolveTokenTotals,
 } from "../aiUsage";
+import { stableSpendObservationId, stableTokenObservationId } from "../ingestion/dedupe";
 import type { TelemetryMetricValue } from "../types";
 
 const RECENT_EXPORT_LIMIT = 24;
@@ -303,9 +304,18 @@ export function envTokenEntry(
   total: number,
   source: AIUsageSource = "environment",
 ): AITokenUsageRecord {
+  const at = new Date().toISOString();
+  const id = stableTokenObservationId({
+    tool: "other",
+    provider: defaultProviderForTool("other"),
+    sourceMethod: "api",
+    at,
+    totalTokens: Math.round(total),
+    contentRef: "CCC_TOKEN_USAGE_TOTAL",
+  });
   return {
-    id: `env-tokens-${total}`,
-    at: new Date().toISOString(),
+    id,
+    at,
     tool: "other",
     provider: defaultProviderForTool("other"),
     source,
@@ -324,9 +334,19 @@ export function envSpendEntry(
   amount: number,
   source: AIUsageSource = "environment",
 ): AISpendRecord {
+  const at = new Date().toISOString();
+  const id = stableSpendObservationId({
+    tool: "openai_api",
+    provider: "openai",
+    sourceMethod: "api",
+    amount: Math.round(amount * 100) / 100,
+    currency: "USD",
+    at,
+    contentRef: "CCC_API_SPEND_USD",
+  });
   return {
-    id: `env-spend-${amount}`,
-    at: new Date().toISOString(),
+    id,
+    at,
     tool: "openai_api",
     provider: "openai",
     source,

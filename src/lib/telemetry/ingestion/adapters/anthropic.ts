@@ -19,10 +19,10 @@ async function readUsageExport(filePath: string) {
     const totalN = typeof total === "number" ? total : null;
     if (inputN == null && outputN == null && totalN == null) return null;
     return makeTokenRecord({
-      id: `anthropic-export-${path.basename(filePath)}`,
       tool: "anthropic_api",
       provider: "anthropic",
       sourceMethod: "export",
+      contentRef: path.basename(filePath),
       inputTokens: inputN,
       outputTokens: outputN,
       totalTokens: totalN,
@@ -108,10 +108,12 @@ export const anthropicIngestionAdapter: TelemetryIngestionAdapter = {
           if (typeof o.output_tokens === "number") output += o.output_tokens;
         }
         const entry = makeTokenRecord({
-          id: `anthropic-api-${start.toISOString().slice(0, 10)}`,
           tool: "anthropic_api",
           provider: "anthropic",
           sourceMethod: "api",
+          at: start.toISOString(),
+          contentRef: "anthropic-usage_report",
+          adapterId: "anthropic_api",
           inputTokens: input,
           outputTokens: output,
           note: "Anthropic organization usage_report/messages",

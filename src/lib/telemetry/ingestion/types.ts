@@ -42,12 +42,23 @@ export interface IngestionAdapterResult {
   spendEntries: AISpendRecord[];
 }
 
+export interface AIIngestionDedupeMeta {
+  indexUpdatedAt: string;
+  observationsIndexed: number;
+  lastSkippedDuplicates: number;
+  totalRuns: number;
+  totalSkippedDuplicates: number;
+}
+
 export interface AIIngestionReport {
   ranAt: string;
   adapters: AutomationReadiness[];
   ingestedTokenEntries: number;
   ingestedSpendEntries: number;
   skippedDuplicates: number;
+  skippedToken: number;
+  skippedSpend: number;
+  dedupe: AIIngestionDedupeMeta;
 }
 
 export interface TelemetryIngestionAdapter {

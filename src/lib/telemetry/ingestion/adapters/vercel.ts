@@ -1,4 +1,5 @@
 import { parseJsonBody, safeFetch } from "../http";
+import { stableDeploymentObservationId } from "../dedupe";
 import { makeSpendRecord } from "../records";
 import type { TelemetryIngestionAdapter } from "../types";
 import { buildReadiness, emptyResult } from "./readiness";
@@ -39,13 +40,21 @@ export const vercelIngestionAdapter: TelemetryIngestionAdapter = {
         (json as { total?: { value?: number } })?.total?.value ??
         (json as { totalCost?: number })?.totalCost;
       if (typeof total === "number" && total >= 0) {
+        const period = new Date().toISOString().slice(0, 7);
         const entry = makeSpendRecord({
-          id: `vercel-usage-${new Date().toISOString().slice(0, 7)}`,
+          id: stableDeploymentObservationId({
+            provider: "vercel",
+            period,
+            amount: total,
+            currency: "USD",
+            contentRef: "vercel-v1-usage",
+          }),
           tool: "other",
           provider: "other",
           sourceMethod: "api",
           amount: total,
-          billingPeriod: new Date().toISOString().slice(0, 7),
+          billingPeriod: period,
+          contentRef: "vercel-v1-usage",
           note: "Vercel /v1/usage billing total (hosting; not model tokens)",
         });
         if (entry) spendEntries.push(entry);

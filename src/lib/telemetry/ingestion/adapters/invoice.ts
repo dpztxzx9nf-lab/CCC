@@ -1,5 +1,6 @@
 import { readdir, stat } from "fs/promises";
 import path from "path";
+import { stableInvoiceObservationId } from "../dedupe";
 import { makeSpendRecord } from "../records";
 import type { TelemetryIngestionAdapter } from "../types";
 import { buildReadiness, emptyResult } from "./readiness";
@@ -72,15 +73,25 @@ export const invoiceIngestionAdapter: TelemetryIngestionAdapter = {
             ? INVOICE_TOOLS.find((t) => t.tool === data.tool) ?? null
             : null);
         if (!matched) continue;
+        const currency =
+          typeof data.currency === "string" ? data.currency : "USD";
+        const billingPeriod =
+          typeof data.billingPeriod === "string" ? data.billingPeriod : null;
         const entry = makeSpendRecord({
-          id: `invoice-${path.basename(filePath)}`,
+          id: stableInvoiceObservationId({
+            filePath,
+            tool: matched.tool,
+            amount,
+            currency,
+            billingPeriod,
+          }),
           tool: matched.tool,
           provider: matched.provider,
           sourceMethod: "invoice",
           amount,
-          currency: typeof data.currency === "string" ? data.currency : "USD",
-          billingPeriod:
-            typeof data.billingPeriod === "string" ? data.billingPeriod : null,
+          currency,
+          billingPeriod,
+          contentRef: path.basename(filePath),
           note: `Invoice JSON ${path.basename(filePath)}`,
         });
         if (entry) spendEntries.push(entry);

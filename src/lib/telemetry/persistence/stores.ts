@@ -238,6 +238,15 @@ export async function recordRuntimeMetric(
   runtime: NonNullable<OperationalTelemetry["runtime"]>,
   cwd = process.cwd(),
 ): Promise<RuntimeStore> {
+  const {
+    indexHasObservation,
+    loadDedupeIndex,
+    registerObservation,
+    runtimeProcessSignature,
+    saveDedupeIndex,
+    stableRuntimeObservationId,
+  } = await import("../ingestion/dedupe");
+
   const store = await loadTelemetryStore(
     cwd,
     "runtime",
@@ -247,6 +256,17 @@ export async function recordRuntimeMetric(
   );
   const at = new Date().toISOString();
   const processCount = runtime.processes.length;
+  const observationId = stableRuntimeObservationId({
+    pm2Available: runtime.pm2Available,
+    processSignature: runtimeProcessSignature(
+      runtime.processes.map((p) => ({
+        name: p.name,
+        pmId: p.pmId,
+        status: p.status,
+      })),
+    ),
+  });
+
   store.rolling.pm2Available = runtime.pm2Available;
   store.rolling.processCount = processCount;
   store.lastSnapshot = {
@@ -255,10 +275,32 @@ export async function recordRuntimeMetric(
     processes: runtime.processes,
     ...(runtime.archivist ? { archivist: runtime.archivist } : {}),
   };
-  store.recent = trimRuntimeRecent([
-    ...store.recent,
-    { at, pm2Available: runtime.pm2Available, processCount },
-  ]);
+
+  const index = await loadDedupeIndex(cwd);
+  if (!indexHasObservation(index, observationId)) {
+    store.recent = trimRuntimeRecent([
+      ...store.recent,
+      { at, pm2Available: runtime.pm2Available, processCount },
+    ]);
+    registerObservation(index, {
+      id: observationId,
+      kind: "runtime",
+      adapterId: "pm2_runtime",
+      firstSeenAt: at,
+      lastSeenAt: at,
+    });
+    await saveDedupeIndex(cwd, index);
+  } else {
+    registerObservation(index, {
+      id: observationId,
+      kind: "runtime",
+      adapterId: "pm2_runtime",
+      firstSeenAt: at,
+      lastSeenAt: at,
+    });
+    await saveDedupeIndex(cwd, index);
+  }
+
   await saveTelemetryStore(cwd, "runtime", store);
   return store;
 }

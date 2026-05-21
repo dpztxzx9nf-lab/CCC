@@ -98,15 +98,16 @@ export const openaiIngestionAdapter: TelemetryIngestionAdapter = {
       );
     }
 
-    const at = new Date().toISOString();
+    const day = usageDateOffset(0);
     const entry = makeTokenRecord({
-      id: `openai-api-${usageDateOffset(0)}`,
       tool: "openai_api",
       provider: "openai",
       sourceMethod: "api",
-      at,
+      at: `${day}T12:00:00.000Z`,
       inputTokens: usage.input,
       outputTokens: usage.output,
+      contentRef: `openai-usage-${day}`,
+      adapterId: "openai_api",
       note: "OpenAI /v1/usage daily aggregate",
     });
 

@@ -1,5 +1,6 @@
 import { readdir, readFile, stat } from "fs/promises";
 import path from "path";
+import { hashFileContent, stableExportObservationId } from "../dedupe";
 import { parseJsonBody } from "../http";
 import { makeSpendRecord, makeTokenRecord } from "../records";
 import type { TelemetryIngestionAdapter } from "../types";
@@ -50,24 +51,37 @@ async function parseExportFile(filePath: string): Promise<{
   const tokens: ReturnType<typeof makeTokenRecord>[] = [];
   const spend: ReturnType<typeof makeSpendRecord>[] = [];
   const { tool, provider } = inferToolFromName(path.basename(filePath));
+  let fileHash = "";
+  try {
+    fileHash = await hashFileContent(filePath);
+  } catch {
+    fileHash = path.basename(filePath);
+  }
 
   if (/\.json$/i.test(filePath)) {
     try {
       const raw = await readFile(filePath, { encoding: "utf8" });
       const data = parseJsonBody(raw);
       if (Array.isArray(data)) {
-        for (const item of data) {
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i];
           if (!item || typeof item !== "object") continue;
           const o = item as Record<string, unknown>;
           const amount = o.amount ?? o.spend_usd ?? o.cost;
           if (typeof amount === "number") {
             const s = makeSpendRecord({
+              id: stableExportObservationId({
+                filePath,
+                contentHash: `${fileHash}-spend-${i}`,
+                kind: "spend",
+              }),
               tool: (o.tool as typeof tool) ?? tool,
               provider: (o.provider as typeof provider) ?? provider,
               sourceMethod: "export",
               amount,
               billingPeriod:
                 typeof o.billingPeriod === "string" ? o.billingPeriod : null,
+              contentRef: path.basename(filePath),
               note: path.basename(filePath),
             });
             if (s) spend.push(s);
@@ -75,12 +89,18 @@ async function parseExportFile(filePath: string): Promise<{
           const num = (v: unknown): number | null =>
             typeof v === "number" && Number.isFinite(v) ? v : null;
           const t = makeTokenRecord({
+            id: stableExportObservationId({
+              filePath,
+              contentHash: `${fileHash}-token-${i}`,
+              kind: "token",
+            }),
             tool: (o.tool as typeof tool) ?? tool,
             provider: (o.provider as typeof provider) ?? provider,
             sourceMethod: "export",
             inputTokens: num(o.input_tokens) ?? num(o.inputTokens),
             outputTokens: num(o.output_tokens) ?? num(o.outputTokens),
             totalTokens: num(o.total_tokens) ?? num(o.totalTokens),
+            contentRef: path.basename(filePath),
             note: path.basename(filePath),
           });
           if (t) tokens.push(t);
@@ -92,10 +112,16 @@ async function parseExportFile(filePath: string): Promise<{
         const amount = o.amount ?? o.totalUsd ?? o.spend_usd;
         if (typeof amount === "number") {
           const s = makeSpendRecord({
+            id: stableExportObservationId({
+              filePath,
+              contentHash: `${fileHash}-spend-root`,
+              kind: "spend",
+            }),
             tool,
             provider,
             sourceMethod: "export",
             amount,
+            contentRef: path.basename(filePath),
             note: path.basename(filePath),
           });
           if (s) spend.push(s);
@@ -103,12 +129,18 @@ async function parseExportFile(filePath: string): Promise<{
         const num = (v: unknown): number | null =>
           typeof v === "number" && Number.isFinite(v) ? v : null;
         const t = makeTokenRecord({
+          id: stableExportObservationId({
+            filePath,
+            contentHash: `${fileHash}-token-root`,
+            kind: "token",
+          }),
           tool,
           provider,
           sourceMethod: "export",
           inputTokens: num(o.input_tokens) ?? num(o.inputTokens),
           outputTokens: num(o.output_tokens) ?? num(o.outputTokens),
           totalTokens: num(o.total_tokens) ?? num(o.totalTokens),
+          contentRef: path.basename(filePath),
           note: path.basename(filePath),
         });
         if (t) tokens.push(t);

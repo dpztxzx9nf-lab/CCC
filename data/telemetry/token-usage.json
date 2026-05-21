@@ -1,11 +1,26 @@
 {
   "schemaVersion": 2,
   "createdAt": "2026-05-21T00:00:00.000Z",
-  "updatedAt": "2026-05-21T00:00:00.000Z",
-  "entries": [],
+  "updatedAt": "2026-05-21T05:09:39.420Z",
+  "entries": [
+    {
+      "id": "token:5102a10d9e5d1f09cf2ff632",
+      "at": "2026-05-20T12:00:00.000Z",
+      "tool": "openai_api",
+      "provider": "openai",
+      "source": "api_integration",
+      "sourceMethod": "api",
+      "inputTokens": 1200,
+      "outputTokens": 800,
+      "totalTokens": 2000,
+      "model": null,
+      "project": null,
+      "estimated": false
+    }
+  ],
   "rolling": {
-    "totalTokens": null,
-    "totalInputTokens": null,
-    "totalOutputTokens": null
+    "totalTokens": 2000,
+    "totalInputTokens": 1200,
+    "totalOutputTokens": 800
   }
 }
