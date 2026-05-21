@@ -70,7 +70,7 @@ export const PROJECT_PROFILES: ProjectProfile[] = [
   {
     id: "kindex",
     canonicalName: "KINDEX",
-    localSlug: null,
+    localSlug: "second-brain",
     description: "Knowledge index and retrieval across journals and architecture docs.",
     tagline: "Knowledge index layer",
     sectors: ["archive", "observatory"],

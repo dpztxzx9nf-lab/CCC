@@ -8,6 +8,7 @@ import {
   buildProjectProfiles,
   buildSectorProfiles,
 } from "./correlate";
+import { evaluateEcosystemSemanticRules } from "@/lib/localData/ecosystems";
 import { evaluateProjectRules, evaluateSectorRules } from "./rules";
 import { sanitizeContinuityText } from "@/lib/encoding";
 import { applySemanticProjection } from "./projection";
@@ -91,6 +92,7 @@ export function deriveSemanticOperationalLayer(
   const rawCandidates = [
     ...projectProfiles.flatMap((p) => evaluateProjectRules(p)),
     ...evaluateSectorRules(sectorProfiles),
+    ...evaluateEcosystemSemanticRules(input.projects, input.signals),
   ];
 
   const events: SemanticOperationalEvent[] = dedupeCandidates(rawCandidates)

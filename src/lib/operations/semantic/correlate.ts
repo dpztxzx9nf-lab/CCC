@@ -133,8 +133,18 @@ export function buildProjectProfiles(
     }
     if (t === "build_failure") profile.hasBuildFailure = true;
     if (/deploy|remote/.test(t)) profile.hasDeploySignal = true;
-    if (/architecture|ontology|continuity-|adr/i.test(t)) {
+    if (/architecture|ontology|continuity-|adr|^kindex_/i.test(t)) {
       profile.architectureSignalHits += 1;
+    }
+    if (/^kindex_/.test(t)) {
+      profile.archiveSignals += 1;
+      profile.observatorySignals += 1;
+      profile.coreSignals += 1;
+    }
+    if (/^liahona_/.test(t)) {
+      profile.runtimeSignals += 1;
+      profile.relaySignals += 1;
+      profile.observatorySignals += 1;
     }
   }
 

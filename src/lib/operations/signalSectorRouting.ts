@@ -11,6 +11,17 @@ export function resolveProjectionSector(signal: OperationalSignal): SectorId {
   const src = signal.source.toLowerCase();
   const blob = `${t} ${src}`;
 
+  if (/^kindex_/.test(t) || src.includes("continuity:kindex")) {
+    if (/ontology|consolidation|archive|growth|density/.test(t)) return "archive";
+    if (/cross|ecosystem|initiative|pressure/.test(t)) return "observatory";
+    return "core";
+  }
+  if (/^liahona_/.test(t) || src.includes("continuity:liahona")) {
+    if (/discord|projection|deploy|relay/.test(t)) return "relay";
+    if (/source|memory|retrieval/.test(t)) return "observatory";
+    return "runtime";
+  }
+
   if (
     /repo_|branch_|commit_|build_|package|forge|code_changed|git/.test(blob)
   ) {
@@ -42,6 +53,12 @@ export function secondarySectorsForSignal(signal: OperationalSignal): SectorId[]
   const t = signal.type.toLowerCase();
   const extra: SectorId[] = [];
 
+  if (/^kindex_/.test(t)) {
+    extra.push("archive", "observatory", "core");
+  }
+  if (/^liahona_/.test(t)) {
+    extra.push("runtime", "relay", "observatory");
+  }
   if (t === "remote_detected" && primary === "relay") extra.push("forge");
   if (/deploy/.test(t)) extra.push("runtime", "relay");
   if (/build_/.test(t)) extra.push("runtime");

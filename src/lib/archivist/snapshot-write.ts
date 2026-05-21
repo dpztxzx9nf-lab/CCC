@@ -2,6 +2,7 @@ import path from "path";
 import { writeUtf8ContinuityJson } from "@/lib/encoding/json-io";
 import { readContinuityEventLog } from "@/lib/continuity/events/store";
 import { scanAllSnapshotRoots } from "@/lib/localData/scanners";
+import { deriveEcosystemOperationalSignals } from "@/lib/localData/ecosystems";
 import { deriveGitOperationalSignals } from "@/lib/operations/signals/gitSignals";
 import { buildContinuitySnapshot } from "@/lib/snapshot/buildFromScan";
 import type { ArchivistConfig } from "@/lib/localData/archivist-config";
@@ -12,12 +13,16 @@ export async function writeContinuitySnapshot(
   const { projects, scanRoots } = await scanAllSnapshotRoots();
   const log = await readContinuityEventLog(config);
   const operational = log.operationalEvents ?? [];
-  const gitSignals = await deriveGitOperationalSignals(projects);
+  const [gitSignals, ecosystemSignals] = await Promise.all([
+    deriveGitOperationalSignals(projects),
+    deriveEcosystemOperationalSignals(projects),
+  ]);
+  const operationalSignals = [...gitSignals, ...ecosystemSignals];
   const snapshot = buildContinuitySnapshot(
     projects,
     scanRoots,
     operational,
-    gitSignals,
+    operationalSignals,
   );
   const outputPath = path.join(config.cccProjectRoot, config.snapshotOutputRelative);
 
