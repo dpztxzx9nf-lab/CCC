@@ -13,6 +13,7 @@ export function TelemetryBar() {
     data,
     operational,
     snapshotMeta,
+    facilityTelemetry,
     continuityEvents,
     loading,
     operationalLoading,
@@ -27,8 +28,14 @@ export function TelemetryBar() {
         operational,
         snapshotMeta,
         continuityEvents.length,
+        facilityTelemetry,
       ),
-    [operational, snapshotMeta, continuityEvents.length],
+    [
+      operational,
+      snapshotMeta,
+      continuityEvents.length,
+      facilityTelemetry,
+    ],
   );
 
   const busy = operationalLoading || loading;

@@ -1,4 +1,12 @@
 import type { OperationalSnapshot, SnapshotMeta } from "@/data/operational-types";
+import type { OperationalTelemetry } from "@/lib/telemetry";
+import {
+  formatBytes,
+  formatInteger,
+  formatUsd,
+  metricDisplayValue,
+  TELEMETRY_UNKNOWN,
+} from "@/lib/telemetry/format";
 
 const PLACEHOLDER = "—";
 
@@ -25,12 +33,6 @@ export interface SubstrateLedgerSlot {
   hint?: string;
 }
 
-function telemetryIndex(
-  telemetry: OperationalSnapshot["telemetry"],
-): Record<string, { label: string; value: string; hint?: string }> {
-  return Object.fromEntries(telemetry.map((t) => [t.id, t]));
-}
-
 function compactSyncLabel(iso: string): string {
   const t = Date.parse(iso);
   if (Number.isNaN(t)) return iso.slice(0, 16);
@@ -42,18 +44,6 @@ function compactSyncLabel(iso: string): string {
   }).format(t);
 }
 
-function formatBytes(bytes: number): string {
-  if (!Number.isFinite(bytes) || bytes < 0) return PLACEHOLDER;
-  const u = ["B", "KB", "MB", "GB", "TB"];
-  let i = 0;
-  let n = bytes;
-  while (n >= 1024 && i < u.length - 1) {
-    n /= 1024;
-    i++;
-  }
-  return `${n < 10 && i > 0 ? n.toFixed(1) : Math.round(n)} ${u[i]}`;
-}
-
 /**
  * Raw substrate / ingestion scale for the top ledger. No synthesized operational narrative.
  */
@@ -61,25 +51,23 @@ export function buildSubstrateLedgerSlots(
   operational: OperationalSnapshot | null,
   snapshotMeta: SnapshotMeta | null,
   continuityRowsLoaded: number,
+  facilityTelemetry: OperationalTelemetry | null = null,
 ): SubstrateLedgerSlot[] {
   const meta = snapshotMeta ?? operational?.snapshotMeta ?? null;
-  const tel =
-    operational && operational.telemetry.length > 0 ? telemetryIndex(operational.telemetry) : {};
-
   const isLiveData = Boolean(operational && operational.source !== "mock");
 
-  const apiSpend = tel["api-cost"]?.value;
-  const tokenUsage = tel["tokens"]?.value;
+  const api = metricDisplayValue(facilityTelemetry?.apiSpend, formatUsd);
+  const tokens = metricDisplayValue(facilityTelemetry?.tokenUsage, formatInteger);
+  const emb = metricDisplayValue(
+    facilityTelemetry?.embeddingCount,
+    formatInteger,
+  );
+  const queue = metricDisplayValue(facilityTelemetry?.queueDepth, formatInteger);
 
-  const mdFromTelemetry = tel["continuity-md"]?.value;
   const indexedArtifacts =
     meta != null && meta.totalMarkdownFiles >= 0
       ? String(meta.totalMarkdownFiles)
-      : mdFromTelemetry !== undefined &&
-          mdFromTelemetry !== "" &&
-          mdFromTelemetry !== PLACEHOLDER
-        ? mdFromTelemetry
-        : PLACEHOLDER;
+      : PLACEHOLDER;
   const artifactsResolved = Boolean(
     isLiveData &&
       operational?.enabled &&
@@ -95,37 +83,51 @@ export function buildSubstrateLedgerSlots(
   const rootsStr =
     meta && meta.scanRoots.length > 0
       ? `${meta.scanRoots.filter((r) => r.accessible).length}/${meta.scanRoots.length}`
-      : tel["scan-roots"]?.value;
+      : PLACEHOLDER;
 
-  let lastSync: string | undefined;
-  const syncIso = meta?.generatedAt ?? operational?.scannedAt;
-  if (isLiveData && syncIso) lastSync = compactSyncLabel(syncIso);
+  const syncIso =
+    facilityTelemetry?.snapshot.generatedAt ??
+    meta?.generatedAt ??
+    operational?.scannedAt ??
+    null;
+  const lastSync =
+    isLiveData && syncIso ? compactSyncLabel(syncIso) : undefined;
 
-  let snapshotBytesLabel = PLACEHOLDER;
+  let snapshotBytesLabel = TELEMETRY_UNKNOWN;
   let snapshotBytesResolved = false;
-  if (
-    meta?.snapshotSizeBytes != null &&
-    Number.isFinite(meta.snapshotSizeBytes) &&
-    meta.snapshotSizeBytes >= 0
-  ) {
-    snapshotBytesLabel = formatBytes(meta.snapshotSizeBytes);
+  const snapBytes =
+    facilityTelemetry?.snapshot.bytes ??
+    meta?.snapshotSizeBytes ??
+    null;
+  if (snapBytes != null && Number.isFinite(snapBytes) && snapBytes >= 0) {
+    snapshotBytesLabel = formatBytes(snapBytes);
     snapshotBytesResolved = true;
   }
+
+  const eventsCount =
+    facilityTelemetry?.events.count ??
+    (continuityRowsLoaded >= 0 ? continuityRowsLoaded : null);
+  const eventsValue =
+    eventsCount != null
+      ? String(eventsCount)
+      : continuityRowsLoaded >= 0
+        ? String(continuityRowsLoaded)
+        : TELEMETRY_UNKNOWN;
 
   return [
     {
       id: "api-spend",
       label: "API Spend",
-      value: isLiveData && apiSpend ? apiSpend : PLACEHOLDER,
-      resolved: isLiveData && Boolean(apiSpend),
-      hint: !apiSpend ? "integration pending" : undefined,
+      value: api.value,
+      resolved: api.resolved,
+      hint: api.hint,
     },
     {
       id: "token-usage",
       label: "Token Usage",
-      value: isLiveData && tokenUsage ? tokenUsage : PLACEHOLDER,
-      resolved: isLiveData && Boolean(tokenUsage),
-      hint: !tokenUsage ? "integration pending" : undefined,
+      value: tokens.value,
+      resolved: tokens.resolved,
+      hint: tokens.hint,
     },
     {
       id: "indexed-artifacts",
@@ -142,49 +144,57 @@ export function buildSubstrateLedgerSlots(
     {
       id: "continuity-cache",
       label: "Continuity Cache",
-      value: continuityRowsLoaded >= 0 ? String(continuityRowsLoaded) : PLACEHOLDER,
-      resolved: true,
-      hint: "event rows loaded",
+      value: eventsValue,
+      resolved: eventsCount != null || continuityRowsLoaded >= 0,
+      hint: facilityTelemetry
+        ? `${formatBytes(facilityTelemetry.events.bytes)} on disk`
+        : "event rows loaded",
     },
     {
       id: "embedding-count",
       label: "Embedding Count",
-      value: PLACEHOLDER,
-      resolved: false,
-      hint: "integration pending",
+      value: emb.value,
+      resolved: emb.resolved,
+      hint: emb.hint,
     },
     {
       id: "runtime-systems",
       label: "Runtime Systems",
       value: runtimeValue,
       resolved: runtimeResolved,
-      hint: "active detected projects",
+      hint: facilityTelemetry?.runtime?.pm2Available
+        ? "active projects · pm2 reachable"
+        : "active detected projects",
     },
     {
       id: "watch-roots",
       label: "Watch Roots",
-      value: rootsStr ?? PLACEHOLDER,
-      resolved: Boolean(rootsStr),
+      value: rootsStr,
+      resolved: Boolean(rootsStr && rootsStr !== PLACEHOLDER),
       hint: meta ? "ARCHIVIST matrix" : undefined,
     },
     {
       id: "queue-depth",
       label: "Queue Depth",
-      value: PLACEHOLDER,
-      resolved: false,
-      hint: "integration pending",
+      value: queue.value,
+      resolved: queue.resolved,
+      hint: queue.hint,
     },
     {
       id: "snapshot-size",
       label: "Snapshot Size",
       value: snapshotBytesLabel,
       resolved: snapshotBytesResolved,
-      hint: snapshotBytesResolved ? "artifact" : "integration pending",
+      hint: facilityTelemetry?.snapshot.lastModified
+        ? `mtime · ${facilityTelemetry.snapshot.lastModified.slice(0, 19)}`
+        : snapshotBytesResolved
+          ? "continuity-snapshot.json"
+          : "unavailable",
     },
     {
       id: "last-sync",
       label: "Last Sync",
-      value: lastSync ?? PLACEHOLDER,
+      value: lastSync ?? TELEMETRY_UNKNOWN,
       resolved: Boolean(lastSync),
       hint:
         operational?.source === "archivist"

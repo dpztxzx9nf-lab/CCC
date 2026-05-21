@@ -10,6 +10,8 @@ import {
   type ReactNode,
 } from "react";
 import type { OperationalSnapshot, SnapshotMeta } from "@/data/operational-types";
+import type { OperationalTelemetry } from "@/lib/telemetry";
+import { telemetryToDerivedViews } from "@/lib/telemetry/toOperational";
 import type { ContinuityEventView } from "@/lib/continuity/events/types";
 import type {
   ChamberId,
@@ -25,7 +27,7 @@ import { getOperatorsForSector } from "@/lib/operators-for-sector";
 import { applyOperationalSnapshot } from "@/lib/operational-source";
 import { buildOperationalSnapshot } from "@/lib/operations/operationalState";
 import { loadContinuitySnapshot } from "@/lib/snapshot/loadSnapshot";
-import { mergeContinuitySnapshot } from "@/lib/snapshot/mergeIntoOperational";
+import { mergeContinuitySnapshotWithTelemetry } from "@/lib/snapshot/mergeIntoOperational";
 import type { DiscreteBurstState } from "@/lib/operations/discrete-burst";
 import { useDiscreteActivityBindings } from "@/hooks/useDiscreteActivityBindings";
 import type { HumanOrientationId } from "@/lib/human-orientation/types";
@@ -42,6 +44,7 @@ interface CCCContextValue {
   data: CCCData;
   operational: OperationalSnapshot | null;
   snapshotMeta: SnapshotMeta | null;
+  facilityTelemetry: OperationalTelemetry | null;
   continuityEvents: ContinuityEventView[];
   /** Client wall clock (1s tick while mounted) for discrete activity windows */
   facilityNow: number;
@@ -100,6 +103,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<CCCData>(getCCCDataSync);
   const [operational, setOperational] = useState<OperationalSnapshot | null>(null);
   const [snapshotMeta, setSnapshotMeta] = useState<SnapshotMeta | null>(null);
+  const [facilityTelemetry, setFacilityTelemetry] =
+    useState<OperationalTelemetry | null>(null);
   const [humanOrientation, setHumanOrientationState] =
     useState<HumanOrientationId>("idle");
   const [loading, setLoading] = useState(false);
@@ -149,7 +154,8 @@ export function CCCProvider({ children }: { children: ReactNode }) {
     setOperationalLoading(true);
 
     async function hydrate() {
-      const [apiResult, archivist, eventsPayload] = await Promise.all([
+      const [apiResult, archivist, eventsPayload, telemetryPayload] =
+        await Promise.all([
         fetch("/api/operational-state", { cache: "no-store" })
           .then(async (res) => {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -163,15 +169,29 @@ export function CCCProvider({ children }: { children: ReactNode }) {
             return res.json() as Promise<{ events?: ContinuityEventView[] }>;
           })
           .catch(() => null),
+        fetch("/api/telemetry", { cache: "no-store" })
+          .then(async (res) => {
+            if (!res.ok) return null;
+            return res.json() as Promise<OperationalTelemetry>;
+          })
+          .catch(() => null),
       ]);
 
       if (cancelled) return;
 
       const base = apiResult ?? buildOperationalSnapshot(null);
-      const { operational: merged, snapshotMeta: meta } = mergeContinuitySnapshot(
-        base,
-        archivist,
-      );
+      const { operational: merged, snapshotMeta: meta } =
+        mergeContinuitySnapshotWithTelemetry(
+          base,
+          archivist,
+          telemetryPayload
+            ? {
+                snapshotBytes: telemetryPayload.snapshot.bytes,
+                eventsBytes: telemetryPayload.events.bytes,
+                eventsCount: telemetryPayload.events.count,
+              }
+            : null,
+        );
 
       const fromApi = eventsPayload?.events?.length
         ? eventsPayload.events
@@ -179,9 +199,16 @@ export function CCCProvider({ children }: { children: ReactNode }) {
 
       const events = recentEvents(fromApi, 48);
 
-      setOperational({ ...merged, continuityEvents: events });
+      setOperational({
+        ...merged,
+        continuityEvents: events,
+        telemetry: telemetryPayload
+          ? telemetryToDerivedViews(telemetryPayload)
+          : merged.telemetry,
+      });
       setContinuityEvents(events);
       setSnapshotMeta(meta);
+      setFacilityTelemetry(telemetryPayload);
       setData(applyOperationalSnapshot(getCCCDataSync(), merged));
       setError(apiResult || archivist ? null : "Operational and snapshot data unavailable");
     }
@@ -299,6 +326,7 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       data,
       operational,
       snapshotMeta,
+      facilityTelemetry,
       continuityEvents,
       facilityNow,
       discreteBurst,
@@ -329,6 +357,7 @@ export function CCCProvider({ children }: { children: ReactNode }) {
       data,
       operational,
       snapshotMeta,
+      facilityTelemetry,
       continuityEvents,
       facilityNow,
       discreteBurst,

@@ -6,6 +6,11 @@ import {
   type ContinuityStorageStats,
   type OpsContinuitySignalRow,
 } from "@/lib/continuity/events/store";
+import {
+  compactTelemetryLines,
+  gatherOperationalTelemetry,
+  type OperationalTelemetry,
+} from "@/lib/telemetry";
 import { OpsSectionSheet } from "./OpsSectionSheet";
 import "./ops.css";
 
@@ -44,6 +49,37 @@ function formatContinuityBytes(bytes: number): string {
 function formatStorageIso(iso: string | null): string {
   if (!iso) return "—";
   return formatSignalTime(iso);
+}
+
+function FacilityTelemetry({ telemetry }: { telemetry: OperationalTelemetry }) {
+  const lines = compactTelemetryLines(telemetry);
+  return (
+    <div className="ccc-ops-storage" aria-labelledby="facility-telemetry">
+      <h3 className="ccc-ops-storage__title" id="facility-telemetry">
+        Operational Telemetry
+      </h3>
+      <ul className="ccc-ops-storage__list">
+        {lines.map((line) => (
+          <li key={line.label}>
+            <span className="ccc-ops-storage__k">{line.label}</span>{" "}
+            <span className="ccc-ops-storage__v">{line.value}</span>
+            {line.hint ? (
+              <span className="ccc-ops-storage__hint text-ccc-muted">
+                {" "}
+                · {line.hint}
+              </span>
+            ) : null}
+          </li>
+        ))}
+        <li>
+          <span className="ccc-ops-storage__k">Collected</span>{" "}
+          <span className="ccc-ops-storage__v">
+            {formatStorageIso(telemetry.collectedAt)}
+          </span>
+        </li>
+      </ul>
+    </div>
+  );
 }
 
 function ContinuityStorage({ stats }: { stats: ContinuityStorageStats }) {
@@ -173,9 +209,10 @@ const SECTIONS = [
 ] as const;
 
 export default async function OpsPage() {
-  const [allRows, storageStats] = await Promise.all([
+  const [allRows, storageStats, facilityTelemetry] = await Promise.all([
     readContinuitySignalsForOpsFromDisk(),
     readContinuityStorageStatsFromDisk(),
+    gatherOperationalTelemetry(),
   ]);
   const recentSignals = allRows.slice(0, 10);
 
@@ -359,6 +396,7 @@ export default async function OpsPage() {
             something looks wrong.
           </p>
 
+          <FacilityTelemetry telemetry={facilityTelemetry} />
           <ContinuityStorage stats={storageStats} />
 
           <RecentContinuitySignals rows={recentSignals} />

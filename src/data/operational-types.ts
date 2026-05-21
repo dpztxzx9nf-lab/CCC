@@ -63,6 +63,8 @@ export interface SnapshotMeta {
   totalMarkdownFiles: number;
   /** Frozen snapshot artifact size when instrumentation provides it */
   snapshotSizeBytes?: number;
+  eventsFileBytes?: number;
+  eventsRecordCount?: number;
 }
 
 export interface OperationalSnapshot {

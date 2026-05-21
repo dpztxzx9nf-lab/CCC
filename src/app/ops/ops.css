@@ -278,6 +278,11 @@
   color: var(--ccc-text);
 }
 
+.ccc-ops-storage__hint {
+  font-size: 0.65rem;
+  color: var(--ccc-muted);
+}
+
 .ccc-ops-signals {
   margin-top: 0.95rem;
   padding: 0.65rem 0.65rem 0.6rem;

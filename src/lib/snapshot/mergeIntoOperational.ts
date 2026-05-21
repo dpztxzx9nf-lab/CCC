@@ -234,6 +234,31 @@ export function mergeContinuitySnapshot(
     totalMarkdownFiles,
   };
 
+  return buildMergeResult(base, archivist, {
+    sectorHeat,
+    operators,
+    signals,
+    projects,
+    telemetry,
+    snapshotMeta,
+  });
+}
+
+function buildMergeResult(
+  base: OperationalSnapshot,
+  archivist: ContinuitySnapshot,
+  built: {
+    sectorHeat: OperationalSnapshot["sectorHeat"];
+    operators: OperationalSnapshot["operators"];
+    signals: OperationalSnapshot["signals"];
+    projects: OperationalSnapshot["projects"];
+    telemetry: OperationalSnapshot["telemetry"];
+    snapshotMeta: SnapshotMeta;
+  },
+): MergeContinuityResult {
+  const { sectorHeat, operators, signals, projects, telemetry, snapshotMeta } =
+    built;
+
   return {
     operational: {
       ...base,
@@ -253,6 +278,31 @@ export function mergeContinuitySnapshot(
     },
     snapshotMeta,
   };
+}
+
+/** Merge with optional facility telemetry fields on snapshot meta */
+export function mergeContinuitySnapshotWithTelemetry(
+  base: OperationalSnapshot,
+  archivist: ContinuitySnapshot | null,
+  facilityTelemetry?: {
+    snapshotBytes: number;
+    eventsBytes: number;
+    eventsCount: number;
+  } | null,
+): MergeContinuityResult {
+  const result = mergeContinuitySnapshot(base, archivist);
+  if (!result.snapshotMeta || !facilityTelemetry) return result;
+
+  result.snapshotMeta = {
+    ...result.snapshotMeta,
+    snapshotSizeBytes: facilityTelemetry.snapshotBytes,
+    eventsFileBytes: facilityTelemetry.eventsBytes,
+    eventsRecordCount: facilityTelemetry.eventsCount,
+  };
+  if (result.operational.snapshotMeta) {
+    result.operational.snapshotMeta = result.snapshotMeta;
+  }
+  return result;
 }
 
 /** Expose snapshot project → sector for placement hints */
