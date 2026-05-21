@@ -1,9 +1,8 @@
 import type { InhabitantBehavior } from "@/data/inhabitant-types";
 import type { OperationalSnapshot } from "@/data/operational-types";
 import type { Operator } from "@/data/types";
-import type { ChamberId, OperationalDomainId } from "@/data/ecology";
-import { CHAMBER_BY_ID, DOMAIN_BY_ID } from "@/data/ecology";
-import type { OperatorPlacement } from "@/data/ecology";
+import type { ChamberId } from "@/data/ecology";
+import { CHAMBER_BY_ID } from "@/data/ecology";
 import type { ContinuityEventView } from "@/lib/continuity/events/types";
 import {
   discreteEventBurstEndMs,
@@ -11,21 +10,6 @@ import {
   type DiscreteBurstState,
 } from "@/lib/operations/discrete-burst";
 import type { OperatorId } from "@/lib/operations/taxonomy";
-
-export interface OperatorDisplayInfo {
-  callsign: string;
-  /** Current physical chamber */
-  chamberId: ChamberId;
-  chamberLabel: string;
-  /** Primary operational domain */
-  primaryDomain: OperationalDomainId;
-  domainLabel: string;
-  homeChamberId: ChamberId;
-  homeChamberLabel: string;
-  task: string;
-  activitySource: string;
-  isTransit: boolean;
-}
 
 export interface OperatorPacketContext {
   facilityNow: number;
@@ -74,45 +58,6 @@ export function deriveOperatorPacket(
   }
 
   return null;
-}
-
-export function buildOperatorDisplayInfo(
-  operator: Operator,
-  behavior: InhabitantBehavior,
-  placement: OperatorPlacement,
-  operational: OperationalSnapshot | null,
-): OperatorDisplayInfo {
-  const derived = operational?.operators.find((o) => o.operatorId === operator.id);
-  let activitySource = "Profile baseline";
-  if (operational?.snapshotMeta) {
-    activitySource = `${operational.snapshotMeta.agent} snapshot`;
-  } else if (operational?.enabled) {
-    activitySource =
-      operational.source === "local"
-        ? "Local continuity"
-        : operational.source === "archivist"
-          ? "ARCHIVIST snapshot"
-          : "Operational map";
-  }
-
-  const chamber = CHAMBER_BY_ID[placement.currentChamberId];
-  const home = CHAMBER_BY_ID[placement.homeChamberId];
-  const domain = DOMAIN_BY_ID[placement.primaryDomain];
-
-  return {
-    callsign: operator.callsign,
-    chamberId: placement.currentChamberId,
-    chamberLabel: chamber?.codename ?? placement.currentChamberId,
-    primaryDomain: placement.primaryDomain,
-    domainLabel: domain?.name ?? placement.primaryDomain,
-    homeChamberId: placement.homeChamberId,
-    homeChamberLabel: home?.codename ?? placement.homeChamberId,
-    task: derived?.currentActivity ?? behavior.stateLabel,
-    activitySource: derived?.activeProjectName
-      ? `${activitySource} · ${derived.activeProjectName}`
-      : activitySource,
-    isTransit: placement.isTransit,
-  };
 }
 
 function truncatePacket(text: string, max = 42): string {

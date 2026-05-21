@@ -3,11 +3,13 @@
 .ccc-megastructure-wrap {
   position: relative;
   padding: 0.25rem;
+  overflow: visible;
 }
 
 .ccc-megastructure {
   position: relative;
   display: grid;
+  overflow: visible;
   gap: 0.45rem;
   grid-template-columns: 0.85fr 1.35fr 1.1fr 0.75fr;
   grid-template-rows: minmax(11rem, auto) minmax(9rem, auto) minmax(10rem, auto) minmax(9.5rem, auto);
@@ -168,6 +170,7 @@
   flex: 1;
   min-height: 7rem;
   margin: 0 0.35rem 0.35rem;
+  overflow: visible;
 }
 
 .ccc-sector-floor--core {

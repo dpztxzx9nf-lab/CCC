@@ -36,7 +36,7 @@ export function PanelRouter() {
       <DetailPanel
         open
         title={operator.callsign}
-        subtitle={operator.designation}
+        subtitle={`Continuity record · ${operator.designation}`}
         onClose={closePanel}
       >
         <OperatorDossierContent operator={operator} />

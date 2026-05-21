@@ -1,0 +1,55 @@
+/* Continuity dossier — investigatory panel sections */
+
+.ccc-dossier-record__identity {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ccc-dossier-section__title {
+  margin: 0;
+  font-family: var(--ccc-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(140, 155, 178, 0.85);
+}
+
+.ccc-dossier-section__body {
+  margin-top: 0.5rem;
+}
+
+.ccc-dossier-dl {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+}
+
+.ccc-dossier-dl > div {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 0.5rem;
+}
+
+.ccc-dossier-dl dt {
+  font-family: var(--ccc-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(140, 155, 178, 0.7);
+}
+
+.ccc-dossier-dl dd {
+  margin: 0;
+  color: rgba(232, 238, 248, 0.92);
+}
+
+.ccc-dossier-signal-row {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ccc-dossier-signal-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}

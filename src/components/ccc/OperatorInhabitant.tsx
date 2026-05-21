@@ -12,10 +12,8 @@ import type { InhabitantBehavior } from "@/data/inhabitant-types";
 import type { Operator } from "@/data/types";
 import type { OperatorPlacement } from "@/data/ecology";
 import { useCCC } from "@/context/CCCContext";
-import {
-  buildOperatorDisplayInfo,
-  deriveOperatorPacket,
-} from "@/lib/operator-display";
+import { deriveOperatorPacket } from "@/lib/operator-display";
+import { buildOperatorHoverAwareness } from "@/lib/operator-hover-awareness";
 import { OperatorHoverCard } from "@/components/operators/OperatorHoverCard";
 import { OperatorNameplate } from "@/components/operators/OperatorNameplate";
 import { OperationalPacket } from "@/components/operations/OperationalPacket";
@@ -57,6 +55,7 @@ export function OperatorInhabitant({
 }: OperatorInhabitantProps) {
   const {
     openOperator,
+    activePanel,
     operational,
     facilityNow,
     discreteBurst,
@@ -87,9 +86,16 @@ export function OperatorInhabitant({
     [facilityNow, discreteBurst, continuityEvents],
   );
 
-  const displayInfo = useMemo(
-    () => buildOperatorDisplayInfo(operator, behavior, placement, operational),
-    [operator, behavior, placement, operational],
+  const hoverAwareness = useMemo(
+    () =>
+      buildOperatorHoverAwareness(
+        operator,
+        behavior,
+        placement,
+        operational,
+        facilityNow,
+      ),
+    [operator, behavior, placement, operational, facilityNow],
   );
 
   const packet = useMemo(
@@ -106,6 +112,9 @@ export function OperatorInhabitant({
 
   const showTransitEmbodiment =
     placement.isTransit && discreteBurst.transitMotionActive;
+
+  const isUnderInspection =
+    activePanel?.kind === "operator" && activePanel.id === operator.id;
 
   const onPointerDownChrome = useCallback(
     (e: ReactPointerEvent<HTMLButtonElement>) => {
@@ -198,6 +207,8 @@ export function OperatorInhabitant({
   return (
     <div
       className="ccc-inhabitant ccc-inhabitant--gesture group absolute z-[5]"
+      data-operator-id={operator.id}
+      data-inspected={isUnderInspection ? "true" : undefined}
       data-intensity={behavior.intensity}
       data-posture={behavior.posture}
       data-transit={showTransitEmbodiment ? "true" : undefined}
@@ -223,8 +234,6 @@ export function OperatorInhabitant({
           className="ccc-inhabitant__packet ccc-op-packet--live"
         />
       )}
-
-      <OperatorHoverCard id={previewId} info={displayInfo} visible={hovered} />
 
       <button
         ref={buttonRef}
@@ -260,11 +269,18 @@ export function OperatorInhabitant({
           openOperator(operator.id);
         }}
         className="ccc-agent-hit relative flex min-h-[3rem] min-w-[3rem] -translate-x-1/2 flex-col items-center justify-end border-0 bg-transparent p-0 outline-none touch-manipulation"
-        aria-label={`${operator.callsign}, ${displayInfo.chamberLabel}, ${displayInfo.task}`}
+        aria-label={`${operator.callsign}, ${hoverAwareness.stateLabel}, ${hoverAwareness.activity}`}
         aria-describedby={hovered ? previewId : undefined}
       >
         <OperatorEntity operator={operator} behavior={behavior} />
       </button>
+
+      <OperatorHoverCard
+        id={previewId}
+        awareness={hoverAwareness}
+        visible={hovered}
+        anchorRef={buttonRef}
+      />
     </div>
   );
 }

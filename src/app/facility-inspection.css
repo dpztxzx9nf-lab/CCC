@@ -1,0 +1,26 @@
+/* Operator continuity inspection — environment dims, inspected operator stays legible */
+
+.ccc-command-shell[data-operator-inspection] .ccc-megastructure-wrap {
+  opacity: 0.52;
+  filter: saturate(0.82) brightness(0.92);
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease;
+}
+
+.ccc-command-shell[data-operator-inspection] .ccc-sidebar {
+  opacity: 0.78;
+}
+
+.ccc-command-shell[data-operator-inspection] .ccc-megastructure .ccc-inhabitant {
+  opacity: 0.42;
+  transition: opacity 0.2s ease;
+}
+
+.ccc-command-shell[data-operator-inspection]
+  .ccc-megastructure
+  .ccc-inhabitant[data-inspected="true"] {
+  opacity: 1;
+  z-index: 8;
+  filter: saturate(1.05);
+}

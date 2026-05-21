@@ -13,7 +13,9 @@ import { OperationalTopologyPanel } from "./OperationalTopologyPanel";
 import { TelemetryBar } from "./TelemetryBar";
 
 export function CommandCenter() {
-  const { operational, continuityEvents } = useCCC();
+  const { operational, continuityEvents, activePanel } = useCCC();
+  const inspectingOperatorId =
+    activePanel?.kind === "operator" ? activePanel.id : undefined;
 
   const facilityResidue = useMemo(() => {
     return computeFacilityResidue(continuityEvents, operational, []);
@@ -21,7 +23,10 @@ export function CommandCenter() {
 
   return (
     <FacilityResidueProvider value={facilityResidue}>
-      <div className="ccc-command-shell flex flex-col">
+      <div
+        className="ccc-command-shell flex flex-col"
+        data-operator-inspection={inspectingOperatorId}
+      >
         <div className="ccc-ambience" aria-hidden>
           <div className="ccc-grid" />
         </div>
