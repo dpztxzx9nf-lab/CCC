@@ -3,10 +3,12 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
+  min-width: 0;
   min-height: 100dvh;
   overflow-x: clip;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: none;
   overscroll-behavior-y: contain;
   background: var(--ccc-bg);
   color: var(--ccc-text);
@@ -15,6 +17,8 @@
 @media (max-width: 1023px) {
   .ccc-ops-page:not(.ccc-ops-page--embedded) {
     height: 100dvh;
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: env(safe-area-inset-right, 0);
   }
 }
 
@@ -30,11 +34,11 @@
   z-index: 1;
   box-sizing: border-box;
   width: 100%;
-  max-width: 44rem;
+  max-width: min(44rem, 100%);
   min-width: 0;
   margin: 0 auto;
-  padding: 1rem max(1rem, env(safe-area-inset-right)) 2.5rem
-    max(1rem, env(safe-area-inset-left));
+  padding-block: 1rem 2.5rem;
+  padding-inline: clamp(0.75rem, 4vw, 1rem);
   overflow-wrap: anywhere;
 }
 
@@ -55,9 +59,17 @@
 .ccc-ops-kicker {
   font-family: var(--ccc-mono);
   font-size: 0.65rem;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ccc-accent-dim);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (min-width: 768px) {
+  .ccc-ops-kicker {
+    letter-spacing: 0.2em;
+  }
 }
 
 .ccc-ops-title {
@@ -266,7 +278,10 @@
 
 .ccc-ops-section ul {
   margin: 0.5rem 0 0;
-  padding-left: 1.15rem;
+  padding-inline-start: 1.15rem;
+  padding-inline-end: 0;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .ccc-ops-section li {
@@ -365,22 +380,33 @@
 }
 
 .ccc-ops-signals__scroll {
+  display: block;
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin: 0;
   padding: 0;
   overscroll-behavior-x: contain;
+  contain: inline-size;
 }
 
 .ccc-ops-signals__table {
-  width: 100%;
-  min-width: 36rem;
+  width: auto;
+  max-width: none;
+  min-width: 0;
   border-collapse: collapse;
   font-family: var(--ccc-mono);
   font-size: 0.7rem;
   line-height: 1.35;
   color: var(--ccc-muted);
+}
+
+@media (min-width: 768px) {
+  .ccc-ops-signals__table {
+    min-width: 36rem;
+  }
 }
 
 .ccc-ops-signals__table th {
@@ -402,8 +428,17 @@
 
 .ccc-ops-signals__table td:last-child {
   white-space: normal;
-  max-width: 20rem;
+  max-width: min(20rem, 100%);
   color: var(--ccc-text);
+}
+
+@media (max-width: 767px) {
+  .ccc-ops-signals__table th,
+  .ccc-ops-signals__table td {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
 }
 
 .ccc-ops-signals__table tr + tr td {
@@ -567,4 +602,31 @@
 .ccc-ops-future p {
   border-left: 2px solid var(--ccc-border);
   padding-left: 0.75rem;
+}
+
+/* Contain intrinsic-width children — nothing wider than the viewport */
+.ccc-ops-page :is(
+  .ccc-ops-wrap,
+  .ccc-ops-header,
+  .ccc-ops-section,
+  .ccc-ops-toc,
+  .ccc-ops-toc ul,
+  .ccc-ops-toc li,
+  .ccc-ops-cmd,
+  .ccc-ops-cmd__code,
+  .ccc-ops-storage,
+  .ccc-ops-signals,
+  .ccc-ops-note,
+  .ccc-ops-back
+) {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.ccc-ops-page pre {
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow-x: auto;
 }
