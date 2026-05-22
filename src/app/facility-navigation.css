@@ -11,24 +11,40 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.ccc-surface-viewport[data-edge-pan-active="true"] {
+  touch-action: none;
+}
+
 .ccc-surface-track {
   display: flex;
   width: 300%;
   height: 100%;
   min-height: 0;
   will-change: transform;
-  transition: transform 0.22s ease-out;
 }
 
-.ccc-surface-track[data-surface="projects"] {
+.ccc-surface-track[data-animating="true"] {
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.ccc-surface-track[data-dragging="true"] {
+  transition: none;
+}
+
+/* Percentage fallback before JS measures viewport width */
+.ccc-surface-track:not([data-measured="true"]) {
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.ccc-surface-track:not([data-measured="true"])[data-surface="projects"] {
   transform: translateX(0%);
 }
 
-.ccc-surface-track[data-surface="facility"] {
+.ccc-surface-track:not([data-measured="true"])[data-surface="facility"] {
   transform: translateX(-33.333333%);
 }
 
-.ccc-surface-track[data-surface="ops"] {
+.ccc-surface-track:not([data-measured="true"])[data-surface="ops"] {
   transform: translateX(-66.666667%);
 }
 
@@ -136,7 +152,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ccc-surface-track {
+  .ccc-surface-track[data-animating="true"],
+  .ccc-surface-track:not([data-measured="true"]) {
     transition: none;
   }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "createdAt": "2026-05-21T00:00:00.000Z",
-  "updatedAt": "2026-05-22T07:00:26.113Z",
+  "updatedAt": "2026-05-22T07:10:13.460Z",
   "rolling": {
     "pm2Available": true,
     "processCount": 2
@@ -21,29 +21,34 @@
       "at": "2026-05-21T05:09:38.661Z",
       "pm2Available": true,
       "processCount": 2
+    },
+    {
+      "at": "2026-05-22T07:10:13.457Z",
+      "pm2Available": true,
+      "processCount": 2
     }
   ],
   "lastSnapshot": {
-    "at": "2026-05-22T07:00:26.110Z",
+    "at": "2026-05-22T07:10:13.457Z",
     "pm2Available": true,
     "processes": [
       {
         "name": "liahona",
         "status": "online",
-        "uptimeMs": 47075766,
+        "uptimeMs": 16372087,
         "restartCount": 0,
-        "memoryMb": 19.2,
-        "cpu": 0,
+        "memoryMb": 15.4,
+        "cpu": 0.2,
         "pmId": 0
       },
       {
         "name": "ccc-archivist",
         "status": "online",
-        "uptimeMs": 4684346,
-        "restartCount": 2,
-        "memoryMb": 0.6,
+        "uptimeMs": 16372085,
+        "restartCount": 0,
+        "memoryMb": 1,
         "cpu": 0,
-        "pmId": 2
+        "pmId": 1
       }
     ],
     "archivist": {

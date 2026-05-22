@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
   "createdAt": "2026-05-21T00:00:00.000Z",
-  "updatedAt": "2026-05-22T07:00:26.136Z",
+  "updatedAt": "2026-05-22T07:10:13.477Z",
   "observations": {
     "token:5102a10d9e5d1f09cf2ff632": {
       "id": "token:5102a10d9e5d1f09cf2ff632",
       "kind": "token",
       "adapterId": "openai_api",
       "firstSeenAt": "2026-05-20T12:00:00.000Z",
-      "lastSeenAt": "2026-05-22T07:00:26.136Z"
+      "lastSeenAt": "2026-05-22T07:10:13.477Z"
     },
-    "runtime:03135cd981e248f71b001713": {
-      "id": "runtime:03135cd981e248f71b001713",
+    "runtime:958bd56927eb611d9e17efa9": {
+      "id": "runtime:958bd56927eb611d9e17efa9",
       "kind": "runtime",
       "adapterId": "pm2_runtime",
-      "firstSeenAt": "2026-05-21T05:09:38.661Z",
-      "lastSeenAt": "2026-05-22T07:00:26.136Z"
+      "firstSeenAt": "2026-05-22T07:10:13.457Z",
+      "lastSeenAt": "2026-05-22T07:10:13.477Z"
     }
   },
   "ingestion": {
-    "lastRunAt": "2026-05-22T07:00:26.136Z",
+    "lastRunAt": "2026-05-22T07:10:13.477Z",
     "lastSkippedDuplicates": 0,
     "lastIngestedTokenEntries": 0,
     "lastIngestedSpendEntries": 0,
-    "totalRuns": 59,
+    "totalRuns": 60,
     "totalSkippedDuplicates": 1,
     "totalIngestedTokenEntries": 1,
     "totalIngestedSpendEntries": 0

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T07:04:48.338Z",
+  "generatedAt": "2026-05-22T07:12:22.397Z",
   "agent": "ARCHIVIST-0",
   "projects": [
     {
@@ -28,7 +28,7 @@
       "hasPackageJson": true,
       "hasGit": true,
       "markdownCount": 4,
-      "lastModified": "2026-05-22T07:04:47.031Z",
+      "lastModified": "2026-05-22T07:12:21.213Z",
       "runtimeCapable": true,
       "likelyStack": [
         "active-code",
@@ -422,9 +422,9 @@
       "operatorId": "deep-1",
       "callsign": "ARCHIVIST-0",
       "workload": 100,
-      "currentActivity": "kindex continuity growth - kindex",
+      "currentActivity": "kindex consolidation wave - kindex",
       "activeProjectId": "projects-liahona",
-      "lastSignal": "kindex continuity growth (medium)"
+      "lastSignal": "kindex consolidation wave (medium)"
     },
     {
       "operatorId": "fab-0",
@@ -992,7 +992,7 @@
   "operationalSignals": [
     {
       "id": "sig-feffe4b57b185bf7",
-      "timestamp": "2026-05-22T07:04:47.529Z",
+      "timestamp": "2026-05-22T07:12:21.636Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "repo_dirty",
@@ -1000,12 +1000,12 @@
       "metadata": {
         "projectId": "projects-ccc",
         "repoPath": "C:\\Projects\\CCC",
-        "changeLines": 11
+        "changeLines": 8
       }
     },
     {
       "id": "sig-81194eb2fd3b96d8",
-      "timestamp": "2026-05-22T07:04:47.571Z",
+      "timestamp": "2026-05-22T07:12:21.674Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "branch_detected",
@@ -1018,7 +1018,7 @@
     },
     {
       "id": "sig-a1bcf8cbc27cf47a",
-      "timestamp": "2026-05-22T07:04:47.613Z",
+      "timestamp": "2026-05-22T07:12:21.711Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "recent_commit_detected",
@@ -1026,13 +1026,13 @@
       "metadata": {
         "projectId": "projects-ccc",
         "repoPath": "C:\\Projects\\CCC",
-        "commitHash": "9b203226f67e",
-        "committedAt": "2026-05-21T06:32:51.000Z"
+        "commitHash": "259b7b1a9932",
+        "committedAt": "2026-05-22T07:05:30.000Z"
       }
     },
     {
       "id": "sig-43706d41fdc6cd39",
-      "timestamp": "2026-05-22T07:04:47.655Z",
+      "timestamp": "2026-05-22T07:12:21.751Z",
       "source": "continuity:git",
       "sector": "relay",
       "type": "remote_detected",
@@ -1047,7 +1047,7 @@
     },
     {
       "id": "sig-e15a1443043c6655",
-      "timestamp": "2026-05-22T07:04:47.699Z",
+      "timestamp": "2026-05-22T07:12:21.792Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "repo_dirty",
@@ -1060,7 +1060,7 @@
     },
     {
       "id": "sig-acbf330342e9760d",
-      "timestamp": "2026-05-22T07:04:47.742Z",
+      "timestamp": "2026-05-22T07:12:21.830Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "branch_detected",
@@ -1073,7 +1073,7 @@
     },
     {
       "id": "sig-529c3bb3ff4d09d3",
-      "timestamp": "2026-05-22T07:04:47.781Z",
+      "timestamp": "2026-05-22T07:12:21.868Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "recent_commit_detected",
@@ -1087,7 +1087,7 @@
     },
     {
       "id": "sig-7ebc2d1f28482e6d",
-      "timestamp": "2026-05-22T07:04:47.820Z",
+      "timestamp": "2026-05-22T07:12:21.904Z",
       "source": "continuity:git",
       "sector": "relay",
       "type": "remote_detected",
@@ -1102,7 +1102,7 @@
     },
     {
       "id": "sig-2ded567b4cfbe4c1",
-      "timestamp": "2026-05-22T07:04:47.865Z",
+      "timestamp": "2026-05-22T07:12:21.949Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "repo_dirty",
@@ -1115,7 +1115,7 @@
     },
     {
       "id": "sig-ecd7f8c0fb50efc2",
-      "timestamp": "2026-05-22T07:04:47.904Z",
+      "timestamp": "2026-05-22T07:12:21.986Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "branch_detected",
@@ -1128,7 +1128,7 @@
     },
     {
       "id": "sig-3f3d6bee2625c3ca",
-      "timestamp": "2026-05-22T07:04:47.950Z",
+      "timestamp": "2026-05-22T07:12:22.029Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "recent_commit_detected",
@@ -1142,7 +1142,7 @@
     },
     {
       "id": "sig-a6fcf9d558ca7ae9",
-      "timestamp": "2026-05-22T07:04:47.989Z",
+      "timestamp": "2026-05-22T07:12:22.068Z",
       "source": "continuity:git",
       "sector": "relay",
       "type": "remote_detected",
@@ -1157,7 +1157,7 @@
     },
     {
       "id": "sig-040c95ca55685309",
-      "timestamp": "2026-05-22T07:04:48.034Z",
+      "timestamp": "2026-05-22T07:12:22.107Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "repo_dirty",
@@ -1170,7 +1170,7 @@
     },
     {
       "id": "sig-975abb68b812e71d",
-      "timestamp": "2026-05-22T07:04:48.076Z",
+      "timestamp": "2026-05-22T07:12:22.148Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "branch_detected",
@@ -1183,7 +1183,7 @@
     },
     {
       "id": "sig-89c56d77de42daba",
-      "timestamp": "2026-05-22T07:04:48.120Z",
+      "timestamp": "2026-05-22T07:12:22.189Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "recent_commit_detected",
@@ -1197,7 +1197,7 @@
     },
     {
       "id": "sig-ec97e1e4f6cb3d02",
-      "timestamp": "2026-05-22T07:04:48.163Z",
+      "timestamp": "2026-05-22T07:12:22.228Z",
       "source": "continuity:git",
       "sector": "relay",
       "type": "remote_detected",
@@ -1212,7 +1212,7 @@
     },
     {
       "id": "sig-785b2553769c3fc1",
-      "timestamp": "2026-05-22T07:04:48.212Z",
+      "timestamp": "2026-05-22T07:12:22.272Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "repo_dirty",
@@ -1225,7 +1225,7 @@
     },
     {
       "id": "sig-ec1c67d0f47204d6",
-      "timestamp": "2026-05-22T07:04:48.252Z",
+      "timestamp": "2026-05-22T07:12:22.312Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "branch_detected",
@@ -1238,7 +1238,7 @@
     },
     {
       "id": "sig-8a363e1bacb3946f",
-      "timestamp": "2026-05-22T07:04:48.294Z",
+      "timestamp": "2026-05-22T07:12:22.357Z",
       "source": "continuity:git",
       "sector": "forge",
       "type": "recent_commit_detected",
@@ -1252,7 +1252,7 @@
     },
     {
       "id": "sig-6fb616b8215abd58",
-      "timestamp": "2026-05-22T07:04:47.626Z",
+      "timestamp": "2026-05-22T07:12:21.736Z",
       "source": "continuity:kindex",
       "sector": "archive",
       "type": "kindex_continuity_growth",
@@ -1289,7 +1289,7 @@
     },
     {
       "id": "sig-3724017471912926",
-      "timestamp": "2026-05-22T07:04:47.626Z",
+      "timestamp": "2026-05-22T07:12:21.736Z",
       "source": "continuity:kindex",
       "sector": "core",
       "type": "kindex_ontology_expansion",
@@ -1326,7 +1326,7 @@
     },
     {
       "id": "sig-19cc1fdf57f7e1ae",
-      "timestamp": "2026-05-22T07:04:47.626Z",
+      "timestamp": "2026-05-22T07:12:21.736Z",
       "source": "continuity:kindex",
       "sector": "observatory",
       "type": "kindex_active_initiative",
@@ -1363,7 +1363,7 @@
     },
     {
       "id": "sig-f86cfe682d86e1a2",
-      "timestamp": "2026-05-22T07:04:47.626Z",
+      "timestamp": "2026-05-22T07:12:21.737Z",
       "source": "continuity:kindex",
       "sector": "archive",
       "type": "kindex_archive_density",
@@ -1400,7 +1400,7 @@
     },
     {
       "id": "sig-ae1db9119d5cd0be",
-      "timestamp": "2026-05-22T07:04:47.626Z",
+      "timestamp": "2026-05-22T07:12:21.737Z",
       "source": "continuity:kindex",
       "sector": "core",
       "type": "kindex_cross_linkage",
@@ -1437,7 +1437,7 @@
     },
     {
       "id": "sig-320fcd6affad382c",
-      "timestamp": "2026-05-22T07:04:47.626Z",
+      "timestamp": "2026-05-22T07:12:21.737Z",
       "source": "continuity:kindex",
       "sector": "archive",
       "type": "kindex_consolidation_wave",
@@ -1474,7 +1474,7 @@
     },
     {
       "id": "sig-3756dbea29f67a6c",
-      "timestamp": "2026-05-22T07:04:47.626Z",
+      "timestamp": "2026-05-22T07:12:21.737Z",
       "source": "continuity:kindex",
       "sector": "observatory",
       "type": "kindex_ecosystem_pressure",
@@ -1512,7 +1512,7 @@
     },
     {
       "id": "sig-e955e02f81516de2",
-      "timestamp": "2026-05-22T07:04:47.497Z",
+      "timestamp": "2026-05-22T07:12:21.611Z",
       "source": "continuity:liahona",
       "sector": "runtime",
       "type": "liahona_runtime_activity",
@@ -1539,7 +1539,7 @@
     },
     {
       "id": "sig-0cb79f7426584ea0",
-      "timestamp": "2026-05-22T07:04:47.498Z",
+      "timestamp": "2026-05-22T07:12:21.611Z",
       "source": "continuity:liahona",
       "sector": "observatory",
       "type": "liahona_source_retrieval",
@@ -1566,7 +1566,7 @@
     },
     {
       "id": "sig-20abf54ca4ff5869",
-      "timestamp": "2026-05-22T07:04:47.498Z",
+      "timestamp": "2026-05-22T07:12:21.611Z",
       "source": "continuity:liahona",
       "sector": "observatory",
       "type": "liahona_memory_systems",
@@ -1593,7 +1593,7 @@
     },
     {
       "id": "sig-ad05264792183429",
-      "timestamp": "2026-05-22T07:04:47.498Z",
+      "timestamp": "2026-05-22T07:12:21.611Z",
       "source": "continuity:liahona",
       "sector": "relay",
       "type": "liahona_projection_surface",
@@ -1620,7 +1620,7 @@
     },
     {
       "id": "sig-bbd3f04ddd0ba9a3",
-      "timestamp": "2026-05-22T07:04:47.498Z",
+      "timestamp": "2026-05-22T07:12:21.611Z",
       "source": "continuity:liahona",
       "sector": "relay",
       "type": "liahona_discord_continuity",
@@ -1680,7 +1680,7 @@
   ],
   "eventsRecent": [
     {
-      "id": "c6bbdf64-29df-471a-97a0-c11a86ae6179",
+      "id": "b2834e80-a90b-4d61-b8c2-f52d6c806bfb",
       "type": "file_changed",
       "sector": "core",
       "sectors": [
@@ -1688,7 +1688,7 @@
       ],
       "severity": "high",
       "confidence": 0.64,
-      "timestamp": "2026-05-22T07:04:46.895Z",
+      "timestamp": "2026-05-22T07:12:21.084Z",
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
@@ -1701,7 +1701,7 @@
       }
     },
     {
-      "id": "d59ff7cc-5d9a-4e8b-8adc-7c0e10a780f9",
+      "id": "7b49ad09-c0a0-4446-b1f5-26bcf6986fd7",
       "type": "file_changed",
       "sector": "core",
       "sectors": [
@@ -1709,7 +1709,7 @@
       ],
       "severity": "high",
       "confidence": 0.64,
-      "timestamp": "2026-05-22T07:04:46.895Z",
+      "timestamp": "2026-05-22T07:12:21.084Z",
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
@@ -1722,91 +1722,7 @@
       }
     },
     {
-      "id": "1167a95b-c35f-455d-8f97-3fedc382abd9",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T07:03:45.394Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
-      }
-    },
-    {
-      "id": "4df3e0d6-0210-41ac-ae05-707a40a0efad",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T07:03:45.394Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
-      }
-    },
-    {
-      "id": "e2fa3482-76dd-4cb4-b5f7-5e3e6d6877d5",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T07:02:43.828Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
-      }
-    },
-    {
-      "id": "b09b330e-7e62-4cd1-92f0-c5a7183271c6",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T07:02:43.827Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
-      }
-    },
-    {
-      "id": "5fce6cca-a91b-4763-b2d1-60fbb612e52e",
+      "id": "7214e1b6-3a93-4ccd-8195-f41356697804",
       "type": "deployment_signal",
       "sector": "relay",
       "sectors": [
@@ -1815,7 +1731,7 @@
       ],
       "severity": "high",
       "confidence": 0.85,
-      "timestamp": "2026-05-22T07:01:43.709Z",
+      "timestamp": "2026-05-22T07:11:20.967Z",
       "source": "archivist:deploy",
       "project": "ccc",
       "filePath": null,
@@ -1829,70 +1745,133 @@
       }
     },
     {
-      "id": "82c7e2fb-6533-483b-ac7c-cffb379300e7",
-      "type": "file_changed",
+      "id": "d81774cf-c53f-4663-9403-776aefd8544e",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.092Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.dedupe-index.json.26864.32365b0b.tmp",
-      "summary": ".dedupe-index.json.26864.32365b0b.tmp - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\panels\\SectorPanelContent.tsx",
+      "summary": "SectorPanelContent.tsx - code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 17,
+        "classifierLabel": "SectorPanelContent.tsx -> core"
+      }
+    },
+    {
+      "id": "37b68c02-dde9-41ae-879a-d9315bed72d1",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.485Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\panels\\ProjectPanelContent.tsx",
+      "summary": "ProjectPanelContent.tsx - code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 17,
+        "classifierLabel": "ProjectPanelContent.tsx -> core"
+      }
+    },
+    {
+      "id": "2f6a0168-6dc6-4806-a9f7-5facc22fec4e",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.485Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\DetailPanel.tsx",
+      "summary": "DetailPanel.tsx - code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 17,
+        "classifierLabel": "DetailPanel.tsx -> core"
+      }
+    },
+    {
+      "id": "b04ea118-9ca2-4198-b466-b759dd182be7",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "high",
+      "confidence": 0.77,
+      "timestamp": "2026-05-22T07:11:19.485Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\continuity\\residue\\derive.ts",
+      "summary": "derive.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": ".dedupe-index.json.26864.32365b0b.tmp -> core"
+        "classifierLabel": "derive.ts -> core"
       }
     },
     {
-      "id": "26f66f70-d54b-4aa6-b38a-0978e997c1b5",
-      "type": "file_changed",
+      "id": "6857e256-e745-42d5-ab84-5a72466187f5",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.092Z",
+      "severity": "high",
+      "confidence": 0.77,
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.token-usage.json.26864.cd80e97c.tmp",
-      "summary": ".token-usage.json.26864.cd80e97c.tmp - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\continuity\\ContinuityEventRail.tsx",
+      "summary": "ContinuityEventRail.tsx - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": ".token-usage.json.26864.cd80e97c.tmp -> core"
+        "classifierLabel": "ContinuityEventRail.tsx -> core"
       }
     },
     {
-      "id": "a3fa024a-805f-4502-9001-f023f928ea11",
-      "type": "file_changed",
+      "id": "d76ec299-1947-4f89-a993-ff1bd7345895",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.092Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\token-usage.json",
-      "summary": "token-usage.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\localData\\ecosystemMarkers.ts",
+      "summary": "ecosystemMarkers.ts - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "token-usage.json -> core"
+        "classifierLabel": "ecosystemMarkers.ts -> core"
       }
     },
     {
-      "id": "73122d94-fcee-41b9-90a4-750a5c3f68a3",
+      "id": "7533b6cb-ce2d-4c32-accb-f69bde9cc044",
       "type": "file_changed",
       "sector": "core",
       "sectors": [
@@ -1900,20 +1879,20 @@
       ],
       "severity": "low",
       "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.092Z",
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.api-spend.json.26864.d478ea77.tmp",
-      "summary": ".api-spend.json.26864.d478ea77.tmp - file changed",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.dedupe-index.json.1144.2cb05cfe.tmp",
+      "summary": ".dedupe-index.json.1144.2cb05cfe.tmp - file changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": ".api-spend.json.26864.d478ea77.tmp -> core"
+        "classifierLabel": ".dedupe-index.json.1144.2cb05cfe.tmp -> core"
       }
     },
     {
-      "id": "dac262ee-daf6-4329-9605-66ed5276d518",
+      "id": "17c61808-faaf-4608-87f9-15d64a67a66e",
       "type": "file_changed",
       "sector": "core",
       "sectors": [
@@ -1921,28 +1900,7 @@
       ],
       "severity": "low",
       "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.092Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\api-spend.json",
-      "summary": "api-spend.json - file changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "api-spend.json -> core"
-      }
-    },
-    {
-      "id": "4fd1c571-71af-4d0b-a917-a6b43e1e2e55",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.091Z",
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\data\\telemetry",
@@ -1955,7 +1913,7 @@
       }
     },
     {
-      "id": "82aec71e-63a1-4092-a80f-96e96a866edd",
+      "id": "1a1fc2fd-3184-419f-a4e2-7d926b933218",
       "type": "file_changed",
       "sector": "core",
       "sectors": [
@@ -1963,7 +1921,7 @@
       ],
       "severity": "low",
       "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.091Z",
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\data\\telemetry\\dedupe-index.json",
@@ -1976,7 +1934,7 @@
       }
     },
     {
-      "id": "cefebddd-ba77-4118-8b4c-971314374395",
+      "id": "1f4d5061-82c8-48b9-ad67-c9913f3dd68d",
       "type": "file_changed",
       "sector": "core",
       "sectors": [
@@ -1984,20 +1942,20 @@
       ],
       "severity": "low",
       "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.091Z",
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.runtime.json.26864.6ebccf25.tmp",
-      "summary": ".runtime.json.26864.6ebccf25.tmp - file changed",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.runtime.json.1144.2d2c9633.tmp",
+      "summary": ".runtime.json.1144.2d2c9633.tmp - file changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": ".runtime.json.26864.6ebccf25.tmp -> core"
+        "classifierLabel": ".runtime.json.1144.2d2c9633.tmp -> core"
       }
     },
     {
-      "id": "9a07f4a2-15be-484c-842e-35bd30f59d14",
+      "id": "79fdaff0-d799-4bca-b53e-ff3d0ca26af3",
       "type": "file_changed",
       "sector": "core",
       "sectors": [
@@ -2005,7 +1963,7 @@
       ],
       "severity": "low",
       "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.091Z",
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
       "filePath": "C:\\Projects\\CCC\\data\\telemetry\\runtime.json",
@@ -2018,7 +1976,7 @@
       }
     },
     {
-      "id": "5e312867-939b-4b74-9ebe-11fe35482d4d",
+      "id": "b0202d9c-5bbd-4a6c-987c-009414324658",
       "type": "file_changed",
       "sector": "core",
       "sectors": [
@@ -2026,20 +1984,314 @@
       ],
       "severity": "low",
       "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.090Z",
+      "timestamp": "2026-05-22T07:11:19.485Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc",
-      "summary": "ccc - file changed",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.dedupe-index.json.1144.86100a3e.tmp",
+      "summary": ".dedupe-index.json.1144.86100a3e.tmp - file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": ".dedupe-index.json.1144.86100a3e.tmp -> core"
+      }
+    },
+    {
+      "id": "729bbb87-b2c6-4cba-8567-667283210c94",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.485Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.token-usage.json.1144.b5d9a854.tmp",
+      "summary": ".token-usage.json.1144.b5d9a854.tmp - file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": ".token-usage.json.1144.b5d9a854.tmp -> core"
+      }
+    },
+    {
+      "id": "d03b7796-6295-4bd0-ba02-be6eaf8c0015",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.485Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\token-usage.json",
+      "summary": "token-usage.json - file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "token-usage.json -> core"
+      }
+    },
+    {
+      "id": "1ac30d76-9bc9-4d8b-bfb1-157f896d9cad",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.485Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.api-spend.json.1144.ed4c3b7c.tmp",
+      "summary": ".api-spend.json.1144.ed4c3b7c.tmp - file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": ".api-spend.json.1144.ed4c3b7c.tmp -> core"
+      }
+    },
+    {
+      "id": "b52897ea-8d5b-4a35-b953-b7de0ad02994",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.485Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\api-spend.json",
+      "summary": "api-spend.json - file changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "api-spend.json -> core"
+      }
+    },
+    {
+      "id": "d94de4b8-baf2-4d82-bb9e-9bc58fe25d42",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-residue.css",
+      "summary": "facility-residue.css - file changed",
       "metadata": {
         "semanticMeaning": "operational_noise",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "ccc -> core"
+        "classifierLabel": "facility-residue.css -> core"
       }
     },
     {
-      "id": "2ea0067c-57e3-4305-bda7-57faccd351c8",
+      "id": "49650f16-1587-4ad6-8d3b-095c974b0150",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-signals.css",
+      "summary": "facility-signals.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "facility-signals.css -> core"
+      }
+    },
+    {
+      "id": "1db3dc09-f6a2-48ae-86cc-45814a73496e",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-infrastructure.css",
+      "summary": "facility-infrastructure.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "facility-infrastructure.css -> core"
+      }
+    },
+    {
+      "id": "5215979f-cb27-4713-a67b-7537d57f3c5a",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-stabilization.css",
+      "summary": "facility-stabilization.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "facility-stabilization.css -> core"
+      }
+    },
+    {
+      "id": "891dba98-af48-4e8d-964d-032130b4ca5b",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-embodiment.css",
+      "summary": "facility-embodiment.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "facility-embodiment.css -> core"
+      }
+    },
+    {
+      "id": "d7070cf1-8795-4d5a-98e4-4da4be3a48cd",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility.css",
+      "summary": "facility.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "facility.css -> core"
+      }
+    },
+    {
+      "id": "3cfedc3d-5596-43f3-8468-9444526331e9",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-events.css",
+      "summary": "facility-events.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "facility-events.css -> core"
+      }
+    },
+    {
+      "id": "21f38288-5415-4f0b-8f90-3a90235f41f0",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-dossier.css",
+      "summary": "facility-dossier.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "facility-dossier.css -> core"
+      }
+    },
+    {
+      "id": "c616a616-af46-4e9a-8b53-3fc1717f1cb2",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-inspection.css",
+      "summary": "facility-inspection.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "facility-inspection.css -> core"
+      }
+    },
+    {
+      "id": "46579ee5-bfcc-4b2d-8cfc-c77759539255",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\projects-registry.css",
+      "summary": "projects-registry.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "projects-registry.css -> core"
+      }
+    },
+    {
+      "id": "34841214-6c5a-49c6-b1db-e7ebfa4a45c9",
       "type": "code_changed",
       "sector": "core",
       "sectors": [
@@ -2047,20 +2299,20 @@
       ],
       "severity": "medium",
       "confidence": 0.65,
-      "timestamp": "2026-05-22T07:01:42.090Z",
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\lib\\navigation\\surfaces.ts",
-      "summary": "surfaces.ts - code changed",
+      "filePath": "C:\\Projects\\CCC\\postcss.config.mjs",
+      "summary": "postcss.config.mjs - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "surfaces.ts -> core"
+        "classifierLabel": "postcss.config.mjs -> core"
       }
     },
     {
-      "id": "deae7ea7-95b9-4ec6-af99-7f757ae39529",
+      "id": "e131716c-4141-43cd-8cea-20b29d1e12f0",
       "type": "code_changed",
       "sector": "core",
       "sectors": [
@@ -2068,83 +2320,20 @@
       ],
       "severity": "medium",
       "confidence": 0.65,
-      "timestamp": "2026-05-22T07:01:42.090Z",
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\next-env.d.ts",
-      "summary": "next-env.d.ts - code changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ops\\OpsPortalBackControl.tsx",
+      "summary": "OpsPortalBackControl.tsx - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "next-env.d.ts -> core"
+        "classifierLabel": "OpsPortalBackControl.tsx -> core"
       }
     },
     {
-      "id": "ddc2d82d-4786-434c-80f9-b28da4993677",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.090Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\data\\telemetry\\.dedupe-index.json.26864.616a4429.tmp",
-      "summary": ".dedupe-index.json.26864.616a4429.tmp - file changed",
-      "metadata": {
-        "semanticMeaning": "project_emergence",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": ".dedupe-index.json.26864.616a4429.tmp -> core"
-      }
-    },
-    {
-      "id": "ad9b8bbb-3e45-4948-a53e-d0391088d66b",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.089Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\app\\globals.css",
-      "summary": "globals.css - file changed",
-      "metadata": {
-        "semanticMeaning": "operational_noise",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "globals.css -> core"
-      }
-    },
-    {
-      "id": "9d86bc62-f557-474c-8daa-a4d62d64fa22",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T07:01:42.089Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\app\\facility-navigation.css",
-      "summary": "facility-navigation.css - file changed",
-      "metadata": {
-        "semanticMeaning": "operational_noise",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "facility-navigation.css -> core"
-      }
-    },
-    {
-      "id": "b2609bb5-c859-4340-b9a2-f2dd25c9e023",
+      "id": "1457670c-4523-4692-8b39-0320f478601a",
       "type": "code_changed",
       "sector": "core",
       "sectors": [
@@ -2152,20 +2341,62 @@
       ],
       "severity": "medium",
       "confidence": 0.65,
-      "timestamp": "2026-05-22T07:01:42.089Z",
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\GestureNavigationShell.tsx",
-      "summary": "GestureNavigationShell.tsx - code changed",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\ops\\OpsSectionSheet.tsx",
+      "summary": "OpsSectionSheet.tsx - code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "OpsSectionSheet.tsx -> core"
+      }
+    },
+    {
+      "id": "d12d182c-03a8-41ec-af46-f88b5aaa2b13",
+      "type": "file_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "low",
+      "confidence": 0.52,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\app\\ops\\ops.css",
+      "summary": "ops.css - file changed",
+      "metadata": {
+        "semanticMeaning": "operational_noise",
+        "classifierSector": "core",
+        "classifierPoints": 12,
+        "classifierLabel": "ops.css -> core"
+      }
+    },
+    {
+      "id": "43034969-01e2-4b4f-9ee3-c1a8a1bd8b42",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\LocalSignalsPanel.tsx",
+      "summary": "LocalSignalsPanel.tsx - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "GestureNavigationShell.tsx -> core"
+        "classifierLabel": "LocalSignalsPanel.tsx -> core"
       }
     },
     {
-      "id": "2fcec59d-d958-42b2-8a91-9e5e1270869a",
+      "id": "f90af306-4c21-407d-889c-a68c082ce929",
       "type": "code_changed",
       "sector": "core",
       "sectors": [
@@ -2173,548 +2404,315 @@
       ],
       "severity": "medium",
       "confidence": 0.65,
-      "timestamp": "2026-05-22T07:01:42.089Z",
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\SurfaceIndicator.tsx",
-      "summary": "SurfaceIndicator.tsx - code changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\TelemetryBar.tsx",
+      "summary": "TelemetryBar.tsx - code changed",
       "metadata": {
         "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 17,
-        "classifierLabel": "SurfaceIndicator.tsx -> core"
+        "classifierLabel": "TelemetryBar.tsx -> core"
       }
     },
     {
-      "id": "c8f2ff6a-460b-4514-8bf2-dba14d2906f7",
-      "type": "file_changed",
+      "id": "932ca6a2-6b03-422e-b95b-2b98151b1a15",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
       "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T07:01:42.088Z",
+      "confidence": 0.77,
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\FacilityMegastructure.tsx",
+      "summary": "FacilityMegastructure.tsx - code changed",
       "metadata": {
         "semanticMeaning": "architecture_refinement",
+        "classifierSector": "core",
+        "classifierPoints": 22,
+        "classifierLabel": "FacilityMegastructure.tsx -> core"
+      }
+    },
+    {
+      "id": "9ed296ae-ed4e-4f43-a0ca-6571968fb853",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\context\\FacilityResidueContext.tsx",
+      "summary": "FacilityResidueContext.tsx - code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
+        "classifierLabel": "FacilityResidueContext.tsx -> core"
       }
     },
     {
-      "id": "f1c678c2-cddc-4cdb-966d-0f5fb592498d",
-      "type": "file_changed",
+      "id": "b5580f5a-bfa5-4d13-b318-982f28a3880d",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
       "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T07:01:42.088Z",
+      "confidence": 0.77,
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\continuity\\residue\\index.ts",
+      "summary": "index.ts - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
-      }
-    },
-    {
-      "id": "be93a483-89ae-44a8-b02d-2ff8912230a4",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:58:15.467Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
-      }
-    },
-    {
-      "id": "370709c6-6e07-4b38-8572-965211f483bc",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:58:15.466Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
+        "classifierLabel": "index.ts -> core"
       }
     },
     {
-      "id": "1d91e17e-f68d-48f4-aceb-461d49e1e036",
-      "type": "file_changed",
+      "id": "5034f238-b444-4ec8-9fba-db7895568cc5",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:56:49.602Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\OperationalTopologyPanel.tsx",
+      "summary": "OperationalTopologyPanel.tsx - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
+        "classifierSector": "core",
+        "classifierPoints": 17,
+        "classifierLabel": "OperationalTopologyPanel.tsx -> core"
+      }
+    },
+    {
+      "id": "23e03d0b-0c1b-4d29-ae7e-083eabb9e31f",
+      "type": "code_changed",
+      "sector": "core",
+      "sectors": [
+        "core"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "source": "archivist:watcher",
+      "project": "CCC",
+      "filePath": "C:\\Projects\\CCC\\src\\context\\SurfaceNavigationContext.tsx",
+      "summary": "SurfaceNavigationContext.tsx - code changed",
+      "metadata": {
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
+        "classifierLabel": "SurfaceNavigationContext.tsx -> core"
       }
     },
     {
-      "id": "90d62888-e96a-46ac-83f5-0803d0a3f0fa",
-      "type": "file_changed",
+      "id": "d4ca90b6-f8a5-4c59-ab6c-18c5d637f713",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:56:49.602Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\PanelRouter.tsx",
+      "summary": "PanelRouter.tsx - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
+        "classifierPoints": 17,
+        "classifierLabel": "PanelRouter.tsx -> core"
       }
     },
     {
-      "id": "6597c677-87ea-43cf-9cee-5d7eb58d5756",
-      "type": "file_changed",
+      "id": "21da5fec-9dbe-4bfd-a9a4-c6825e71a1b8",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:55:48.021Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\lib\\motion\\controlSurfaceSprings.ts",
+      "summary": "controlSurfaceSprings.ts - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
-      }
-    },
-    {
-      "id": "b6acaa6c-0d55-4e58-a664-e30ab6d7a1c8",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:55:48.021Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
-      }
-    },
-    {
-      "id": "e1056d3e-ea73-4e08-a31a-9c1c16b9e1d0",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:54:46.420Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
+        "classifierLabel": "controlSurfaceSprings.ts -> core"
       }
     },
     {
-      "id": "855b6f88-0380-46c8-8915-3c14fbaaa990",
-      "type": "file_changed",
+      "id": "aeb958d6-e554-4ba4-82b2-36d1bfac8abb",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:54:46.420Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.484Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\panels\\OperatorDossierContent.tsx",
+      "summary": "OperatorDossierContent.tsx - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
+        "classifierPoints": 17,
+        "classifierLabel": "OperatorDossierContent.tsx -> core"
       }
     },
     {
-      "id": "5de0d18a-d997-4efa-be6c-0dc572a4158f",
-      "type": "file_changed",
+      "id": "3e4f7b02-1ba3-4cfc-9488-62d74bf685ff",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:53:44.795Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.483Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ops\\OpsPortalContent.tsx",
+      "summary": "OpsPortalContent.tsx - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
-      }
-    },
-    {
-      "id": "5c06f0db-182a-4928-bbda-feda0cbc7e89",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:53:44.795Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
-      }
-    },
-    {
-      "id": "b05b5365-8749-4aea-8cc3-55e80787101e",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:52:43.159Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
+        "classifierLabel": "OpsPortalContent.tsx -> core"
       }
     },
     {
-      "id": "c0273ea6-bfcb-49e9-b1c7-57ab06cf24ec",
-      "type": "file_changed",
+      "id": "a56afe10-25a7-435f-8d83-dfa201f880bc",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:52:43.159Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.483Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\FacilityCommandSurface.tsx",
+      "summary": "FacilityCommandSurface.tsx - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
+        "classifierPoints": 17,
+        "classifierLabel": "FacilityCommandSurface.tsx -> core"
       }
     },
     {
-      "id": "def11ff1-1f60-4922-aecb-228c9a240a7d",
-      "type": "file_changed",
+      "id": "35104527-a193-47ab-8073-cc914578e917",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:51:41.539Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.483Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\ProjectsEcosystemSurface.tsx",
+      "summary": "ProjectsEcosystemSurface.tsx - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
+        "classifierPoints": 17,
+        "classifierLabel": "ProjectsEcosystemSurface.tsx -> core"
       }
     },
     {
-      "id": "7c30b8be-a1e2-4023-bfc2-46e59361dd0b",
-      "type": "file_changed",
+      "id": "55b1ff25-accc-4dc4-90b5-26ddf9a9405b",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:51:41.538Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.483Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\context\\CCCContext.tsx",
+      "summary": "CCCContext.tsx - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
-      }
-    },
-    {
-      "id": "2f7255a7-face-4229-b19f-b359272629f8",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:50:39.978Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-events.json",
-      "summary": "continuity-events.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
         "classifierPoints": 12,
-        "classifierLabel": "continuity-events.json -> core"
+        "classifierLabel": "CCCContext.tsx -> core"
       }
     },
     {
-      "id": "d67aee1c-9ffa-4550-9857-36ea5ce5fde1",
-      "type": "file_changed",
+      "id": "36f89c6e-50d5-48be-8ef9-d8615729a96b",
+      "type": "code_changed",
       "sector": "core",
       "sectors": [
         "core"
       ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:50:39.978Z",
+      "severity": "medium",
+      "confidence": 0.65,
+      "timestamp": "2026-05-22T07:11:19.483Z",
       "source": "archivist:watcher",
       "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
+      "filePath": "C:\\Projects\\CCC\\src\\components\\ccc\\ProjectRegistrySurface.tsx",
+      "summary": "ProjectRegistrySurface.tsx - code changed",
       "metadata": {
-        "semanticMeaning": "architecture_refinement",
+        "semanticMeaning": "project_emergence",
         "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
-      }
-    },
-    {
-      "id": "2217525a-b937-437f-99a1-5f7f16e195d3",
-      "type": "deployment_signal",
-      "sector": "relay",
-      "sectors": [
-        "relay",
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.85,
-      "timestamp": "2026-05-22T06:49:39.835Z",
-      "source": "archivist:deploy",
-      "project": "ccc",
-      "filePath": null,
-      "summary": "Deploy signal held: not published",
-      "metadata": {
-        "semanticMeaning": "deployment_progress",
-        "deployed": false,
-        "commitHash": null,
-        "skippedReason": null,
-        "significanceTier": "deploy-worthy"
-      }
-    },
-    {
-      "id": "6662a426-908d-4358-8ccf-cd312d3fe3cc",
-      "type": "file_changed",
-      "sector": "archive",
-      "sectors": [
-        "archive"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T06:49:38.200Z",
-      "source": "archivist:watcher",
-      "project": ".obsidian",
-      "filePath": "C:\\Projects\\SecondBrain\\.obsidian\\plugins",
-      "summary": "plugins - file changed",
-      "metadata": {
-        "semanticMeaning": "operational_noise",
-        "classifierSector": "archive",
-        "classifierPoints": 10,
-        "classifierLabel": "plugins -> archive"
-      }
-    },
-    {
-      "id": "725b5380-75c6-447b-b92f-55a9ff43dc9d",
-      "type": "file_changed",
-      "sector": "core",
-      "sectors": [
-        "core"
-      ],
-      "severity": "high",
-      "confidence": 0.64,
-      "timestamp": "2026-05-22T06:49:38.200Z",
-      "source": "archivist:watcher",
-      "project": "CCC",
-      "filePath": "C:\\Projects\\CCC\\public\\continuity-snapshot.json",
-      "summary": "continuity-snapshot.json - file changed",
-      "metadata": {
-        "semanticMeaning": "architecture_refinement",
-        "classifierSector": "core",
-        "classifierPoints": 27,
-        "classifierLabel": "continuity-snapshot.json -> core"
-      }
-    },
-    {
-      "id": "aea00159-4f75-495f-9b6b-e080698f536f",
-      "type": "file_changed",
-      "sector": "relay",
-      "sectors": [
-        "relay"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T06:49:38.199Z",
-      "source": "archivist:watcher",
-      "project": "ThinkCore.io",
-      "filePath": "C:\\Projects\\ThinkCore.io\\core",
-      "summary": "core - file changed",
-      "metadata": {
-        "semanticMeaning": "operational_noise",
-        "classifierSector": "relay",
-        "classifierPoints": 5,
-        "classifierLabel": "core -> relay"
-      }
-    },
-    {
-      "id": "9efcaddc-8bd6-4f34-ad8a-952a1c7b5d74",
-      "type": "file_changed",
-      "sector": "relay",
-      "sectors": [
-        "relay"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T06:49:38.199Z",
-      "source": "archivist:watcher",
-      "project": "ThinkCore.io",
-      "filePath": "C:\\Projects\\ThinkCore.io\\model",
-      "summary": "model - file changed",
-      "metadata": {
-        "semanticMeaning": "operational_noise",
-        "classifierSector": "relay",
-        "classifierPoints": 5,
-        "classifierLabel": "model -> relay"
-      }
-    },
-    {
-      "id": "0dd436b8-d815-45a1-8d8c-34609aaaa63b",
-      "type": "file_changed",
-      "sector": "archive",
-      "sectors": [
-        "archive"
-      ],
-      "severity": "low",
-      "confidence": 0.52,
-      "timestamp": "2026-05-22T06:49:38.199Z",
-      "source": "archivist:watcher",
-      "project": ".obsidian",
-      "filePath": "C:\\Projects\\SecondBrain\\.obsidian",
-      "summary": ".obsidian - file changed",
-      "metadata": {
-        "semanticMeaning": "operational_noise",
-        "classifierSector": "archive",
-        "classifierPoints": 10,
-        "classifierLabel": ".obsidian -> archive"
+        "classifierPoints": 17,
+        "classifierLabel": "ProjectRegistrySurface.tsx -> core"
       }
     }
   ],
   "sectorPressure": {
-    "core": 169.2487394886355,
-    "archive": 19.793850974023947,
-    "forge": 47.903731631033196,
-    "observatory": 11.489706901608525,
-    "relay": 24.777601621413886,
-    "runtime": 4.389985756499142
+    "core": 230.49524023800157,
+    "archive": 10.33785268397328,
+    "forge": 35.68098379470477,
+    "observatory": 11.489709827127374,
+    "relay": 18.129603046852363,
+    "runtime": 4.389986665929971
   },
   "historicalPressure": {
-    "core": 2.7719894886354774,
-    "archive": 6.335975974023949,
-    "forge": 19.04995663103318,
-    "observatory": 10.595956901608524,
-    "relay": 6.359976621413874,
-    "runtime": 3.179985756499141
+    "core": 2.7719902380018553,
+    "archive": 6.33597768397328,
+    "forge": 19.04995879470477,
+    "observatory": 10.595959827127373,
+    "relay": 6.359978046852362,
+    "runtime": 3.1799866659299707
   },
   "sectorMomentum": {
-    "core": 34.64986860794347,
-    "archive": 79.19969967529936,
-    "forge": 238.12445788791473,
-    "observatory": 132.44946127010655,
-    "relay": 79.49970776767341,
-    "runtime": 39.74982195623926
+    "core": 34.64987797502319,
+    "archive": 79.19972104966601,
+    "forge": 238.12448493380964,
+    "observatory": 132.44949783909217,
+    "relay": 79.49972558565452,
+    "runtime": 39.74983332412463
   },
   "sectorActivityClass": {
     "core": "sustained_load",
@@ -2726,147 +2724,135 @@
   },
   "dormantSectors": [],
   "projectMomentum": {
-    "CCC": 160.20600000000005,
-    "ccc": 12.947999999999999,
-    ".obsidian": 1.4040000000000001,
-    "ThinkCore.io": 8.052,
-    "Liahona": 24.018000000000015,
+    "CCC": 222.7964999999996,
+    "ccc": 11.604,
+    ".obsidian": 0.468,
+    "ThinkCore.io": 0.7020000000000001,
+    "Liahona": 9.972,
     "SecondBrain": 0.234,
     "Architecture": 1.92,
     "Templates": 0.234,
-    "ARCHIVE": 0.234,
-    "{Daily,Projects,Books,Meetings,Resources,Archive,Templates,.obsidian": 1.1700000000000002,
-    "AI Systems": 0.234,
-    "Archive": 0.234,
-    "Books": 0.234,
-    "Continuity": 1.92,
-    "Daily": 0.234,
-    "Ideas": 0.234,
-    "Meetings": 0.234,
-    "Projects": 0.234,
-    "Resources": 0.468,
-    "Sources": 0.234,
-    "Workflows": 0.234
+    "ARCHIVE": 0.234
   },
   "semanticMilestones": [
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T07:04:46.895Z",
+      "timestamp": "2026-05-22T07:12:21.084Z",
       "summary": "continuity-events.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T07:04:46.895Z",
+      "timestamp": "2026-05-22T07:12:21.084Z",
       "summary": "continuity-snapshot.json - file changed",
-      "project": "CCC"
-    },
-    {
-      "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T07:03:45.394Z",
-      "summary": "continuity-events.json - file changed",
-      "project": "CCC"
-    },
-    {
-      "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T07:03:45.394Z",
-      "summary": "continuity-snapshot.json - file changed",
-      "project": "CCC"
-    },
-    {
-      "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T07:02:43.828Z",
-      "summary": "continuity-snapshot.json - file changed",
-      "project": "CCC"
-    },
-    {
-      "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T07:02:43.827Z",
-      "summary": "continuity-events.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "deployment_progress",
-      "timestamp": "2026-05-22T07:01:43.709Z",
+      "timestamp": "2026-05-22T07:11:20.967Z",
       "summary": "Deploy signal held: not published",
       "project": "ccc"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T07:01:42.088Z",
-      "summary": "continuity-events.json - file changed",
+      "timestamp": "2026-05-22T07:11:19.484Z",
+      "summary": "FacilityMegastructure.tsx - code changed",
+      "project": "CCC"
+    },
+    {
+      "meaning": "ontology_change",
+      "timestamp": "2026-05-22T07:11:19.478Z",
+      "summary": "taxonomy.ts - code changed",
+      "project": "CCC"
+    },
+    {
+      "meaning": "ontology_change",
+      "timestamp": "2026-05-22T07:11:19.478Z",
+      "summary": "migrate.ts - code changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T07:01:42.088Z",
+      "timestamp": "2026-05-22T07:11:19.477Z",
+      "summary": "route.ts - code changed",
+      "project": "CCC"
+    },
+    {
+      "meaning": "ontology_change",
+      "timestamp": "2026-05-22T07:11:19.477Z",
+      "summary": "schema.ts - code changed",
+      "project": "CCC"
+    },
+    {
+      "meaning": "architecture_refinement",
+      "timestamp": "2026-05-22T07:11:19.476Z",
       "summary": "continuity-snapshot.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:58:15.467Z",
+      "timestamp": "2026-05-22T07:11:19.475Z",
+      "summary": "continuity-events.json - file changed",
+      "project": "CCC"
+    },
+    {
+      "meaning": "architecture_refinement",
+      "timestamp": "2026-05-22T07:08:37.754Z",
       "summary": "continuity-snapshot.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:58:15.466Z",
+      "timestamp": "2026-05-22T07:08:37.753Z",
       "summary": "continuity-events.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:56:49.602Z",
+      "timestamp": "2026-05-22T07:07:36.164Z",
       "summary": "continuity-events.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:56:49.602Z",
+      "timestamp": "2026-05-22T07:07:36.164Z",
       "summary": "continuity-snapshot.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:55:48.021Z",
-      "summary": "continuity-events.json - file changed",
-      "project": "CCC"
-    },
-    {
-      "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:55:48.021Z",
+      "timestamp": "2026-05-22T07:06:34.550Z",
       "summary": "continuity-snapshot.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:54:46.420Z",
+      "timestamp": "2026-05-22T07:06:34.549Z",
       "summary": "continuity-events.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:54:46.420Z",
+      "timestamp": "2026-05-22T07:04:46.895Z",
+      "summary": "continuity-events.json - file changed",
+      "project": "CCC"
+    },
+    {
+      "meaning": "architecture_refinement",
+      "timestamp": "2026-05-22T07:04:46.895Z",
       "summary": "continuity-snapshot.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:53:44.795Z",
+      "timestamp": "2026-05-22T07:03:45.394Z",
       "summary": "continuity-events.json - file changed",
       "project": "CCC"
     },
     {
       "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:53:44.795Z",
+      "timestamp": "2026-05-22T07:03:45.394Z",
       "summary": "continuity-snapshot.json - file changed",
-      "project": "CCC"
-    },
-    {
-      "meaning": "architecture_refinement",
-      "timestamp": "2026-05-22T06:52:43.159Z",
-      "summary": "continuity-events.json - file changed",
       "project": "CCC"
     }
   ],
@@ -2875,7 +2861,7 @@
       "id": "sem-280634612054e2",
       "meaning": "active_initiative",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge",
@@ -2892,8 +2878,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 19.04995663103318,
-        "momentum": 238.12445788791473,
+        "sustainedPressure": 19.04995879470477,
+        "momentum": 238.12448493380964,
         "markdownCount": 4,
         "recentActivityCount": 316
       }
@@ -2902,7 +2888,7 @@
       "id": "sem-63def32668fdec",
       "meaning": "sustained_development_focus",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge"
@@ -2918,8 +2904,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 19.04995663103318,
-        "momentum": 238.12445788791473,
+        "sustainedPressure": 19.04995879470477,
+        "momentum": 238.12448493380964,
         "markdownCount": 4,
         "recentActivityCount": 316
       }
@@ -2928,7 +2914,7 @@
       "id": "sem-42a98531169f5c",
       "meaning": "infrastructure_instability",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "runtime",
       "sectors": [
         "runtime",
@@ -2945,8 +2931,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 19.04995663103318,
-        "momentum": 238.12445788791473,
+        "sustainedPressure": 19.04995879470477,
+        "momentum": 238.12448493380964,
         "markdownCount": 4,
         "recentActivityCount": 316
       }
@@ -2955,7 +2941,7 @@
       "id": "sem-259d843abb78c8",
       "meaning": "active_initiative",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge",
@@ -2972,8 +2958,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 6.335975974023949,
-        "momentum": 79.19969967529936,
+        "sustainedPressure": 6.33597768397328,
+        "momentum": 79.19972104966601,
         "markdownCount": 30,
         "recentActivityCount": 119
       }
@@ -2982,7 +2968,7 @@
       "id": "sem-17b07fb75036d0",
       "meaning": "sustained_development_focus",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge"
@@ -2998,8 +2984,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 6.335975974023949,
-        "momentum": 79.19969967529936,
+        "sustainedPressure": 6.33597768397328,
+        "momentum": 79.19972104966601,
         "markdownCount": 30,
         "recentActivityCount": 119
       }
@@ -3008,7 +2994,7 @@
       "id": "sem-5a19ccd50634d6",
       "meaning": "active_initiative",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge",
@@ -3025,8 +3011,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 6.335975974023949,
-        "momentum": 79.19969967529936,
+        "sustainedPressure": 6.33597768397328,
+        "momentum": 79.19972104966601,
         "markdownCount": 27,
         "recentActivityCount": 28
       }
@@ -3035,7 +3021,7 @@
       "id": "sem-d33b556f4bf9ea",
       "meaning": "sustained_development_focus",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge"
@@ -3051,8 +3037,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 6.335975974023949,
-        "momentum": 79.19969967529936,
+        "sustainedPressure": 6.33597768397328,
+        "momentum": 79.19972104966601,
         "markdownCount": 27,
         "recentActivityCount": 28
       }
@@ -3061,7 +3047,7 @@
       "id": "sem-613752a6893f23",
       "meaning": "active_initiative",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge",
@@ -3078,8 +3064,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 6.335975974023949,
-        "momentum": 79.19969967529936,
+        "sustainedPressure": 6.33597768397328,
+        "momentum": 79.19972104966601,
         "markdownCount": 30,
         "recentActivityCount": 38
       }
@@ -3088,7 +3074,7 @@
       "id": "sem-3ca92db71454ba",
       "meaning": "sustained_development_focus",
       "confidence": 0.94,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge"
@@ -3104,8 +3090,8 @@
           "recent_commit_detected",
           "remote_detected"
         ],
-        "sustainedPressure": 6.335975974023949,
-        "momentum": 79.19969967529936,
+        "sustainedPressure": 6.33597768397328,
+        "momentum": 79.19972104966601,
         "markdownCount": 30,
         "recentActivityCount": 38
       }
@@ -3114,7 +3100,7 @@
       "id": "sem-6d277f046d2444",
       "meaning": "active_initiative",
       "confidence": 0.83,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge",
@@ -3130,8 +3116,8 @@
           "branch_detected",
           "recent_commit_detected"
         ],
-        "sustainedPressure": 19.04995663103318,
-        "momentum": 238.12445788791473,
+        "sustainedPressure": 19.04995879470477,
+        "momentum": 238.12448493380964,
         "markdownCount": 3,
         "recentActivityCount": 63
       }
@@ -3140,7 +3126,7 @@
       "id": "sem-b6e343fb01b378",
       "meaning": "sustained_development_focus",
       "confidence": 0.83,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "forge",
       "sectors": [
         "forge"
@@ -3155,8 +3141,8 @@
           "branch_detected",
           "recent_commit_detected"
         ],
-        "sustainedPressure": 19.04995663103318,
-        "momentum": 238.12445788791473,
+        "sustainedPressure": 19.04995879470477,
+        "momentum": 238.12448493380964,
         "markdownCount": 3,
         "recentActivityCount": 63
       }
@@ -3165,7 +3151,7 @@
       "id": "sem-2c47114e57c7b2",
       "meaning": "infrastructure_instability",
       "confidence": 0.83,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "runtime",
       "sectors": [
         "runtime",
@@ -3181,8 +3167,8 @@
           "branch_detected",
           "recent_commit_detected"
         ],
-        "sustainedPressure": 19.04995663103318,
-        "momentum": 238.12445788791473,
+        "sustainedPressure": 19.04995879470477,
+        "momentum": 238.12448493380964,
         "markdownCount": 3,
         "recentActivityCount": 63
       }
@@ -3191,7 +3177,7 @@
       "id": "sem-87d48d87f87e04",
       "meaning": "continuity_consolidation",
       "confidence": 0.48,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "archive",
       "sectors": [
         "archive",
@@ -3215,7 +3201,7 @@
       "id": "sem-de69adc6a75e34",
       "meaning": "initiative_emergence",
       "confidence": 0.43,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "observatory",
       "sectors": [
         "observatory",
@@ -3238,7 +3224,7 @@
       "id": "sem-6c23262f8e9076",
       "meaning": "architecture_shift",
       "confidence": 0.43,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "core",
       "sectors": [
         "core",
@@ -3261,7 +3247,7 @@
       "id": "sem-713cd5ecf1b71d",
       "meaning": "active_initiative",
       "confidence": 0.43,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "observatory",
       "sectors": [
         "observatory",
@@ -3283,7 +3269,7 @@
       "id": "sem-878756a6879502",
       "meaning": "ecosystem_expansion",
       "confidence": 0.43,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "observatory",
       "sectors": [
         "observatory",
@@ -3305,7 +3291,7 @@
       "id": "sem-fe47773040fddc",
       "meaning": "sustained_development_focus",
       "confidence": 0.43,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "runtime",
       "sectors": [
         "runtime",
@@ -3326,7 +3312,7 @@
       "id": "sem-9ba3a5f7538d89",
       "meaning": "ecosystem_expansion",
       "confidence": 0.43,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "observatory",
       "sectors": [
         "observatory",
@@ -3347,7 +3333,7 @@
       "id": "sem-ead2c7d906a50a",
       "meaning": "continuity_consolidation",
       "confidence": 0.43,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "observatory",
       "sectors": [
         "observatory",
@@ -3369,7 +3355,7 @@
       "id": "sem-9759396cdab726",
       "meaning": "deployment_progress",
       "confidence": 0.43,
-      "timestamp": "2026-05-22T07:04:48.335Z",
+      "timestamp": "2026-05-22T07:12:22.395Z",
       "sector": "relay",
       "sectors": [
         "relay",
@@ -3415,7 +3401,7 @@
     "secondbrain-nested-ai-systems"
   ],
   "lastSignificantEvent": {
-    "timestamp": "2026-05-22T07:04:46.895Z",
+    "timestamp": "2026-05-22T07:12:21.084Z",
     "type": "file_changed",
     "summary": "continuity-events.json - file changed",
     "severity": "high"
