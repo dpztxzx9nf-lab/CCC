@@ -29,12 +29,12 @@ export function FacilityCommandSurface() {
       >
         <TelemetryBar />
 
-        <main className="flex w-full min-w-0 flex-col gap-3 overflow-x-hidden px-2 py-3 md:gap-4 md:px-4 md:py-5 lg:flex-row lg:items-start lg:gap-5 lg:overflow-x-visible">
-          <section className="min-w-0 flex-1 max-lg:overflow-x-clip lg:overflow-visible">
+        <main className="ccc-facility-main flex w-full min-w-0 flex-col gap-3 px-2 py-3 md:gap-4 md:px-4 md:py-5 lg:flex-row lg:items-start lg:gap-5">
+          <section className="ccc-facility-megastructure-region w-full min-w-0 shrink-0 max-lg:overflow-x-clip lg:flex-1 lg:overflow-visible">
             <FacilityMegastructure />
           </section>
 
-          <aside className="ccc-sidebar flex min-w-0 w-full shrink-0 flex-col gap-2 overflow-x-hidden md:gap-3 lg:w-[min(100%,18rem)]">
+          <aside className="ccc-sidebar flex w-full min-w-0 shrink-0 flex-col gap-2 md:gap-3 lg:w-[min(100%,18rem)]">
             <OperationalTopologyPanel />
             <ContinuityEventRail />
             <LocalSignalsPanel />

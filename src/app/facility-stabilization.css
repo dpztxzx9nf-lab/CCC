@@ -485,7 +485,7 @@
     min-width: 5.5rem;
   }
 
-  .ccc-sidebar {
+  .ccc-facility-main .ccc-sidebar {
     order: 2;
   }
 }
