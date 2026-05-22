@@ -1,7 +1,6 @@
 import type { ContinuityStorageStats, OpsContinuitySignalRow } from "@/lib/continuity/events/store";
 import { compactTelemetryLines, type OperationalTelemetry } from "@/lib/telemetry";
 import type { OpsPortalBundle } from "@/lib/ops/loadOpsPortalBundle";
-import { OpsSectionSheet } from "@/app/ops/OpsSectionSheet";
 import { OpsPortalBackControl } from "./OpsPortalBackControl";
 import "@/app/ops/ops.css";
 
@@ -129,8 +128,8 @@ function RecentContinuitySignals({ rows }: { rows: OpsContinuitySignalRow[] }) {
         Recent Continuity Signals
       </h3>
       <p className="ccc-ops-signals__meta">
-        Last 10 rows from <code className="font-mono text-ccc-text/80">public/continuity-events.json</code>{" "}
-        (<code className="font-mono text-ccc-text/80">operationalEvents ?? events</code>, newest first).
+        Last 10 rows from <code>public/continuity-events.json</code> (
+        <code>operationalEvents ?? events</code>, newest first).
       </p>
       {rows.length === 0 ? (
         <p className="ccc-ops-signals__empty">
@@ -216,10 +215,26 @@ export function OpsPortalContent({
             Operational memory for Continuity Command Center. Nothing here is live
             status — use PM2, Git, and Vercel to see what is actually running.
             Local CCC updates from ARCHIVIST-0;{" "}
-            <strong className="text-ccc-text">ccc.thinkcore.io</strong> updates only
+            <strong>ccc.thinkcore.io</strong> updates only
             after you push to Git and Vercel deploys.
           </p>
-          <nav className="ccc-ops-toc hidden md:block" aria-label="Sections">
+          <nav className="ccc-ops-toc ccc-ops-toc--desktop" aria-label="Sections">
+            <p className="ccc-ops-toc__heading">Sections</p>
+            <ul>
+              {SECTIONS.map((s, i) => (
+                <li key={s.id}>
+                  <a href={`#${s.id}`}>
+                    {i + 1}. {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <nav
+            className="ccc-ops-toc ccc-ops-toc--mobile"
+            aria-label="Sections"
+          >
+            <p className="ccc-ops-toc__heading">Sections</p>
             <ul>
               {SECTIONS.map((s, i) => (
                 <li key={s.id}>
@@ -231,12 +246,6 @@ export function OpsPortalContent({
             </ul>
           </nav>
           <OpsPortalBackControl mode={embedded ? "surface" : "link"} />
-          <OpsSectionSheet
-            sections={SECTIONS.map((s, i) => ({
-              id: s.id,
-              label: `${i + 1}. ${s.label}`,
-            }))}
-          />
         </header>
 
         <section className="ccc-ops-section" aria-labelledby="git-deploy">
@@ -276,7 +285,7 @@ export function OpsPortalContent({
 
           <p className="ccc-ops-note">
             Typical publish path: ARCHIVIST updates{" "}
-            <code className="font-mono text-ccc-text/90">public/continuity-snapshot.json</code>{" "}
+            <code>public/continuity-snapshot.json</code>{" "}
             locally → review in dev → commit → push → confirm deploy on Vercel.
           </p>
         </section>
@@ -295,7 +304,7 @@ export function OpsPortalContent({
             </li>
             <li>
               <strong>ARCHIVIST-0 does not auto-push</strong> because{" "}
-              <code className="font-mono">autoDeploy=false</code> in archivist config.
+              <code>autoDeploy=false</code> in archivist config.
               Publishing stays manual even when changes are “deploy-worthy.”
             </li>
           </ul>
@@ -307,7 +316,9 @@ export function OpsPortalContent({
 
         <section className="ccc-ops-section" aria-labelledby="local-dev">
           <h2 id="local-dev">3. CCC local dev</h2>
-          <p>Run from the CCC repo root (<code className="font-mono">C:\Projects\CCC</code>).</p>
+          <p>
+            Run from the CCC repo root (<code>C:\Projects\CCC</code>).
+          </p>
 
           <CommandBlock command="npm run dev">
             Start Next.js dev server — facility UI at localhost (hot reload for code).
@@ -320,7 +331,7 @@ export function OpsPortalContent({
 
           <CommandBlock command="npm run snapshot">
             Manually regenerate{" "}
-            <code className="font-mono">public/continuity-snapshot.json</code> without
+            <code>public/continuity-snapshot.json</code> without
             waiting for the watcher (full scan of configured roots).
           </CommandBlock>
 
@@ -340,16 +351,16 @@ export function OpsPortalContent({
           <p>
             <strong className="text-ccc-text">Ingestion → projection chain</strong> —
             raw filesystem activity is normalized into typed{" "}
-            <code className="font-mono">OperationalEvent</code> records (severity, sector,
+            <code>OperationalEvent</code> records (severity, sector,
             semantics) appended under{" "}
-            <code className="font-mono">operationalEvents</code> in{" "}
-            <code className="font-mono">public/continuity-events.json</code>, alongside the
+            <code>operationalEvents</code> in{" "}
+            <code>public/continuity-events.json</code>, alongside the
             continuity rail log. Heuristic significance and semantic passes live in{" "}
-            <code className="font-mono">src/lib/operations/</code> (no AI APIs). When{" "}
-            <code className="font-mono">continuity-snapshot.json</code> regenerates, it
-            carries <code className="font-mono">eventsRecent</code>,{" "}
-            <code className="font-mono">sectorPressure</code>,{" "}
-            <code className="font-mono">projectMomentum</code>, dormant/active project ids,
+            <code>src/lib/operations/</code> (no AI APIs). When{" "}
+            <code>continuity-snapshot.json</code> regenerates, it
+            carries <code>eventsRecent</code>,{" "}
+            <code>sectorPressure</code>,{" "}
+            <code>projectMomentum</code>, dormant/active project ids,
             milestones, and last significant signal; sector heat blends that pressure with
             scanned project signals so the facility stays quiet unless reality says
             otherwise.
@@ -361,13 +372,13 @@ export function OpsPortalContent({
             </li>
             <li>
               <strong>Automatic snapshot</strong> — when change significance crosses the
-              threshold and <code className="font-mono">autoSnapshot=true</code>, writes{" "}
-              <code className="font-mono">public/continuity-snapshot.json</code>.
+              threshold and <code>autoSnapshot=true</code>, writes{" "}
+              <code>public/continuity-snapshot.json</code>.
             </li>
             <li>
               <strong>PM2 keeps the watcher alive</strong> — service name{" "}
-              <code className="font-mono">ccc-archivist</code> (
-              <code className="font-mono">ecosystem.config.cjs</code>).
+              <code>ccc-archivist</code> (
+              <code>ecosystem.config.cjs</code>).
             </li>
             <li>
               <strong>autoDeploy disabled</strong> — no automatic git commit/push; live
@@ -405,7 +416,7 @@ export function OpsPortalContent({
           <CommandBlock command="pm2 logs ccc-archivist">
             Inspect ARCHIVIST-0 logs. On Windows, PM2 may show empty logs when npm runs
             through cmd.exe — confirm with a manual{" "}
-            <code className="font-mono">npm run archivist:watch</code> if needed.
+            <code>npm run archivist:watch</code> if needed.
           </CommandBlock>
 
           <CommandBlock command="pm2 restart ccc-archivist">
@@ -433,18 +444,16 @@ export function OpsPortalContent({
           <h2 id="windows-restore">6. Windows startup restore</h2>
           <p>
             Scheduled task: <strong className="text-ccc-text">PM2 Resurrect On Logon</strong>
-            . Runs at user logon for <code className="font-mono">LAPTOP\Brockoozee</code>.
+            . Runs at user logon for <code>LAPTOP\Brockoozee</code>.
           </p>
           <p>
             Command executed:{" "}
-            <code className="font-mono text-ccc-text/90">
-              C:\Users\Golf\AppData\Roaming\npm\pm2.cmd resurrect
-            </code>{" "}
-            (equivalent to <code className="font-mono">pm2 resurrect</code>).
+            <code>C:\Users\Golf\AppData\Roaming\npm\pm2.cmd resurrect</code>{" "}
+            (equivalent to <code>pm2 resurrect</code>).
           </p>
           <p>
             After changing which apps PM2 should restore, run{" "}
-            <code className="font-mono">pm2 save</code> while the desired services are
+            <code>pm2 save</code> while the desired services are
             online.
           </p>
 
@@ -453,7 +462,7 @@ export function OpsPortalContent({
           </CommandBlock>
 
           <CommandBlock command='schtasks /Run /TN "PM2 Resurrect On Logon"'>
-            Test the task without rebooting, then run <code className="font-mono">pm2 list</code>.
+            Test the task without rebooting, then run <code>pm2 list</code>.
           </CommandBlock>
         </section>
 
@@ -465,8 +474,8 @@ export function OpsPortalContent({
           <ul>
             <li>
               <strong>One archivist watcher</strong> — never PM2{" "}
-              <code className="font-mono">ccc-archivist</code> and{" "}
-              <code className="font-mono">npm run archivist:watch</code> in a terminal at
+              <code>ccc-archivist</code> and{" "}
+              <code>npm run archivist:watch</code> in a terminal at
               the same time.
             </li>
             <li>
@@ -486,7 +495,7 @@ export function OpsPortalContent({
               restore matches intent.
             </li>
             <li>
-              If CCC looks stale locally → <code className="font-mono">pm2 list</code>, then
+              If CCC looks stale locally → <code>pm2 list</code>, then
               snapshot age in facility telemetry; if live site stale → Git/Vercel, not PM2.
             </li>
           </ul>
@@ -497,15 +506,15 @@ export function OpsPortalContent({
           <p>
             ARCHIVIST already classifies some changes as{" "}
             <strong className="text-ccc-text">deploy-worthy</strong>. When{" "}
-            <code className="font-mono">autoDeploy</code> is enabled in the future, the
+            <code>autoDeploy</code> is enabled in the future, the
             agent may automatically commit and push snapshot updates (after build passes
             and cooldown), triggering Vercel deploys without a manual{" "}
-            <code className="font-mono">git push</code>.
+            <code>git push</code>.
           </p>
           <p>
             <strong className="text-ccc-text">Current mode:</strong>{" "}
-            <code className="font-mono">autoSnapshot=true</code>,{" "}
-            <code className="font-mono">autoDeploy=false</code>. CCC observes and snapshots
+            <code>autoSnapshot=true</code>,{" "}
+            <code>autoDeploy=false</code>. CCC observes and snapshots
             automatically; live publishing on ccc.thinkcore.io remains manually governed.
           </p>
         </section>
@@ -518,18 +527,18 @@ export function OpsPortalContent({
           <ul>
             <li>
               <strong>ccc-archivist offline</strong> →{" "}
-              <code className="font-mono">pm2 restart ccc-archivist</code>
+              <code>pm2 restart ccc-archivist</code>
             </li>
             <li>
               <strong>Local facility stale</strong> → telemetry snapshot time;{" "}
-              <code className="font-mono">npm run snapshot</code>
+              <code>npm run snapshot</code>
             </li>
             <li>
               <strong>Live site stale</strong> → latest Git commit deployed on Vercel?
             </li>
             <li>
               <strong>Services missing after reboot</strong> →{" "}
-              <code className="font-mono">pm2 resurrect</code> or check scheduled task
+              <code>pm2 resurrect</code> or check scheduled task
             </li>
           </ul>
         </section>
