@@ -22,7 +22,7 @@ import { SurfaceNavigationProvider } from "@/context/SurfaceNavigationContext";
 import { PanelRouter } from "./PanelRouter";
 
 const EDGE_ZONE_PX = 30;
-const DRAG_SLOP_PX = 10;
+const DRAG_SLOP_PX = 4;
 const AXIS_LOCK_RATIO = 1.35;
 const COMMIT_DISTANCE_RATIO = 0.28;
 const COMMIT_VELOCITY_PX_MS = 0.35;
@@ -47,10 +47,19 @@ interface GestureNavigationShellProps {
   initialSurface?: CccSurface;
 }
 
-function edgeAtPointerStart(clientX: number): EdgeOrigin | null {
+function edgeAtPointerStart(clientX: number, viewportWidth: number): EdgeOrigin | null {
   if (clientX <= EDGE_ZONE_PX) return "left";
-  if (clientX >= window.innerWidth - EDGE_ZONE_PX) return "right";
+  if (clientX >= viewportWidth - EDGE_ZONE_PX) return "right";
   return null;
+}
+
+function peekSurfaceDuringDrag(
+  edge: EdgeOrigin,
+  surface: CccSurface,
+): CccSurface | null {
+  return edge === "left"
+    ? surfaceAfterSwipeRight(surface)
+    : surfaceAfterSwipeLeft(surface);
 }
 
 function baseTranslateForSurface(surface: CccSurface, viewportWidth: number): number {
@@ -105,6 +114,13 @@ export function GestureNavigationShell({
   const [translatePx, setTranslatePx] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [edgeSessionActive, setEdgeSessionActive] = useState(false);
+  const [dragPeekSurface, setDragPeekSurface] = useState<CccSurface | null>(
+    null,
+  );
+  const [pendingSurface, setPendingSurface] = useState<CccSurface | null>(
+    null,
+  );
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -115,6 +131,16 @@ export function GestureNavigationShell({
 
   surfaceRef.current = surface;
 
+  const applyTrackTranslate = useCallback((px: number, syncState: boolean) => {
+    const track = trackRef.current;
+    if (track) {
+      track.style.transform = `translate3d(${px}px, 0, 0)`;
+    }
+    if (syncState) {
+      setTranslatePx(px);
+    }
+  }, []);
+
   const getViewportWidth = useCallback(() => {
     return viewportRef.current?.clientWidth ?? window.innerWidth;
   }, []);
@@ -124,55 +150,77 @@ export function GestureNavigationShell({
       const width = getViewportWidth();
       const nextTranslate = baseTranslateForSurface(target, width);
 
+      setPendingSurface(null);
+
       if (!animate || prefersReducedMotionRef.current) {
         setIsAnimating(false);
         setIsDragging(false);
+        setDragPeekSurface(null);
         setSurface(target);
-        setTranslatePx(nextTranslate);
+        applyTrackTranslate(nextTranslate, true);
         return;
       }
 
+      setPendingSurface(target);
       setIsAnimating(true);
-      setTranslatePx(nextTranslate);
-      setSurface(target);
+      applyTrackTranslate(nextTranslate, true);
     },
-    [getViewportWidth],
+    [applyTrackTranslate, getViewportWidth],
   );
 
   useLayoutEffect(() => {
     prefersReducedMotionRef.current = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    setTranslatePx(baseTranslateForSurface(initialSurface, getViewportWidth()));
-  }, [getViewportWidth, initialSurface]);
+    applyTrackTranslate(
+      baseTranslateForSurface(initialSurface, getViewportWidth()),
+      true,
+    );
+  }, [applyTrackTranslate, getViewportWidth, initialSurface]);
 
   useEffect(() => {
     if (isDragging || isAnimating) return;
-    setTranslatePx(baseTranslateForSurface(surface, getViewportWidth()));
-  }, [surface, isDragging, isAnimating, getViewportWidth]);
+    applyTrackTranslate(
+      baseTranslateForSurface(surface, getViewportWidth()),
+      true,
+    );
+  }, [surface, isDragging, isAnimating, getViewportWidth, applyTrackTranslate]);
 
   useEffect(() => {
     function onResize() {
       if (sessionRef.current || isDragging || isAnimating) return;
-      setTranslatePx(baseTranslateForSurface(surfaceRef.current, getViewportWidth()));
+      applyTrackTranslate(
+        baseTranslateForSurface(surfaceRef.current, getViewportWidth()),
+        true,
+      );
     }
 
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [isDragging, isAnimating, getViewportWidth]);
+  }, [isDragging, isAnimating, getViewportWidth, applyTrackTranslate]);
 
   const endSession = useCallback(() => {
     sessionRef.current = null;
+    setEdgeSessionActive(false);
     setIsDragging(false);
+    setDragPeekSurface(null);
   }, []);
 
   const onTrackTransitionEnd = useCallback(
     (e: React.TransitionEvent<HTMLDivElement>) => {
       if (e.target !== trackRef.current || e.propertyName !== "transform") return;
       setIsAnimating(false);
-      setTranslatePx(baseTranslateForSurface(surfaceRef.current, getViewportWidth()));
+      const resolved = pendingSurface ?? surfaceRef.current;
+      if (pendingSurface) {
+        setPendingSurface(null);
+        setSurface(pendingSurface);
+      }
+      applyTrackTranslate(
+        baseTranslateForSurface(resolved, getViewportWidth()),
+        true,
+      );
     },
-    [getViewportWidth],
+    [applyTrackTranslate, getViewportWidth, pendingSurface],
   );
 
   const finishPan = useCallback(
@@ -195,23 +243,26 @@ export function GestureNavigationShell({
       }
 
       setIsAnimating(true);
-      setTranslatePx(base);
+      applyTrackTranslate(base, true);
     },
-    [getViewportWidth, snapToSurface],
+    [applyTrackTranslate, getViewportWidth, snapToSurface],
   );
 
   const onPointerDown = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.button !== 0 || isAnimating) return;
 
-    const edge = edgeAtPointerStart(e.clientX);
+    const viewportWidth = getViewportWidth();
+    const edge = edgeAtPointerStart(e.clientX, viewportWidth);
     if (!edge) {
       sessionRef.current = null;
+      setEdgeSessionActive(false);
       return;
     }
 
     if (edge === "right" && !surfaceAfterSwipeLeft(surfaceRef.current)) return;
     if (edge === "left" && !surfaceAfterSwipeRight(surfaceRef.current)) return;
 
+    setEdgeSessionActive(true);
     sessionRef.current = {
       edge,
       pointerId: e.pointerId,
@@ -223,7 +274,7 @@ export function GestureNavigationShell({
       locked: false,
     };
     suppressClickRef.current = false;
-  }, [isAnimating]);
+  }, [getViewportWidth, isAnimating]);
 
   const onPointerMove = useCallback(
     (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -244,21 +295,25 @@ export function GestureNavigationShell({
         const now = performance.now();
         session.locked = true;
         session.lockTime = now;
-        session.lastX = e.clientX;
         session.lastTime = now;
         e.currentTarget.setPointerCapture(e.pointerId);
         setIsDragging(true);
+        setDragPeekSurface(
+          peekSurfaceDuringDrag(session.edge, surfaceRef.current),
+        );
       }
+
+      if (!session.locked) return;
 
       const width = getViewportWidth();
       const offset = clampDragOffset(session.edge, dx, width, surfaceRef.current);
       const base = baseTranslateForSurface(surfaceRef.current, width);
-      setTranslatePx(base + offset);
+      applyTrackTranslate(base + offset, false);
 
       session.lastX = e.clientX;
       session.lastTime = performance.now();
     },
-    [endSession, getViewportWidth],
+    [applyTrackTranslate, endSession, getViewportWidth],
   );
 
   const onPointerUp = useCallback(
@@ -305,12 +360,12 @@ export function GestureNavigationShell({
           getViewportWidth(),
         );
         setIsAnimating(true);
-        setTranslatePx(base);
+        applyTrackTranslate(base, true);
       }
 
       endSession();
     },
-    [endSession, getViewportWidth],
+    [applyTrackTranslate, endSession, getViewportWidth],
   );
 
   useEffect(() => {
@@ -354,10 +409,10 @@ export function GestureNavigationShell({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [snapToSurface]);
 
-  const trackStyle =
-    translatePx != null
-      ? { transform: `translate3d(${translatePx}px, 0, 0)` }
-      : undefined;
+  const panelIsActive = (panel: CccSurface) =>
+    surface === panel ||
+    dragPeekSurface === panel ||
+    pendingSurface === panel;
 
   return (
     <SurfaceNavigationProvider surface={surface} setSurface={setSurface}>
@@ -372,8 +427,12 @@ export function GestureNavigationShell({
         <div className="ccc-command-shell__stage relative z-10 flex min-h-0 flex-1 flex-col">
           <div
             ref={viewportRef}
-            className="ccc-surface-viewport min-h-0 flex-1 touch-pan-y"
-            data-edge-pan-active={isDragging ? "true" : undefined}
+            className={`ccc-surface-viewport min-h-0 flex-1 ${
+              edgeSessionActive || isDragging ? "touch-none" : "touch-pan-y"
+            }`}
+            data-edge-pan-active={
+              edgeSessionActive || isDragging ? "true" : undefined
+            }
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
@@ -393,27 +452,26 @@ export function GestureNavigationShell({
               data-measured={translatePx != null ? "true" : undefined}
               data-dragging={isDragging ? "true" : undefined}
               data-animating={isAnimating ? "true" : undefined}
-              style={trackStyle}
               onTransitionEnd={onTrackTransitionEnd}
             >
               <div
                 className="ccc-surface-panel ccc-surface-panel--projects"
-                aria-hidden={surface !== "projects"}
-                inert={surface !== "projects"}
+                aria-hidden={!panelIsActive("projects")}
+                inert={!panelIsActive("projects")}
               >
                 {projects}
               </div>
               <div
                 className="ccc-surface-panel ccc-surface-panel--facility"
-                aria-hidden={surface !== "facility"}
-                inert={surface !== "facility"}
+                aria-hidden={!panelIsActive("facility")}
+                inert={!panelIsActive("facility")}
               >
                 {facility}
               </div>
               <div
                 className="ccc-surface-panel ccc-surface-panel--ops"
-                aria-hidden={surface !== "ops"}
-                inert={surface !== "ops"}
+                aria-hidden={!panelIsActive("ops")}
+                inert={!panelIsActive("ops")}
               >
                 {opsPortal}
               </div>
