@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "createdAt": "2026-05-21T00:00:00.000Z",
-  "updatedAt": "2026-05-22T08:20:08.878Z",
+  "updatedAt": "2026-05-22T08:26:10.874Z",
   "rolling": {
     "pm2Available": true,
     "processCount": 2
@@ -29,22 +29,22 @@
     }
   ],
   "lastSnapshot": {
-    "at": "2026-05-22T08:20:08.876Z",
+    "at": "2026-05-22T08:26:10.871Z",
     "pm2Available": true,
     "processes": [
       {
         "name": "liahona",
         "status": "online",
-        "uptimeMs": 20567506,
+        "uptimeMs": 20929502,
         "restartCount": 0,
-        "memoryMb": 27.4,
+        "memoryMb": 21.9,
         "cpu": 0,
         "pmId": 0
       },
       {
         "name": "ccc-archivist",
         "status": "online",
-        "uptimeMs": 20567504,
+        "uptimeMs": 20929500,
         "restartCount": 0,
         "memoryMb": 1,
         "cpu": 0,

@@ -1,5 +1,28 @@
 /* CCC asymmetric megastructure + unique operators */
 
+/* Megastructure only — block long-press text selection / copy UI on mobile */
+.ccc-facility-megastructure-region,
+.ccc-facility-megastructure-region .ccc-megastructure-wrap,
+.ccc-megastructure-wrap {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.ccc-facility-megastructure-region .ccc-megastructure-wrap *,
+.ccc-megastructure-wrap * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.ccc-facility-megastructure-region .ccc-chamber__header,
+.ccc-facility-megastructure-region .ccc-agent-hit,
+.ccc-facility-megastructure-region .ccc-tap-target,
+.ccc-facility-megastructure-region button[type="button"] {
+  touch-action: manipulation;
+}
+
 .ccc-megastructure-wrap {
   position: relative;
   padding: 0.25rem;

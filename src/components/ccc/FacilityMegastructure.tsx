@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useMemo } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { useFacilityResidue } from "@/context/FacilityResidueContext";
 import { CHAMBER_ORDER } from "@/lib/facility-layout";
@@ -56,8 +56,28 @@ export const FacilityMegastructure = memo(function FacilityMegastructure() {
     ),
   );
 
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const block = (event: Event) => event.preventDefault();
+    el.addEventListener("selectstart", block);
+    return () => el.removeEventListener("selectstart", block);
+  }, []);
+
+  const blockNativeSelection = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+  };
+
   return (
-    <div className="ccc-megastructure-wrap max-lg:overflow-x-clip overflow-visible">
+    <div
+      ref={wrapRef}
+      className="ccc-megastructure-wrap max-lg:overflow-x-clip overflow-visible"
+      onSelect={blockNativeSelection}
+      onDragStart={blockNativeSelection}
+      onContextMenu={blockNativeSelection}
+    >
       <div
         className="ccc-megastructure"
         aria-label="Continuity Command Center facility"
