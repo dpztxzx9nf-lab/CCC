@@ -1,15 +1,16 @@
 "use client";
 
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
 import {
+  CCC_SURFACES,
   DEFAULT_CCC_SURFACE,
   surfaceAfterSwipeLeft,
   surfaceAfterSwipeRight,
@@ -26,7 +27,8 @@ const DRAG_SLOP_PX = 8;
 const AXIS_LOCK_RATIO = 1.35;
 const COMMIT_DISTANCE_RATIO = 0.28;
 const COMMIT_VELOCITY_PX_MS = 0.35;
-const SNAP_TRANSITION_MS = 260;
+/** Fallback if transitionend does not fire (Safari) */
+const SNAP_TRANSITION_MS = 200;
 
 type EdgeOrigin = "left" | "right";
 
@@ -43,7 +45,6 @@ interface EdgePanSession {
 interface PanVisual {
   edge: EdgeOrigin;
   peek: CccSurface;
-  translatePx: number;
   snapping: boolean;
 }
 
@@ -119,13 +120,23 @@ function targetSurfaceOnCommit(
   return null;
 }
 
-export function GestureNavigationShell({
+function addCachedSurface(prev: Set<CccSurface>, id: CccSurface): Set<CccSurface> {
+  if (prev.has(id)) return prev;
+  const next = new Set(prev);
+  next.add(id);
+  return next;
+}
+
+export const GestureNavigationShell = memo(function GestureNavigationShell({
   projects,
   facility,
   opsPortal,
   initialSurface = DEFAULT_CCC_SURFACE,
 }: GestureNavigationShellProps) {
   const [surface, setSurface] = useState<CccSurface>(initialSurface);
+  const [cachedSurfaces, setCachedSurfaces] = useState<Set<CccSurface>>(
+    () => new Set([initialSurface]),
+  );
   const [panVisual, setPanVisual] = useState<PanVisual | null>(null);
   const [edgeSessionActive, setEdgeSessionActive] = useState(false);
 
@@ -137,54 +148,93 @@ export function GestureNavigationShell({
   const suppressClickRef = useRef(false);
   const prefersReducedMotionRef = useRef(false);
   const snapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dragRafRef = useRef(0);
+  const pendingTranslateRef = useRef(0);
 
   surfaceRef.current = surface;
   panVisualRef.current = panVisual;
+
+  const surfaceNodes = useRef({
+    projects,
+    facility,
+    ops: opsPortal,
+  });
+  surfaceNodes.current = { projects, facility, ops: opsPortal };
+
+  const mountSurface = useCallback((id: CccSurface) => {
+    setCachedSurfaces((prev) => addCachedSurface(prev, id));
+  }, []);
 
   const getViewportWidth = useCallback(() => {
     return viewportRef.current?.clientWidth ?? window.innerWidth;
   }, []);
 
+  const cancelDragRaf = useCallback(() => {
+    if (dragRafRef.current) {
+      cancelAnimationFrame(dragRafRef.current);
+      dragRafRef.current = 0;
+    }
+  }, []);
+
+  const applyPeekTranslate = useCallback((px: number) => {
+    pendingTranslateRef.current = px;
+    viewportRef.current?.style.setProperty(
+      "--ccc-peek-translate",
+      `${px}px`,
+    );
+  }, []);
+
+  const schedulePeekTranslate = useCallback(
+    (px: number) => {
+      pendingTranslateRef.current = px;
+      if (dragRafRef.current) return;
+      dragRafRef.current = requestAnimationFrame(() => {
+        dragRafRef.current = 0;
+        viewportRef.current?.style.setProperty(
+          "--ccc-peek-translate",
+          `${pendingTranslateRef.current}px`,
+        );
+      });
+    },
+    [],
+  );
+
   const clearPeekStyles = useCallback(() => {
+    cancelDragRaf();
     const viewport = viewportRef.current;
     if (viewport) {
       viewport.style.removeProperty("--ccc-peek-translate");
-      viewport.style.removeProperty("transition");
     }
-    const track = trackRef.current;
-    if (track) {
-      track.style.removeProperty("transform");
-      track.style.removeProperty("transition");
-    }
-  }, []);
+    trackRef.current?.style.removeProperty("transform");
+  }, [cancelDragRaf]);
 
   const resetPanState = useCallback(() => {
     if (snapTimerRef.current) {
       clearTimeout(snapTimerRef.current);
       snapTimerRef.current = null;
     }
+    cancelDragRaf();
     sessionRef.current = null;
     setEdgeSessionActive(false);
     setPanVisual(null);
     clearPeekStyles();
-  }, [clearPeekStyles]);
+  }, [cancelDragRaf, clearPeekStyles]);
 
   const navigateToSurface = useCallback(
     (target: CccSurface) => {
       resetPanState();
+      mountSurface(target);
       setSurface(target);
     },
-    [resetPanState],
+    [mountSurface, resetPanState],
   );
 
-  const renderSurface = useCallback(
-    (id: CccSurface) => {
-      if (id === "projects") return projects;
-      if (id === "facility") return facility;
-      return opsPortal;
-    },
-    [projects, facility, opsPortal],
-  );
+  const renderSurfaceNode = useCallback((id: CccSurface) => {
+    const nodes = surfaceNodes.current;
+    if (id === "projects") return nodes.projects;
+    if (id === "facility") return nodes.facility;
+    return nodes.ops;
+  }, []);
 
   const finishSnapBack = useCallback(
     (edge: EdgeOrigin) => {
@@ -193,18 +243,16 @@ export function GestureNavigationShell({
         return;
       }
 
-      const width = getViewportWidth();
-      const resting = baseTranslateForEdge(edge, width);
-
       if (prefersReducedMotionRef.current) {
         resetPanState();
         return;
       }
 
-      setPanVisual((prev) => {
-        if (!prev) return null;
-        return { ...prev, translatePx: resting, snapping: true };
-      });
+      const resting = baseTranslateForEdge(edge, getViewportWidth());
+      applyPeekTranslate(resting);
+      setPanVisual((prev) =>
+        prev ? { ...prev, snapping: true } : null,
+      );
 
       if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
       snapTimerRef.current = setTimeout(() => {
@@ -212,7 +260,7 @@ export function GestureNavigationShell({
         resetPanState();
       }, SNAP_TRANSITION_MS);
     },
-    [getViewportWidth, resetPanState],
+    [applyPeekTranslate, getViewportWidth, resetPanState],
   );
 
   useEffect(() => {
@@ -221,13 +269,32 @@ export function GestureNavigationShell({
     ).matches;
     return () => {
       if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
+      cancelDragRaf();
     };
-  }, []);
+  }, [cancelDragRaf]);
 
   useEffect(() => {
-    if (!panVisual) {
-      clearPeekStyles();
+    mountSurface(surface);
+  }, [surface, mountSurface]);
+
+  // Preload adjacent surfaces after first paint (cheap revisit navigation).
+  useEffect(() => {
+    const left = surfaceAfterSwipeRight(surface);
+    const right = surfaceAfterSwipeLeft(surface);
+    const preload = () => {
+      if (left) mountSurface(left);
+      if (right) mountSurface(right);
+    };
+    if (typeof requestIdleCallback !== "undefined") {
+      const id = requestIdleCallback(preload, { timeout: 1200 });
+      return () => cancelIdleCallback(id);
     }
+    const t = window.setTimeout(preload, 300);
+    return () => clearTimeout(t);
+  }, [surface, mountSurface]);
+
+  useEffect(() => {
+    if (!panVisual) clearPeekStyles();
   }, [panVisual, clearPeekStyles]);
 
   const onTrackTransitionEnd = useCallback(
@@ -281,6 +348,7 @@ export function GestureNavigationShell({
       const peek = peekSurfaceForEdge(edge, surfaceRef.current);
       if (!peek) return;
 
+      mountSurface(peek);
       setEdgeSessionActive(true);
       sessionRef.current = {
         edge,
@@ -293,7 +361,7 @@ export function GestureNavigationShell({
       };
       suppressClickRef.current = false;
     },
-    [getViewportWidth],
+    [getViewportWidth, mountSurface],
   );
 
   const onPointerMove = useCallback(
@@ -317,10 +385,11 @@ export function GestureNavigationShell({
         e.currentTarget.setPointerCapture(e.pointerId);
 
         const width = getViewportWidth();
+        const resting = baseTranslateForEdge(session.edge, width);
+        applyPeekTranslate(resting);
         setPanVisual({
           edge: session.edge,
           peek: session.peek,
-          translatePx: baseTranslateForEdge(session.edge, width),
           snapping: false,
         });
       }
@@ -332,20 +401,14 @@ export function GestureNavigationShell({
         width,
         surfaceRef.current,
       );
-      const translatePx = dragTranslate(session.edge, offset, width);
-
-      setPanVisual((prev) =>
-        prev
-          ? { ...prev, translatePx, snapping: false }
-          : {
-              edge: session.edge,
-              peek: session.peek,
-              translatePx,
-              snapping: false,
-            },
-      );
+      schedulePeekTranslate(dragTranslate(session.edge, offset, width));
     },
-    [getViewportWidth, resetPanState],
+    [
+      applyPeekTranslate,
+      getViewportWidth,
+      resetPanState,
+      schedulePeekTranslate,
+    ],
   );
 
   const onPointerUp = useCallback(
@@ -447,20 +510,30 @@ export function GestureNavigationShell({
   }, [navigateToSurface]);
 
   const showPeekTrack = panVisual != null;
-  const activeSurface = surface;
   const surfaceMode = showPeekTrack ? "peek" : "idle";
-  const peekStyle =
-    showPeekTrack && panVisual
-      ? ({
-          "--ccc-peek-translate": `${panVisual.translatePx}px`,
-        } as CSSProperties)
-      : undefined;
+
+  const renderCachedLayer = (id: CccSurface, visible: boolean) => {
+    if (!cachedSurfaces.has(id)) return null;
+    return (
+      <div
+        key={id}
+        className="ccc-surface-layer"
+        data-surface={id}
+        data-active={visible ? "true" : "false"}
+        hidden={!visible}
+        aria-hidden={!visible}
+        inert={!visible}
+      >
+        {renderSurfaceNode(id)}
+      </div>
+    );
+  };
 
   return (
     <SurfaceNavigationProvider surface={surface} setSurface={navigateToSurface}>
       <div
         className="ccc-command-shell ccc-surface-shell flex flex-col"
-        data-active-surface={activeSurface}
+        data-active-surface={surface}
       >
         <div className="ccc-ambience" aria-hidden>
           <div className="ccc-grid" />
@@ -476,7 +549,6 @@ export function GestureNavigationShell({
             data-edge-pan-active={
               edgeSessionActive || showPeekTrack ? "true" : undefined
             }
-            style={peekStyle}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
@@ -499,36 +571,27 @@ export function GestureNavigationShell({
               >
                 {panVisual.edge === "left" ? (
                   <>
-                    <div
-                      className="ccc-surface-panel ccc-surface-panel--peek"
-                      aria-hidden
-                    >
-                      {renderSurface(panVisual.peek)}
+                    <div className="ccc-surface-panel ccc-surface-panel--peek">
+                      {renderCachedLayer(panVisual.peek, true)}
                     </div>
                     <div className="ccc-surface-panel ccc-surface-panel--active">
-                      {renderSurface(activeSurface)}
+                      {renderCachedLayer(surface, true)}
                     </div>
                   </>
                 ) : (
                   <>
                     <div className="ccc-surface-panel ccc-surface-panel--active">
-                      {renderSurface(activeSurface)}
+                      {renderCachedLayer(surface, true)}
                     </div>
-                    <div
-                      className="ccc-surface-panel ccc-surface-panel--peek"
-                      aria-hidden
-                    >
-                      {renderSurface(panVisual.peek)}
+                    <div className="ccc-surface-panel ccc-surface-panel--peek">
+                      {renderCachedLayer(panVisual.peek, true)}
                     </div>
                   </>
                 )}
               </div>
             ) : (
-              <div
-                className="ccc-surface-active"
-                data-surface={activeSurface}
-              >
-                {renderSurface(activeSurface)}
+              <div className="ccc-surface-active" data-surface={surface}>
+                {CCC_SURFACES.map((id) => renderCachedLayer(id, id === surface))}
               </div>
             )}
           </div>
@@ -538,4 +601,4 @@ export function GestureNavigationShell({
       </div>
     </SurfaceNavigationProvider>
   );
-}
+});

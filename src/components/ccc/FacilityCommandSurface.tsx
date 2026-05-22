@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { FacilityResidueProvider } from "@/context/FacilityResidueContext";
 import { computeFacilityResidue } from "@/lib/continuity/residue";
@@ -11,7 +11,7 @@ import { OperationalTopologyPanel } from "./OperationalTopologyPanel";
 import { TelemetryBar } from "./TelemetryBar";
 
 /** Center surface — Command Center facility (default). */
-export function FacilityCommandSurface() {
+export const FacilityCommandSurface = memo(function FacilityCommandSurface() {
   const { operational, continuityEvents, activePanel } = useCCC();
   const inspectingOperatorId =
     activePanel?.kind === "operator" ? activePanel.id : undefined;
@@ -43,4 +43,4 @@ export function FacilityCommandSurface() {
       </div>
     </FacilityResidueProvider>
   );
-}
+});

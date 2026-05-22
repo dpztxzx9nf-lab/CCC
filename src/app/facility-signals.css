@@ -131,6 +131,14 @@
     box-shadow 0.14s ease;
 }
 
+@media (max-width: 1023px) {
+  .ccc-operator-hover,
+  .ccc-operator-hover--portal {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
 .ccc-operator-hover__stem {
   position: absolute;
   left: var(--ccc-hover-stem-x, 50%);

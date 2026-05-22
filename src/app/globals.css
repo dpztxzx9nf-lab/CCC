@@ -157,6 +157,14 @@ body {
   backdrop-filter: blur(2px);
 }
 
+@media (max-width: 1023px) {
+  .ccc-panel-backdrop {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.72);
+  }
+}
+
 .ccc-detail-panel {
   position: fixed;
   z-index: 202;

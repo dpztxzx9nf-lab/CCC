@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import {
   CCC_SURFACES,
   SURFACE_LABELS,
@@ -7,7 +8,7 @@ import {
 } from "@/lib/navigation/surfaces";
 import { useSurfaceNavigation } from "@/context/SurfaceNavigationContext";
 
-export function SurfaceIndicator() {
+export const SurfaceIndicator = memo(function SurfaceIndicator() {
   const { surface, setSurface } = useSurfaceNavigation();
 
   return (
@@ -34,4 +35,4 @@ export function SurfaceIndicator() {
       </ol>
     </nav>
   );
-}
+});

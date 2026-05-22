@@ -1,5 +1,7 @@
+import { memo } from "react";
 import type { ContinuityStorageStats, OpsContinuitySignalRow } from "@/lib/continuity/events/store";
-import { compactTelemetryLines, type OperationalTelemetry } from "@/lib/telemetry";
+import { compactTelemetryLines } from "@/lib/telemetry/format";
+import type { OperationalTelemetry } from "@/lib/telemetry/types";
 import type { OpsPortalBundle } from "@/lib/ops/loadOpsPortalBundle";
 import { OpsPortalBackControl } from "./OpsPortalBackControl";
 import "@/app/ops/ops.css";
@@ -195,7 +197,7 @@ const SECTIONS = [
   { id: "future", label: "Future automation" },
 ] as const;
 
-export function OpsPortalContent({
+export const OpsPortalContent = memo(function OpsPortalContent({
   bundle,
   embedded = false,
 }: OpsPortalContentProps) {
@@ -545,4 +547,4 @@ export function OpsPortalContent({
       </main>
     </div>
   );
-}
+});

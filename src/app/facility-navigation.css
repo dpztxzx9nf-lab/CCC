@@ -104,7 +104,18 @@
 }
 
 .ccc-surface-track--peek[data-snapping="true"] {
-  transition: transform 0.26s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Cached surfaces: hidden layers stay out of layout; no paint when display:none */
+.ccc-surface-layer {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.ccc-surface-layer[hidden] {
+  display: none !important;
 }
 
 .ccc-surface-track--peek .ccc-surface-panel {

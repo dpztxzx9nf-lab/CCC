@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { useFacilityResidue } from "@/context/FacilityResidueContext";
 import { CHAMBER_ORDER } from "@/lib/facility-layout";
@@ -12,7 +12,7 @@ import { LiveTransitLayer } from "@/components/operations/LiveTransitLayer";
 import { FacilitySignalLayer } from "@/components/operations/FacilitySignalLayer";
 import { SectorChamber } from "./SectorChamber";
 
-export function FacilityMegastructure() {
+export const FacilityMegastructure = memo(function FacilityMegastructure() {
   const {
     data,
     loading,
@@ -87,4 +87,4 @@ export function FacilityMegastructure() {
       </div>
     </div>
   );
-}
+});

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type { OperationalDomainId } from "@/data/ecology";
 import { DOMAIN_BY_ID, OPERATIONAL_DOMAINS } from "@/data/ecology";
 import { useCCC } from "@/context/CCCContext";
@@ -33,7 +33,7 @@ const EMPTY_FORM: {
   localSlug: "",
 };
 
-export function ProjectRegistrySurface() {
+export const ProjectRegistrySurface = memo(function ProjectRegistrySurface() {
   const { openProject, refreshProjects, operationalLoading } = useCCC();
   const [projects, setProjects] = useState<EnrichedRegistryProject[]>([]);
   const [archived, setArchived] = useState<EnrichedRegistryProject[]>([]);
@@ -396,7 +396,7 @@ export function ProjectRegistrySurface() {
       ) : null}
     </section>
   );
-}
+});
 
 function ProjectCard({
   project,
