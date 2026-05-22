@@ -20,14 +20,14 @@ export function surfaceFromIndex(index: number): CccSurface {
   return CCC_SURFACES[Math.max(0, Math.min(2, index))] ?? DEFAULT_CCC_SURFACE;
 }
 
-/** Swipe left (finger moves left) → reveal surface to the right */
+/** Drag inward from right edge (finger moves left) → reveal surface to the right */
 export function surfaceAfterSwipeLeft(surface: CccSurface): CccSurface | null {
   if (surface === "projects") return "facility";
   if (surface === "facility") return "ops";
   return null;
 }
 
-/** Swipe right (finger moves right) → reveal surface to the left */
+/** Drag inward from left edge (finger moves right) → reveal surface to the left */
 export function surfaceAfterSwipeRight(surface: CccSurface): CccSurface | null {
   if (surface === "ops") return "facility";
   if (surface === "facility") return "projects";

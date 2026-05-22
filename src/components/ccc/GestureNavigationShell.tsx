@@ -17,17 +17,25 @@ import {
   type CccSurface,
 } from "@/lib/navigation/surfaces";
 import { SurfaceNavigationProvider } from "@/context/SurfaceNavigationContext";
-import { SurfaceIndicator } from "./SurfaceIndicator";
 import { PanelRouter } from "./PanelRouter";
 
-const SWIPE_THRESHOLD_PX = 56;
-const SWIPE_DOMINANCE_RATIO = 1.35;
+const EDGE_ZONE_PX = 30;
+const EDGE_DRAG_THRESHOLD_PX = 56;
+const EDGE_DRAG_DOMINANCE_RATIO = 1.35;
+
+type EdgeOrigin = "left" | "right";
 
 interface GestureNavigationShellProps {
   projects: ReactNode;
   facility: ReactNode;
   opsPortal: ReactNode;
   initialSurface?: CccSurface;
+}
+
+function edgeAtPointerStart(clientX: number): EdgeOrigin | null {
+  if (clientX <= EDGE_ZONE_PX) return "left";
+  if (clientX >= window.innerWidth - EDGE_ZONE_PX) return "right";
+  return null;
 }
 
 export function GestureNavigationShell({
@@ -37,38 +45,59 @@ export function GestureNavigationShell({
   initialSurface = DEFAULT_CCC_SURFACE,
 }: GestureNavigationShellProps) {
   const [surface, setSurface] = useState<CccSurface>(initialSurface);
-  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const pointerStartRef = useRef<{
+    x: number;
+    y: number;
+    edge: EdgeOrigin;
+  } | null>(null);
   const suppressClickRef = useRef(false);
   const viewportRef = useRef<HTMLDivElement>(null);
 
-  const trySwipe = useCallback((dx: number, dy: number) => {
-    if (Math.abs(dx) < SWIPE_THRESHOLD_PX) return;
-    if (Math.abs(dx) < Math.abs(dy) * SWIPE_DOMINANCE_RATIO) return;
+  const tryEdgeDrag = useCallback(
+    (edge: EdgeOrigin, dx: number, dy: number) => {
+      if (Math.abs(dx) < EDGE_DRAG_THRESHOLD_PX) return;
+      if (Math.abs(dx) < Math.abs(dy) * EDGE_DRAG_DOMINANCE_RATIO) return;
 
-    const next =
-      dx < 0 ? surfaceAfterSwipeLeft(surface) : surfaceAfterSwipeRight(surface);
+      let next: CccSurface | null = null;
+      if (edge === "left") {
+        if (dx <= 0) return;
+        next = surfaceAfterSwipeRight(surface);
+      } else {
+        if (dx >= 0) return;
+        next = surfaceAfterSwipeLeft(surface);
+      }
 
-    if (next) {
-      suppressClickRef.current = true;
-      setSurface(next);
-    }
-  }, [surface]);
+      if (next) {
+        suppressClickRef.current = true;
+        setSurface(next);
+      }
+    },
+    [surface],
+  );
 
   const onPointerDown = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.button !== 0) return;
-    pointerStartRef.current = { x: e.clientX, y: e.clientY };
+    const edge = edgeAtPointerStart(e.clientX);
+    if (!edge) {
+      pointerStartRef.current = null;
+      return;
+    }
+    pointerStartRef.current = { x: e.clientX, y: e.clientY, edge };
     suppressClickRef.current = false;
   }, []);
 
-  const onPointerUp = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
-    const start = pointerStartRef.current;
-    pointerStartRef.current = null;
-    if (!start) return;
+  const onPointerUp = useCallback(
+    (e: ReactPointerEvent<HTMLDivElement>) => {
+      const start = pointerStartRef.current;
+      pointerStartRef.current = null;
+      if (!start) return;
 
-    const dx = e.clientX - start.x;
-    const dy = e.clientY - start.y;
-    trySwipe(dx, dy);
-  }, [trySwipe]);
+      const dx = e.clientX - start.x;
+      const dy = e.clientY - start.y;
+      tryEdgeDrag(start.edge, dx, dy);
+    },
+    [tryEdgeDrag],
+  );
 
   const onPointerCancel = useCallback(() => {
     pointerStartRef.current = null;
@@ -132,8 +161,6 @@ export function GestureNavigationShell({
         </div>
 
         <div className="ccc-command-shell__stage relative z-10 flex min-h-0 flex-1 flex-col">
-          <SurfaceIndicator />
-
           <div
             ref={viewportRef}
             className="ccc-surface-viewport min-h-0 flex-1 touch-pan-y"
