@@ -5,6 +5,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
@@ -144,11 +145,17 @@ export function GestureNavigationShell({
     return viewportRef.current?.clientWidth ?? window.innerWidth;
   }, []);
 
-  const clearTrackInlineStyles = useCallback(() => {
+  const clearPeekStyles = useCallback(() => {
+    const viewport = viewportRef.current;
+    if (viewport) {
+      viewport.style.removeProperty("--ccc-peek-translate");
+      viewport.style.removeProperty("transition");
+    }
     const track = trackRef.current;
-    if (!track) return;
-    track.style.removeProperty("transform");
-    track.style.removeProperty("transition");
+    if (track) {
+      track.style.removeProperty("transform");
+      track.style.removeProperty("transition");
+    }
   }, []);
 
   const resetPanState = useCallback(() => {
@@ -159,8 +166,8 @@ export function GestureNavigationShell({
     sessionRef.current = null;
     setEdgeSessionActive(false);
     setPanVisual(null);
-    clearTrackInlineStyles();
-  }, [clearTrackInlineStyles]);
+    clearPeekStyles();
+  }, [clearPeekStyles]);
 
   const navigateToSurface = useCallback(
     (target: CccSurface) => {
@@ -216,6 +223,12 @@ export function GestureNavigationShell({
       if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (!panVisual) {
+      clearPeekStyles();
+    }
+  }, [panVisual, clearPeekStyles]);
 
   const onTrackTransitionEnd = useCallback(
     (e: React.TransitionEvent<HTMLDivElement>) => {
@@ -435,6 +448,13 @@ export function GestureNavigationShell({
 
   const showPeekTrack = panVisual != null;
   const activeSurface = surface;
+  const surfaceMode = showPeekTrack ? "peek" : "idle";
+  const peekStyle =
+    showPeekTrack && panVisual
+      ? ({
+          "--ccc-peek-translate": `${panVisual.translatePx}px`,
+        } as CSSProperties)
+      : undefined;
 
   return (
     <SurfaceNavigationProvider surface={surface} setSurface={navigateToSurface}>
@@ -451,12 +471,12 @@ export function GestureNavigationShell({
 
           <div
             ref={viewportRef}
-            className={`ccc-surface-viewport min-h-0 flex-1 ${
-              edgeSessionActive || showPeekTrack ? "touch-none" : "touch-pan-y"
-            }`}
+            className="ccc-surface-viewport min-h-0 flex-1"
+            data-surface-mode={surfaceMode}
             data-edge-pan-active={
               edgeSessionActive || showPeekTrack ? "true" : undefined
             }
+            style={peekStyle}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
@@ -475,9 +495,6 @@ export function GestureNavigationShell({
                 className="ccc-surface-track ccc-surface-track--peek"
                 data-edge={panVisual.edge}
                 data-snapping={panVisual.snapping ? "true" : undefined}
-                style={{
-                  transform: `translate3d(${panVisual.translatePx}px, 0, 0)`,
-                }}
                 onTransitionEnd={onTrackTransitionEnd}
               >
                 {panVisual.edge === "left" ? (

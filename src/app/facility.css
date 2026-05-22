@@ -376,6 +376,7 @@
   .ccc-chamber {
     grid-area: unset !important;
     clip-path: none !important;
+    flex-shrink: 0;
     min-height: 10rem;
   }
 

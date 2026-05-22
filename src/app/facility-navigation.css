@@ -58,26 +58,34 @@
 
 .ccc-surface-viewport {
   position: relative;
-  overflow: hidden;
+  flex: 1 1 auto;
   width: 100%;
   min-width: 0;
-  -webkit-overflow-scrolling: touch;
+  min-height: 0;
 }
 
-.ccc-surface-viewport[data-edge-pan-active="true"] {
+/* Idle: clip horizontal bleed only; vertical scroll lives on .ccc-surface-active */
+.ccc-surface-viewport[data-surface-mode="idle"] {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.ccc-surface-viewport[data-surface-mode="peek"] {
+  overflow: hidden;
+  height: 100%;
   touch-action: none;
 }
 
-/* Idle: single surface, normal layout */
+/* Idle: single surface, normal vertical document flow */
 .ccc-surface-active {
   position: relative;
-  display: flex;
-  flex-direction: column;
   width: 100%;
   min-width: 0;
-  height: 100%;
-  min-height: 0;
-  overflow: hidden;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
   isolation: isolate;
 }
 
@@ -87,6 +95,10 @@
   width: 200%;
   height: 100%;
   min-height: 0;
+  transform: translate3d(var(--ccc-peek-translate, 0px), 0, 0);
+}
+
+.ccc-surface-viewport[data-surface-mode="peek"] .ccc-surface-track--peek {
   will-change: transform;
 }
 
@@ -115,20 +127,18 @@
   pointer-events: none;
 }
 
-@media (max-width: 1023px) {
-  .ccc-facility-surface > main {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-  }
-}
-
 .ccc-surface-panel--ops {
   overflow: hidden;
 }
 
-.ccc-facility-surface {
-  min-height: 0;
+/* Facility surface: block flow inside scrollable .ccc-surface-active */
+.ccc-surface-active .ccc-facility-surface {
+  width: 100%;
+  min-height: min-content;
+}
+
+.ccc-surface-active .ccc-facility-surface > main {
+  flex-shrink: 0;
 }
 
 /* Projects ecosystem surface */

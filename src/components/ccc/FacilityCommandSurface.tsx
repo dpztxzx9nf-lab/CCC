@@ -24,13 +24,13 @@ export function FacilityCommandSurface() {
   return (
     <FacilityResidueProvider value={facilityResidue}>
       <div
-        className="ccc-facility-surface flex min-h-0 flex-1 flex-col"
+        className="ccc-facility-surface flex w-full flex-col"
         data-operator-inspection={inspectingOperatorId}
       >
         <TelemetryBar />
 
-        <main className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 overflow-x-hidden px-2 py-3 md:gap-4 md:px-4 md:py-5 lg:flex-row lg:gap-5 lg:overflow-x-visible">
-          <section className="min-h-0 min-w-0 flex-1 max-lg:overflow-x-clip lg:overflow-visible">
+        <main className="flex w-full min-w-0 flex-col gap-3 overflow-x-hidden px-2 py-3 md:gap-4 md:px-4 md:py-5 lg:flex-row lg:items-start lg:gap-5 lg:overflow-x-visible">
+          <section className="min-w-0 flex-1 max-lg:overflow-x-clip lg:overflow-visible">
             <FacilityMegastructure />
           </section>
 
