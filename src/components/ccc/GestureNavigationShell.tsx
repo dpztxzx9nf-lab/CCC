@@ -3,7 +3,6 @@
 import {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
   type PointerEvent as ReactPointerEvent,
@@ -11,7 +10,6 @@ import {
 } from "react";
 import {
   DEFAULT_CCC_SURFACE,
-  SURFACE_INDEX,
   surfaceAfterSwipeLeft,
   surfaceAfterSwipeRight,
   surfaceOnArrowLeft,
@@ -20,24 +18,32 @@ import {
 } from "@/lib/navigation/surfaces";
 import { SurfaceNavigationProvider } from "@/context/SurfaceNavigationContext";
 import { PanelRouter } from "./PanelRouter";
+import { SurfaceIndicator } from "./SurfaceIndicator";
 
 const EDGE_ZONE_PX = 30;
-const DRAG_SLOP_PX = 4;
+const DRAG_SLOP_PX = 8;
 const AXIS_LOCK_RATIO = 1.35;
 const COMMIT_DISTANCE_RATIO = 0.28;
 const COMMIT_VELOCITY_PX_MS = 0.35;
+const SNAP_TRANSITION_MS = 260;
 
 type EdgeOrigin = "left" | "right";
 
 interface EdgePanSession {
   edge: EdgeOrigin;
+  peek: CccSurface;
   pointerId: number;
   startX: number;
   startY: number;
-  lastX: number;
-  lastTime: number;
   lockTime: number;
   locked: boolean;
+}
+
+interface PanVisual {
+  edge: EdgeOrigin;
+  peek: CccSurface;
+  translatePx: number;
+  snapping: boolean;
 }
 
 interface GestureNavigationShellProps {
@@ -53,7 +59,7 @@ function edgeAtPointerStart(clientX: number, viewportWidth: number): EdgeOrigin 
   return null;
 }
 
-function peekSurfaceDuringDrag(
+function peekSurfaceForEdge(
   edge: EdgeOrigin,
   surface: CccSurface,
 ): CccSurface | null {
@@ -62,8 +68,8 @@ function peekSurfaceDuringDrag(
     : surfaceAfterSwipeLeft(surface);
 }
 
-function baseTranslateForSurface(surface: CccSurface, viewportWidth: number): number {
-  return -SURFACE_INDEX[surface] * viewportWidth;
+function baseTranslateForEdge(edge: EdgeOrigin, viewportWidth: number): number {
+  return edge === "left" ? -viewportWidth : 0;
 }
 
 function clampDragOffset(
@@ -78,6 +84,14 @@ function clampDragOffset(
   }
   if (!surfaceAfterSwipeRight(surface)) return 0;
   return Math.max(0, Math.min(viewportWidth, dx));
+}
+
+function dragTranslate(
+  edge: EdgeOrigin,
+  offsetPx: number,
+  viewportWidth: number,
+): number {
+  return baseTranslateForEdge(edge, viewportWidth) + offsetPx;
 }
 
 function targetSurfaceOnCommit(
@@ -111,123 +125,115 @@ export function GestureNavigationShell({
   initialSurface = DEFAULT_CCC_SURFACE,
 }: GestureNavigationShellProps) {
   const [surface, setSurface] = useState<CccSurface>(initialSurface);
-  const [translatePx, setTranslatePx] = useState<number | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [panVisual, setPanVisual] = useState<PanVisual | null>(null);
   const [edgeSessionActive, setEdgeSessionActive] = useState(false);
-  const [dragPeekSurface, setDragPeekSurface] = useState<CccSurface | null>(
-    null,
-  );
-  const [pendingSurface, setPendingSurface] = useState<CccSurface | null>(
-    null,
-  );
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const sessionRef = useRef<EdgePanSession | null>(null);
   const surfaceRef = useRef(surface);
+  const panVisualRef = useRef(panVisual);
   const suppressClickRef = useRef(false);
   const prefersReducedMotionRef = useRef(false);
+  const snapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   surfaceRef.current = surface;
-
-  const applyTrackTranslate = useCallback((px: number, syncState: boolean) => {
-    const track = trackRef.current;
-    if (track) {
-      track.style.transform = `translate3d(${px}px, 0, 0)`;
-    }
-    if (syncState) {
-      setTranslatePx(px);
-    }
-  }, []);
+  panVisualRef.current = panVisual;
 
   const getViewportWidth = useCallback(() => {
     return viewportRef.current?.clientWidth ?? window.innerWidth;
   }, []);
 
-  const snapToSurface = useCallback(
-    (target: CccSurface, animate: boolean) => {
-      const width = getViewportWidth();
-      const nextTranslate = baseTranslateForSurface(target, width);
+  const clearTrackInlineStyles = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.style.removeProperty("transform");
+    track.style.removeProperty("transition");
+  }, []);
 
-      setPendingSurface(null);
+  const resetPanState = useCallback(() => {
+    if (snapTimerRef.current) {
+      clearTimeout(snapTimerRef.current);
+      snapTimerRef.current = null;
+    }
+    sessionRef.current = null;
+    setEdgeSessionActive(false);
+    setPanVisual(null);
+    clearTrackInlineStyles();
+  }, [clearTrackInlineStyles]);
 
-      if (!animate || prefersReducedMotionRef.current) {
-        setIsAnimating(false);
-        setIsDragging(false);
-        setDragPeekSurface(null);
-        setSurface(target);
-        applyTrackTranslate(nextTranslate, true);
+  const navigateToSurface = useCallback(
+    (target: CccSurface) => {
+      resetPanState();
+      setSurface(target);
+    },
+    [resetPanState],
+  );
+
+  const renderSurface = useCallback(
+    (id: CccSurface) => {
+      if (id === "projects") return projects;
+      if (id === "facility") return facility;
+      return opsPortal;
+    },
+    [projects, facility, opsPortal],
+  );
+
+  const finishSnapBack = useCallback(
+    (edge: EdgeOrigin) => {
+      if (!panVisualRef.current) {
+        resetPanState();
         return;
       }
 
-      setPendingSurface(target);
-      setIsAnimating(true);
-      applyTrackTranslate(nextTranslate, true);
+      const width = getViewportWidth();
+      const resting = baseTranslateForEdge(edge, width);
+
+      if (prefersReducedMotionRef.current) {
+        resetPanState();
+        return;
+      }
+
+      setPanVisual((prev) => {
+        if (!prev) return null;
+        return { ...prev, translatePx: resting, snapping: true };
+      });
+
+      if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
+      snapTimerRef.current = setTimeout(() => {
+        snapTimerRef.current = null;
+        resetPanState();
+      }, SNAP_TRANSITION_MS);
     },
-    [applyTrackTranslate, getViewportWidth],
+    [getViewportWidth, resetPanState],
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     prefersReducedMotionRef.current = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    applyTrackTranslate(
-      baseTranslateForSurface(initialSurface, getViewportWidth()),
-      true,
-    );
-  }, [applyTrackTranslate, getViewportWidth, initialSurface]);
-
-  useEffect(() => {
-    if (isDragging || isAnimating) return;
-    applyTrackTranslate(
-      baseTranslateForSurface(surface, getViewportWidth()),
-      true,
-    );
-  }, [surface, isDragging, isAnimating, getViewportWidth, applyTrackTranslate]);
-
-  useEffect(() => {
-    function onResize() {
-      if (sessionRef.current || isDragging || isAnimating) return;
-      applyTrackTranslate(
-        baseTranslateForSurface(surfaceRef.current, getViewportWidth()),
-        true,
-      );
-    }
-
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [isDragging, isAnimating, getViewportWidth, applyTrackTranslate]);
-
-  const endSession = useCallback(() => {
-    sessionRef.current = null;
-    setEdgeSessionActive(false);
-    setIsDragging(false);
-    setDragPeekSurface(null);
+    return () => {
+      if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
+    };
   }, []);
 
   const onTrackTransitionEnd = useCallback(
     (e: React.TransitionEvent<HTMLDivElement>) => {
       if (e.target !== trackRef.current || e.propertyName !== "transform") return;
-      setIsAnimating(false);
-      const resolved = pendingSurface ?? surfaceRef.current;
-      if (pendingSurface) {
-        setPendingSurface(null);
-        setSurface(pendingSurface);
+      if (!panVisualRef.current?.snapping) return;
+      if (snapTimerRef.current) {
+        clearTimeout(snapTimerRef.current);
+        snapTimerRef.current = null;
       }
-      applyTrackTranslate(
-        baseTranslateForSurface(resolved, getViewportWidth()),
-        true,
-      );
+      resetPanState();
     },
-    [applyTrackTranslate, getViewportWidth, pendingSurface],
+    [resetPanState],
   );
 
   const finishPan = useCallback(
     (edge: EdgeOrigin, offsetPx: number, velocityPxMs: number) => {
       const current = surfaceRef.current;
       const width = getViewportWidth();
-      const base = baseTranslateForSurface(current, width);
       const committed = targetSurfaceOnCommit(
         edge,
         offsetPx,
@@ -238,43 +244,44 @@ export function GestureNavigationShell({
 
       if (committed) {
         suppressClickRef.current = true;
-        snapToSurface(committed, true);
+        navigateToSurface(committed);
         return;
       }
 
-      setIsAnimating(true);
-      applyTrackTranslate(base, true);
+      finishSnapBack(edge);
     },
-    [applyTrackTranslate, getViewportWidth, snapToSurface],
+    [finishSnapBack, getViewportWidth, navigateToSurface],
   );
 
-  const onPointerDown = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
-    if (e.button !== 0 || isAnimating) return;
+  const onPointerDown = useCallback(
+    (e: ReactPointerEvent<HTMLDivElement>) => {
+      if (e.button !== 0 || panVisualRef.current) return;
 
-    const viewportWidth = getViewportWidth();
-    const edge = edgeAtPointerStart(e.clientX, viewportWidth);
-    if (!edge) {
-      sessionRef.current = null;
-      setEdgeSessionActive(false);
-      return;
-    }
+      const viewportWidth = getViewportWidth();
+      const edge = edgeAtPointerStart(e.clientX, viewportWidth);
+      if (!edge) {
+        sessionRef.current = null;
+        setEdgeSessionActive(false);
+        return;
+      }
 
-    if (edge === "right" && !surfaceAfterSwipeLeft(surfaceRef.current)) return;
-    if (edge === "left" && !surfaceAfterSwipeRight(surfaceRef.current)) return;
+      const peek = peekSurfaceForEdge(edge, surfaceRef.current);
+      if (!peek) return;
 
-    setEdgeSessionActive(true);
-    sessionRef.current = {
-      edge,
-      pointerId: e.pointerId,
-      startX: e.clientX,
-      startY: e.clientY,
-      lastX: e.clientX,
-      lastTime: performance.now(),
-      lockTime: 0,
-      locked: false,
-    };
-    suppressClickRef.current = false;
-  }, [getViewportWidth, isAnimating]);
+      setEdgeSessionActive(true);
+      sessionRef.current = {
+        edge,
+        peek,
+        pointerId: e.pointerId,
+        startX: e.clientX,
+        startY: e.clientY,
+        lockTime: 0,
+        locked: false,
+      };
+      suppressClickRef.current = false;
+    },
+    [getViewportWidth],
+  );
 
   const onPointerMove = useCallback(
     (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -288,60 +295,79 @@ export function GestureNavigationShell({
         if (Math.abs(dx) < DRAG_SLOP_PX && Math.abs(dy) < DRAG_SLOP_PX) return;
 
         if (Math.abs(dy) > Math.abs(dx) * AXIS_LOCK_RATIO) {
-          endSession();
+          resetPanState();
           return;
         }
 
-        const now = performance.now();
         session.locked = true;
-        session.lockTime = now;
-        session.lastTime = now;
+        session.lockTime = performance.now();
         e.currentTarget.setPointerCapture(e.pointerId);
-        setIsDragging(true);
-        setDragPeekSurface(
-          peekSurfaceDuringDrag(session.edge, surfaceRef.current),
-        );
+
+        const width = getViewportWidth();
+        setPanVisual({
+          edge: session.edge,
+          peek: session.peek,
+          translatePx: baseTranslateForEdge(session.edge, width),
+          snapping: false,
+        });
       }
 
-      if (!session.locked) return;
-
       const width = getViewportWidth();
-      const offset = clampDragOffset(session.edge, dx, width, surfaceRef.current);
-      const base = baseTranslateForSurface(surfaceRef.current, width);
-      applyTrackTranslate(base + offset, false);
+      const offset = clampDragOffset(
+        session.edge,
+        dx,
+        width,
+        surfaceRef.current,
+      );
+      const translatePx = dragTranslate(session.edge, offset, width);
 
-      session.lastX = e.clientX;
-      session.lastTime = performance.now();
+      setPanVisual((prev) =>
+        prev
+          ? { ...prev, translatePx, snapping: false }
+          : {
+              edge: session.edge,
+              peek: session.peek,
+              translatePx,
+              snapping: false,
+            },
+      );
     },
-    [applyTrackTranslate, endSession, getViewportWidth],
+    [getViewportWidth, resetPanState],
   );
 
   const onPointerUp = useCallback(
     (e: ReactPointerEvent<HTMLDivElement>) => {
       const session = sessionRef.current;
       if (!session || e.pointerId !== session.pointerId) {
-        endSession();
+        resetPanState();
         return;
       }
 
       if (session.locked) {
-        e.currentTarget.releasePointerCapture(e.pointerId);
+        try {
+          e.currentTarget.releasePointerCapture(e.pointerId);
+        } catch {
+          /* already released */
+        }
+        const edge = session.edge;
         const now = performance.now();
         const dx = e.clientX - session.startX;
         const lockDuration = Math.max(now - session.lockTime, 1);
         const velocityPxMs = dx / lockDuration;
         const offset = clampDragOffset(
-          session.edge,
+          edge,
           dx,
           getViewportWidth(),
           surfaceRef.current,
         );
-        finishPan(session.edge, offset, velocityPxMs);
+        sessionRef.current = null;
+        setEdgeSessionActive(false);
+        finishPan(edge, offset, velocityPxMs);
+      } else {
+        resetPanState();
       }
-
-      endSession();
     },
-    [endSession, finishPan, getViewportWidth],
+    [finishPan, getViewportWidth, resetPanState],
   );
 
   const onPointerCancel = useCallback(
@@ -350,22 +376,20 @@ export function GestureNavigationShell({
       if (!session || e.pointerId !== session.pointerId) return;
 
       if (session.locked) {
+        const edge = session.edge;
         try {
           e.currentTarget.releasePointerCapture(e.pointerId);
         } catch {
           /* already released */
         }
-        const base = baseTranslateForSurface(
-          surfaceRef.current,
-          getViewportWidth(),
-        );
-        setIsAnimating(true);
-        applyTrackTranslate(base, true);
+        sessionRef.current = null;
+        setEdgeSessionActive(false);
+        finishSnapBack(edge);
+      } else {
+        resetPanState();
       }
-
-      endSession();
     },
-    [applyTrackTranslate, endSession, getViewportWidth],
+    [finishSnapBack, resetPanState],
   );
 
   useEffect(() => {
@@ -383,7 +407,7 @@ export function GestureNavigationShell({
 
       if (e.key === "Escape") {
         e.preventDefault();
-        snapToSurface("facility", !prefersReducedMotionRef.current);
+        navigateToSurface("facility");
         return;
       }
 
@@ -391,7 +415,7 @@ export function GestureNavigationShell({
         const next = surfaceOnArrowRight(surfaceRef.current);
         if (next) {
           e.preventDefault();
-          snapToSurface(next, !prefersReducedMotionRef.current);
+          navigateToSurface(next);
         }
         return;
       }
@@ -400,38 +424,38 @@ export function GestureNavigationShell({
         const next = surfaceOnArrowLeft(surfaceRef.current);
         if (next) {
           e.preventDefault();
-          snapToSurface(next, !prefersReducedMotionRef.current);
+          navigateToSurface(next);
         }
       }
     }
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [snapToSurface]);
+  }, [navigateToSurface]);
 
-  const panelIsActive = (panel: CccSurface) =>
-    surface === panel ||
-    dragPeekSurface === panel ||
-    pendingSurface === panel;
+  const showPeekTrack = panVisual != null;
+  const activeSurface = surface;
 
   return (
-    <SurfaceNavigationProvider surface={surface} setSurface={setSurface}>
+    <SurfaceNavigationProvider surface={surface} setSurface={navigateToSurface}>
       <div
         className="ccc-command-shell ccc-surface-shell flex flex-col"
-        data-active-surface={surface}
+        data-active-surface={activeSurface}
       >
         <div className="ccc-ambience" aria-hidden>
           <div className="ccc-grid" />
         </div>
 
         <div className="ccc-command-shell__stage relative z-10 flex min-h-0 flex-1 flex-col">
+          <SurfaceIndicator />
+
           <div
             ref={viewportRef}
             className={`ccc-surface-viewport min-h-0 flex-1 ${
-              edgeSessionActive || isDragging ? "touch-none" : "touch-pan-y"
+              edgeSessionActive || showPeekTrack ? "touch-none" : "touch-pan-y"
             }`}
             data-edge-pan-active={
-              edgeSessionActive || isDragging ? "true" : undefined
+              edgeSessionActive || showPeekTrack ? "true" : undefined
             }
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
@@ -445,37 +469,51 @@ export function GestureNavigationShell({
               }
             }}
           >
-            <div
-              ref={trackRef}
-              className="ccc-surface-track"
-              data-surface={surface}
-              data-measured={translatePx != null ? "true" : undefined}
-              data-dragging={isDragging ? "true" : undefined}
-              data-animating={isAnimating ? "true" : undefined}
-              onTransitionEnd={onTrackTransitionEnd}
-            >
+            {showPeekTrack && panVisual ? (
               <div
-                className="ccc-surface-panel ccc-surface-panel--projects"
-                aria-hidden={!panelIsActive("projects")}
-                inert={!panelIsActive("projects")}
+                ref={trackRef}
+                className="ccc-surface-track ccc-surface-track--peek"
+                data-edge={panVisual.edge}
+                data-snapping={panVisual.snapping ? "true" : undefined}
+                style={{
+                  transform: `translate3d(${panVisual.translatePx}px, 0, 0)`,
+                }}
+                onTransitionEnd={onTrackTransitionEnd}
               >
-                {projects}
+                {panVisual.edge === "left" ? (
+                  <>
+                    <div
+                      className="ccc-surface-panel ccc-surface-panel--peek"
+                      aria-hidden
+                    >
+                      {renderSurface(panVisual.peek)}
+                    </div>
+                    <div className="ccc-surface-panel ccc-surface-panel--active">
+                      {renderSurface(activeSurface)}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="ccc-surface-panel ccc-surface-panel--active">
+                      {renderSurface(activeSurface)}
+                    </div>
+                    <div
+                      className="ccc-surface-panel ccc-surface-panel--peek"
+                      aria-hidden
+                    >
+                      {renderSurface(panVisual.peek)}
+                    </div>
+                  </>
+                )}
               </div>
+            ) : (
               <div
-                className="ccc-surface-panel ccc-surface-panel--facility"
-                aria-hidden={!panelIsActive("facility")}
-                inert={!panelIsActive("facility")}
+                className="ccc-surface-active"
+                data-surface={activeSurface}
               >
-                {facility}
+                {renderSurface(activeSurface)}
               </div>
-              <div
-                className="ccc-surface-panel ccc-surface-panel--ops"
-                aria-hidden={!panelIsActive("ops")}
-                inert={!panelIsActive("ops")}
-              >
-                {opsPortal}
-              </div>
-            </div>
+            )}
           </div>
 
           <PanelRouter />
