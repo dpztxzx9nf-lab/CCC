@@ -10,12 +10,16 @@ interface OperationalPacketProps {
 }
 
 export function OperationalPacket({ text, packetKey, className = "" }: OperationalPacketProps) {
-  const [visible, setVisible] = useState(false);
+  const [visiblePacket, setVisiblePacket] = useState<{
+    packetKey: string;
+    text: string;
+  } | null>(null);
+  const visible =
+    visiblePacket?.packetKey === packetKey && visiblePacket.text === text;
 
   useEffect(() => {
-    setVisible(false);
-    const show = window.setTimeout(() => setVisible(true), 40);
-    const hide = window.setTimeout(() => setVisible(false), 4800);
+    const show = window.setTimeout(() => setVisiblePacket({ packetKey, text }), 40);
+    const hide = window.setTimeout(() => setVisiblePacket(null), 4800);
     return () => {
       window.clearTimeout(show);
       window.clearTimeout(hide);
