@@ -27,6 +27,15 @@ export const FacilityMegastructure = memo(function FacilityMegastructure() {
     () => buildFacilityOccupants(data, operational),
     [data, operational],
   );
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const block = (event: Event) => event.preventDefault();
+    el.addEventListener("selectstart", block);
+    return () => el.removeEventListener("selectstart", block);
+  }, []);
 
   if (loading) {
     return <p className="text-sm text-ccc-muted">Aligning megastructure sectors…</p>;
@@ -55,16 +64,6 @@ export const FacilityMegastructure = memo(function FacilityMegastructure() {
           ?.pulseCadence ?? 0,
     ),
   );
-
-  const wrapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const block = (event: Event) => event.preventDefault();
-    el.addEventListener("selectstart", block);
-    return () => el.removeEventListener("selectstart", block);
-  }, []);
 
   const blockNativeSelection = (event: { preventDefault: () => void }) => {
     event.preventDefault();
