@@ -82,13 +82,16 @@ describe("parseContinuitySnapshot", () => {
     assert.equal(parseContinuitySnapshot(bad), null);
   });
 
-  it("parses committed public continuity-snapshot.json (legacy)", () => {
+  it("parses committed public continuity-snapshot.json (v1)", () => {
     const filePath = path.join(process.cwd(), "public", "continuity-snapshot.json");
     const raw = readFileSync(filePath, "utf8");
     const data: unknown = JSON.parse(raw);
     const parsed = parseContinuitySnapshot(data);
     assert.ok(parsed, "public snapshot must remain readable");
-    assert.equal(isLegacyContinuitySnapshot(parsed), true);
+    assert.equal(parsed.schemaVersion, CONTINUITY_SNAPSHOT_SCHEMA_VERSION);
+    assert.equal(isLegacyContinuitySnapshot(parsed), false);
+    assert.ok(parsed.manifestRef);
+    assert.equal(parsed.scan?.mode, "full");
   });
 });
 
