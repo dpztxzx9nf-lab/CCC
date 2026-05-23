@@ -1,4 +1,5 @@
 import { execFile } from "child_process";
+import path from "path";
 import { promisify } from "util";
 import { readPersistedRuntimeFallback } from "../persistence";
 import type { OperationalTelemetry, Pm2ProcessTelemetry } from "../types";
@@ -25,13 +26,29 @@ interface Pm2JlistRow {
 
 /** Run `pm2 jlist` in a way that works from the Next.js Node runtime on Windows and Unix. */
 async function execPm2Jlist(): Promise<string> {
-  if (process.platform === "win32") {
+  if (process.env.PM2_BIN) {
     const { stdout } = await execFileAsync(
-      "cmd.exe",
-      ["/c", "pm2", "jlist"],
+      process.env.PM2_BIN,
+      ["jlist"],
       EXEC_OPTS,
     );
     return stdout;
+  }
+
+  if (process.platform === "win32") {
+    try {
+      const { stdout } = await execFileAsync(
+        "cmd.exe",
+        ["/c", "pm2", "jlist"],
+        EXEC_OPTS,
+      );
+      return stdout;
+    } catch (err) {
+      if (!process.env.APPDATA) throw err;
+      const pm2Cmd = path.join(process.env.APPDATA, "npm", "pm2.cmd");
+      const { stdout } = await execFileAsync(pm2Cmd, ["jlist"], EXEC_OPTS);
+      return stdout;
+    }
   }
 
   const { stdout } = await execFileAsync("pm2", ["jlist"], EXEC_OPTS);

@@ -4,6 +4,7 @@ import { readContinuityEventLog } from "@/lib/continuity/events/store";
 import { scanAllSnapshotRoots } from "@/lib/localData/scanners";
 import { deriveEcosystemOperationalSignals } from "@/lib/localData/ecosystems";
 import { deriveGitOperationalSignals } from "@/lib/operations/signals/gitSignals";
+import { derivePm2RuntimeOperationalSignals } from "@/lib/operations/signals/pm2Runtime.server";
 import { buildManifestRefFromRegistry } from "@/lib/substrate/manifest-ref";
 import { buildContinuitySnapshot } from "@/lib/snapshot/buildFromScan";
 import type { ArchivistConfig } from "@/lib/localData/archivist-config";
@@ -14,11 +15,12 @@ export async function writeContinuitySnapshot(
   const { projects, scanRoots } = await scanAllSnapshotRoots();
   const log = await readContinuityEventLog(config);
   const operational = log.operationalEvents ?? [];
-  const [gitSignals, ecosystemSignals] = await Promise.all([
+  const [gitSignals, ecosystemSignals, pm2Signals] = await Promise.all([
     deriveGitOperationalSignals(projects),
     deriveEcosystemOperationalSignals(projects),
+    derivePm2RuntimeOperationalSignals(),
   ]);
-  const operationalSignals = [...gitSignals, ...ecosystemSignals];
+  const operationalSignals = [...gitSignals, ...ecosystemSignals, ...pm2Signals];
   const manifestRef = buildManifestRefFromRegistry(config.cccProjectRoot);
   const snapshot = buildContinuitySnapshot(
     projects,
