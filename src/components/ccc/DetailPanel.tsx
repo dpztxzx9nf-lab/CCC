@@ -63,7 +63,9 @@ export function DetailPanel({
   const xMv = useMotionValue(0);
 
   useLayoutEffect(() => {
-    if (open) setMounted(true);
+    if (!open) return;
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
   }, [open]);
 
   useLayoutEffect(() => {

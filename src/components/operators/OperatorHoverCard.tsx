@@ -1,7 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useRef, type RefObject } from "react";
 import type { OperatorHoverAwareness } from "@/lib/operator-interaction";
 import { useOperatorHoverPlacement } from "./useOperatorHoverPlacement";
 
@@ -20,14 +20,9 @@ export function OperatorHoverCard({
   anchorRef,
 }: OperatorHoverCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [portalReady, setPortalReady] = useState(false);
   const position = useOperatorHoverPlacement(visible, anchorRef, cardRef);
 
-  useEffect(() => {
-    setPortalReady(true);
-  }, []);
-
-  if (!portalReady || !visible || typeof document === "undefined") {
+  if (!visible || typeof document === "undefined") {
     return null;
   }
 

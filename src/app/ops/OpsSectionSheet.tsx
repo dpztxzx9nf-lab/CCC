@@ -45,10 +45,6 @@ export function OpsSectionSheet({
   const axisRef = useRef(0);
 
   useLayoutEffect(() => {
-    if (open) setMounted(true);
-  }, [open]);
-
-  useLayoutEffect(() => {
     if (!mounted) return;
 
     function measure() {
@@ -255,7 +251,10 @@ export function OpsSectionSheet({
         className="ccc-ops-sheet-trigger"
         aria-haspopup="dialog"
         aria-expanded={open}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setMounted(true);
+          setOpen(true);
+        }}
       >
         Sections
       </button>
