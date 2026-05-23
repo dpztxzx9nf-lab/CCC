@@ -30,6 +30,7 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
   } = useCCC();
   const domainId = chamber.primaryDomain;
   const heat = getDomainHeat(domainId);
+  const dominantActivity = heat?.dominantActivity ?? undefined;
   const orientBias = orientationDomainScoreDelta(domainId, humanOrientation);
   const activity = getEffectiveChamberActivity(
     heat,
@@ -52,7 +53,15 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
       data-activity={activity}
       data-domain={domainId}
       data-chamber={chamber.id}
-      data-dominant={heat?.dominantActivity ?? undefined}
+      data-dominant={dominantActivity}
+      data-historical={
+        dominantActivity?.includes("historical") || residue.pressure >= 3
+          ? "true"
+          : undefined
+      }
+      data-transient={
+        discreteBurst.discreteActive && eventPulse ? "true" : undefined
+      }
       data-occupied={occupants.length > 0 ? "true" : undefined}
       data-residue-glow={residue.glow > 0 ? residue.glow : undefined}
       data-residue-pressure={residue.pressure > 0 ? residue.pressure : undefined}

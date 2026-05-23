@@ -41,6 +41,10 @@ function SceneryShell({
     >
       <span className="ccc-scenery__residue-scar" />
       <span className="ccc-scenery__depth-back" />
+      <span className="ccc-scenery__structural-rail ccc-scenery__structural-rail--a" />
+      <span className="ccc-scenery__structural-rail ccc-scenery__structural-rail--b" />
+      <span className="ccc-scenery__operational-rail" />
+      <span className="ccc-scenery__transient-field" />
       <span className="ccc-scenery__frame ccc-scenery__frame--tl" />
       <span className="ccc-scenery__frame ccc-scenery__frame--br" />
       <span className="ccc-scenery__catwalk" />
