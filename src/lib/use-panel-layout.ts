@@ -18,9 +18,14 @@ export function usePanelLayout(panelOpen: boolean): PanelLayout {
   const [layout, setLayout] = useState<PanelLayout>(() => getPanelLayout());
 
   useLayoutEffect(() => {
-    if (panelOpen) {
-      setLayout(getPanelLayout());
-    }
+    if (!panelOpen) return;
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (!cancelled) setLayout(getPanelLayout());
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [panelOpen]);
 
   return layout;
