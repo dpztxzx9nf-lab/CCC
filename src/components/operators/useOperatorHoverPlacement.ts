@@ -36,8 +36,8 @@ export function useOperatorHoverPlacement(
 
   useLayoutEffect(() => {
     if (!visible) {
-      setPosition(null);
-      return;
+      const id = requestAnimationFrame(() => setPosition(null));
+      return () => cancelAnimationFrame(id);
     }
 
     update();
