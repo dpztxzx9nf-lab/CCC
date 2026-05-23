@@ -4,6 +4,7 @@ import { readContinuityEventLog } from "@/lib/continuity/events/store";
 import { scanAllSnapshotRoots } from "@/lib/localData/scanners";
 import { deriveEcosystemOperationalSignals } from "@/lib/localData/ecosystems";
 import { deriveGitOperationalSignals } from "@/lib/operations/signals/gitSignals";
+import { deriveHistoricalContinuitySignals } from "@/lib/operations/signals/historicalContinuity";
 import { derivePm2RuntimeOperationalSignals } from "@/lib/operations/signals/pm2Runtime.server";
 import { buildManifestRefFromRegistry } from "@/lib/substrate/manifest-ref";
 import { buildContinuitySnapshot } from "@/lib/snapshot/buildFromScan";
@@ -21,12 +22,17 @@ export async function writeContinuitySnapshot(
     derivePm2RuntimeOperationalSignals(),
   ]);
   const operationalSignals = [...gitSignals, ...ecosystemSignals, ...pm2Signals];
+  const historicalSignals = deriveHistoricalContinuitySignals({
+    operationalEvents: operational,
+    continuityEvents: log.events,
+    operationalSignals,
+  });
   const manifestRef = buildManifestRefFromRegistry(config.cccProjectRoot);
   const snapshot = buildContinuitySnapshot(
     projects,
     scanRoots,
     operational,
-    operationalSignals,
+    [...operationalSignals, ...historicalSignals],
     {
       manifestRef,
       hostId: process.env.CCC_HOST_ID,

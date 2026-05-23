@@ -12,13 +12,16 @@ export function resolveProjectionSector(signal: OperationalSignal): SectorId {
   const blob = `${t} ${src}`;
 
   if (/^kindex_/.test(t) || src.includes("continuity:kindex")) {
-    if (/discord|forum|message|archive|consolidation|growth|density/.test(t)) {
-      return "archive";
-    }
-    if (/runtime|bot|pm2/.test(t)) return "runtime";
-    if (/announcement|public|communication|relay/.test(t)) return "relay";
-    if (/semantic|ontology|index|cross|ecosystem|initiative|pressure/.test(t)) {
+    if (/discord.*architecture|philosophy|semantic|ontology|index|cross|ecosystem|initiative|pressure/.test(t)) {
       return "observatory";
+    }
+    if (/discord.*community|announcement|public|communication|relay/.test(t)) {
+      return "relay";
+    }
+    if (/discord.*runtime|runtime|bot|pm2/.test(t)) return "runtime";
+    if (/discord.*forge|build|deploy|code/.test(t)) return "forge";
+    if (/discord|forum|message|archive|consolidation|growth|density|knowledge/.test(t)) {
+      return "archive";
     }
     return "core";
   }
@@ -29,6 +32,21 @@ export function resolveProjectionSector(signal: OperationalSignal): SectorId {
     if (/discord|projection|relay/.test(t)) return "relay";
     if (/source|memory|retrieval|index/.test(t)) return "observatory";
     return "runtime";
+  }
+
+  if (/^historical_/.test(t) || src.includes("continuity:historical")) {
+    if (/runtime_instability/.test(t)) return "runtime";
+    if (/deployment_build/.test(t)) return "relay";
+    return signal.sector;
+  }
+
+  if (/git_docs_continuity/.test(t)) return "archive";
+  if (/git_infrastructure/.test(t)) return "core";
+  if (/git_deployment|repo_ahead|repo_behind|remote_detected/.test(t)) {
+    return "relay";
+  }
+  if (/git_code|latest_commit|recent_commit|repo_dirty|repo_clean|branch_detected/.test(t)) {
+    return "forge";
   }
 
   if (
@@ -63,11 +81,20 @@ export function secondarySectorsForSignal(signal: OperationalSignal): SectorId[]
   const extra: SectorId[] = [];
 
   if (/^kindex_/.test(t)) {
-    extra.push("archive", "observatory", "runtime", "relay");
+    extra.push("archive", "observatory", "runtime", "relay", "forge", "core");
   }
   if (/^liahona_/.test(t)) {
     extra.push("core", "archive", "observatory", "runtime", "forge");
   }
+  if (/^historical_/.test(t)) {
+    if (/deployment_build/.test(t)) extra.push("forge", "runtime");
+    if (/runtime_instability/.test(t)) extra.push("forge");
+  }
+  if (/git_deployment|repo_ahead|repo_behind|remote_detected/.test(t)) {
+    extra.push("forge", "runtime");
+  }
+  if (/git_infrastructure/.test(t)) extra.push("forge");
+  if (/git_docs_continuity/.test(t)) extra.push("forge", "archive");
   if (t === "remote_detected" && primary === "relay") extra.push("forge");
   if (/deploy/.test(t)) extra.push("runtime", "relay");
   if (/build_/.test(t)) extra.push("runtime");
@@ -79,6 +106,13 @@ export function secondarySectorsForSignal(signal: OperationalSignal): SectorId[]
 export function signalTypeToActivityKind(type: string): ActivityKind {
   const t = type.toLowerCase();
   if (/remote|publish|discord|social/.test(t)) return "communications";
+  if (/historical_sustained_runtime_instability/.test(t)) return "runtime";
+  if (/historical_deployment_build_cycle/.test(t)) return "deployment";
+  if (/historical_/.test(t)) return "continuity";
+  if (/git_deployment|repo_ahead|repo_behind/.test(t)) return "deployment";
+  if (/git_infrastructure/.test(t)) return "architecture";
+  if (/git_docs_continuity/.test(t)) return "archive";
+  if (/latest_commit|recent_commit|git_code/.test(t)) return "forge";
   if (/deploy/.test(t)) return "deployment";
   if (/repo_|branch|commit|build|package|forge|git/.test(t)) return "forge";
   if (/pm2|runtime|docker|ecosystem|vercel/.test(t)) return "runtime";

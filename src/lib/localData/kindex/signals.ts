@@ -122,6 +122,88 @@ export async function deriveKindexOperationalSignals(
     );
   }
 
+  const discord = observation.discordContinuity;
+  if (discord.artifactCount > 0 && discord.messageCount > 0) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "archive",
+        type: "kindex_discord_continuity_ingested",
+        severity: discord.messageCount >= 100 ? "medium" : "low",
+        stableKey: `${key}:discord-ingested`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (discord.categoryCounts.architecture > 0) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "observatory",
+        type: "kindex_discord_architecture_philosophy",
+        severity: discord.categoryCounts.architecture >= 3 ? "medium" : "low",
+        stableKey: `${key}:discord-architecture`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (discord.categoryCounts.community > 0) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "relay",
+        type: "kindex_discord_community_activity",
+        severity:
+          discord.messageCount >= 250 || discord.channelCount >= 4
+            ? "medium"
+            : "low",
+        stableKey: `${key}:discord-community`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (discord.categoryCounts.knowledge > 0) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "archive",
+        type: "kindex_discord_knowledge_archive",
+        severity: discord.categoryCounts.knowledge >= 3 ? "medium" : "low",
+        stableKey: `${key}:discord-knowledge`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (discord.categoryCounts.runtime > 0) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "runtime",
+        type: "kindex_discord_runtime_coordination",
+        severity: discord.categoryCounts.runtime >= 3 ? "medium" : "low",
+        stableKey: `${key}:discord-runtime`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (discord.categoryCounts.forge > 0) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "forge",
+        type: "kindex_discord_forge_coordination",
+        severity: discord.categoryCounts.forge >= 3 ? "medium" : "low",
+        stableKey: `${key}:discord-forge`,
+        metadata: meta,
+      }),
+    );
+  }
+
   if (observation.runtimeMarkerCount >= 1 && aggregate.recentCodeEdits >= 1) {
     signals.push(
       createSignal({

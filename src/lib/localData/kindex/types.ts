@@ -1,4 +1,5 @@
 import type { RawScannedProject } from "@/lib/localData/scanners";
+import type { DiscordContinuityObservation } from "./discord";
 
 export const KINDEX_ECOSYSTEM_ID = "kindex" as const;
 
@@ -17,6 +18,7 @@ export interface KindexObservation {
   messageMarkerCount: number;
   runtimeMarkerCount: number;
   publicMarkerCount: number;
+  discordContinuity: DiscordContinuityObservation;
   crossLinkageHits: number;
 }
 

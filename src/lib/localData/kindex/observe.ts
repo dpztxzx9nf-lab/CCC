@@ -3,6 +3,7 @@ import {
   countExistingMarkers,
   detectCrossProjectLinkage,
 } from "@/lib/localData/ecosystemMarkers";
+import { scanDiscordContinuityArtifacts } from "./discord";
 import type { KindexAggregate, KindexObservation, KindexScope } from "./types";
 
 const ONTOLOGY_MARKERS = [
@@ -84,6 +85,25 @@ export async function observeKindexFilesystem(
       messageMarkerCount: 0,
       runtimeMarkerCount: 0,
       publicMarkerCount: 0,
+      discordContinuity: {
+        artifactCount: 0,
+        jsonArtifactCount: 0,
+        textArtifactCount: 0,
+        threadCount: 0,
+        channelCount: 0,
+        messageCount: 0,
+        latestActivityAt: null,
+        channelNames: [],
+        threadNames: [],
+        categoryCounts: {
+          architecture: 0,
+          community: 0,
+          knowledge: 0,
+          runtime: 0,
+          forge: 0,
+        },
+        truncated: false,
+      },
       crossLinkageHits: 0,
     };
   }
@@ -95,6 +115,8 @@ export async function observeKindexFilesystem(
   let runtimeMarkerCount = 0;
   let publicMarkerCount = 0;
   let crossLinkageHits = 0;
+
+  const discordContinuity = await scanDiscordContinuityArtifacts(roots);
 
   for (const root of roots) {
     ontologyMarkerCount += await countExistingMarkers(root, ONTOLOGY_MARKERS);
@@ -116,6 +138,7 @@ export async function observeKindexFilesystem(
     messageMarkerCount,
     runtimeMarkerCount,
     publicMarkerCount,
+    discordContinuity,
     crossLinkageHits,
   };
 }

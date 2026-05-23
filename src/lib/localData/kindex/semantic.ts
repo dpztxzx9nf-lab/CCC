@@ -128,6 +128,69 @@ export function evaluateKindexSemanticRules(
   );
   if (messages && types.has("kindex_message_archive")) out.push(messages);
 
+  const discordIngested = candidate(
+    "continuity_consolidation",
+    "archive",
+    ["archive", "relay", "observatory"],
+    "KINDEX: Discord-derived continuity artifacts ingested",
+    kin.filter((s) => s.type === "kindex_discord_continuity_ingested"),
+    1,
+  );
+  if (discordIngested && types.has("kindex_discord_continuity_ingested")) {
+    out.push(discordIngested);
+  }
+
+  const discordArchitecture = candidate(
+    "architecture_shift",
+    "observatory",
+    ["observatory", "core"],
+    "KINDEX: Discord architecture or philosophy discussion detected",
+    kin.filter((s) => s.type === "kindex_discord_architecture_philosophy"),
+    1,
+  );
+  if (
+    discordArchitecture &&
+    types.has("kindex_discord_architecture_philosophy")
+  ) {
+    out.push(discordArchitecture);
+  }
+
+  const discordCommunity = candidate(
+    "deployment_progress",
+    "relay",
+    ["relay", "archive"],
+    "KINDEX: Discord community continuity activity detected",
+    kin.filter((s) => s.type === "kindex_discord_community_activity"),
+    1,
+  );
+  if (discordCommunity && types.has("kindex_discord_community_activity")) {
+    out.push(discordCommunity);
+  }
+
+  const discordRuntime = candidate(
+    "infrastructure_instability",
+    "runtime",
+    ["runtime", "forge"],
+    "KINDEX: Discord runtime/debug coordination detected",
+    kin.filter((s) => s.type === "kindex_discord_runtime_coordination"),
+    1,
+  );
+  if (discordRuntime && types.has("kindex_discord_runtime_coordination")) {
+    out.push(discordRuntime);
+  }
+
+  const discordForge = candidate(
+    "active_initiative",
+    "forge",
+    ["forge", "relay"],
+    "KINDEX: Discord coding/build/deploy coordination detected",
+    kin.filter((s) => s.type === "kindex_discord_forge_coordination"),
+    1,
+  );
+  if (discordForge && types.has("kindex_discord_forge_coordination")) {
+    out.push(discordForge);
+  }
+
   const runtime = candidate(
     "infrastructure_instability",
     "runtime",
