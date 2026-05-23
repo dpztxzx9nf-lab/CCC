@@ -1,4 +1,11 @@
 import type { SectorId } from "@/data/types";
+import type {
+  ContinuitySnapshotSchemaVersion,
+  SnapshotManifestRef,
+  SnapshotScanMeta,
+} from "@/lib/substrate/snapshot-schema";
+export type { SnapshotManifestRef, SnapshotScanMeta } from "@/lib/substrate/snapshot-schema";
+export { CONTINUITY_SNAPSHOT_SCHEMA_VERSION } from "@/lib/substrate/snapshot-schema";
 import type { ActivityKind } from "@/lib/operations/taxonomy";
 import type { OperationalEvent } from "@/lib/operations/events";
 import type { OperationalSignal } from "@/lib/operations/types";
@@ -51,7 +58,18 @@ export interface ContinuitySnapshotSignal {
   weight: number;
 }
 
+export interface SnapshotBuildOptions {
+  manifestRef?: SnapshotManifestRef;
+  hostId?: string;
+}
+
 export interface ContinuitySnapshot {
+  /** Omitted on legacy snapshots; required on new writes (v1) */
+  schemaVersion?: ContinuitySnapshotSchemaVersion;
+  /** Registry lineage at generation time */
+  manifestRef?: SnapshotManifestRef;
+  /** Scan mode metadata (Phase 0: full snapshots only) */
+  scan?: SnapshotScanMeta;
   generatedAt: string;
   agent: "ARCHIVIST-0";
   projects: ContinuitySnapshotProject[];

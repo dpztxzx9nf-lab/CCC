@@ -12,10 +12,12 @@ import {
 } from "@/lib/operations/deriveSignalProjection";
 import { sanitizeContinuityPayload } from "@/lib/encoding";
 import { deriveSemanticOperationalLayer } from "@/lib/operations/semantic";
+import { CONTINUITY_SNAPSHOT_SCHEMA_VERSION } from "@/lib/substrate/snapshot-schema";
 import type {
   ContinuitySnapshot,
   ContinuitySnapshotProject,
   ContinuitySnapshotSignal,
+  SnapshotBuildOptions,
 } from "./types";
 
 function buildSignals(projects: RawScannedProject[]): ContinuitySnapshotSignal[] {
@@ -108,6 +110,7 @@ export function buildContinuitySnapshot(
   scanRoots: ContinuitySnapshot["scanRoots"],
   operationalEvents: OperationalEvent[] = [],
   operationalSignals: OperationalSignal[] = [],
+  buildOptions: SnapshotBuildOptions = {},
 ): ContinuitySnapshot {
   const augmented = deriveOperationalSnapshotFields(projects, operationalEvents);
   const temporal = deriveTemporalContinuity(operationalSignals, projects);
@@ -158,6 +161,14 @@ export function buildContinuitySnapshot(
   }));
 
   return sanitizeContinuityPayload({
+    schemaVersion: CONTINUITY_SNAPSHOT_SCHEMA_VERSION,
+    ...(buildOptions.manifestRef
+      ? { manifestRef: buildOptions.manifestRef }
+      : {}),
+    scan: {
+      mode: "full" as const,
+      ...(buildOptions.hostId ? { hostId: buildOptions.hostId } : {}),
+    },
     generatedAt: new Date().toISOString(),
     agent: "ARCHIVIST-0",
     projects: snapshotProjects,

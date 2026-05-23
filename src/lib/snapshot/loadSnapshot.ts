@@ -1,22 +1,19 @@
 import { parseUtf8ContinuityJson } from "@/lib/encoding/json-parse";
 import type { ContinuitySnapshot } from "./types";
 import { ALL_SECTOR_IDS } from "@/lib/operations/taxonomy";
+import { parseContinuitySnapshot } from "./parseSnapshot";
+
+export {
+  isContinuitySnapshotShape,
+  isLegacyContinuitySnapshot,
+  parseContinuitySnapshot,
+} from "./parseSnapshot";
 
 const SNAPSHOT_URL = "/continuity-snapshot.json";
 
+/** @deprecated Prefer parseContinuitySnapshot — kept for type guards */
 export function isContinuitySnapshot(data: unknown): data is ContinuitySnapshot {
-  if (!data || typeof data !== "object") return false;
-  const o = data as Record<string, unknown>;
-  if (o.agent !== "ARCHIVIST-0") return false;
-  if (typeof o.generatedAt !== "string") return false;
-  if (!Array.isArray(o.projects)) return false;
-  if (!o.sectorHeat || typeof o.sectorHeat !== "object") return false;
-  if (!Array.isArray(o.operators)) return false;
-  if (!Array.isArray(o.signals)) return false;
-  if (o.operationalSignals !== undefined && !Array.isArray(o.operationalSignals)) {
-    return false;
-  }
-  return true;
+  return parseContinuitySnapshot(data) !== null;
 }
 
 /** Client or server fetch from public static file. */
@@ -31,7 +28,7 @@ export async function loadContinuitySnapshot(
     if (!res.ok) return null;
     const raw = await res.text();
     const data: unknown = parseUtf8ContinuityJson(raw);
-    return isContinuitySnapshot(data) ? data : null;
+    return parseContinuitySnapshot(data);
   } catch {
     return null;
   }
@@ -47,7 +44,7 @@ export async function readContinuitySnapshotFromDisk(): Promise<ContinuitySnapsh
     const filePath = path.join(process.cwd(), "public", "continuity-snapshot.json");
     const raw = await readFile(filePath, { encoding: "utf8" });
     const data: unknown = parseUtf8ContinuityJson(raw);
-    return isContinuitySnapshot(data) ? data : null;
+    return parseContinuitySnapshot(data);
   } catch {
     return null;
   }
