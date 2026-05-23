@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "verify": "npm run lint && npm run test:encoding && npm run test:substrate && npm run test:github-continuity && npm run build",
+    "github:ingest": "tsx --tsconfig tsconfig.json scripts/github-ingest.ts",
     "snapshot": "tsx --tsconfig tsconfig.json src/lib/snapshot/generateSnapshot.ts",
     "test:encoding": "tsx --test src/lib/encoding/sanitize.test.ts",
     "test:substrate": "tsx --test src/lib/snapshot/parseSnapshot.test.ts",

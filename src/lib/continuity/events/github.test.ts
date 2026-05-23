@@ -10,6 +10,13 @@ import {
   gitHubPushToContinuityEvent,
   type GitHubContinuityContext,
 } from "./github";
+import {
+  buildGitHubDryRunRows,
+  fixtureGitHubPayloads,
+  fixtureGitHubRepositoryMappings,
+  formatGitHubDryRun,
+  type GitHubCheckpointFile,
+} from "./github-ingest";
 
 const context: GitHubContinuityContext = {
   projectId: "ccc",
@@ -168,5 +175,46 @@ describe("GitHub continuity adapter", () => {
       ["repo_commit", "repo_push", "deployment_success"],
     );
     assert.ok(events.every((event) => event.source === "github"));
+  });
+
+  it("formats deterministic dry-run output with checkpoint dedupe", () => {
+    const [mapping] = fixtureGitHubRepositoryMappings();
+    assert.ok(mapping);
+    const payloads = fixtureGitHubPayloads(mapping.repository);
+    const checkpoint: GitHubCheckpointFile = {
+      version: 1,
+      updatedAt: "2026-05-20T12:30:00.000Z",
+      repositories: {
+        "thinkcore/ccc": {
+          seenDedupeKeys: [
+            "github:push:thinkcore/ccc:main:def4567890123",
+          ],
+        },
+      },
+    };
+    const rows = buildGitHubDryRunRows({
+      mappings: [mapping],
+      payloadsByRepository: new Map([["thinkcore/ccc", payloads]]),
+      checkpoint,
+    });
+    const output = formatGitHubDryRun({
+      mode: "fixture",
+      checkpointPath: "data/telemetry/github-checkpoints.json",
+      checkpointLoaded: true,
+      mappings: [mapping],
+      skipped: [],
+      rows,
+      candidateCount: rows.length,
+      dedupedCount: rows.filter((row) => row.status === "deduped").length,
+      acceptedCount: rows.filter((row) => row.status === "accepted").length,
+      diagnostics: [],
+    });
+
+    assert.equal(rows.length, 4);
+    assert.equal(rows[1]?.status, "deduped");
+    assert.match(output, /GitHub continuity ingest dry run \(fixture\)/);
+    assert.match(output, /\[ok\] thinkcore\/ccc -> ccc/);
+    assert.match(output, /write: no/);
+    assert.match(output, /No files written\./);
   });
 });
