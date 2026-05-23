@@ -10,6 +10,10 @@ export type ContinuityEventKind =
   | "snapshot_refresh"
   | "deploy_published"
   | "deploy_blocked"
+  | "repo_commit"
+  | "repo_push"
+  | "deployment_success"
+  | "deployment_failure"
   | "infrastructure_change"
   | "archive_consolidation"
   | "observatory_scan"
@@ -17,7 +21,7 @@ export type ContinuityEventKind =
 
 export type EventImportance = "low" | "medium" | "high" | "critical";
 
-export type ContinuityEventSource = "archivist" | "manual";
+export type ContinuityEventSource = "archivist" | "manual" | "github";
 
 export interface ContinuityEventEvidence {
   changeCount: number;
@@ -26,6 +30,17 @@ export interface ContinuityEventEvidence {
   snapshotWritten?: boolean;
   deployCommit?: string | null;
   deploySkippedReason?: string | null;
+  github?: {
+    dedupeKey: string;
+    owner: string;
+    repo: string;
+    repository: string;
+    branch?: string;
+    commitSha?: string;
+    deploymentId?: string;
+    deploymentStatus?: string;
+    url?: string;
+  };
 }
 
 /** Single persisted continuity event */
