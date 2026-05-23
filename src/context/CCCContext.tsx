@@ -133,13 +133,20 @@ export function CCCProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    try {
-      setHumanOrientationState(
-        parseStoredHumanOrientation(localStorage.getItem(HUMAN_ORIENTATION_STORAGE_KEY)),
-      );
-    } catch {
-      setHumanOrientationState("idle");
-    }
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (cancelled) return;
+      try {
+        setHumanOrientationState(
+          parseStoredHumanOrientation(localStorage.getItem(HUMAN_ORIENTATION_STORAGE_KEY)),
+        );
+      } catch {
+        setHumanOrientationState("idle");
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const setHumanOrientation = useCallback((id: HumanOrientationId) => {
@@ -157,7 +164,9 @@ export function CCCProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
-    setOperationalLoading(true);
+    queueMicrotask(() => {
+      if (!cancelled) setOperationalLoading(true);
+    });
 
     async function hydrate() {
       const [apiResult, archivist, eventsPayload, telemetryPayload] =
