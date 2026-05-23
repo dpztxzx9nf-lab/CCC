@@ -20,15 +20,16 @@
 - After code edits, run:
 
 ```bash
-npm run build
+npm run verify
 ```
 
-- For focused changes, also run the closest relevant checks:
+- `npm run verify` runs:
 
 ```bash
 npm run lint
 npm run test:encoding
 npm run test:substrate
+npm run build
 ```
 
 - If verification cannot run, record why and what remains unverified.
@@ -74,7 +75,7 @@ npm run test:substrate
 - Do not perform opportunistic refactors.
 - Preserve file organization, import style, component naming, and domain language.
 - Avoid touching generated/runtime artifacts unless explicitly requested.
-- After code edits, run `npm run build` and report the result.
+- After code edits, run `npm run verify` and report the result.
 - If unrelated files are already modified, leave them alone.
 
 ## Commit Philosophy

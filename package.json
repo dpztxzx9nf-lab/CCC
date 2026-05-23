@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "verify": "npm run lint && npm run test:encoding && npm run test:substrate && npm run build",
     "snapshot": "tsx --tsconfig tsconfig.json src/lib/snapshot/generateSnapshot.ts",
     "test:encoding": "tsx --test src/lib/encoding/sanitize.test.ts",
     "test:substrate": "tsx --test src/lib/snapshot/parseSnapshot.test.ts",
