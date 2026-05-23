@@ -1,8 +1,11 @@
 import { memo } from "react";
-import type { ContinuityStorageStats, OpsContinuitySignalRow } from "@/lib/continuity/events/store";
 import { compactTelemetryLines } from "@/lib/telemetry/format";
 import type { OperationalTelemetry } from "@/lib/telemetry/types";
-import type { OpsPortalBundle } from "@/lib/ops/loadOpsPortalBundle";
+import type {
+  ContinuityStorageStats,
+  OpsContinuitySignalRow,
+  OpsPortalBundle,
+} from "@/lib/ops/types";
 import { OpsPortalBackControl } from "./OpsPortalBackControl";
 import "@/app/ops/ops.css";
 

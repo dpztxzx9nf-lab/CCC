@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useMemo } from "react";
-import type { OpsPortalBundle } from "@/lib/ops/loadOpsPortalBundle";
+import type { OpsPortalBundle } from "@/lib/ops/types";
 import { FacilityCommandSurface } from "./FacilityCommandSurface";
 import { GestureNavigationShell } from "./GestureNavigationShell";
 import { ProjectsEcosystemSurface } from "./ProjectsEcosystemSurface";

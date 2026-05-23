@@ -9,8 +9,14 @@ import { readUtf8ContinuityJsonFile, writeUtf8ContinuityJson } from "@/lib/encod
 import type { ArchivistConfig } from "@/lib/localData/archivist-config";
 import { ALL_SECTOR_IDS } from "@/lib/operations/taxonomy";
 import type { OperationalEvent, OperationalEventType } from "@/lib/operations/events";
+import type {
+  ContinuityStorageStats,
+  OpsContinuitySignalRow,
+} from "@/lib/ops/types";
 import type { ContinuityEvent, ContinuityEventLog } from "./types";
 import { CONTINUITY_EVENTS_VERSION } from "./types";
+
+export type { ContinuityStorageStats, OpsContinuitySignalRow } from "@/lib/ops/types";
 
 const OPERATIONAL_TYPES = new Set<OperationalEventType>([
   "file_changed",
@@ -296,17 +302,6 @@ export async function readOperationalEventsFromDisk(
   return [];
 }
 
-/** Flattened row for /ops “Recent Continuity Signals” (operational or rail events) */
-export interface OpsContinuitySignalRow {
-  id: string;
-  timestamp: string;
-  project: string;
-  sector: string;
-  meaning: string;
-  severity: string;
-  summary: string;
-}
-
 function opsRowFromOperational(e: OperationalEvent): OpsContinuitySignalRow {
   const v = e.metadata.semanticMeaning;
   const meaning =
@@ -364,18 +359,6 @@ export async function readContinuitySignalsForOpsFromDisk(
     /* missing */
   }
   return [];
-}
-
-/** Local disk usage for public continuity JSON artifacts (ops visibility) */
-export interface ContinuityStorageStats {
-  eventsFileBytes: number;
-  snapshotFileBytes: number;
-  totalBytes: number;
-  logUpdatedAt: string | null;
-  railEventCount: number;
-  operationalEventCount: number;
-  snapshotGeneratedAt: string | null;
-  snapshotUpdatedAt: string | null;
 }
 
 export async function readContinuityStorageStatsFromDisk(

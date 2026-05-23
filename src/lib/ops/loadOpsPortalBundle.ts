@@ -1,19 +1,11 @@
 import {
   readContinuitySignalsForOpsFromDisk,
   readContinuityStorageStatsFromDisk,
-  type ContinuityStorageStats,
-  type OpsContinuitySignalRow,
 } from "@/lib/continuity/events/store";
-import {
-  gatherOperationalTelemetry,
-  type OperationalTelemetry,
-} from "@/lib/telemetry";
+import { gatherOperationalTelemetry } from "@/lib/telemetry";
+import type { OpsPortalBundle } from "./types";
 
-export interface OpsPortalBundle {
-  recentSignals: OpsContinuitySignalRow[];
-  storageStats: ContinuityStorageStats;
-  facilityTelemetry: OperationalTelemetry;
-}
+export type { OpsPortalBundle } from "./types";
 
 export async function loadOpsPortalBundle(): Promise<OpsPortalBundle> {
   const [allRows, storageStats, facilityTelemetry] = await Promise.all([

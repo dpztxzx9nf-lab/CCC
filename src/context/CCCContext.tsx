@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import type { OperationalSnapshot, SnapshotMeta } from "@/data/operational-types";
-import type { OperationalTelemetry } from "@/lib/telemetry";
+import type { OperationalTelemetry } from "@/lib/telemetry/types";
 import { telemetryToDerivedViews } from "@/lib/telemetry/toOperational";
 import type { ContinuityEventView } from "@/lib/continuity/events/types";
 import type {
