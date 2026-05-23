@@ -71,13 +71,24 @@ export function evaluateLiahonaSemanticRules(
   const sources = candidate(
     "ecosystem_expansion",
     "observatory",
-    ["observatory", "runtime"],
+    ["observatory", "archive"],
     "Liahona: source and retrieval systems present",
     kin.filter((s) => s.type === "liahona_source_retrieval"),
     project,
     1,
   );
   if (sources && types.has("liahona_source_retrieval")) out.push(sources);
+
+  const grounding = candidate(
+    "continuity_consolidation",
+    "archive",
+    ["archive", "observatory"],
+    "Liahona: source grounding and docs continuity present",
+    kin.filter((s) => s.type === "liahona_source_grounding"),
+    project,
+    1,
+  );
+  if (grounding && types.has("liahona_source_grounding")) out.push(grounding);
 
   const memory = candidate(
     "continuity_consolidation",
@@ -122,6 +133,30 @@ export function evaluateLiahonaSemanticRules(
     1,
   );
   if (stable && types.has("liahona_runtime_stabilization")) out.push(stable);
+
+  const forge = candidate(
+    "active_initiative",
+    "forge",
+    ["forge", "runtime"],
+    "Liahona: code edits or build activity detected",
+    kin.filter((s) => s.type === "liahona_forge_activity"),
+    project,
+    1,
+  );
+  if (forge && types.has("liahona_forge_activity")) out.push(forge);
+
+  const governance = candidate(
+    "architecture_shift",
+    "core",
+    ["core", "archive"],
+    "Liahona: authority, governance, or config surface present",
+    kin.filter((s) => s.type === "liahona_authority_governance"),
+    project,
+    1,
+  );
+  if (governance && types.has("liahona_authority_governance")) {
+    out.push(governance);
+  }
 
   return out;
 }

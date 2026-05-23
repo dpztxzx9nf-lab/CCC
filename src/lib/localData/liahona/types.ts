@@ -5,8 +5,10 @@ export const LIAHONA_ECOSYSTEM_ID = "liahona" as const;
 export interface LiahonaObservation {
   runtimeMarkerCount: number;
   sourcesMarkerCount: number;
+  groundingMarkerCount: number;
   memoryMarkerCount: number;
   projectionMarkerCount: number;
   discordMarkerCount: number;
   deployMarkerCount: number;
+  governanceMarkerCount: number;
 }

@@ -5,6 +5,7 @@ import { getArchivistConfig } from "../archivist-config";
 export interface SnapshotScanRoot {
   id: string;
   path: string;
+  includeRoot?: boolean;
 }
 
 export function getSnapshotScanRoots(): SnapshotScanRoot[] {
@@ -16,7 +17,7 @@ export function getSnapshotScanRoots(): SnapshotScanRoot[] {
     const key = r.path.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
-    roots.push({ id: r.id, path: r.path });
+    roots.push({ id: r.id, path: r.path, includeRoot: r.includeRoot });
   }
 
   return roots;

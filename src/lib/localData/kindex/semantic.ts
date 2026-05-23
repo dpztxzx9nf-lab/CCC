@@ -71,8 +71,8 @@ export function evaluateKindexSemanticRules(
 
   const ontology = candidate(
     "architecture_shift",
-    "core",
-    ["core", "archive", "observatory"],
+    "observatory",
+    ["observatory", "archive"],
     "KINDEX: ontology and architecture corpus expansion",
     kin.filter((s) => s.type === "kindex_ontology_expansion"),
     1,
@@ -117,6 +117,36 @@ export function evaluateKindexSemanticRules(
     1,
   );
   if (cross && types.has("kindex_cross_linkage")) out.push(cross);
+
+  const messages = candidate(
+    "continuity_consolidation",
+    "archive",
+    ["archive", "observatory"],
+    "KINDEX: Discord, forum, or message continuity archived",
+    kin.filter((s) => s.type === "kindex_message_archive"),
+    1,
+  );
+  if (messages && types.has("kindex_message_archive")) out.push(messages);
+
+  const runtime = candidate(
+    "infrastructure_instability",
+    "runtime",
+    ["runtime", "observatory"],
+    "KINDEX: bot/runtime or PM2 continuity active",
+    kin.filter((s) => s.type === "kindex_bot_runtime"),
+    1,
+  );
+  if (runtime && types.has("kindex_bot_runtime")) out.push(runtime);
+
+  const relay = candidate(
+    "deployment_progress",
+    "relay",
+    ["relay", "archive"],
+    "KINDEX: announcements or public communication activity",
+    kin.filter((s) => s.type === "kindex_public_communication"),
+    1,
+  );
+  if (relay && types.has("kindex_public_communication")) out.push(relay);
 
   const pressure = candidate(
     "ecosystem_expansion",

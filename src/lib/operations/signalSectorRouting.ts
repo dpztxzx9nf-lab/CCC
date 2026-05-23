@@ -12,13 +12,22 @@ export function resolveProjectionSector(signal: OperationalSignal): SectorId {
   const blob = `${t} ${src}`;
 
   if (/^kindex_/.test(t) || src.includes("continuity:kindex")) {
-    if (/ontology|consolidation|archive|growth|density/.test(t)) return "archive";
-    if (/cross|ecosystem|initiative|pressure/.test(t)) return "observatory";
+    if (/discord|forum|message|archive|consolidation|growth|density/.test(t)) {
+      return "archive";
+    }
+    if (/runtime|bot|pm2/.test(t)) return "runtime";
+    if (/announcement|public|communication|relay/.test(t)) return "relay";
+    if (/semantic|ontology|index|cross|ecosystem|initiative|pressure/.test(t)) {
+      return "observatory";
+    }
     return "core";
   }
   if (/^liahona_/.test(t) || src.includes("continuity:liahona")) {
-    if (/discord|projection|deploy|relay/.test(t)) return "relay";
-    if (/source|memory|retrieval/.test(t)) return "observatory";
+    if (/authority|governance|config/.test(t)) return "core";
+    if (/grounding|docs|archive/.test(t)) return "archive";
+    if (/forge|build|code/.test(t)) return "forge";
+    if (/discord|projection|relay/.test(t)) return "relay";
+    if (/source|memory|retrieval|index/.test(t)) return "observatory";
     return "runtime";
   }
 
@@ -54,10 +63,10 @@ export function secondarySectorsForSignal(signal: OperationalSignal): SectorId[]
   const extra: SectorId[] = [];
 
   if (/^kindex_/.test(t)) {
-    extra.push("archive", "observatory", "core");
+    extra.push("archive", "observatory", "runtime", "relay");
   }
   if (/^liahona_/.test(t)) {
-    extra.push("runtime", "relay", "observatory");
+    extra.push("core", "archive", "observatory", "runtime", "forge");
   }
   if (t === "remote_detected" && primary === "relay") extra.push("forge");
   if (/deploy/.test(t)) extra.push("runtime", "relay");

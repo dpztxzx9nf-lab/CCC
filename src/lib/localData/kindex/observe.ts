@@ -29,6 +29,34 @@ const INDEX_ARTIFACT_MARKERS = [
   "scanner",
 ];
 
+const MESSAGE_MARKERS = [
+  "discord",
+  "Discord",
+  "forums",
+  "Forums",
+  "messages",
+  "Messages",
+];
+
+const RUNTIME_MARKERS = [
+  "bot",
+  "Bot",
+  "runtime",
+  "src/runtime",
+  "ecosystem.config.cjs",
+  "ecosystem.config.js",
+  "pm2",
+];
+
+const PUBLIC_MARKERS = [
+  "announcements",
+  "Announcements",
+  "public",
+  "Public",
+  "comms",
+  "communication",
+];
+
 const CROSS_LINK_HINTS = [
   "thinkcore",
   "ccc",
@@ -53,6 +81,9 @@ export async function observeKindexFilesystem(
       ontologyMarkerCount: 0,
       docsMarkerCount: 0,
       indexArtifactCount: 0,
+      messageMarkerCount: 0,
+      runtimeMarkerCount: 0,
+      publicMarkerCount: 0,
       crossLinkageHits: 0,
     };
   }
@@ -60,6 +91,9 @@ export async function observeKindexFilesystem(
   let ontologyMarkerCount = 0;
   let docsMarkerCount = 0;
   let indexArtifactCount = 0;
+  let messageMarkerCount = 0;
+  let runtimeMarkerCount = 0;
+  let publicMarkerCount = 0;
   let crossLinkageHits = 0;
 
   for (const root of roots) {
@@ -69,6 +103,9 @@ export async function observeKindexFilesystem(
       root,
       INDEX_ARTIFACT_MARKERS,
     );
+    messageMarkerCount += await countExistingMarkers(root, MESSAGE_MARKERS);
+    runtimeMarkerCount += await countExistingMarkers(root, RUNTIME_MARKERS);
+    publicMarkerCount += await countExistingMarkers(root, PUBLIC_MARKERS);
     crossLinkageHits += await detectCrossProjectLinkage(root, CROSS_LINK_HINTS);
   }
 
@@ -76,6 +113,9 @@ export async function observeKindexFilesystem(
     ontologyMarkerCount,
     docsMarkerCount,
     indexArtifactCount,
+    messageMarkerCount,
+    runtimeMarkerCount,
+    publicMarkerCount,
     crossLinkageHits,
   };
 }

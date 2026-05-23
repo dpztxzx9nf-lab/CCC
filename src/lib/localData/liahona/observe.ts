@@ -17,6 +17,15 @@ const SOURCE_MARKERS = [
   "src/sources/runtime",
 ];
 
+const GROUNDING_MARKERS = [
+  "docs",
+  "README.md",
+  "src/grounding",
+  "src/source-grounding",
+  "grounding",
+  "corpus",
+];
+
 const MEMORY_MARKERS = [
   "src/canonical",
   "src/canonical/corpora",
@@ -41,6 +50,15 @@ const DEPLOY_MARKERS = [
   "dev-portal",
 ];
 
+const GOVERNANCE_MARKERS = [
+  "authority",
+  "governance",
+  "policy",
+  "policies",
+  "config",
+  "src/config",
+];
+
 export async function observeLiahonaFilesystem(
   projectPath: string,
 ): Promise<LiahonaObservation> {
@@ -53,6 +71,10 @@ export async function observeLiahonaFilesystem(
       projectPath,
       SOURCE_MARKERS,
     ),
+    groundingMarkerCount: await countExistingMarkers(
+      projectPath,
+      GROUNDING_MARKERS,
+    ),
     memoryMarkerCount: await countExistingMarkers(projectPath, MEMORY_MARKERS),
     projectionMarkerCount: await countExistingMarkers(
       projectPath,
@@ -63,5 +85,9 @@ export async function observeLiahonaFilesystem(
       DISCORD_MARKERS,
     ),
     deployMarkerCount: await countExistingMarkers(projectPath, DEPLOY_MARKERS),
+    governanceMarkerCount: await countExistingMarkers(
+      projectPath,
+      GOVERNANCE_MARKERS,
+    ),
   };
 }

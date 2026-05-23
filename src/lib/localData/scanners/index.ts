@@ -123,7 +123,9 @@ export async function scanAllSnapshotRoots(): Promise<FullScanResult> {
 
   for (const root of getSnapshotScanRoots()) {
     const accessible = await pathAccessible(root.path);
-    const entries = accessible ? await listTopLevelProjects(root.id, root.path) : [];
+    const entries = accessible
+      ? await listTopLevelProjects(root.id, root.path, root.includeRoot)
+      : [];
 
     scanRoots.push({
       id: root.id,

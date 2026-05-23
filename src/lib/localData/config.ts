@@ -9,6 +9,7 @@ export interface LocalSourceRoot {
 
 export const LOCAL_SOURCE_ROOTS: LocalSourceRoot[] = [
   { slug: "ccc", displayName: "CCC", root: "C:\\Projects\\CCC" },
+  { slug: "kindex", displayName: "KINDEX", root: "C:\\Projects\\KINDEX" },
   { slug: "liahona", displayName: "Liahona", root: "C:\\Projects\\Liahona" },
   {
     slug: "thinkcore",

@@ -55,7 +55,7 @@ export async function deriveKindexOperationalSignals(
     signals.push(
       createSignal({
         source: KINDEX_SIGNAL_SOURCE,
-        sector: "core",
+        sector: "observatory",
         type: "kindex_ontology_expansion",
         severity: observation.ontologyMarkerCount >= 2 ? "medium" : "low",
         stableKey: `${key}:ontology`,
@@ -100,10 +100,49 @@ export async function deriveKindexOperationalSignals(
     signals.push(
       createSignal({
         source: KINDEX_SIGNAL_SOURCE,
-        sector: "core",
+        sector: "observatory",
         type: "kindex_cross_linkage",
         severity: observation.crossLinkageHits >= 4 ? "medium" : "low",
         stableKey: `${key}:cross-link`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (observation.messageMarkerCount >= 1) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "archive",
+        type: "kindex_message_archive",
+        severity: observation.messageMarkerCount >= 3 ? "medium" : "low",
+        stableKey: `${key}:messages`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (observation.runtimeMarkerCount >= 1 && aggregate.recentCodeEdits >= 1) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "runtime",
+        type: "kindex_bot_runtime",
+        severity: "medium",
+        stableKey: `${key}:runtime`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (observation.publicMarkerCount >= 1 && aggregate.totalRecentActivity >= 1) {
+    signals.push(
+      createSignal({
+        source: KINDEX_SIGNAL_SOURCE,
+        sector: "relay",
+        type: "kindex_public_communication",
+        severity: "low",
+        stableKey: `${key}:public-comms`,
         metadata: meta,
       }),
     );

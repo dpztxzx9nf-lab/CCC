@@ -62,6 +62,19 @@ export async function deriveLiahonaOperationalSignals(
     );
   }
 
+  if (observation.groundingMarkerCount >= 1) {
+    signals.push(
+      createSignal({
+        source: LIAHONA_SIGNAL_SOURCE,
+        sector: "archive",
+        type: "liahona_source_grounding",
+        severity: observation.groundingMarkerCount >= 2 ? "medium" : "low",
+        stableKey: `${projectId}:grounding`,
+        metadata: meta,
+      }),
+    );
+  }
+
   if (observation.memoryMarkerCount >= 2) {
     signals.push(
       createSignal({
@@ -120,6 +133,32 @@ export async function deriveLiahonaOperationalSignals(
         type: "liahona_runtime_stabilization",
         severity: "low",
         stableKey: `${projectId}:stabilization`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (project.hasGit && project.recentCodeEdits > 0) {
+    signals.push(
+      createSignal({
+        source: LIAHONA_SIGNAL_SOURCE,
+        sector: "forge",
+        type: "liahona_forge_activity",
+        severity: project.recentCodeEdits >= 3 ? "medium" : "low",
+        stableKey: `${projectId}:forge`,
+        metadata: meta,
+      }),
+    );
+  }
+
+  if (observation.governanceMarkerCount >= 1) {
+    signals.push(
+      createSignal({
+        source: LIAHONA_SIGNAL_SOURCE,
+        sector: "core",
+        type: "liahona_authority_governance",
+        severity: observation.governanceMarkerCount >= 2 ? "medium" : "low",
+        stableKey: `${projectId}:governance`,
         metadata: meta,
       }),
     );

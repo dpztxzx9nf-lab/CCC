@@ -23,6 +23,7 @@ export async function pathAccessible(rootPath: string): Promise<boolean> {
 export async function listTopLevelProjects(
   scanRootId: string,
   rootPath: string,
+  includeRoot = false,
 ): Promise<TopLevelProject[]> {
   const accessible = await pathAccessible(rootPath);
   if (!accessible) return [];
@@ -35,6 +36,15 @@ export async function listTopLevelProjects(
   }
 
   const projects: TopLevelProject[] = [];
+
+  if (includeRoot) {
+    projects.push({
+      name: path.basename(rootPath),
+      path: rootPath,
+      scanRoot: rootPath,
+      scanRootId,
+    });
+  }
 
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;

@@ -14,6 +14,9 @@ export interface KindexObservation {
   ontologyMarkerCount: number;
   docsMarkerCount: number;
   indexArtifactCount: number;
+  messageMarkerCount: number;
+  runtimeMarkerCount: number;
+  publicMarkerCount: number;
   crossLinkageHits: number;
 }
 

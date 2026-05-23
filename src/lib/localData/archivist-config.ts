@@ -7,6 +7,8 @@ export type SignificanceLevel = "ignore" | "observe" | "snapshot" | "deploy-wort
 export interface ArchivistWatchRoot {
   id: string;
   path: string;
+  /** Scan this root itself as a project, not only immediate child folders. */
+  includeRoot?: boolean;
 }
 
 export interface SignificanceThresholds {
@@ -72,6 +74,8 @@ export const ARCHIVIST_MEANINGFUL_LOG_PATTERNS = [
 export const DEFAULT_ARCHIVIST_CONFIG: ArchivistConfig = {
   watchRoots: [
     { id: "projects", path: "C:\\Projects" },
+    { id: "kindex", path: "C:\\Projects\\KINDEX", includeRoot: true },
+    { id: "liahona", path: "C:\\Projects\\Liahona", includeRoot: true },
     { id: "secondbrain-nested", path: "C:\\Projects\\SecondBrain" },
     { id: "archive-nested", path: "C:\\Projects\\ARCHIVE" },
     { id: "secondbrain-root", path: "C:\\SecondBrain" },
@@ -98,8 +102,24 @@ export const DEFAULT_ARCHIVIST_CONFIG: ArchivistConfig = {
 
 /** Sector weights for path-based change classification */
 export const CHANGE_SECTOR_HINTS: Record<SectorId, RegExp[]> = {
-  core: [/\\ccc\\/, /continuity-command/i, /archivist/i, /megastructure/i],
-  archive: [/\.md$/i, /\.mdx$/i, /\.obsidian/, /secondbrain/i, /\\archive\\/i, /vault/i],
+  core: [
+    /\\ccc\\/,
+    /continuity-command/i,
+    /archivist/i,
+    /megastructure/i,
+    /liahona.*(authority|governance|policy|config)/i,
+    /\\liahona\\.*(authority|governance|policy|config)/i,
+  ],
+  archive: [
+    /\.md$/i,
+    /\.mdx$/i,
+    /\.obsidian/,
+    /secondbrain/i,
+    /\\archive\\/i,
+    /vault/i,
+    /\\kindex\\.*(discord|forum|message|messages)/i,
+    /\\liahona\\.*(source|sources|grounding|docs|document|corpus)/i,
+  ],
   forge: [
     /\.tsx?$/i,
     /\.jsx?$/i,
@@ -115,9 +135,27 @@ export const CHANGE_SECTOR_HINTS: Record<SectorId, RegExp[]> = {
     /docker-compose/i,
     /\.env\.production/i,
     /vercel\.json$/i,
+    /\\kindex\\.*(bot|runtime|pm2|ecosystem)/i,
+    /\\liahona\\.*(app|api|runtime|pm2|vercel|ecosystem)/i,
   ],
-  relay: [/\\public\\/, /deploy/i, /\.github\\workflows/, /thinkcore/i, /website/i],
-  observatory: [/prisma/i, /schema\.sql/i, /indexer/i, /scanner/i, /metrics/i, /kindex/i],
+  relay: [
+    /\\public\\/,
+    /deploy/i,
+    /\.github\\workflows/,
+    /thinkcore/i,
+    /website/i,
+    /\\kindex\\.*(announcement|announcements|public|comms|communication)/i,
+  ],
+  observatory: [
+    /prisma/i,
+    /schema\.sql/i,
+    /indexer/i,
+    /scanner/i,
+    /metrics/i,
+    /kindex/i,
+    /\\kindex\\.*(semantic|semantics|continuity|index|indexing)/i,
+    /\\liahona\\.*(retrieval|index|indexing|search|embedding|embeddings)/i,
+  ],
 };
 
 export function getArchivistConfig(): ArchivistConfig {
