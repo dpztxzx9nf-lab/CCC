@@ -21,6 +21,7 @@
       "repoExpected": true,
       "systemsAffected": ["command-ui", "continuity-ingestion", "thinkcore-projection"],
       "highlights": ["v0.1 stable shell", "Facility megastructure"],
+      "github": { "repository": "dpztxzx9nf-lab/CCC" },
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
       "updatedAt": "2026-05-21T00:00:00.000Z"

@@ -19,6 +19,10 @@ export const PROJECT_REGISTRY_STATUSES = [
 
 export type ProjectRegistryStatus = (typeof PROJECT_REGISTRY_STATUSES)[number];
 
+export type ProjectRegistryGitHub =
+  | { repository: string }
+  | { owner: string; repo: string };
+
 export interface ProjectRegistryEntry {
   id: string;
   name: string;
@@ -37,6 +41,7 @@ export interface ProjectRegistryEntry {
   repoExpected: boolean;
   systemsAffected: string[];
   highlights: string[];
+  github?: ProjectRegistryGitHub;
   ecosystem?: ProjectEcosystem;
   archivedAt: string | null;
   createdAt: string;
@@ -74,6 +79,13 @@ function isNonEmptyString(v: unknown): v is string {
 
 function isStringArray(v: unknown): v is string[] {
   return Array.isArray(v) && v.every((x) => typeof x === "string");
+}
+
+function isGitHub(v: unknown): v is ProjectRegistryGitHub {
+  if (!v || typeof v !== "object") return false;
+  const g = v as Record<string, unknown>;
+  if (isNonEmptyString(g.repository)) return true;
+  return isNonEmptyString(g.owner) && isNonEmptyString(g.repo);
 }
 
 function isDomainIds(v: unknown): v is OperationalDomainId[] {
@@ -122,6 +134,7 @@ export function isProjectRegistryEntry(v: unknown): v is ProjectRegistryEntry {
     typeof e.repoExpected === "boolean" &&
     isStringArray(e.systemsAffected) &&
     isStringArray(e.highlights) &&
+    (e.github === undefined || isGitHub(e.github)) &&
     (e.ecosystem === undefined || isEcosystem(e.ecosystem)) &&
     (e.archivedAt === null || isNonEmptyString(e.archivedAt)) &&
     isNonEmptyString(e.createdAt) &&

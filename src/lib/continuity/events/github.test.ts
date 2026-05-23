@@ -11,10 +11,13 @@ import {
   type GitHubContinuityContext,
 } from "./github";
 import {
+  acceptedGitHubEvents,
   buildGitHubDryRunRows,
+  checkpointWithAcceptedEvents,
   fixtureGitHubPayloads,
   fixtureGitHubRepositoryMappings,
   formatGitHubDryRun,
+  gitHubDedupeKeysFromEvents,
   type GitHubCheckpointFile,
 } from "./github-ingest";
 
@@ -198,6 +201,7 @@ describe("GitHub continuity adapter", () => {
       checkpoint,
     });
     const output = formatGitHubDryRun({
+      operation: "dry-run",
       mode: "fixture",
       checkpointPath: "data/telemetry/github-checkpoints.json",
       checkpointLoaded: true,
@@ -212,9 +216,79 @@ describe("GitHub continuity adapter", () => {
 
     assert.equal(rows.length, 4);
     assert.equal(rows[1]?.status, "deduped");
-    assert.match(output, /GitHub continuity ingest dry run \(fixture\)/);
+    assert.match(output, /GitHub continuity ingest dry-run \(fixture\)/);
     assert.match(output, /\[ok\] thinkcore\/ccc -> ccc/);
     assert.match(output, /write: no/);
     assert.match(output, /No files written\./);
+  });
+
+  it("filters accepted events against checkpoint and existing log keys", () => {
+    const [mapping] = fixtureGitHubRepositoryMappings();
+    assert.ok(mapping);
+    const payloads = fixtureGitHubPayloads(mapping.repository);
+    const checkpoint: GitHubCheckpointFile = {
+      version: 1,
+      updatedAt: "2026-05-20T12:30:00.000Z",
+      repositories: {
+        "thinkcore/ccc": {
+          seenDedupeKeys: [
+            "github:commit:thinkcore/ccc:abc1234567890",
+          ],
+        },
+      },
+    };
+    const existingKeys = gitHubDedupeKeysFromEvents([
+      gitHubPushToContinuityEvent(payloads[1]!.payload as never, context),
+    ]);
+    const accepted = acceptedGitHubEvents({
+      mappings: [mapping],
+      payloadsByRepository: new Map([["thinkcore/ccc", payloads]]),
+      checkpoint,
+      existingKeys,
+    });
+
+    assert.deepEqual(
+      accepted.map((candidate) => candidate.event.kind),
+      ["deployment_success", "deployment_failure"],
+    );
+  });
+
+  it("adds accepted event keys to checkpoint without dropping previous keys", () => {
+    const [mapping] = fixtureGitHubRepositoryMappings();
+    assert.ok(mapping);
+    const payloads = fixtureGitHubPayloads(mapping.repository);
+    const accepted = acceptedGitHubEvents({
+      mappings: [mapping],
+      payloadsByRepository: new Map([["thinkcore/ccc", payloads.slice(0, 2)]]),
+      checkpoint: {
+        version: 1,
+        updatedAt: "2026-05-20T12:30:00.000Z",
+        repositories: {
+          "thinkcore/ccc": {
+            seenDedupeKeys: ["github:existing"],
+          },
+        },
+      },
+    });
+    const next = checkpointWithAcceptedEvents({
+      checkpoint: {
+        version: 1,
+        updatedAt: "2026-05-20T12:30:00.000Z",
+        repositories: {
+          "thinkcore/ccc": {
+            seenDedupeKeys: ["github:existing"],
+          },
+        },
+      },
+      accepted,
+      updatedAt: "2026-05-20T12:45:00.000Z",
+    });
+
+    assert.equal(next.updatedAt, "2026-05-20T12:45:00.000Z");
+    assert.deepEqual(next.repositories["thinkcore/ccc"]?.seenDedupeKeys, [
+      "github:existing",
+      "github:commit:thinkcore/ccc:abc1234567890",
+      "github:push:thinkcore/ccc:main:def4567890123",
+    ]);
   });
 });

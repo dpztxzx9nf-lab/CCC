@@ -1,4 +1,4 @@
-import { readFile } from "fs/promises";
+import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 import type { SectorId } from "@/data/types";
 import { OPERATOR_IDS, type OperatorId } from "@/lib/operations/taxonomy";
@@ -35,6 +35,7 @@ export interface GitHubDryRunEventRow {
 }
 
 export interface GitHubDryRunResult {
+  operation: "dry-run" | "write";
   mode: "fixture" | "live";
   checkpointPath: string;
   checkpointLoaded: boolean;
@@ -45,6 +46,14 @@ export interface GitHubDryRunResult {
   dedupedCount: number;
   acceptedCount: number;
   diagnostics: string[];
+  appendedCount?: number;
+  checkpointWritten?: boolean;
+}
+
+export interface GitHubEventCandidate {
+  repository: string;
+  key: string;
+  event: ContinuityEvent;
 }
 
 interface RegistryProjectRaw {
@@ -139,6 +148,16 @@ export async function readGitHubCheckpoint(
     loaded: false,
     checkpoint: { version: 1, updatedAt: "", repositories: {} },
   };
+}
+
+export async function writeGitHubCheckpoint(
+  checkpoint: GitHubCheckpointFile,
+  cwd = process.cwd(),
+): Promise<string> {
+  const filePath = checkpointPath(cwd);
+  await mkdir(path.dirname(filePath), { recursive: true });
+  await writeFile(filePath, `${JSON.stringify(checkpoint, null, 2)}\n`, "utf8");
+  return filePath;
 }
 
 export async function loadGitHubRepositoryMappings(
@@ -336,16 +355,24 @@ function seenKeysForRepository(
   return new Set(entry?.seenDedupeKeys ?? []);
 }
 
-export function buildGitHubDryRunRows(input: {
+export function gitHubDedupeKeysFromEvents(events: ContinuityEvent[]): Set<string> {
+  const keys = new Set<string>();
+  for (const event of events) {
+    keys.add(event.id);
+    const dedupeKey = event.evidence.github?.dedupeKey;
+    if (dedupeKey) keys.add(dedupeKey);
+  }
+  return keys;
+}
+
+export function buildGitHubEventCandidates(input: {
   mappings: GitHubRepositoryMapping[];
   payloadsByRepository: Map<string, GitHubContinuityPayload[]>;
-  checkpoint: GitHubCheckpointFile;
-}): GitHubDryRunEventRow[] {
-  const rows: GitHubDryRunEventRow[] = [];
+}): GitHubEventCandidate[] {
+  const candidates: GitHubEventCandidate[] = [];
   for (const mapping of input.mappings) {
     const repo = repositoryName(mapping.repository);
     const payloads = input.payloadsByRepository.get(repo) ?? [];
-    const seen = seenKeysForRepository(input.checkpoint, mapping.repository);
     const context: GitHubContinuityContext = {
       projectId: mapping.projectId,
       sectors: mapping.sectors,
@@ -356,23 +383,81 @@ export function buildGitHubDryRunRows(input: {
     for (let i = 0; i < events.length; i += 1) {
       const event = events[i]!;
       const key = gitHubPayloadDedupeKey(payloads[i]!);
-      rows.push({
-        kind: event.kind,
-        projectId: mapping.projectId,
-        sectors: event.sectors,
-        key,
-        occurredAt: event.occurredAt,
-        status: seen.has(key) ? "deduped" : "accepted",
-        summary: event.summary,
-      });
+      candidates.push({ repository: repo, key, event });
     }
   }
-  return rows;
+  return candidates;
+}
+
+export function buildGitHubDryRunRows(input: {
+  mappings: GitHubRepositoryMapping[];
+  payloadsByRepository: Map<string, GitHubContinuityPayload[]>;
+  checkpoint: GitHubCheckpointFile;
+  existingKeys?: Set<string>;
+}): GitHubDryRunEventRow[] {
+  const candidates = buildGitHubEventCandidates(input);
+  return candidates.map(({ repository, key, event }) => {
+    const [owner, repo] = repository.split("/");
+    const seen = seenKeysForRepository(input.checkpoint, {
+      owner: owner ?? "",
+      repo: repo ?? "",
+    });
+    return {
+      kind: event.kind,
+      projectId: event.projects[0] ?? "-",
+      sectors: event.sectors,
+      key,
+      occurredAt: event.occurredAt,
+      status:
+        seen.has(key) || input.existingKeys?.has(key)
+          ? "deduped"
+          : "accepted",
+      summary: event.summary,
+    };
+  });
+}
+
+export function acceptedGitHubEvents(input: {
+  mappings: GitHubRepositoryMapping[];
+  payloadsByRepository: Map<string, GitHubContinuityPayload[]>;
+  checkpoint: GitHubCheckpointFile;
+  existingKeys?: Set<string>;
+}): GitHubEventCandidate[] {
+  const candidates = buildGitHubEventCandidates(input);
+  return candidates.filter(({ repository, key }) => {
+    const [owner, repo] = repository.split("/");
+    const seen = seenKeysForRepository(input.checkpoint, {
+      owner: owner ?? "",
+      repo: repo ?? "",
+    });
+    return !seen.has(key) && !input.existingKeys?.has(key);
+  });
+}
+
+export function checkpointWithAcceptedEvents(input: {
+  checkpoint: GitHubCheckpointFile;
+  accepted: GitHubEventCandidate[];
+  updatedAt: string;
+}): GitHubCheckpointFile {
+  const repositories: GitHubCheckpointFile["repositories"] = {
+    ...input.checkpoint.repositories,
+  };
+  for (const candidate of input.accepted) {
+    const prev = repositories[candidate.repository]?.seenDedupeKeys ?? [];
+    repositories[candidate.repository] = {
+      seenDedupeKeys: [...new Set([...prev, candidate.key])],
+    };
+  }
+  return {
+    version: 1,
+    updatedAt: input.updatedAt,
+    repositories,
+  };
 }
 
 export function formatGitHubDryRun(result: GitHubDryRunResult): string {
   const lines: string[] = [
-    `GitHub continuity ingest dry run (${result.mode})`,
+    `GitHub continuity ingest ${result.operation} (${result.mode})`,
     "",
     "Repositories:",
   ];
@@ -393,7 +478,7 @@ export function formatGitHubDryRun(result: GitHubDryRunResult): string {
     "Checkpoint:",
     `  path: ${result.checkpointPath}`,
     `  loaded: ${result.checkpointLoaded ? "yes" : "no"}`,
-    "  write: no",
+    `  write: ${result.operation === "write" ? "yes" : "no"}`,
     "",
     "Candidates:",
   );
@@ -424,6 +509,14 @@ export function formatGitHubDryRun(result: GitHubDryRunResult): string {
     }
   }
 
-  lines.push("", "No files written.");
+  if (result.operation === "write") {
+    lines.push(
+      "",
+      `Events appended: ${result.appendedCount ?? 0}`,
+      `Checkpoint written: ${result.checkpointWritten ? "yes" : "no"}`,
+    );
+  } else {
+    lines.push("", "No files written.");
+  }
   return lines.join("\n");
 }
