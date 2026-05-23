@@ -30,6 +30,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# telemetry runtime artifacts
+/data/telemetry/*.json
+/data/telemetry/.*.tmp
+/data/telemetry/.*.bak
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
