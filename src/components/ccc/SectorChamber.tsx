@@ -9,6 +9,7 @@ import {
   getEffectiveChamberActivity,
   sectorEventBoost,
 } from "@/lib/continuity/events/influence";
+import { deriveHistoryEnvironmentalProjection } from "@/lib/continuity/history";
 import { CHAMBER_GRID_AREA } from "@/lib/facility-layout";
 import { orientationDomainScoreDelta } from "@/lib/human-orientation";
 import { SectorRoom } from "./SectorRoom";
@@ -23,8 +24,10 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
   const {
     openChamber,
     getDomainHeat,
+    operational,
     continuityEvents,
     highlightedDomains,
+    facilityNow,
     discreteBurst,
     humanOrientation,
   } = useCCC();
@@ -38,8 +41,29 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
     continuityEvents,
     orientBias,
   );
+  const historyProjection = deriveHistoryEnvironmentalProjection(
+    operational?.historyEvents,
+    facilityNow,
+  );
+  const historySector = historyProjection.sectors[domainId];
+  const historyBoost = historySector?.boost ?? 0;
+  const effectiveScore = Math.min(
+    100,
+    effectiveActivityScore(heat, domainId, continuityEvents, orientBias) +
+      historyBoost,
+  );
+  const projectedActivity =
+    effectiveScore <= 4
+      ? "idle"
+      : effectiveScore >= 52
+        ? "high"
+        : effectiveScore >= 20
+          ? "medium"
+          : "low";
   const eventLit = highlightedDomains.includes(domainId);
-  const eventPulse = sectorEventBoost(domainId, continuityEvents) >= 10;
+  const eventPulse =
+    sectorEventBoost(domainId, continuityEvents) >= 10 ||
+    (historySector?.strength ?? 0) >= 0.24;
   const residue = useSectorResidue(domainId);
 
   const activeStations = occupants
@@ -50,7 +74,7 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
     <article
       className={`ccc-chamber ccc-chamber--${domainId}${orientBias !== 0 ? " ccc-chamber--orient-nudge" : ""}${eventLit ? " ccc-chamber--event-lit" : ""}${eventPulse ? " ccc-chamber--event-pulse" : ""}`}
       style={{ gridArea: CHAMBER_GRID_AREA[chamber.id] }}
-      data-activity={activity}
+      data-activity={historyBoost > 0 ? projectedActivity : activity}
       data-domain={domainId}
       data-chamber={chamber.id}
       data-dominant={dominantActivity}
@@ -60,8 +84,11 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
           : undefined
       }
       data-transient={
-        discreteBurst.discreteActive && eventPulse ? "true" : undefined
+        (discreteBurst.discreteActive && eventPulse) || historyBoost > 0
+          ? "true"
+          : undefined
       }
+      data-history-projection={historySector?.mode}
       data-occupied={occupants.length > 0 ? "true" : undefined}
       data-residue-glow={residue.glow > 0 ? residue.glow : undefined}
       data-residue-pressure={residue.pressure > 0 ? residue.pressure : undefined}
@@ -94,12 +121,7 @@ export function SectorChamber({ chamber, occupants }: SectorChamberProps) {
               className="ccc-chamber__heat-fill"
               style={{
                 width: `${Math.max(
-                  effectiveActivityScore(
-                    heat,
-                    domainId,
-                    continuityEvents,
-                    orientBias,
-                  ),
+                  effectiveScore,
                   6,
                 )}%`,
               }}

@@ -54,6 +54,17 @@ export interface DerivedTelemetryView {
   hint?: string;
 }
 
+export interface OperationalHistoryEventView {
+  id: string;
+  type: string;
+  projectId: string | null;
+  sector: SectorId;
+  severity: "low" | "medium" | "high";
+  summary: string;
+  evidence: Record<string, unknown>;
+  createdAt: string;
+}
+
 export interface SnapshotMeta {
   generatedAt: string;
   agent: string;
@@ -82,4 +93,6 @@ export interface OperationalSnapshot {
   snapshotMeta?: SnapshotMeta;
   /** Recent reality-derived continuity events (newest first) */
   continuityEvents?: ContinuityEventView[];
+  /** Recent snapshot-delta events used for restrained environmental projection */
+  historyEvents?: OperationalHistoryEventView[];
 }

@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
+import { deriveHistoryEnvironmentalProjection } from "@/lib/continuity/history";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
 import { deriveLiveTransitRoutes } from "@/lib/signal-routes";
 import { LiveTransitRoute } from "./LiveTransitRoute";
@@ -11,15 +12,32 @@ import { LiveTransitRoute } from "./LiveTransitRoute";
  * Steady-state occupancy in transit does not keep beads moving.
  */
 export function LiveTransitLayer() {
-  const { data, operational, discreteBurst } = useCCC();
+  const { data, operational, discreteBurst, facilityNow } = useCCC();
+
+  const historyProjection = useMemo(
+    () =>
+      deriveHistoryEnvironmentalProjection(operational?.historyEvents, facilityNow),
+    [operational?.historyEvents, facilityNow],
+  );
 
   const routes = useMemo(() => {
-    if (!discreteBurst.transitMotionActive) return [];
-    const occupants = buildFacilityOccupants(data, operational);
-    return deriveLiveTransitRoutes(occupants);
-  }, [data, operational, discreteBurst.transitMotionActive]);
+    const liveRoutes = discreteBurst.transitMotionActive
+      ? deriveLiveTransitRoutes(buildFacilityOccupants(data, operational))
+      : [];
+    return [...liveRoutes, ...historyProjection.transitRoutes];
+  }, [
+    data,
+    operational,
+    discreteBurst.transitMotionActive,
+    historyProjection.transitRoutes,
+  ]);
 
   if (routes.length === 0) return null;
+
+  const motionRemainingMs = Math.max(
+    discreteBurst.transitMotionRemainingMs,
+    historyProjection.motionRemainingMs,
+  );
 
   return (
     <svg
@@ -32,7 +50,7 @@ export function LiveTransitLayer() {
         <LiveTransitRoute
           key={route.id}
           route={route}
-          motionRemainingMs={discreteBurst.transitMotionRemainingMs}
+          motionRemainingMs={motionRemainingMs}
         />
       ))}
     </svg>

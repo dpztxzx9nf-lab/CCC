@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "verify": "npm run lint && npm run test:encoding && npm run test:substrate && npm run test:github-continuity && npm run test:pm2-runtime && npm run test:git-signals && npm run test:kindex-discord && npm run test:historical-continuity && npm run build",
+    "verify": "npm run lint && npm run test:encoding && npm run test:substrate && npm run test:github-continuity && npm run test:pm2-runtime && npm run test:git-signals && npm run test:kindex-discord && npm run test:historical-continuity && npm run test:history && npm run build",
     "github:ingest": "tsx --tsconfig tsconfig.json scripts/github-ingest.ts",
     "snapshot": "tsx --tsconfig tsconfig.json src/lib/snapshot/generateSnapshot.ts",
     "test:encoding": "tsx --test src/lib/encoding/sanitize.test.ts",
@@ -18,6 +18,7 @@
     "test:git-signals": "tsx --test src/lib/operations/signals/gitSignals.test.ts",
     "test:kindex-discord": "tsx --test src/lib/localData/kindex/discord.test.ts",
     "test:historical-continuity": "tsx --test src/lib/operations/signals/historicalContinuity.test.ts",
+    "test:history": "tsx --test src/lib/continuity/history/derive.test.ts src/lib/continuity/history/environment.test.ts",
     "archivist:watch": "tsx --tsconfig tsconfig.json scripts/archivist-watch.ts"
   },
   "dependencies": {

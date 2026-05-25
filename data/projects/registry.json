@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "createdAt": "2026-05-21T00:00:00.000Z",
-  "updatedAt": "2026-05-21T00:00:00.000Z",
+  "updatedAt": "2026-05-25T21:33:29.439Z",
   "projects": [
     {
       "id": "ccc",
@@ -9,19 +9,44 @@
       "tagline": "Continuity Command Center",
       "description": "Living operational projection layer for projects, systems, workflows, and goals.",
       "status": "active",
-      "domainIds": ["core", "forge", "observatory"],
-      "linkedPaths": ["C:\\Projects\\CCC"],
-      "urls": ["https://ccc.thinkcore.io"],
+      "domainIds": [
+        "core",
+        "forge",
+        "observatory"
+      ],
+      "linkedPaths": [
+        "C:\\Projects\\CCC"
+      ],
+      "urls": [
+        "https://ccc.thinkcore.io"
+      ],
       "localSlug": "ccc",
       "category": "command",
       "continuityPriority": 5,
-      "operatorIds": ["nexus-7", "fab-0", "deep-1"],
-      "stack": ["Next.js", "TypeScript", "Tailwind"],
+      "operatorIds": [
+        "nexus-7",
+        "fab-0",
+        "deep-1"
+      ],
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind"
+      ],
       "deploymentCapable": true,
       "repoExpected": true,
-      "systemsAffected": ["command-ui", "continuity-ingestion", "thinkcore-projection"],
-      "highlights": ["v0.1 stable shell", "Facility megastructure"],
-      "github": { "repository": "dpztxzx9nf-lab/CCC" },
+      "systemsAffected": [
+        "command-ui",
+        "continuity-ingestion",
+        "thinkcore-projection"
+      ],
+      "highlights": [
+        "v0.1 stable shell",
+        "Facility megastructure"
+      ],
+      "github": {
+        "repository": "dpztxzx9nf-lab/CCC"
+      },
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
       "updatedAt": "2026-05-21T00:00:00.000Z"
@@ -32,18 +57,42 @@
       "tagline": "Core platform and projection substrate",
       "description": "Central platform for systems, workflows, and outward projection — parent context for CCC.",
       "status": "active",
-      "domainIds": ["core", "relay", "forge", "runtime"],
-      "linkedPaths": ["C:\\Projects\\ThinkCore.io"],
-      "urls": ["https://thinkcore.io"],
+      "domainIds": [
+        "core",
+        "relay",
+        "forge",
+        "runtime"
+      ],
+      "linkedPaths": [
+        "C:\\Projects\\ThinkCore.io"
+      ],
+      "urls": [
+        "https://thinkcore.io"
+      ],
       "localSlug": "thinkcore",
       "category": "platform",
       "continuityPriority": 5,
-      "operatorIds": ["nexus-7", "fab-0", "bcast-1"],
-      "stack": ["Web", "API", "Infrastructure"],
+      "operatorIds": [
+        "nexus-7",
+        "fab-0",
+        "bcast-1"
+      ],
+      "stack": [
+        "Web",
+        "API",
+        "Infrastructure"
+      ],
       "deploymentCapable": true,
       "repoExpected": true,
-      "systemsAffected": ["platform-core", "dns", "deployment-rail"],
-      "highlights": ["ccc.thinkcore.io target", "Multi-sector operators assigned"],
+      "systemsAffected": [
+        "platform-core",
+        "dns",
+        "deployment-rail"
+      ],
+      "highlights": [
+        "ccc.thinkcore.io target",
+        "Multi-sector operators assigned"
+      ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
       "updatedAt": "2026-05-21T00:00:00.000Z"
@@ -54,18 +103,39 @@
       "tagline": "Guidance-layer intelligence initiative",
       "description": "Strategic AI guidance project aligned with ThinkCore continuity — architecture and projection.",
       "status": "early",
-      "domainIds": ["core", "archive", "observatory", "runtime", "forge"],
-      "linkedPaths": ["C:\\Projects\\Liahona"],
+      "domainIds": [
+        "core",
+        "archive",
+        "observatory",
+        "runtime",
+        "forge"
+      ],
+      "linkedPaths": [
+        "C:\\Projects\\Liahona"
+      ],
       "urls": [],
       "localSlug": "liahona",
       "category": "intelligence",
       "continuityPriority": 4,
-      "operatorIds": ["nexus-7", "bcast-1"],
-      "stack": ["AI", "TypeScript"],
+      "operatorIds": [
+        "nexus-7",
+        "bcast-1"
+      ],
+      "stack": [
+        "AI",
+        "TypeScript"
+      ],
       "deploymentCapable": true,
       "repoExpected": true,
-      "systemsAffected": ["guidance-models", "projection", "continuity-docs"],
-      "highlights": ["Retrieval and grounding system", "Authority and runtime continuity mapped"],
+      "systemsAffected": [
+        "guidance-models",
+        "projection",
+        "continuity-docs"
+      ],
+      "highlights": [
+        "Retrieval and grounding system",
+        "Authority and runtime continuity mapped"
+      ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
       "updatedAt": "2026-05-21T00:00:00.000Z"
@@ -76,18 +146,38 @@
       "tagline": "Knowledge index and retrieval layer",
       "description": "Structured knowledge indexing across journals, architecture docs, and templated notes.",
       "status": "active",
-      "domainIds": ["archive", "observatory", "runtime", "relay"],
-      "linkedPaths": ["C:\\Projects\\KINDEX"],
+      "domainIds": [
+        "archive",
+        "observatory",
+        "runtime",
+        "relay"
+      ],
+      "linkedPaths": [
+        "C:\\Projects\\KINDEX"
+      ],
       "urls": [],
       "localSlug": "kindex",
       "category": "archive",
       "continuityPriority": 3,
-      "operatorIds": ["deep-1"],
-      "stack": ["Semantic Index", "Discord", "Runtime"],
+      "operatorIds": [
+        "deep-1"
+      ],
+      "stack": [
+        "Semantic Index",
+        "Discord",
+        "Runtime"
+      ],
       "deploymentCapable": true,
       "repoExpected": true,
-      "systemsAffected": ["semantic-index", "discord-ingestion", "continuity-archive"],
-      "highlights": ["First-class semantic continuity system", "Archive and Observatory projection mapped"],
+      "systemsAffected": [
+        "semantic-index",
+        "discord-ingestion",
+        "continuity-archive"
+      ],
+      "highlights": [
+        "First-class semantic continuity system",
+        "Archive and Observatory projection mapped"
+      ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
       "updatedAt": "2026-05-21T00:00:00.000Z"
@@ -98,18 +188,32 @@
       "tagline": "Scout-oriented offline intelligence",
       "description": "Portable offline AI, navigation, survival knowledge, and operational resilience.",
       "status": "active",
-      "domainIds": ["core", "archive"],
+      "domainIds": [
+        "core",
+        "archive"
+      ],
       "linkedPaths": [],
       "urls": [],
       "localSlug": null,
       "category": "knowledge",
       "continuityPriority": 4,
-      "operatorIds": ["scout-6"],
-      "stack": ["Offline AI", "Navigation"],
+      "operatorIds": [
+        "scout-6"
+      ],
+      "stack": [
+        "Offline AI",
+        "Navigation"
+      ],
       "deploymentCapable": false,
       "repoExpected": false,
-      "systemsAffected": ["offline-packs", "field-hardware"],
-      "highlights": ["SCOUT-6 primary operator", "Offline packs in Archive"],
+      "systemsAffected": [
+        "offline-packs",
+        "field-hardware"
+      ],
+      "highlights": [
+        "SCOUT-6 primary operator",
+        "Offline packs in Archive"
+      ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
       "updatedAt": "2026-05-21T00:00:00.000Z"
@@ -120,29 +224,66 @@
       "tagline": "Netherite Legends Odyssey",
       "description": "Live Minecraft server ecosystem — SMP, PvP, factions, and player economy on Java 1.21.11.",
       "status": "live",
-      "domainIds": ["relay", "runtime", "forge"],
+      "domainIds": [
+        "relay",
+        "runtime",
+        "forge"
+      ],
       "linkedPaths": [],
-      "urls": ["https://nlo.gg"],
+      "urls": [
+        "https://nlo.gg"
+      ],
       "localSlug": null,
       "category": "game-runtime",
       "continuityPriority": 4,
-      "operatorIds": ["fab-0", "bcast-1"],
-      "stack": ["Minecraft Java", "Server"],
+      "operatorIds": [
+        "fab-0",
+        "bcast-1"
+      ],
+      "stack": [
+        "Minecraft Java",
+        "Server"
+      ],
       "deploymentCapable": true,
       "repoExpected": true,
-      "systemsAffected": ["game-server", "community-relay", "economy-runtime"],
-      "highlights": ["nlo.gg", "FAB-0 deployment watch", "BCAST-1 community relay"],
+      "systemsAffected": [
+        "game-server",
+        "community-relay",
+        "economy-runtime"
+      ],
+      "highlights": [
+        "nlo.gg",
+        "FAB-0 deployment watch",
+        "BCAST-1 community relay"
+      ],
       "ecosystem": {
         "platform": "Minecraft Java",
         "version": "1.21.11",
         "url": "https://nlo.gg",
-        "modes": ["SMP", "PvP", "Factions", "Player economy"],
+        "modes": [
+          "SMP",
+          "PvP",
+          "Factions",
+          "Player economy"
+        ],
         "tagline": "Climb the bounty board or build your wealth.",
         "metrics": [
-          { "label": "Players online", "value": "—" },
-          { "label": "Faction territories", "value": "—" },
-          { "label": "Bounty contracts", "value": "—" },
-          { "label": "Economy volume (24h)", "value": "—" }
+          {
+            "label": "Players online",
+            "value": "—"
+          },
+          {
+            "label": "Faction territories",
+            "value": "—"
+          },
+          {
+            "label": "Bounty contracts",
+            "value": "—"
+          },
+          {
+            "label": "Economy volume (24h)",
+            "value": "—"
+          }
         ]
       },
       "archivedAt": null,
@@ -155,21 +296,165 @@
       "tagline": "Local business web presence and delivery",
       "description": "Client-facing web services, sites, and delivery work for local business operations.",
       "status": "active",
-      "domainIds": ["forge", "relay"],
+      "domainIds": [
+        "forge",
+        "relay"
+      ],
       "linkedPaths": [],
       "urls": [],
       "localSlug": null,
       "category": "platform",
       "continuityPriority": 3,
-      "operatorIds": ["fab-0", "bcast-1"],
-      "stack": ["Web", "CMS", "Hosting"],
+      "operatorIds": [
+        "fab-0",
+        "bcast-1"
+      ],
+      "stack": [
+        "Web",
+        "CMS",
+        "Hosting"
+      ],
       "deploymentCapable": true,
       "repoExpected": true,
-      "systemsAffected": ["client-sites", "hosting", "content-delivery"],
-      "highlights": ["Client delivery lane", "Outward projection"],
+      "systemsAffected": [
+        "client-sites",
+        "hosting",
+        "content-delivery"
+      ],
+      "highlights": [
+        "Client delivery lane",
+        "Outward projection"
+      ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
       "updatedAt": "2026-05-21T00:00:00.000Z"
+    },
+    {
+      "id": "dealbot",
+      "name": "DealBot",
+      "tagline": "DealBot",
+      "description": "Personal resale flip intelligence — mobile-first swipe deck for public deal feeds.",
+      "status": "unlinked",
+      "domainIds": [
+        "forge"
+      ],
+      "linkedPaths": [
+        "C:\\Projects\\dealbot"
+      ],
+      "urls": [],
+      "localSlug": "dealbot",
+      "category": "platform",
+      "continuityPriority": 3,
+      "operatorIds": [
+        "fab-0"
+      ],
+      "stack": [
+        "Active code",
+        "TypeScript",
+        "JavaScript",
+        "Next.js",
+        "React",
+        "App",
+        "PM2"
+      ],
+      "deploymentCapable": true,
+      "repoExpected": true,
+      "systemsAffected": [],
+      "highlights": [
+        "Detected: package.json",
+        "Detected: README.md",
+        "Detected: ecosystem.config.cjs",
+        "Detected: docs/"
+      ],
+      "discovery": {
+        "source": "auto",
+        "discoveredAt": "2026-05-25T21:12:55.623Z",
+        "lastSeenAt": "2026-05-25T21:33:29.435Z",
+        "confidence": "high",
+        "evidence": [
+          "package.json",
+          "README.md",
+          "ecosystem.config.cjs",
+          "docs/",
+          "app/",
+          "lib/",
+          "components/",
+          ".git",
+          "5 markdown files",
+          "100 recent file updates"
+        ],
+        "inferredFields": [
+          "status",
+          "domainIds",
+          "category",
+          "continuityPriority",
+          "operatorIds",
+          "stack",
+          "deploymentCapable",
+          "repoExpected"
+        ]
+      },
+      "archivedAt": null,
+      "createdAt": "2026-05-25T21:12:55.623Z",
+      "updatedAt": "2026-05-25T21:33:29.435Z"
+    },
+    {
+      "id": "secondbrain",
+      "name": "SecondBrain",
+      "tagline": "",
+      "description": "",
+      "status": "unlinked",
+      "domainIds": [
+        "archive"
+      ],
+      "linkedPaths": [
+        "C:\\Projects\\SecondBrain"
+      ],
+      "urls": [],
+      "localSlug": "secondbrain",
+      "category": "archive",
+      "continuityPriority": 3,
+      "operatorIds": [
+        "deep-1"
+      ],
+      "stack": [
+        "Markdown"
+      ],
+      "deploymentCapable": false,
+      "repoExpected": true,
+      "systemsAffected": [],
+      "highlights": [
+        "Detected: .git",
+        "Detected: 37 markdown files",
+        "Detected: 41 recent file updates"
+      ],
+      "discovery": {
+        "source": "auto",
+        "discoveredAt": "2026-05-25T21:12:55.623Z",
+        "lastSeenAt": "2026-05-25T21:33:29.435Z",
+        "confidence": "low",
+        "evidence": [
+          ".git",
+          "37 markdown files",
+          "41 recent file updates"
+        ],
+        "inferredFields": [
+          "name",
+          "tagline",
+          "description",
+          "status",
+          "domainIds",
+          "category",
+          "continuityPriority",
+          "operatorIds",
+          "stack",
+          "deploymentCapable",
+          "repoExpected"
+        ]
+      },
+      "archivedAt": null,
+      "createdAt": "2026-05-25T21:12:55.623Z",
+      "updatedAt": "2026-05-25T21:33:29.435Z"
     }
   ]
 }

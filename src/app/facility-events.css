@@ -188,6 +188,42 @@
   animation: ccc-chamber-event-pulse 4s ease-in-out infinite;
 }
 
+.ccc-chamber[data-history-projection] {
+  box-shadow:
+    inset 0 0 20px rgba(126, 160, 200, 0.045),
+    0 0 10px rgba(126, 160, 200, 0.035);
+}
+
+.ccc-chamber[data-history-projection="emergence"] {
+  border-color: rgba(61, 214, 198, 0.3);
+}
+
+.ccc-chamber[data-history-projection="runtime"] {
+  border-color: rgba(232, 184, 74, 0.32);
+}
+
+.ccc-chamber[data-history-projection="cooling"] {
+  filter: saturate(0.92) brightness(0.95);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ccc-chamber[data-history-projection="emergence"],
+  .ccc-chamber[data-history-projection="runtime"],
+  .ccc-chamber[data-history-projection="pressure"] {
+    animation: ccc-history-sector-breathe 6s ease-in-out infinite;
+  }
+}
+
+@keyframes ccc-history-sector-breathe {
+  0%,
+  100% {
+    box-shadow: inset 0 0 18px rgba(126, 160, 200, 0.035);
+  }
+  50% {
+    box-shadow: inset 0 0 26px rgba(126, 160, 200, 0.075);
+  }
+}
+
 @keyframes ccc-chamber-event-pulse {
   0%,
   100% {

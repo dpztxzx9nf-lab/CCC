@@ -22,6 +22,8 @@ export interface RawScannedProject {
   scanRoot: string;
   scanRootId: string;
   hasPackageJson: boolean;
+  packageName: string | null;
+  packageDescription: string | null;
   hasGit: boolean;
   markdownCount: number;
   lastModified: string | null;
@@ -91,6 +93,8 @@ export async function scanTopLevelProject(
     scanRoot: entry.scanRoot,
     scanRootId: entry.scanRootId,
     hasPackageJson: pkg.present,
+    packageName: pkg.name,
+    packageDescription: pkg.description,
     hasGit,
     markdownCount: walk.markdownCount,
     lastModified: walk.lastModified?.toISOString() ?? null,

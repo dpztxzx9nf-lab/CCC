@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { useCCC } from "@/context/CCCContext";
 import { activeEventPulseKinds } from "@/lib/continuity/events/influence";
+import { deriveHistoryEnvironmentalProjection } from "@/lib/continuity/history";
 import { deriveOperatorPacket } from "@/lib/operator-display";
 import { deriveEventSignalRoutes } from "@/lib/operations/discrete-burst";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
@@ -25,9 +26,20 @@ export function FacilitySignalLayer() {
   );
 
   const routes = useMemo(() => {
-    if (!discreteBurst.discreteActive) return [];
-    return deriveEventSignalRoutes(discreteBurst.anchorEvent, facilityNow);
-  }, [discreteBurst.discreteActive, discreteBurst.anchorEvent, facilityNow]);
+    const eventRoutes = discreteBurst.discreteActive
+      ? deriveEventSignalRoutes(discreteBurst.anchorEvent, facilityNow)
+      : [];
+    const history = deriveHistoryEnvironmentalProjection(
+      operational?.historyEvents,
+      facilityNow,
+    );
+    return [...eventRoutes, ...history.signalRoutes];
+  }, [
+    discreteBurst.discreteActive,
+    discreteBurst.anchorEvent,
+    facilityNow,
+    operational?.historyEvents,
+  ]);
 
   const packetCtx = useMemo(
     () => ({ facilityNow, discreteBurst, continuityEvents }),
@@ -57,7 +69,19 @@ export function FacilitySignalLayer() {
     [discreteBurst.discreteActive, continuityEvents, facilityNow],
   );
 
-  if (routes.length === 0 && chamberPackets.length === 0 && eventPulses.length === 0) {
+  const historyCaption = useMemo(
+    () =>
+      deriveHistoryEnvironmentalProjection(operational?.historyEvents, facilityNow)
+        .caption,
+    [operational?.historyEvents, facilityNow],
+  );
+
+  if (
+    routes.length === 0 &&
+    chamberPackets.length === 0 &&
+    eventPulses.length === 0 &&
+    !historyCaption
+  ) {
     return null;
   }
 
@@ -91,6 +115,21 @@ export function FacilitySignalLayer() {
           />
         </div>
       ))}
+      {historyCaption && (
+        <div
+          className="ccc-signal-layer__packet-anchor"
+          style={{
+            left: `${CHAMBER_ANCHOR[historyCaption.chamberId].x}%`,
+            top: `${Math.max(4, CHAMBER_ANCHOR[historyCaption.chamberId].y - 8)}%`,
+          }}
+        >
+          <OperationalPacket
+            packetKey={historyCaption.id}
+            text={historyCaption.text}
+            className="ccc-op-packet--signal ccc-op-packet--history"
+          />
+        </div>
+      )}
     </div>
   );
 }

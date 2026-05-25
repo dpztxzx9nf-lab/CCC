@@ -17,13 +17,22 @@ export type OperationalEventType =
   | "deployment_signal"
   | "runtime_signal"
   | "semantic_milestone"
-  | "continuity_update";
+  | "continuity_update"
+  | "PROJECT_EMERGED"
+  | "PROJECT_DORMANT"
+  | "PROJECT_REACTIVATED"
+  | "RUNTIME_ESCALATION"
+  | "SECTOR_PRESSURE_INCREASED"
+  | "SECTOR_PRESSURE_DECREASED"
+  | "OPERATOR_PRESSURE_SHIFT"
+  | "CONTINUITY_ACCELERATION";
 
 export type OperationalEventSource =
   | "archivist:watcher"
   | "archivist:deploy"
   | "archivist:build"
   | "archivist:snapshot"
+  | "archivist:history"
   | "manual";
 
 /** Normalized unit of local operational activity for continuity + snapshot projection */

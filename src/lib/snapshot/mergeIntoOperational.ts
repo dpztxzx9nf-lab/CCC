@@ -1,5 +1,8 @@
-import type { OperationalSnapshot } from "@/data/operational-types";
-import type { SnapshotMeta } from "@/data/operational-types";
+import type {
+  OperationalHistoryEventView,
+  OperationalSnapshot,
+  SnapshotMeta,
+} from "@/data/operational-types";
 import type { SectorId } from "@/data/types";
 import { SECTOR_CONTINUITY_WEIGHT } from "@/lib/operations/continuityWeights";
 import { getProjectProfile } from "@/lib/operations/projectProfiles";
@@ -14,6 +17,17 @@ import { signalTypeToActivityKind } from "@/lib/operations/signalSectorRouting";
 import type { ContinuitySnapshot } from "./types";
 import { resolveSnapshotProjectId, resolveSnapshotProjectName } from "./resolveProjectId";
 import { snapshotHasData } from "./loadSnapshot";
+
+const HISTORY_EVENT_TYPES = new Set([
+  "PROJECT_EMERGED",
+  "PROJECT_DORMANT",
+  "PROJECT_REACTIVATED",
+  "RUNTIME_ESCALATION",
+  "SECTOR_PRESSURE_INCREASED",
+  "SECTOR_PRESSURE_DECREASED",
+  "OPERATOR_PRESSURE_SHIFT",
+  "CONTINUITY_ACCELERATION",
+]);
 
 export interface MergeContinuityResult {
   operational: OperationalSnapshot;
@@ -119,6 +133,34 @@ function mapSignals(snapshot: ContinuitySnapshot): OperationalSnapshot["signals"
   return merged;
 }
 
+function mapHistoryEvents(snapshot: ContinuitySnapshot): OperationalHistoryEventView[] {
+  return (snapshot.eventsRecent ?? [])
+    .filter(
+      (event) =>
+        event.source === "archivist:history" ||
+        HISTORY_EVENT_TYPES.has(event.type),
+    )
+    .map((event) => {
+      const rawProjectId = event.metadata.projectId;
+      const rawEvidence = event.metadata.evidence;
+      const evidence =
+        rawEvidence && typeof rawEvidence === "object"
+          ? (rawEvidence as Record<string, unknown>)
+          : {};
+
+      return {
+        id: event.id,
+        type: event.type,
+        projectId: typeof rawProjectId === "string" ? rawProjectId : null,
+        sector: event.sector,
+        severity: event.severity,
+        summary: event.summary,
+        evidence,
+        createdAt: event.timestamp,
+      };
+    });
+}
+
 function mergeProjects(
   base: OperationalSnapshot["projects"],
   snapshot: ContinuitySnapshot,
@@ -206,6 +248,7 @@ export function mergeContinuitySnapshot(
   const sectorHeat = mapSectorHeat(archivist);
   const operators = mapOperators(archivist);
   const signals = mapSignals(archivist);
+  const historyEvents = mapHistoryEvents(archivist);
   const projects = mergeProjects(base.projects, archivist);
   const telemetry =
     base.enabled && base.telemetry.length > 0
@@ -238,6 +281,7 @@ export function mergeContinuitySnapshot(
     sectorHeat,
     operators,
     signals,
+    historyEvents,
     projects,
     telemetry,
     snapshotMeta,
@@ -251,12 +295,13 @@ function buildMergeResult(
     sectorHeat: OperationalSnapshot["sectorHeat"];
     operators: OperationalSnapshot["operators"];
     signals: OperationalSnapshot["signals"];
+    historyEvents: OperationalSnapshot["historyEvents"];
     projects: OperationalSnapshot["projects"];
     telemetry: OperationalSnapshot["telemetry"];
     snapshotMeta: SnapshotMeta;
   },
 ): MergeContinuityResult {
-  const { sectorHeat, operators, signals, projects, telemetry, snapshotMeta } =
+  const { sectorHeat, operators, signals, historyEvents, projects, telemetry, snapshotMeta } =
     built;
 
   return {
@@ -270,6 +315,7 @@ function buildMergeResult(
       sectorHeat,
       operators,
       signals,
+      historyEvents,
       telemetry,
       systemStatus: overallStatus(sectorHeat),
       snapshotMeta,

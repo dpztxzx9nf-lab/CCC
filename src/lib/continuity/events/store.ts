@@ -31,6 +31,14 @@ const OPERATIONAL_TYPES = new Set<OperationalEventType>([
   "runtime_signal",
   "semantic_milestone",
   "continuity_update",
+  "PROJECT_EMERGED",
+  "PROJECT_DORMANT",
+  "PROJECT_REACTIVATED",
+  "RUNTIME_ESCALATION",
+  "SECTOR_PRESSURE_INCREASED",
+  "SECTOR_PRESSURE_DECREASED",
+  "OPERATOR_PRESSURE_SHIFT",
+  "CONTINUITY_ACCELERATION",
 ]);
 
 function eventsOutputPath(config: ArchivistConfig): string {
@@ -261,7 +269,12 @@ export async function appendOperationalEvents(
   const maxAgeDays = config.operationalEventsMaxAgeDays ?? config.eventsMaxAgeDays ?? 90;
 
   const prev = log.operationalEvents ?? [];
-  const merged = [...incoming.map(sanitizeOperationalEvent), ...prev];
+  const seen = new Set<string>();
+  const merged = [...incoming.map(sanitizeOperationalEvent), ...prev].filter((event) => {
+    if (seen.has(event.id)) return false;
+    seen.add(event.id);
+    return true;
+  });
   const trimmed = trimOperationalEvents(merged, maxCount, maxAgeDays);
 
   await persistLog(config, {

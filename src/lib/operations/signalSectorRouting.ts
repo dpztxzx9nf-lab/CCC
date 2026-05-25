@@ -40,6 +40,16 @@ export function resolveProjectionSector(signal: OperationalSignal): SectorId {
     return signal.sector;
   }
 
+  if (src.includes("archivist:history")) {
+    if (/runtime/.test(t)) return "runtime";
+    if (/sector_pressure/.test(t)) return signal.sector;
+    if (/operator_pressure/.test(t)) return signal.sector;
+    if (/project_emerged|project_reactivated|continuity_acceleration/.test(t)) {
+      return signal.sector;
+    }
+    if (/project_dormant/.test(t)) return "archive";
+  }
+
   if (/git_docs_continuity/.test(t)) return "archive";
   if (/git_infrastructure/.test(t)) return "core";
   if (/git_deployment|repo_ahead|repo_behind|remote_detected/.test(t)) {
@@ -90,6 +100,10 @@ export function secondarySectorsForSignal(signal: OperationalSignal): SectorId[]
     if (/deployment_build/.test(t)) extra.push("forge", "runtime");
     if (/runtime_instability/.test(t)) extra.push("forge");
   }
+  if (/project_emerged|project_reactivated|continuity_acceleration/.test(t)) {
+    extra.push("core", "forge");
+  }
+  if (/runtime_escalation/.test(t)) extra.push("forge");
   if (/git_deployment|repo_ahead|repo_behind|remote_detected/.test(t)) {
     extra.push("forge", "runtime");
   }
@@ -106,6 +120,12 @@ export function secondarySectorsForSignal(signal: OperationalSignal): SectorId[]
 export function signalTypeToActivityKind(type: string): ActivityKind {
   const t = type.toLowerCase();
   if (/remote|publish|discord|social/.test(t)) return "communications";
+  if (/project_emerged|project_reactivated|continuity_acceleration/.test(t)) {
+    return "continuity";
+  }
+  if (/project_dormant/.test(t)) return "archive";
+  if (/runtime_escalation/.test(t)) return "runtime";
+  if (/sector_pressure|operator_pressure/.test(t)) return "continuity";
   if (/historical_sustained_runtime_instability/.test(t)) return "runtime";
   if (/historical_deployment_build_cycle/.test(t)) return "deployment";
   if (/historical_/.test(t)) return "continuity";

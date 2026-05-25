@@ -387,6 +387,11 @@
   letter-spacing: 0.06em;
 }
 
+.ccc-op-packet--history {
+  border-color: rgba(61, 214, 198, 0.18);
+  color: rgba(190, 218, 226, 0.78);
+}
+
 .ccc-signal-layer__packet-anchor {
   position: absolute;
   z-index: 4;

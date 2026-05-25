@@ -23,6 +23,17 @@ export type ProjectRegistryGitHub =
   | { repository: string }
   | { owner: string; repo: string };
 
+export type ProjectRegistryDiscoveryConfidence = "high" | "medium" | "low";
+
+export interface ProjectRegistryDiscovery {
+  source: "auto";
+  discoveredAt: string;
+  lastSeenAt: string;
+  confidence: ProjectRegistryDiscoveryConfidence;
+  evidence: string[];
+  inferredFields: string[];
+}
+
 export interface ProjectRegistryEntry {
   id: string;
   name: string;
@@ -43,6 +54,7 @@ export interface ProjectRegistryEntry {
   highlights: string[];
   github?: ProjectRegistryGitHub;
   ecosystem?: ProjectEcosystem;
+  discovery?: ProjectRegistryDiscovery;
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -111,6 +123,19 @@ function isEcosystem(v: unknown): v is ProjectEcosystem {
   );
 }
 
+function isDiscovery(v: unknown): v is ProjectRegistryDiscovery {
+  if (!v || typeof v !== "object") return false;
+  const d = v as ProjectRegistryDiscovery;
+  return (
+    d.source === "auto" &&
+    isNonEmptyString(d.discoveredAt) &&
+    isNonEmptyString(d.lastSeenAt) &&
+    ["high", "medium", "low"].includes(d.confidence) &&
+    isStringArray(d.evidence) &&
+    isStringArray(d.inferredFields)
+  );
+}
+
 export function isProjectRegistryEntry(v: unknown): v is ProjectRegistryEntry {
   if (!v || typeof v !== "object") return false;
   const e = v as ProjectRegistryEntry;
@@ -136,6 +161,7 @@ export function isProjectRegistryEntry(v: unknown): v is ProjectRegistryEntry {
     isStringArray(e.highlights) &&
     (e.github === undefined || isGitHub(e.github)) &&
     (e.ecosystem === undefined || isEcosystem(e.ecosystem)) &&
+    (e.discovery === undefined || isDiscovery(e.discovery)) &&
     (e.archivedAt === null || isNonEmptyString(e.archivedAt)) &&
     isNonEmptyString(e.createdAt) &&
     isNonEmptyString(e.updatedAt)

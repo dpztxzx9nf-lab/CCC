@@ -5,6 +5,7 @@ import { useCCC } from "@/context/CCCContext";
 import { useFacilityResidue } from "@/context/FacilityResidueContext";
 import { CHAMBER_ORDER } from "@/lib/facility-layout";
 import { activeEventPulseKinds } from "@/lib/continuity/events/influence";
+import { deriveHistoryEnvironmentalProjection } from "@/lib/continuity/history";
 import { buildFacilityOccupants } from "@/lib/operator-placement";
 import { HistoricTransitLayer } from "@/components/continuity/HistoricTransitLayer";
 import { InfrastructureAnchorLayer } from "@/components/operations/InfrastructureAnchorLayer";
@@ -51,7 +52,12 @@ export const FacilityMegastructure = memo(function FacilityMegastructure() {
     discreteBurst.discreteActive
       ? activeEventPulseKinds(continuityEvents, facilityNow)
       : [];
-  const infraEventPulse = eventPulses.length > 0;
+  const historyProjection = deriveHistoryEnvironmentalProjection(
+    operational?.historyEvents,
+    facilityNow,
+  );
+  const infraEventPulse =
+    eventPulses.length > 0 || historyProjection.infrastructurePulse;
   const transitWear =
     residue.transitRoutes.length > 0
       ? Math.max(...residue.transitRoutes.map((r) => r.wearTier))
