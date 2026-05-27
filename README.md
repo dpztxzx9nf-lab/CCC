@@ -4,6 +4,20 @@ Living operational projection layer for projects, systems, workflows, and goals.
 
 **Deployment target:** [ccc.thinkcore.io](https://ccc.thinkcore.io)
 
+## Operational summary
+
+| Item | Value |
+| --- | --- |
+| Development command | `npm run dev` |
+| Production command | `npm run build`, then `npm run start` |
+| Default Next.js port | `3000`, unless overridden by Next.js CLI options |
+| Primary PM2 process | `ccc-archivist` |
+| PM2 ecosystem file | `ecosystem.config.cjs` |
+| Watcher command | `npm run archivist:watch` |
+| Full verification | `npm run verify` |
+
+CCC's PM2-managed local process is the ARCHIVIST-0 watcher, not the Next.js web server. Use `docs/OPERATIONS.md` for PM2 persistence, Windows reboot restoration, verification commands, and handoff notes.
+
 ## Stack
 
 - Next.js (App Router)
