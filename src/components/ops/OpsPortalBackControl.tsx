@@ -15,16 +15,16 @@ export function OpsPortalBackControl({ mode }: OpsPortalBackControlProps) {
       <button
         type="button"
         className="ccc-ops-back"
-        onClick={nav.goToFacility}
+        onClick={nav.goToOperations}
       >
-        ← Back to facility
+        Back to operations
       </button>
     );
   }
 
   return (
     <Link href="/" className="ccc-ops-back">
-      ← Back to facility
+      Back to operations
     </Link>
   );
 }

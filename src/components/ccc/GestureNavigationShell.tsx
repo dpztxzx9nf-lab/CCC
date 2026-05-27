@@ -50,6 +50,7 @@ interface PanVisual {
 
 interface GestureNavigationShellProps {
   projects: ReactNode;
+  operations: ReactNode;
   facility: ReactNode;
   opsPortal: ReactNode;
   initialSurface?: CccSurface;
@@ -129,6 +130,7 @@ function addCachedSurface(prev: Set<CccSurface>, id: CccSurface): Set<CccSurface
 
 export const GestureNavigationShell = memo(function GestureNavigationShell({
   projects,
+  operations,
   facility,
   opsPortal,
   initialSurface = DEFAULT_CCC_SURFACE,
@@ -156,10 +158,11 @@ export const GestureNavigationShell = memo(function GestureNavigationShell({
 
   const surfaceNodes = useRef({
     projects,
+    operations,
     facility,
     ops: opsPortal,
   });
-  surfaceNodes.current = { projects, facility, ops: opsPortal };
+  surfaceNodes.current = { projects, operations, facility, ops: opsPortal };
 
   const mountSurface = useCallback((id: CccSurface) => {
     setCachedSurfaces((prev) => addCachedSurface(prev, id));
@@ -232,6 +235,7 @@ export const GestureNavigationShell = memo(function GestureNavigationShell({
   const renderSurfaceNode = useCallback((id: CccSurface) => {
     const nodes = surfaceNodes.current;
     if (id === "projects") return nodes.projects;
+    if (id === "operations") return nodes.operations;
     if (id === "facility") return nodes.facility;
     return nodes.ops;
   }, []);
@@ -483,7 +487,7 @@ export const GestureNavigationShell = memo(function GestureNavigationShell({
 
       if (e.key === "Escape") {
         e.preventDefault();
-        navigateToSurface("facility");
+        navigateToSurface("operations");
         return;
       }
 

@@ -15,6 +15,7 @@ import {
 interface SurfaceNavigationContextValue {
   surface: CccSurface;
   setSurface: (surface: CccSurface) => void;
+  goToOperations: () => void;
   goToFacility: () => void;
   goToProjects: () => void;
   goToOps: () => void;
@@ -32,6 +33,7 @@ export function SurfaceNavigationProvider({
   setSurface: (surface: CccSurface) => void;
   children: ReactNode;
 }) {
+  const goToOperations = useCallback(() => setSurface("operations"), [setSurface]);
   const goToFacility = useCallback(() => setSurface("facility"), [setSurface]);
   const goToProjects = useCallback(() => setSurface("projects"), [setSurface]);
   const goToOps = useCallback(() => setSurface("ops"), [setSurface]);
@@ -40,11 +42,12 @@ export function SurfaceNavigationProvider({
     () => ({
       surface,
       setSurface,
+      goToOperations,
       goToFacility,
       goToProjects,
       goToOps,
     }),
-    [surface, setSurface, goToFacility, goToProjects, goToOps],
+    [surface, setSurface, goToOperations, goToFacility, goToProjects, goToOps],
   );
 
   return (
@@ -60,6 +63,7 @@ export function useSurfaceNavigation(): SurfaceNavigationContextValue {
     return {
       surface: DEFAULT_CCC_SURFACE,
       setSurface: () => {},
+      goToOperations: () => {},
       goToFacility: () => {},
       goToProjects: () => {},
       goToOps: () => {},
