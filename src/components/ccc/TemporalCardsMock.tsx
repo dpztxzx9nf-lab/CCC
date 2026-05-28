@@ -10,7 +10,20 @@ type MarkerType =
   | "note"
   | "failure"
   | "infra"
-  | "screenshot";
+  | "screenshot"
+  | "noise";
+
+type NavigationScope = "galaxy" | "system" | "planet";
+type PresentMode =
+  | "IDLE"
+  | "BUILD"
+  | "DEPLOY"
+  | "RESEARCH"
+  | "DESIGN"
+  | "RECOVERY"
+  | "EXPLORATION"
+  | "CONTENT"
+  | "ARCHITECTURE";
 
 interface TimelineMarker {
   id: string;
@@ -34,6 +47,7 @@ interface TemporalCard {
 interface TemporalDeck {
   id: string;
   title: string;
+  module: string;
   arc: string;
   markers: TimelineMarker[];
   cards: TemporalCard[];
@@ -48,12 +62,22 @@ const markerLabels: Record<MarkerType, string> = {
   failure: "Lesson",
   infra: "Infra",
   screenshot: "Shot",
+  noise: "Noise",
+};
+
+const presentMode: {
+  label: PresentMode;
+  description: string;
+} = {
+  label: "ARCHITECTURE",
+  description: "Direction reset active. Preserve the core model and avoid expanding scope.",
 };
 
 const decks: TemporalDeck[] = [
   {
     id: "ccc",
     title: "CCC Evolution",
+    module: "Cockpit / operating workspace",
     arc: "Command center becomes a temporal operating system.",
     markers: [
       {
@@ -140,6 +164,14 @@ const decks: TemporalDeck[] = [
             detail: "Background continuity collection becomes part of the timeline.",
             meta: "online",
           },
+          {
+            id: "registry-noise",
+            time: 91,
+            type: "noise",
+            title: "Generated registry noise",
+            detail: "A corrupt generated backup is tracked as operational noise that can be hidden without terminal cleanup.",
+            meta: "hideable",
+          },
         ],
       },
     ],
@@ -147,6 +179,7 @@ const decks: TemporalDeck[] = [
   {
     id: "dealbot",
     title: "DealBot Monetization",
+    module: "Monetization / research system",
     arc: "From useful scraper to resale intelligence workflow.",
     markers: [
       {
@@ -240,6 +273,7 @@ const decks: TemporalDeck[] = [
   {
     id: "growth",
     title: "Becoming an Engineer",
+    module: "Human progression / learning arc",
     arc: "Failures, tooling, and wins accumulate into identity.",
     markers: [
       {
@@ -371,9 +405,51 @@ function formatTime(time: number) {
   return `T+${String(time).padStart(2, "0")}`;
 }
 
+function getPastSignal(marker: TimelineMarker) {
+  if (marker.type === "noise") {
+    return "This is not product history; it is traceable operational residue. Hide it from the visual timeline, but keep the lesson available.";
+  }
+
+  if (marker.type === "failure") {
+    return "This moment shows a recovery pattern: the system learned why runtime and environment state must be part of the historical record.";
+  }
+
+  if (marker.type === "win") {
+    return "This is a product-identity moment. It should be promoted above raw activity because it changes what CCC is becoming.";
+  }
+
+  if (marker.type === "pm2" || marker.type === "deploy") {
+    return "Runtime state is becoming operational memory. Treat this as infrastructure history, not just a technical status.";
+  }
+
+  return "This marker adds context to the current arc and helps explain why the selected system changed direction.";
+}
+
+function getFutureVector(marker: TimelineMarker, deck: TemporalDeck) {
+  if (marker.type === "noise") {
+    return "Hide this artifact from the default replay, then add a rule so generated backups are classified before they clutter the timeline.";
+  }
+
+  if (marker.type === "failure") {
+    return "Create a recovery card that captures cause, response, and prevention so this lesson becomes reusable operational memory.";
+  }
+
+  if (marker.type === "win") {
+    return `Mark this as official and use it to anchor the next ${deck.title} mission.`;
+  }
+
+  if (marker.type === "deploy" || marker.type === "pm2") {
+    return "Attach the runtime marker to the project timeline and compare it against the next build or deployment event.";
+  }
+
+  return "Summarize this era, then decide whether it belongs in the current deck or should start a new operational arc.";
+}
+
 export function TemporalCardsMock() {
   const [globalTime, setGlobalTime] = useState(76);
   const [selectedMarkerId, setSelectedMarkerId] = useState("temporal-core");
+  const [navigationScope, setNavigationScope] =
+    useState<NavigationScope>("galaxy");
 
   const selectedMarker = useMemo(
     () =>
@@ -387,30 +463,66 @@ export function TemporalCardsMock() {
   const activeCards = allCards.filter(
     (card) => globalTime >= card.span[0] && globalTime <= card.span[1],
   ).length;
+  const activeDeck =
+    decks.find(
+      (deck) =>
+        deck.markers.some((marker) => marker.id === selectedMarker.id) ||
+        deck.cards.some((card) =>
+          card.markers.some((marker) => marker.id === selectedMarker.id),
+        ),
+    ) ?? decks[0];
+  const activeCard = activeDeck.cards.find((card) =>
+    card.markers.some((marker) => marker.id === selectedMarker.id),
+  );
 
   return (
     <main className="temporal-shell">
       <section className="temporal-hero" aria-labelledby="temporal-title">
         <div>
-          <p className="temporal-kicker">ThinkCore / CCC</p>
+          <p className="temporal-kicker">ThinkCore universe / CCC cockpit</p>
           <h1 id="temporal-title">Temporal operating system for builders</h1>
           <p className="temporal-subtitle">
-            Scrub the workspace timeline. Cards, decks, commits, runtime state,
-            notes, failures, screenshots, and wins move with time.
+            ThinkCore is the identity and philosophy. CCC is the operating
+            workspace where modules become replayable systems through time.
           </p>
         </div>
         <div className="temporal-now" aria-live="polite">
-          <span>Workspace now / {formatTime(globalTime)}</span>
-          <strong>{selectedMarker.title}</strong>
-          <small>{selectedContext.owner}</small>
+          <div className="present-mode-indicator">
+            <span>Present mode</span>
+            <strong>{presentMode.label}</strong>
+          </div>
+          <div className="temporal-now__snapshot">
+            <span>Workspace now / {formatTime(globalTime)}</span>
+            <strong>{selectedMarker.title}</strong>
+            <small>{selectedContext.owner}</small>
+          </div>
         </div>
+      </section>
+
+      <section className="interstellar-nav" aria-label="Interstellar navigation model">
+        {[
+          ["galaxy", "Galaxy View", "All projects and workspace history"],
+          ["system", "System View", activeDeck.title],
+          ["planet", "Planet View", activeCard?.title ?? "Selected temporal card"],
+        ].map(([scope, label, detail]) => (
+          <button
+            className="scope-button"
+            data-active={navigationScope === scope}
+            key={scope}
+            type="button"
+            onClick={() => setNavigationScope(scope as NavigationScope)}
+          >
+            <span>{label}</span>
+            <strong>{detail}</strong>
+          </button>
+        ))}
       </section>
 
       <section className="global-timeline" aria-label="Global timeline">
         <div className="timeline-header">
           <div>
             <span className="timeline-label">Global workspace timeline</span>
-            <strong>Scrub history like a build replay</strong>
+            <strong>Scrub human-operational history above Git</strong>
           </div>
           <div className="timeline-stats">
             <span>{formatTime(globalTime)}</span>
@@ -469,11 +581,12 @@ export function TemporalCardsMock() {
               <article className="deck-card" key={deck.id}>
                 <div className="deck-card__header">
                   <div>
-                    <span>Deck</span>
+                    <span>System arc</span>
                     <h2>{deck.title}</h2>
                   </div>
-                  <span>{deck.cards.length} cards</span>
+                  <span>{deck.cards.length} temporal cards</span>
                 </div>
+                <div className="module-role">{deck.module}</div>
                 <p>{deck.arc}</p>
                 {deckMarker ? (
                   <button
@@ -579,7 +692,7 @@ export function TemporalCardsMock() {
 
         <aside className="snapshot-panel" aria-label="Selected snapshot">
           <div className="snapshot-panel__header">
-            <span>Selected operational snapshot</span>
+            <span>Control panel</span>
             <strong>{selectedContext.scope}</strong>
           </div>
           <div className="snapshot-screen">
@@ -598,6 +711,41 @@ export function TemporalCardsMock() {
             <span>{formatTime(selectedMarker.time)}</span>
             <h2>{selectedMarker.title}</h2>
             <p>{selectedMarker.detail}</p>
+          </div>
+          <div className="copilot-panel" aria-label="Temporal Copilot">
+            <div className="copilot-panel__header">
+              <span>Temporal Copilot</span>
+              <strong>Operational navigator</strong>
+            </div>
+            <div className="copilot-section">
+              <span>Current Mode</span>
+              <strong>{presentMode.label}</strong>
+              <p>{presentMode.description}</p>
+              <em>{selectedContext.scope} / {selectedContext.owner}</em>
+            </div>
+            <div className="copilot-section">
+              <span>Past Signal</span>
+              <p>{getPastSignal(selectedMarker)}</p>
+            </div>
+            <div className="copilot-section">
+              <span>Future Vector</span>
+              <p>{getFutureVector(selectedMarker, activeDeck)}</p>
+            </div>
+            <div className="copilot-actions" aria-label="Copilot actions">
+              <button type="button">Summarize era</button>
+              <button type="button">Propose next mission</button>
+              <button type="button">Mark official</button>
+              <button type="button">Hide noise</button>
+              <button type="button">Create deck</button>
+            </div>
+          </div>
+          <div className="control-actions" aria-label="Future snapshot actions">
+            <button type="button">Archive snapshot</button>
+            <button type="button">Mark official</button>
+            <button type="button">Promote milestone</button>
+            <button type="button">Create deck from era</button>
+            <button type="button">Revert to snapshot</button>
+            <button type="button">Hide noisy artifacts</button>
           </div>
           <div className="snapshot-meta">
             <div>

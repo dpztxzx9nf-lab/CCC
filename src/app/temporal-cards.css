@@ -22,7 +22,8 @@
 .deck-card__header span,
 .temporal-card__top span,
 .snapshot-detail span,
-.card-state span {
+.card-state span,
+.module-role {
   color: var(--ccc-accent);
   font-family: var(--ccc-mono);
   font-size: 0.72rem;
@@ -46,6 +47,8 @@
 }
 
 .temporal-now {
+  display: grid;
+  gap: 0.75rem;
   align-self: end;
   border: 1px solid rgba(61, 214, 198, 0.22);
   border-radius: 0.5rem;
@@ -55,24 +58,88 @@
   padding: 0.85rem;
 }
 
-.temporal-now span,
+.present-mode-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(143, 163, 191, 0.14);
+  padding-bottom: 0.7rem;
+}
+
+.present-mode-indicator strong {
+  border: 1px solid rgba(232, 184, 74, 0.35);
+  border-radius: 999px;
+  background: rgba(232, 184, 74, 0.1);
+  color: var(--ccc-warn);
+  font-family: var(--ccc-mono);
+  font-size: 0.76rem;
+  padding: 0.16rem 0.5rem;
+}
+
+.present-mode-indicator span,
+.temporal-now__snapshot span,
 .timeline-header span {
   color: var(--ccc-muted);
   font-family: var(--ccc-mono);
   font-size: 0.8rem;
 }
 
-.temporal-now strong {
+.temporal-now__snapshot strong {
   display: block;
   margin-top: 0.2rem;
   font-size: 1rem;
 }
 
-.temporal-now small {
+.temporal-now__snapshot small {
   display: block;
   margin-top: 0.35rem;
   color: var(--ccc-muted);
   font-size: 0.8rem;
+}
+
+.interstellar-nav {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem auto 0;
+  max-width: 76rem;
+}
+
+.scope-button {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+  border: 1px solid rgba(143, 163, 191, 0.16);
+  border-radius: 0.45rem;
+  background: rgba(10, 16, 26, 0.72);
+  color: var(--ccc-text);
+  cursor: pointer;
+  padding: 0.72rem;
+  text-align: left;
+  transition:
+    border-color 0.16s ease,
+    background 0.16s ease;
+}
+
+.scope-button:hover,
+.scope-button[data-active="true"] {
+  border-color: rgba(61, 214, 198, 0.38);
+  background: rgba(61, 214, 198, 0.08);
+}
+
+.scope-button span {
+  color: var(--ccc-accent);
+  font-family: var(--ccc-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.scope-button strong {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.86rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .global-timeline,
@@ -240,6 +307,12 @@
   border-color: rgba(232, 184, 74, 0.9);
 }
 
+.timeline-dot[data-type="noise"],
+.mini-marker[data-type="noise"] {
+  border-color: rgba(143, 163, 191, 0.5);
+  background: #263142;
+}
+
 .timeline-range {
   position: absolute;
   inset: 0;
@@ -292,6 +365,11 @@
 .temporal-card p,
 .snapshot-detail p {
   color: var(--ccc-muted);
+}
+
+.module-role {
+  margin-top: 0.55rem;
+  color: var(--ccc-warn);
 }
 
 .deck-card > p {
@@ -542,6 +620,116 @@
   margin: 0.55rem 0 0;
 }
 
+.copilot-panel {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+  border: 1px solid rgba(232, 184, 74, 0.18);
+  border-radius: 0.45rem;
+  background:
+    linear-gradient(135deg, rgba(232, 184, 74, 0.09), transparent 42%),
+    rgba(18, 28, 44, 0.58);
+  padding: 0.75rem;
+}
+
+.copilot-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.copilot-panel__header span,
+.copilot-section span {
+  color: var(--ccc-warn);
+  font-family: var(--ccc-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.copilot-panel__header strong {
+  color: var(--ccc-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.copilot-section {
+  display: grid;
+  gap: 0.24rem;
+  border-top: 1px solid rgba(143, 163, 191, 0.1);
+  padding-top: 0.55rem;
+}
+
+.copilot-section strong {
+  color: var(--ccc-text);
+  font-family: var(--ccc-mono);
+  font-size: 0.8rem;
+}
+
+.copilot-section p {
+  margin: 0;
+  color: var(--ccc-muted);
+  font-size: 0.82rem;
+  line-height: 1.42;
+}
+
+.copilot-section em {
+  color: rgba(143, 163, 191, 0.72);
+  font-family: var(--ccc-mono);
+  font-size: 0.68rem;
+  font-style: normal;
+}
+
+.copilot-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+  border-top: 1px solid rgba(143, 163, 191, 0.1);
+  padding-top: 0.65rem;
+}
+
+.copilot-actions button {
+  min-height: 2.35rem;
+  border: 1px solid rgba(232, 184, 74, 0.18);
+  border-radius: 0.38rem;
+  background: rgba(232, 184, 74, 0.08);
+  color: var(--ccc-text);
+  cursor: pointer;
+  font-family: var(--ccc-mono);
+  font-size: 0.66rem;
+  padding: 0.42rem;
+}
+
+.copilot-actions button:hover {
+  border-color: rgba(232, 184, 74, 0.42);
+  background: rgba(232, 184, 74, 0.12);
+}
+
+.control-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+}
+
+.control-actions button {
+  min-height: 2.45rem;
+  border: 1px solid rgba(143, 163, 191, 0.14);
+  border-radius: 0.4rem;
+  background: rgba(18, 28, 44, 0.64);
+  color: var(--ccc-text);
+  cursor: pointer;
+  font-family: var(--ccc-mono);
+  font-size: 0.68rem;
+  padding: 0.45rem;
+}
+
+.control-actions button:hover {
+  border-color: rgba(61, 214, 198, 0.32);
+  background: rgba(61, 214, 198, 0.08);
+}
+
 .snapshot-meta {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -629,6 +817,10 @@
     grid-template-columns: 1fr minmax(15rem, 22rem);
     align-items: end;
     padding-top: 1.5rem;
+  }
+
+  .interstellar-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .temporal-hero h1 {
