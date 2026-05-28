@@ -2,9 +2,27 @@
 
 ## What CCC Is
 
-CCC is the Continuity Command Center: a continuity visualization and operations projection layer for projects, systems, workflows, and goals.
+CCC is the Continuity Command Center: a private continuity visualization and operations projection layer for projects, systems, workflows, deployments, services, decisions, and operational health.
 
 It is not a fake AGI simulator, chatbot wrapper, productivity dashboard, or game. Its visible activity should be grounded in continuity data, snapshot boundaries, events, telemetry, or explicitly marked mock/demo data.
+
+CCC should not be primarily organized around agents. Agents are internal operational components that may support workflows, diagnostics, planning, coding, review, deployment, documentation, and continuity. They belong inside operational flows, not as the public-facing identity of CCC.
+
+## Homepage Direction
+
+The CCC homepage should lead with operational categories:
+
+- Active Systems
+- Recent Deployments
+- Continuity Stream
+- Workflow State
+- Running Services
+- Recent Decisions
+- Operational Health
+
+This structure keeps the main ontology centered on systems, operations, continuity, deployments, workflows, and health. Agent views may exist when useful, but they should be secondary to these operational surfaces.
+
+ThinkCore.io remains the public ecosystem gateway. CCC contains private, local, and operational details.
 
 ## Core Architecture
 
@@ -28,6 +46,7 @@ It is not a fake AGI simulator, chatbot wrapper, productivity dashboard, or game
 - Facility UI: command center shell, chamber surfaces, operators, rails, panels, and navigation.
 - Operational state: derived project, signal, sector/domain, event, heat, and placement views.
 - Continuity events: persisted event log used for recent activity, attribution, residue, and discrete bursts.
+- Homepage operations: active systems, deployments, continuity stream, workflow state, running services, recent decisions, and operational health.
 - Snapshot pipeline: scan roots, build a continuity snapshot, write public snapshot output, and record snapshot events.
 - Substrate contracts: schema/versioning and ontology rules for project identity, signals, attribution, snapshots, and events.
 - Telemetry: collectors, ingestion, persistence, formatting, and operational telemetry projection.
@@ -93,6 +112,8 @@ ARCHIVIST-0 is the local continuity ingestion and consolidation agent.
 
 It observes scan roots, filters and classifies changes, consolidates continuity signals, writes snapshots, records continuity events, and supports dry-run, one-shot, and continuous watch modes through `npm run archivist:watch`.
 
+ARCHIVIST-0 is an internal workflow component. It should be represented in CCC through the continuity and operations work it performs, not as part of an agent gallery.
+
 ## Safety Boundaries
 
 - Read before editing.
@@ -100,6 +121,7 @@ It observes scan roots, filters and classifies changes, consolidates continuity 
 - Prefer small, verifiable changes.
 - Keep visible activity grounded in continuity events, snapshot/sync boundaries, scan churn, telemetry, or placement changes.
 - Do not invent fake operational activity or simulated intelligence.
+- Do not organize CCC primarily as an agent gallery or generic AI bot showcase.
 - Do not modify generated/runtime artifacts without explicit approval.
 - Do not change deployment or startup behavior without explicit approval.
 - After code edits, run `npm run build`.

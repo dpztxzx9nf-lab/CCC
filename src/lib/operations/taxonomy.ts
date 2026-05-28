@@ -5,6 +5,7 @@ export type OperationalCategory =
   | "command"
   | "platform"
   | "intelligence"
+  | "orientation"
   | "knowledge"
   | "game-runtime"
   | "archive";

@@ -1,13 +1,5 @@
-import { CCCProvider } from "@/context/CCCContext";
-import { CccHomeClient } from "@/components/ccc/CccHomeClient";
-import { loadOpsPortalBundle } from "@/lib/ops/loadOpsPortalBundle";
+import { TemporalCardsMock } from "@/components/ccc/TemporalCardsMock";
 
-export default async function Home() {
-  const opsBundle = await loadOpsPortalBundle();
-
-  return (
-    <CCCProvider>
-      <CccHomeClient opsBundle={opsBundle} />
-    </CCCProvider>
-  );
+export default function Home() {
+  return <TemporalCardsMock />;
 }

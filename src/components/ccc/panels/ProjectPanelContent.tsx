@@ -47,7 +47,7 @@ export function ProjectPanelContent({ project }: ProjectPanelContentProps) {
       {project.ecosystem && (
         <section className="rounded-lg border border-ccc-accent/30 bg-ccc-accent/5 p-4">
           <h3 className="text-xs font-semibold uppercase tracking-widest text-ccc-accent">
-            Live ecosystem
+            Live project signal
           </h3>
           <p className="mt-1 text-xs text-ccc-warn">Mock / demo metrics</p>
           <p className="mt-2 text-sm font-medium text-ccc-text">

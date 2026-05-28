@@ -1,6 +1,6 @@
 # CCC — Continuity Command Center
 
-Living operational projection layer for projects, systems, workflows, and goals.
+Private operational command layer for live telemetry, diagnostics, workflow state, project handoffs, deployments, continuity, and local ecosystem health.
 
 **Deployment target:** [ccc.thinkcore.io](https://ccc.thinkcore.io)
 
@@ -17,6 +17,24 @@ Living operational projection layer for projects, systems, workflows, and goals.
 | Full verification | `npm run verify` |
 
 CCC's PM2-managed local process is the ARCHIVIST-0 watcher, not the Next.js web server. Use `docs/OPERATIONS.md` for PM2 persistence, Windows reboot restoration, verification commands, and handoff notes.
+
+## Product Direction
+
+CCC is the private continuity and operations portal for the ThinkCore ecosystem. It should feel like a private engineering environment and mission control surface, not a public landing page and not a generic AI bot showcase.
+
+The homepage should be organized around operational truth:
+
+- Active Systems
+- Recent Deployments
+- Continuity Stream
+- Workflow State
+- Running Services
+- Recent Decisions
+- Operational Health
+
+Agents are internal operational components. They may support workflows, diagnostics, planning, coding, review, deployment, documentation, and continuity, but they should not be the public-facing identity or primary homepage structure of CCC.
+
+ThinkCore.io remains the public ecosystem gateway. CCC contains private, local, and operational details.
 
 ## Stack
 
@@ -66,7 +84,7 @@ npm run start
 
 - **`src/data/`** — Types and mock data (future JSON/Markdown loaders implement `CCCDataSource`)
 - **`src/lib/data-source.ts`** — Data fetch/cache; UI stays decoupled
-- **`src/components/ccc/`** — Command center UI
+- **`src/components/ccc/`** — Command-center UI
 
 Mock telemetry and ecosystem metrics are labeled **MOCK / DEMO** in the interface. No APIs or local filesystem paths are connected in v0.1.
 
@@ -76,4 +94,4 @@ Core · Archive · Forge · Observatory · Relay · Runtime
 
 ## License
 
-Private — ThinkCore continuity stack.
+Private — ThinkCore operational stack.

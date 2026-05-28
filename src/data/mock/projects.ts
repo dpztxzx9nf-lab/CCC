@@ -4,24 +4,24 @@ export const mockProjects: Project[] = [
   {
     id: "liahona",
     name: "Liahona.ai",
-    tagline: "Guidance-layer intelligence initiative",
+    tagline: "Reflective orientation artifact",
     status: "active",
     domainIds: ["core", "relay", "observatory"],
     sectorIds: ["core", "relay", "observatory"],
     description:
-      "Strategic AI guidance project aligned with ThinkCore continuity — architecture and projection in early operational phase.",
-    highlights: ["Continuity docs linked", "Launch comms in Relay queue"],
+      "Quiet symbolic interface for source-grounded reflection, continuity checkpoints, and artifact-centered orientation.",
+    highlights: ["Artifact-first public surface", "Reflective source boundaries mapped"],
   },
   {
     id: "thinkcore",
     name: "ThinkCore",
-    tagline: "Core platform and projection substrate",
+    tagline: "AI systems lab and public ecosystem",
     status: "active",
     domainIds: ["core", "relay", "forge", "runtime"],
     sectorIds: ["core", "relay", "forge", "runtime"],
     description:
-      "Central platform for systems, workflows, and outward projection — parent context for CCC deployment at ccc.thinkcore.io.",
-    highlights: ["ccc.thinkcore.io target", "Multi-sector operators assigned"],
+      "Umbrella public identity for ThinkCore research, studio projects, media, and live ecosystem routes.",
+    highlights: ["thinkcore.io public home", "Sibling layers clearly routed"],
   },
   {
     id: "ccc",
@@ -31,8 +31,8 @@ export const mockProjects: Project[] = [
     domainIds: ["core", "forge", "observatory"],
     sectorIds: ["core", "forge", "observatory"],
     description:
-      "Living operational projection layer — this interface. Sci-fi continuity command center for projects, systems, workflows, and goals.",
-    highlights: ["v0.1 stable shell", "Mock telemetry — demo labeled"],
+      "Operational command layer for live telemetry, diagnostics, workflow state, and project handoffs.",
+    highlights: ["Operational facility shell", "Mock telemetry demo labeled"],
   },
   {
     id: "field-systems",

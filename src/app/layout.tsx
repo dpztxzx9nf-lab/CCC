@@ -11,11 +11,12 @@ import "./facility-inspection.css";
 import "./facility-dossier.css";
 import "./facility-navigation.css";
 import "./projects-registry.css";
+import "./temporal-cards.css";
 
 export const metadata: Metadata = {
   title: "CCC — Continuity Command Center",
   description:
-    "Living operational projection layer for projects, systems, workflows, and goals.",
+    "Nested temporal cards, decks, snapshots, and timelines for builder continuity.",
   applicationName: "CCC",
 };
 

@@ -16,6 +16,7 @@ export const CATEGORY_SECTOR_BIAS: Record<OperationalCategory, SectorId[]> = {
   command: ["core", "observatory", "forge"],
   platform: ["core", "runtime", "forge", "relay"],
   intelligence: ["core", "relay", "observatory"],
+  orientation: ["core", "archive", "observatory"],
   knowledge: ["archive", "core"],
   "game-runtime": ["runtime", "relay", "forge"],
   archive: ["archive", "core"],

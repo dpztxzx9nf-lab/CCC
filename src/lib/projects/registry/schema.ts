@@ -80,6 +80,7 @@ const CATEGORIES = new Set<OperationalCategory>([
   "command",
   "platform",
   "intelligence",
+  "orientation",
   "knowledge",
   "game-runtime",
   "archive",

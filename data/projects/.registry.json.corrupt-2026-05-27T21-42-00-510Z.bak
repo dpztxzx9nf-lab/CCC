@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "createdAt": "2026-05-21T00:00:00.000Z",
-  "updatedAt": "2026-05-28T07:12:36.449Z",
+  "updatedAt": "2026-05-27T20:49:48.615Z",
   "projects": [
     {
       "id": "ccc",
       "name": "CCC",
       "tagline": "Continuity Command Center",
-      "description": "Living operational projection layer for projects, systems, workflows, and goals.",
+      "description": "Operational command layer for live telemetry, diagnostics, workflow state, and project handoffs.",
       "status": "active",
       "domainIds": [
         "core",
@@ -37,13 +37,16 @@
       "repoExpected": true,
       "systemsAffected": [
         "command-ui",
-        "continuity-ingestion",
-        "thinkcore-projection"
+        "telemetry-ingestion",
+        "workflow-surface"
       ],
       "highlights": [
-        "v0.1 stable shell",
-        "Facility megastructure"
+        "Operational facility shell",
+        "Live diagnostics and registry"
       ],
+      "github": {
+        "repository": "dpztxzx9nf-lab/CCC"
+      },
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
       "updatedAt": "2026-05-21T00:00:00.000Z"
@@ -51,8 +54,8 @@
     {
       "id": "thinkcore",
       "name": "ThinkCore",
-      "tagline": "Core platform and projection substrate",
-      "description": "Central platform for systems, workflows, and outward projection — parent context for CCC.",
+      "tagline": "AI systems lab and public ecosystem",
+      "description": "Umbrella public identity for ThinkCore research, studio projects, media, and live ecosystem routes.",
       "status": "active",
       "domainIds": [
         "core",
@@ -75,20 +78,20 @@
         "bcast-1"
       ],
       "stack": [
-        "Web",
-        "API",
-        "Infrastructure"
+        "Static Web",
+        "Public Identity",
+        "Ecosystem Routing"
       ],
       "deploymentCapable": true,
       "repoExpected": true,
       "systemsAffected": [
-        "platform-core",
+        "public-site",
         "dns",
-        "deployment-rail"
+        "brand-routing"
       ],
       "highlights": [
-        "ccc.thinkcore.io target",
-        "Multi-sector operators assigned"
+        "thinkcore.io public home",
+        "Sibling layers clearly routed"
       ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
@@ -97,20 +100,22 @@
     {
       "id": "liahona",
       "name": "Liahona.ai",
-      "tagline": "Guidance-layer intelligence initiative",
-      "description": "Strategic AI guidance project aligned with ThinkCore continuity — architecture and projection.",
+      "tagline": "Reflective orientation artifact",
+      "description": "Quiet symbolic interface for source-grounded reflection, continuity checkpoints, and artifact-centered orientation.",
       "status": "early",
       "domainIds": [
         "core",
-        "relay",
-        "observatory"
+        "archive",
+        "observatory",
+        "runtime",
+        "forge"
       ],
       "linkedPaths": [
         "C:\\Projects\\Liahona"
       ],
       "urls": [],
       "localSlug": "liahona",
-      "category": "intelligence",
+      "category": "orientation",
       "continuityPriority": 4,
       "operatorIds": [
         "nexus-7",
@@ -123,13 +128,13 @@
       "deploymentCapable": true,
       "repoExpected": true,
       "systemsAffected": [
-        "guidance-models",
-        "projection",
-        "continuity-docs"
+        "orientation-artifact",
+        "source-grounding",
+        "continuity-checkpoints"
       ],
       "highlights": [
-        "Continuity docs linked",
-        "Launch comms in Relay queue"
+        "Artifact-first public surface",
+        "Reflective source boundaries mapped"
       ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
@@ -140,34 +145,38 @@
       "name": "KINDEX",
       "tagline": "Knowledge index and retrieval layer",
       "description": "Structured knowledge indexing across journals, architecture docs, and templated notes.",
-      "status": "concept",
+      "status": "active",
       "domainIds": [
         "archive",
-        "observatory"
+        "observatory",
+        "runtime",
+        "relay"
       ],
       "linkedPaths": [
-        "C:\\Projects\\SecondBrain"
+        "C:\\Projects\\KINDEX"
       ],
       "urls": [],
-      "localSlug": "second-brain",
+      "localSlug": "kindex",
       "category": "archive",
       "continuityPriority": 3,
       "operatorIds": [
         "deep-1"
       ],
       "stack": [
-        "Markdown",
-        "Index"
+        "Semantic Index",
+        "Discord",
+        "Runtime"
       ],
-      "deploymentCapable": false,
-      "repoExpected": false,
+      "deploymentCapable": true,
+      "repoExpected": true,
       "systemsAffected": [
-        "vault-index",
-        "memory-lattice"
+        "semantic-index",
+        "discord-ingestion",
+        "continuity-archive"
       ],
       "highlights": [
-        "DEEP-1 archivist link",
-        "Import adapters planned"
+        "First-class semantic continuity system",
+        "Archive and Observatory projection mapped"
       ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
@@ -321,6 +330,134 @@
       "updatedAt": "2026-05-21T00:00:00.000Z"
     },
     {
+      "id": "dealbot",
+      "name": "DealBot",
+      "tagline": "DealBot",
+      "description": "Personal resale flip intelligence — mobile-first swipe deck for public deal feeds.",
+      "status": "unlinked",
+      "domainIds": [
+        "forge"
+      ],
+      "linkedPaths": [
+        "C:\\Projects\\dealbot",
+        "C:\\Projects\\DealBot"
+      ],
+      "urls": [],
+      "localSlug": "dealbot",
+      "category": "platform",
+      "continuityPriority": 3,
+      "operatorIds": [
+        "fab-0"
+      ],
+      "stack": [
+        "Active code",
+        "TypeScript",
+        "JavaScript",
+        "Next.js",
+        "React",
+        "App",
+        "PM2"
+      ],
+      "deploymentCapable": true,
+      "repoExpected": true,
+      "systemsAffected": [],
+      "highlights": [
+        "Detected: package.json",
+        "Detected: README.md",
+        "Detected: ecosystem.config.cjs",
+        "Detected: docs/"
+      ],
+      "discovery": {
+        "source": "auto",
+        "discoveredAt": "2026-05-25T21:12:55.623Z",
+        "lastSeenAt": "2026-05-27T20:49:48.596Z",
+        "confidence": "high",
+        "evidence": [
+          "package.json",
+          "README.md",
+          "ecosystem.config.cjs",
+          "docs/",
+          "app/",
+          "lib/",
+          "components/",
+          ".git",
+          "6 markdown files",
+          "96 recent file updates"
+        ],
+        "inferredFields": [
+          "status",
+          "domainIds",
+          "category",
+          "continuityPriority",
+          "operatorIds",
+          "stack",
+          "deploymentCapable",
+          "repoExpected"
+        ]
+      },
+      "archivedAt": null,
+      "createdAt": "2026-05-25T21:12:55.623Z",
+      "updatedAt": "2026-05-27T20:49:48.596Z"
+    },
+    {
+      "id": "secondbrain",
+      "name": "SecondBrain",
+      "tagline": "",
+      "description": "",
+      "status": "unlinked",
+      "domainIds": [
+        "archive"
+      ],
+      "linkedPaths": [
+        "C:\\Projects\\SecondBrain"
+      ],
+      "urls": [],
+      "localSlug": "secondbrain",
+      "category": "archive",
+      "continuityPriority": 3,
+      "operatorIds": [
+        "deep-1"
+      ],
+      "stack": [
+        "Markdown"
+      ],
+      "deploymentCapable": false,
+      "repoExpected": true,
+      "systemsAffected": [],
+      "highlights": [
+        "Detected: .git",
+        "Detected: 37 markdown files",
+        "Detected: 41 recent file updates"
+      ],
+      "discovery": {
+        "source": "auto",
+        "discoveredAt": "2026-05-25T21:12:55.623Z",
+        "lastSeenAt": "2026-05-25T21:33:29.435Z",
+        "confidence": "low",
+        "evidence": [
+          ".git",
+          "37 markdown files",
+          "41 recent file updates"
+        ],
+        "inferredFields": [
+          "name",
+          "tagline",
+          "description",
+          "status",
+          "domainIds",
+          "category",
+          "continuityPriority",
+          "operatorIds",
+          "stack",
+          "deploymentCapable",
+          "repoExpected"
+        ]
+      },
+      "archivedAt": null,
+      "createdAt": "2026-05-25T21:12:55.623Z",
+      "updatedAt": "2026-05-25T21:33:29.435Z"
+    },
+    {
       "id": "archive",
       "name": "Project Archive",
       "tagline": "Project Archive",
@@ -352,8 +489,8 @@
       ],
       "discovery": {
         "source": "auto",
-        "discoveredAt": "2026-05-27T21:42:00.530Z",
-        "lastSeenAt": "2026-05-28T07:12:36.436Z",
+        "discoveredAt": "2026-05-27T06:24:24.216Z",
+        "lastSeenAt": "2026-05-27T20:49:48.596Z",
         "confidence": "medium",
         "evidence": [
           "README.md",
@@ -372,130 +509,8 @@
         ]
       },
       "archivedAt": null,
-      "createdAt": "2026-05-27T21:42:00.530Z",
-      "updatedAt": "2026-05-28T07:12:36.436Z"
-    },
-    {
-      "id": "dealbot",
-      "name": "DealBot",
-      "tagline": "DealBot",
-      "description": "Personal resale flip intelligence — mobile-first swipe deck for public deal feeds.",
-      "status": "unlinked",
-      "domainIds": [
-        "forge"
-      ],
-      "linkedPaths": [
-        "C:\\Projects\\DealBot"
-      ],
-      "urls": [],
-      "localSlug": "dealbot",
-      "category": "platform",
-      "continuityPriority": 3,
-      "operatorIds": [
-        "fab-0"
-      ],
-      "stack": [
-        "Active code",
-        "TypeScript",
-        "JavaScript",
-        "Next.js",
-        "React",
-        "App",
-        "PM2"
-      ],
-      "deploymentCapable": true,
-      "repoExpected": true,
-      "systemsAffected": [],
-      "highlights": [
-        "Detected: package.json",
-        "Detected: README.md",
-        "Detected: ecosystem.config.cjs",
-        "Detected: docs/"
-      ],
-      "discovery": {
-        "source": "auto",
-        "discoveredAt": "2026-05-27T21:42:00.530Z",
-        "lastSeenAt": "2026-05-28T07:12:36.436Z",
-        "confidence": "high",
-        "evidence": [
-          "package.json",
-          "README.md",
-          "ecosystem.config.cjs",
-          "docs/",
-          "app/",
-          "lib/",
-          "components/",
-          ".git",
-          "6 markdown files",
-          "96 recent file updates"
-        ],
-        "inferredFields": [
-          "status",
-          "domainIds",
-          "category",
-          "continuityPriority",
-          "operatorIds",
-          "stack",
-          "deploymentCapable",
-          "repoExpected"
-        ]
-      },
-      "archivedAt": null,
-      "createdAt": "2026-05-27T21:42:00.530Z",
-      "updatedAt": "2026-05-28T07:12:36.436Z"
-    },
-    {
-      "id": "kindex-auto",
-      "name": "KINDEX",
-      "tagline": "KINDEX",
-      "description": "KINDEX is currently an empty future placeholder under `C:\\Projects`.",
-      "status": "unlinked",
-      "domainIds": [
-        "observatory"
-      ],
-      "linkedPaths": [
-        "C:\\Projects\\KINDEX"
-      ],
-      "urls": [],
-      "localSlug": "kindex",
-      "category": "intelligence",
-      "continuityPriority": 2,
-      "operatorIds": [],
-      "stack": [
-        "Markdown"
-      ],
-      "deploymentCapable": false,
-      "repoExpected": false,
-      "systemsAffected": [],
-      "highlights": [
-        "Detected: README.md",
-        "Detected: 2 markdown files",
-        "Detected: 3 recent file updates"
-      ],
-      "discovery": {
-        "source": "auto",
-        "discoveredAt": "2026-05-27T21:42:00.530Z",
-        "lastSeenAt": "2026-05-28T07:12:36.436Z",
-        "confidence": "medium",
-        "evidence": [
-          "README.md",
-          "2 markdown files",
-          "3 recent file updates"
-        ],
-        "inferredFields": [
-          "status",
-          "domainIds",
-          "category",
-          "continuityPriority",
-          "operatorIds",
-          "stack",
-          "deploymentCapable",
-          "repoExpected"
-        ]
-      },
-      "archivedAt": null,
-      "createdAt": "2026-05-27T21:42:00.530Z",
-      "updatedAt": "2026-05-28T07:12:36.436Z"
+      "createdAt": "2026-05-27T06:24:24.216Z",
+      "updatedAt": "2026-05-27T20:49:48.596Z"
     },
     {
       "id": "meta-maps",
@@ -529,8 +544,8 @@
       ],
       "discovery": {
         "source": "auto",
-        "discoveredAt": "2026-05-27T21:42:00.530Z",
-        "lastSeenAt": "2026-05-28T07:12:36.436Z",
+        "discoveredAt": "2026-05-27T06:24:24.216Z",
+        "lastSeenAt": "2026-05-27T20:49:48.596Z",
         "confidence": "medium",
         "evidence": [
           "README.md",
@@ -549,8 +564,8 @@
         ]
       },
       "archivedAt": null,
-      "createdAt": "2026-05-27T21:42:00.530Z",
-      "updatedAt": "2026-05-28T07:12:36.436Z"
+      "createdAt": "2026-05-27T06:24:24.216Z",
+      "updatedAt": "2026-05-27T20:49:48.596Z"
     }
   ]
 }

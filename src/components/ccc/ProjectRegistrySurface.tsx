@@ -202,11 +202,11 @@ export const ProjectRegistrySurface = memo(function ProjectRegistrySurface() {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-ccc-accent-dim">
-              Ecosystem registry
+              Operational registry
             </p>
             <h2 className="mt-1 text-lg font-semibold text-ccc-text">Projects</h2>
             <p className="mt-1 max-w-prose text-sm text-ccc-muted">
-              Canonical projects persist in{" "}
+              Command-layer project records persist in{" "}
               <code className="font-mono text-ccc-text/80">data/projects/registry.json</code>.
               Local scan activity enriches entries when paths or slugs match — it does not
               remove registry projects.
