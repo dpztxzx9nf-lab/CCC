@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "createdAt": "2026-05-21T00:00:00.000Z",
-  "updatedAt": "2026-05-28T07:12:36.449Z",
+  "updatedAt": "2026-05-30T04:38:53.021Z",
   "projects": [
     {
       "id": "ccc",
       "name": "CCC",
-      "tagline": "Continuity Command Center",
-      "description": "Living operational projection layer for projects, systems, workflows, and goals.",
+      "tagline": "Private continuity command center",
+      "description": "Private operational layer for continuity, telemetry, diagnostics, workflow state, and project handoffs.",
       "status": "active",
       "domainIds": [
         "core",
@@ -38,27 +38,26 @@
       "systemsAffected": [
         "command-ui",
         "continuity-ingestion",
-        "thinkcore-projection"
+        "workflow-surface"
       ],
       "highlights": [
-        "v0.1 stable shell",
-        "Facility megastructure"
+        "Private operations surface",
+        "Continuity and handoff layer"
       ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
-      "updatedAt": "2026-05-21T00:00:00.000Z"
+      "updatedAt": "2026-05-30T04:20:21.296Z"
     },
     {
       "id": "thinkcore",
       "name": "ThinkCore",
-      "tagline": "Core platform and projection substrate",
-      "description": "Central platform for systems, workflows, and outward projection — parent context for CCC.",
+      "tagline": "Public ecosystem front door",
+      "description": "Public umbrella identity and ecosystem entry point for ThinkCore projects, products, research, and internal system boundaries.",
       "status": "active",
       "domainIds": [
         "core",
         "relay",
-        "forge",
-        "runtime"
+        "forge"
       ],
       "linkedPaths": [
         "C:\\Projects\\ThinkCore.io"
@@ -75,30 +74,30 @@
         "bcast-1"
       ],
       "stack": [
-        "Web",
-        "API",
-        "Infrastructure"
+        "Static Web",
+        "Public Identity",
+        "Ecosystem Routing"
       ],
       "deploymentCapable": true,
       "repoExpected": true,
       "systemsAffected": [
-        "platform-core",
-        "dns",
-        "deployment-rail"
+        "public-site",
+        "brand-routing",
+        "ecosystem-map"
       ],
       "highlights": [
-        "ccc.thinkcore.io target",
-        "Multi-sector operators assigned"
+        "Canonical public handout site",
+        "Single front door for ecosystem orientation"
       ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
-      "updatedAt": "2026-05-21T00:00:00.000Z"
+      "updatedAt": "2026-05-30T04:20:21.296Z"
     },
     {
       "id": "liahona",
       "name": "Liahona.ai",
-      "tagline": "Guidance-layer intelligence initiative",
-      "description": "Strategic AI guidance project aligned with ThinkCore continuity — architecture and projection.",
+      "tagline": "Orientation and runtime layer",
+      "description": "Orientation and runtime layer for source-grounded reflection, guidance, and continuity checkpoints; not a public dashboard.",
       "status": "early",
       "domainIds": [
         "core",
@@ -110,7 +109,7 @@
       ],
       "urls": [],
       "localSlug": "liahona",
-      "category": "intelligence",
+      "category": "orientation",
       "continuityPriority": 4,
       "operatorIds": [
         "nexus-7",
@@ -118,38 +117,39 @@
       ],
       "stack": [
         "AI",
+        "Runtime",
         "TypeScript"
       ],
       "deploymentCapable": true,
       "repoExpected": true,
       "systemsAffected": [
-        "guidance-models",
-        "projection",
-        "continuity-docs"
+        "orientation-runtime",
+        "source-grounding",
+        "continuity-checkpoints"
       ],
       "highlights": [
-        "Continuity docs linked",
-        "Launch comms in Relay queue"
+        "Orientation layer, not dashboard identity",
+        "Runtime boundary kept separate from ThinkCore public site"
       ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
-      "updatedAt": "2026-05-21T00:00:00.000Z"
+      "updatedAt": "2026-05-30T04:20:21.296Z"
     },
     {
       "id": "kindex",
       "name": "KINDEX",
-      "tagline": "Knowledge index and retrieval layer",
-      "description": "Structured knowledge indexing across journals, architecture docs, and templated notes.",
+      "tagline": "Indexing, continuity, and database layer",
+      "description": "Indexing, continuity, and database layer for knowledge records, archives, retrieval, and long-term project memory.",
       "status": "concept",
       "domainIds": [
         "archive",
         "observatory"
       ],
       "linkedPaths": [
-        "C:\\Projects\\SecondBrain"
+        "C:\\Projects\\KINDEX"
       ],
       "urls": [],
-      "localSlug": "second-brain",
+      "localSlug": "kindex",
       "category": "archive",
       "continuityPriority": 3,
       "operatorIds": [
@@ -157,21 +157,23 @@
       ],
       "stack": [
         "Markdown",
-        "Index"
+        "Index",
+        "Database Planning"
       ],
       "deploymentCapable": false,
       "repoExpected": false,
       "systemsAffected": [
-        "vault-index",
-        "memory-lattice"
+        "knowledge-index",
+        "continuity-database",
+        "retrieval-layer"
       ],
       "highlights": [
-        "DEEP-1 archivist link",
-        "Import adapters planned"
+        "Canonical KINDEX registry record",
+        "Consolidates duplicate auto-discovered KINDEX placeholder"
       ],
       "archivedAt": null,
       "createdAt": "2026-05-21T00:00:00.000Z",
-      "updatedAt": "2026-05-21T00:00:00.000Z"
+      "updatedAt": "2026-05-30T04:20:21.296Z"
     },
     {
       "id": "field-systems",
@@ -353,12 +355,12 @@
       "discovery": {
         "source": "auto",
         "discoveredAt": "2026-05-27T21:42:00.530Z",
-        "lastSeenAt": "2026-05-28T07:12:36.436Z",
+        "lastSeenAt": "2026-05-30T04:38:53.004Z",
         "confidence": "medium",
         "evidence": [
           "README.md",
           "71 markdown files",
-          "21 recent file updates"
+          "8 recent file updates"
         ],
         "inferredFields": [
           "status",
@@ -373,129 +375,86 @@
       },
       "archivedAt": null,
       "createdAt": "2026-05-27T21:42:00.530Z",
-      "updatedAt": "2026-05-28T07:12:36.436Z"
+      "updatedAt": "2026-05-30T04:38:53.004Z"
     },
     {
       "id": "dealbot",
       "name": "DealBot",
-      "tagline": "DealBot",
-      "description": "Personal resale flip intelligence — mobile-first swipe deck for public deal feeds.",
-      "status": "unlinked",
+      "tagline": "Public resale intelligence product",
+      "description": "Public resale intelligence product for deal discovery, comp review, opportunity scoring, and mobile-first resale workflows.",
+      "status": "live",
       "domainIds": [
-        "forge"
+        "forge",
+        "relay"
       ],
       "linkedPaths": [
         "C:\\Projects\\DealBot"
       ],
-      "urls": [],
+      "urls": [
+        "https://dealbot.thinkcore.io"
+      ],
       "localSlug": "dealbot",
       "category": "platform",
-      "continuityPriority": 3,
+      "continuityPriority": 4,
       "operatorIds": [
-        "fab-0"
+        "fab-0",
+        "bcast-1"
       ],
       "stack": [
-        "Active code",
-        "TypeScript",
-        "JavaScript",
         "Next.js",
         "React",
-        "App",
-        "PM2"
+        "TypeScript",
+        "PM2",
+        "Cloudflare Tunnel"
       ],
       "deploymentCapable": true,
       "repoExpected": true,
-      "systemsAffected": [],
-      "highlights": [
-        "Detected: package.json",
-        "Detected: README.md",
-        "Detected: ecosystem.config.cjs",
-        "Detected: docs/"
+      "systemsAffected": [
+        "deal-feed",
+        "resale-scoring",
+        "public-route"
       ],
-      "discovery": {
-        "source": "auto",
-        "discoveredAt": "2026-05-27T21:42:00.530Z",
-        "lastSeenAt": "2026-05-28T07:12:36.436Z",
-        "confidence": "high",
-        "evidence": [
-          "package.json",
-          "README.md",
-          "ecosystem.config.cjs",
-          "docs/",
-          "app/",
-          "lib/",
-          "components/",
-          ".git",
-          "6 markdown files",
-          "96 recent file updates"
-        ],
-        "inferredFields": [
-          "status",
-          "domainIds",
-          "category",
-          "continuityPriority",
-          "operatorIds",
-          "stack",
-          "deploymentCapable",
-          "repoExpected"
-        ]
-      },
+      "highlights": [
+        "Public route: dealbot.thinkcore.io",
+        "Mobile-first resale workflow"
+      ],
       "archivedAt": null,
       "createdAt": "2026-05-27T21:42:00.530Z",
-      "updatedAt": "2026-05-28T07:12:36.436Z"
+      "updatedAt": "2026-05-30T04:20:21.296Z"
     },
     {
       "id": "kindex-auto",
-      "name": "KINDEX",
-      "tagline": "KINDEX",
-      "description": "KINDEX is currently an empty future placeholder under `C:\\Projects`.",
-      "status": "unlinked",
+      "name": "KINDEX (duplicate auto-discovery)",
+      "tagline": "Duplicate of canonical kindex record",
+      "description": "Duplicate auto-discovered placeholder for C:\\Projects\\KINDEX. Canonical record is id `kindex`; keep this entry only as a marked duplicate until the scanner can stop recreating it.",
+      "status": "dormant",
       "domainIds": [
+        "archive",
         "observatory"
       ],
       "linkedPaths": [
         "C:\\Projects\\KINDEX"
       ],
       "urls": [],
-      "localSlug": "kindex",
-      "category": "intelligence",
-      "continuityPriority": 2,
-      "operatorIds": [],
+      "localSlug": "kindex-duplicate",
+      "category": "archive",
+      "continuityPriority": 1,
+      "operatorIds": [
+        "deep-1"
+      ],
       "stack": [
-        "Markdown"
+        "Duplicate Registry Entry"
       ],
       "deploymentCapable": false,
       "repoExpected": false,
       "systemsAffected": [],
       "highlights": [
-        "Detected: README.md",
-        "Detected: 2 markdown files",
-        "Detected: 3 recent file updates"
+        "Duplicate: canonical id is kindex",
+        "Do not present as separate project"
       ],
-      "discovery": {
-        "source": "auto",
-        "discoveredAt": "2026-05-27T21:42:00.530Z",
-        "lastSeenAt": "2026-05-28T07:12:36.436Z",
-        "confidence": "medium",
-        "evidence": [
-          "README.md",
-          "2 markdown files",
-          "3 recent file updates"
-        ],
-        "inferredFields": [
-          "status",
-          "domainIds",
-          "category",
-          "continuityPriority",
-          "operatorIds",
-          "stack",
-          "deploymentCapable",
-          "repoExpected"
-        ]
-      },
-      "archivedAt": null,
+      "archivedAt": "2026-05-30T04:20:21.296Z",
       "createdAt": "2026-05-27T21:42:00.530Z",
-      "updatedAt": "2026-05-28T07:12:36.436Z"
+      "updatedAt": "2026-05-30T04:20:21.296Z"
     },
     {
       "id": "meta-maps",
@@ -530,7 +489,7 @@
       "discovery": {
         "source": "auto",
         "discoveredAt": "2026-05-27T21:42:00.530Z",
-        "lastSeenAt": "2026-05-28T07:12:36.436Z",
+        "lastSeenAt": "2026-05-30T04:38:53.004Z",
         "confidence": "medium",
         "evidence": [
           "README.md",
@@ -550,7 +509,7 @@
       },
       "archivedAt": null,
       "createdAt": "2026-05-27T21:42:00.530Z",
-      "updatedAt": "2026-05-28T07:12:36.436Z"
+      "updatedAt": "2026-05-30T04:38:53.004Z"
     }
   ]
 }
